@@ -113,11 +113,6 @@ jobs:
           grep -q "${FORM_ENDPOINT}" public/index.html
           grep -q "up2cloud.io" public/CNAME
 
-      - name: Configure GitHub Pages
-        uses: actions/configure-pages@v5
-        with:
-          enablement: true
-
       - name: Upload GitHub Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
