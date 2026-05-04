@@ -1,0 +1,1102 @@
+<!DOCTYPE html>
+<!--
+  UP2CLOUD — IT Consulting & Cloud Solutions
+  ─────────────────────────────────────────────
+  CONTACT FORM SETUP (Formspree):
+  1. Go to https://formspree.io and sign up for free
+  2. Create a new form → use email: cesarnogueira1210@gmail.com
+  3. Copy your form endpoint (looks like: https://formspree.io/f/xyzabcde)
+  4. Replace FORMSPREE_ENDPOINT below with that URL
+-->
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>UP2CLOUD — IT Consulting, Cloud & AI Solutions</title>
+  <meta name="description" content="UP2CLOUD delivers cloud migration, FinOps, DevSecOps, OpenClaw AI installation, and digital transformation — solving IT problems fast with AI." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: { heading: ['Space Grotesk','sans-serif'], body: ['DM Sans','sans-serif'] },
+          colors: {
+            navy: { DEFAULT:'#0F172A', 700:'#1E293B', 600:'#334155' },
+            sky: { brand:'#0369A1', light:'#0EA5E9', pale:'#BAE6FD', ultra:'#F0F9FF' },
+            cta: '#F97316',
+            ai: '#7C3AED',
+          },
+        },
+      },
+    };
+    const FORMSPREE_ENDPOINT = 'https://formspree.io/f/REPLACE_WITH_YOUR_ID';
+  </script>
+  <style>
+    *,*::before,*::after{box-sizing:border-box}
+    html{scroll-behavior:smooth}
+    body{font-family:'DM Sans',sans-serif;background:#F8FAFC;color:#0F172A}
+    h1,h2,h3,h4{font-family:'Space Grotesk',sans-serif}
+    .glass{background:rgba(255,255,255,.08);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border:1px solid rgba(255,255,255,.15)}
+    .hero-bg{background:linear-gradient(135deg,#020617 0%,#0F172A 35%,#0C4A6E 65%,#0369A1 100%)}
+    .ai-bg{background:linear-gradient(135deg,#1e0533 0%,#2d1060 40%,#0F172A 100%)}
+    .blob{position:absolute;border-radius:50%;filter:blur(80px);opacity:.22;animation:float 8s ease-in-out infinite}
+    @keyframes float{0%,100%{transform:translateY(0) scale(1)}50%{transform:translateY(-28px) scale(1.04)}}
+    .reveal{opacity:0;transform:translateY(32px);transition:opacity .6s ease,transform .6s ease}
+    .reveal.visible{opacity:1;transform:none}
+    nav.scrolled{background:rgba(15,23,42,.95);backdrop-filter:blur(12px);box-shadow:0 1px 0 rgba(255,255,255,.08)}
+    .service-card{transition:transform .25s ease,box-shadow .25s ease}
+    .service-card:hover{transform:translateY(-6px);box-shadow:0 20px 40px rgba(3,105,161,.18)}
+    .ai-card:hover{box-shadow:0 20px 40px rgba(124,58,237,.22)}
+    .btn-primary{background:#F97316;color:#fff;font-family:'Space Grotesk',sans-serif;font-weight:600;padding:.875rem 2rem;border-radius:8px;transition:background .2s,transform .15s,box-shadow .2s;cursor:pointer;border:none;display:inline-flex;align-items:center;gap:.5rem;min-height:44px}
+    .btn-primary:hover{background:#ea6500;transform:translateY(-1px);box-shadow:0 8px 20px rgba(249,115,22,.35)}
+    .btn-primary:active{transform:translateY(0)}
+    .btn-primary:focus-visible{outline:3px solid #F97316;outline-offset:3px}
+    .btn-outline{background:transparent;color:#fff;font-family:'Space Grotesk',sans-serif;font-weight:600;padding:.875rem 2rem;border-radius:8px;border:2px solid rgba(255,255,255,.4);transition:border-color .2s,background .2s;cursor:pointer;display:inline-flex;align-items:center;gap:.5rem;min-height:44px}
+    .btn-outline:hover{border-color:#fff;background:rgba(255,255,255,.08)}
+    .btn-outline:focus-visible{outline:3px solid #fff;outline-offset:3px}
+    input:focus,textarea:focus,select:focus{outline:3px solid #0369A1;outline-offset:0}
+    .badge{background:rgba(3,105,161,.12);color:#0369A1;font-size:.75rem;font-weight:600;padding:.25rem .75rem;border-radius:999px;letter-spacing:.05em;text-transform:uppercase}
+    .badge-ai{background:rgba(124,58,237,.15);color:#7C3AED}
+    .step-dot{width:48px;height:48px;min-width:48px;border-radius:50%;background:linear-gradient(135deg,#0369A1,#0EA5E9);display:flex;align-items:center;justify-content:center;color:#fff;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:1.1rem;box-shadow:0 4px 12px rgba(3,105,161,.3)}
+    .gradient-text{background:linear-gradient(90deg,#0EA5E9,#38BDF8,#7DD3FC);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+    .gradient-text-ai{background:linear-gradient(90deg,#C084FC,#A78BFA,#7C3AED);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+    .cert-badge{background:#fff;border:1px solid #E2E8F0;border-radius:12px;padding:.75rem 1rem;display:flex;align-items:center;gap:.75rem;box-shadow:0 1px 4px rgba(0,0,0,.06)}
+    .timeline-line{border-left:2px solid #E2E8F0;padding-left:1.5rem;margin-left:.75rem}
+    .timeline-dot{width:14px;height:14px;border-radius:50%;background:linear-gradient(135deg,#0369A1,#0EA5E9);margin-left:-1.65rem;margin-top:.3rem;flex-shrink:0;box-shadow:0 0 0 3px #F0F9FF}
+    @media(prefers-reduced-motion:reduce){.blob,.reveal,.service-card,.btn-primary,.btn-outline{animation:none;transition:none}}
+  </style>
+</head>
+<body>
+
+<!-- ══════════════════════════ NAV ══════════════════════════ -->
+<nav id="navbar" aria-label="Main navigation" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300">
+  <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
+    <a href="#" class="flex items-center gap-3 focus-visible:outline-2 focus-visible:outline-white rounded" aria-label="UP2CLOUD Home">
+      <div class="w-9 h-9 rounded-lg flex items-center justify-center" style="background:linear-gradient(135deg,#0369A1,#0EA5E9)">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z" stroke="white" stroke-width="2" stroke-linejoin="round"/></svg>
+      </div>
+      <span class="font-heading font-700 text-xl text-white tracking-tight">UP2<span class="text-sky-light">CLOUD</span></span>
+    </a>
+    <ul class="hidden md:flex items-center gap-8" role="list">
+      <li><a href="#services" class="text-sm font-medium text-white/80 hover:text-white transition-colors">Services</a></li>
+      <li><a href="#ai" class="text-sm font-medium text-white/80 hover:text-white transition-colors">AI Solutions</a></li>
+      <li><a href="#portfolio" class="text-sm font-medium text-white/80 hover:text-white transition-colors">Portfolio</a></li>
+      <li><a href="#testimonials" class="text-sm font-medium text-white/80 hover:text-white transition-colors">Clients</a></li>
+      <li><a href="#contact" class="text-sm font-medium text-white/80 hover:text-white transition-colors">Contact</a></li>
+    </ul>
+    <div class="flex items-center gap-3">
+      <a href="#contact" class="btn-primary hidden sm:inline-flex text-sm">Get a Free Audit</a>
+      <button id="menu-btn" class="md:hidden text-white p-2 rounded focus-visible:outline-2 focus-visible:outline-white" aria-label="Toggle navigation" aria-expanded="false" aria-controls="mobile-menu">
+        <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+      </button>
+    </div>
+  </div>
+  <div id="mobile-menu" class="md:hidden hidden" role="navigation" aria-label="Mobile navigation">
+    <div class="mx-4 mb-4 rounded-xl p-4 space-y-1" style="background:rgba(15,23,42,.97)">
+      <a href="#services" class="block px-4 py-3 text-white/90 hover:text-white hover:bg-white/10 rounded-lg transition-colors" onclick="closeMobileMenu()">Services</a>
+      <a href="#ai" class="block px-4 py-3 text-white/90 hover:text-white hover:bg-white/10 rounded-lg transition-colors" onclick="closeMobileMenu()">AI Solutions</a>
+      <a href="#portfolio" class="block px-4 py-3 text-white/90 hover:text-white hover:bg-white/10 rounded-lg transition-colors" onclick="closeMobileMenu()">Portfolio</a>
+      <a href="#testimonials" class="block px-4 py-3 text-white/90 hover:text-white hover:bg-white/10 rounded-lg transition-colors" onclick="closeMobileMenu()">Clients</a>
+      <a href="#contact" class="block px-4 py-3 text-white/90 hover:text-white hover:bg-white/10 rounded-lg transition-colors" onclick="closeMobileMenu()">Contact</a>
+      <a href="#contact" class="btn-primary w-full justify-center text-sm mt-2" onclick="closeMobileMenu()">Get a Free Audit</a>
+    </div>
+  </div>
+</nav>
+
+
+<!-- ══════════════════════════ HERO ══════════════════════════ -->
+<section id="hero" class="hero-bg relative min-h-screen flex items-center overflow-hidden pt-20">
+  <div class="blob w-96 h-96 bg-sky-light top-1/4 left-1/4" style="animation-delay:0s"></div>
+  <div class="blob w-80 h-80 bg-purple-500 top-1/2 right-1/4" style="animation-delay:2.5s"></div>
+  <div class="blob w-64 h-64 bg-cta bottom-1/4 left-1/3" style="animation-delay:5s"></div>
+  <div class="absolute inset-0 opacity-5" style="background-image:linear-gradient(rgba(255,255,255,.5) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.5) 1px,transparent 1px);background-size:60px 60px"></div>
+
+  <div class="relative z-10 max-w-7xl mx-auto px-6 py-24 lg:py-32 grid lg:grid-cols-2 gap-16 items-center">
+    <div>
+      <div class="flex flex-wrap gap-2 mb-6">
+        <span class="badge" style="background:rgba(14,165,233,.2);color:#38BDF8">Cloud & IT Consulting</span>
+        <span class="badge badge-ai" style="background:rgba(192,132,252,.2);color:#C084FC">
+          <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" class="inline mr-1" aria-hidden="true"><path d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
+          AI-Powered
+        </span>
+      </div>
+      <h1 class="font-heading font-700 text-5xl sm:text-6xl lg:text-7xl text-white leading-tight mb-6">
+        Elevate Your<br/>Business <span class="gradient-text">To The Cloud</span>
+      </h1>
+      <p class="text-white/70 text-lg leading-relaxed mb-10 max-w-xl">
+        We partner with ambitious companies to architect, migrate, and scale their infrastructure — and we <strong class="text-white">solve problems fast with AI</strong>, including OpenClaw, FinOps optimisation, and DevSecOps transformation.
+      </p>
+      <div class="flex flex-wrap gap-4">
+        <a href="#contact" class="btn-primary text-base">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M13 10V3L4 14h7v7l9-11h-7z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+          Start Your Journey
+        </a>
+        <a href="#ai" class="btn-outline text-base" style="border-color:rgba(192,132,252,.5);color:#C084FC;">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="2"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+          See AI Solutions
+        </a>
+      </div>
+      <div class="flex flex-wrap items-center gap-6 mt-12">
+        <div class="flex items-center gap-2 text-white/60 text-sm">
+          <svg width="16" height="16" fill="#22C55E" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+          ISO 27001 Aligned
+        </div>
+        <div class="flex items-center gap-2 text-white/60 text-sm">
+          <svg width="16" height="16" fill="#22C55E" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+          AWS · Azure · GCP Certified
+        </div>
+        <div class="flex items-center gap-2 text-white/60 text-sm">
+          <svg width="16" height="16" fill="#22C55E" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+          FinOps · DevSecOps · OpenClaw
+        </div>
+      </div>
+    </div>
+
+    <!-- Hero metrics card -->
+    <div class="hidden lg:flex justify-center">
+      <div class="glass rounded-2xl p-8 w-full max-w-md text-white">
+        <div class="flex items-center justify-between mb-6">
+          <span class="font-heading font-600 text-lg">Infrastructure Health</span>
+          <span class="text-green-400 text-sm font-medium flex items-center gap-1">
+            <span class="w-2 h-2 bg-green-400 rounded-full inline-block" style="animation:pulse 2s ease-in-out infinite"></span>Live
+          </span>
+        </div>
+        <div class="space-y-4">
+          <div>
+            <div class="flex justify-between text-sm mb-1"><span class="text-white/70">Cloud Migration</span><span class="font-600">94%</span></div>
+            <div class="h-2 bg-white/10 rounded-full"><div class="h-2 bg-sky-light rounded-full" style="width:94%"></div></div>
+          </div>
+          <div>
+            <div class="flex justify-between text-sm mb-1"><span class="text-white/70">AI Automation Speed</span><span class="font-600 text-purple-300">10× faster</span></div>
+            <div class="h-2 bg-white/10 rounded-full"><div class="h-2 rounded-full" style="width:92%;background:linear-gradient(90deg,#7C3AED,#C084FC)"></div></div>
+          </div>
+          <div>
+            <div class="flex justify-between text-sm mb-1"><span class="text-white/70">Security Score</span><span class="font-600 text-green-400">99%</span></div>
+            <div class="h-2 bg-white/10 rounded-full"><div class="h-2 bg-green-400 rounded-full" style="width:99%"></div></div>
+          </div>
+          <div>
+            <div class="flex justify-between text-sm mb-1"><span class="text-white/70">Cost Reduction</span><span class="font-600 text-orange-400">-42%</span></div>
+            <div class="h-2 bg-white/10 rounded-full"><div class="h-2 rounded-full" style="width:42%;background:#F97316"></div></div>
+          </div>
+        </div>
+        <div class="mt-6 pt-5 border-t border-white/10 grid grid-cols-3 gap-4 text-center">
+          <div><p class="text-2xl font-heading font-700 text-sky-light">150+</p><p class="text-xs text-white/50 mt-1">Projects</p></div>
+          <div><p class="text-2xl font-heading font-700 text-purple-300">10yr</p><p class="text-xs text-white/50 mt-1">Experience</p></div>
+          <div><p class="text-2xl font-heading font-700 text-sky-light">98%</p><p class="text-xs text-white/50 mt-1">Satisfaction</p></div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <div class="absolute bottom-8 left-1/2 -translate-x-1/2 text-white/40 text-xs flex flex-col items-center gap-2">
+    <span>Scroll to explore</span>
+    <svg width="20" height="20" viewBox="0 0 24 24" fill="none" class="animate-bounce" aria-hidden="true"><path d="M19 9l-7 7-7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════ LOGO BAR ══════════════════════════ -->
+<section aria-label="Trusted by" class="bg-white border-y border-slate-100 py-12">
+  <div class="max-w-7xl mx-auto px-6">
+    <p class="text-center text-sm font-medium text-slate-400 uppercase tracking-widest mb-8">Trusted by forward-thinking companies</p>
+    <div class="flex flex-wrap justify-center items-center gap-x-14 gap-y-6 opacity-40 grayscale">
+      <span class="font-heading font-700 text-slate-700 text-xl">Randstad</span>
+      <span class="font-heading font-700 text-slate-700 text-xl">ZeroLight</span>
+      <span class="font-heading font-700 text-slate-700 text-xl">Accenture</span>
+      <span class="font-heading font-700 text-slate-700 text-xl">everis</span>
+      <span class="font-heading font-700 text-slate-700 text-xl">CI&amp;T</span>
+      <span class="font-heading font-700 text-slate-700 text-xl">Mindera</span>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════ SERVICES ══════════════════════════ -->
+<section id="services" aria-label="Services" class="py-24 bg-slate-50">
+  <div class="max-w-7xl mx-auto px-6">
+    <div class="text-center mb-16 reveal">
+      <span class="badge">What We Do</span>
+      <h2 class="font-heading font-700 text-4xl sm:text-5xl text-navy mt-4 mb-5">End-to-End IT Solutions</h2>
+      <p class="text-slate-500 text-lg max-w-2xl mx-auto leading-relaxed">From cloud strategy to AI automation — we bring the expertise to modernize your infrastructure and accelerate growth.</p>
+    </div>
+    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
+
+      <article class="service-card bg-white rounded-2xl p-8 shadow-sm border border-slate-100 reveal" style="transition-delay:.05s">
+        <div class="w-12 h-12 rounded-xl flex items-center justify-center mb-5" style="background:linear-gradient(135deg,#EFF6FF,#DBEAFE)">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z" stroke="#2563EB" stroke-width="2" stroke-linejoin="round"/></svg>
+        </div>
+        <h3 class="font-heading font-600 text-xl text-navy mb-3">Cloud Migration</h3>
+        <p class="text-slate-500 text-sm leading-relaxed mb-4">Move workloads to AWS, Azure, or GCP with zero-downtime strategies and cost-optimized multi-cloud architectures.</p>
+        <ul class="space-y-2 text-sm text-slate-500">
+          <li class="flex items-center gap-2"><svg width="14" height="14" fill="#0369A1" viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>Lift &amp; Shift / Re-architect</li>
+          <li class="flex items-center gap-2"><svg width="14" height="14" fill="#0369A1" viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>Multi-cloud strategy</li>
+          <li class="flex items-center gap-2"><svg width="14" height="14" fill="#0369A1" viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>FinOps &amp; cost optimisation</li>
+        </ul>
+      </article>
+
+      <article class="service-card bg-white rounded-2xl p-8 shadow-sm border border-slate-100 reveal" style="transition-delay:.1s">
+        <div class="w-12 h-12 rounded-xl flex items-center justify-center mb-5" style="background:linear-gradient(135deg,#FFF7ED,#FFEDD5)">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" stroke="#F97316" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <h3 class="font-heading font-600 text-xl text-navy mb-3">IT Strategy &amp; Advisory</h3>
+        <p class="text-slate-500 text-sm leading-relaxed mb-4">Tailored technology roadmaps, IT audits, and executive advisory services that align tech with your business objectives.</p>
+        <ul class="space-y-2 text-sm text-slate-500">
+          <li class="flex items-center gap-2"><svg width="14" height="14" fill="#F97316" viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>Technology roadmaps</li>
+          <li class="flex items-center gap-2"><svg width="14" height="14" fill="#F97316" viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>IT audit &amp; assessment</li>
+          <li class="flex items-center gap-2"><svg width="14" height="14" fill="#F97316" viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>Digital maturity scoring</li>
+        </ul>
+      </article>
+
+      <article class="service-card bg-white rounded-2xl p-8 shadow-sm border border-slate-100 reveal" style="transition-delay:.15s">
+        <div class="w-12 h-12 rounded-xl flex items-center justify-center mb-5" style="background:linear-gradient(135deg,#F0FDF4,#DCFCE7)">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" stroke="#16A34A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <h3 class="font-heading font-600 text-xl text-navy mb-3">DevOps &amp; DevSecOps</h3>
+        <p class="text-slate-500 text-sm leading-relaxed mb-4">Accelerate delivery securely — automated pipelines, Kubernetes, Terraform IaC, and security embedded at every stage of the SDLC.</p>
+        <ul class="space-y-2 text-sm text-slate-500">
+          <li class="flex items-center gap-2"><svg width="14" height="14" fill="#16A34A" viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>Jenkins / CloudBees CI + SAST/DAST</li>
+          <li class="flex items-center gap-2"><svg width="14" height="14" fill="#16A34A" viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>Kubernetes, Docker &amp; Shift-Left security</li>
+          <li class="flex items-center gap-2"><svg width="14" height="14" fill="#16A34A" viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>Terraform / Ansible + Policy as Code</li>
+        </ul>
+      </article>
+
+      <article class="service-card bg-white rounded-2xl p-8 shadow-sm border border-slate-100 reveal" style="transition-delay:.2s">
+        <div class="w-12 h-12 rounded-xl flex items-center justify-center mb-5" style="background:linear-gradient(135deg,#FFF1F2,#FFE4E6)">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" stroke="#E11D48" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <h3 class="font-heading font-600 text-xl text-navy mb-3">Cybersecurity</h3>
+        <p class="text-slate-500 text-sm leading-relaxed mb-4">Comprehensive security audits, penetration testing, SIEM implementation, and compliance consulting (GDPR, ISO 27001).</p>
+        <ul class="space-y-2 text-sm text-slate-500">
+          <li class="flex items-center gap-2"><svg width="14" height="14" fill="#E11D48" viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>Penetration testing</li>
+          <li class="flex items-center gap-2"><svg width="14" height="14" fill="#E11D48" viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>Zero Trust architecture</li>
+          <li class="flex items-center gap-2"><svg width="14" height="14" fill="#E11D48" viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>GDPR / ISO 27001</li>
+        </ul>
+      </article>
+
+      <article class="service-card bg-white rounded-2xl p-8 shadow-sm border border-slate-100 reveal" style="transition-delay:.25s">
+        <div class="w-12 h-12 rounded-xl flex items-center justify-center mb-5" style="background:linear-gradient(135deg,#F5F3FF,#EDE9FE)">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M13 10V3L4 14h7v7l9-11h-7z" stroke="#7C3AED" stroke-width="2" stroke-linejoin="round"/></svg>
+        </div>
+        <h3 class="font-heading font-600 text-xl text-navy mb-3">Digital Transformation</h3>
+        <p class="text-slate-500 text-sm leading-relaxed mb-4">Reimagine business processes, enable AI-driven workflows, and build the agile foundation for continuous innovation.</p>
+        <ul class="space-y-2 text-sm text-slate-500">
+          <li class="flex items-center gap-2"><svg width="14" height="14" fill="#7C3AED" viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>Process automation (RPA)</li>
+          <li class="flex items-center gap-2"><svg width="14" height="14" fill="#7C3AED" viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>AI/ML integration</li>
+          <li class="flex items-center gap-2"><svg width="14" height="14" fill="#7C3AED" viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>Legacy modernisation</li>
+        </ul>
+      </article>
+
+      <article class="service-card bg-white rounded-2xl p-8 shadow-sm border border-slate-100 reveal" style="transition-delay:.3s">
+        <div class="w-12 h-12 rounded-xl flex items-center justify-center mb-5" style="background:linear-gradient(135deg,#ECFDF5,#D1FAE5)">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" stroke="#059669" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <h3 class="font-heading font-600 text-xl text-navy mb-3">FinOps &amp; Cost Optimisation</h3>
+        <p class="text-slate-500 text-sm leading-relaxed mb-4">Stop overspending on cloud. We implement FinOps frameworks, automated cost governance, and visibility dashboards that cut cloud waste.</p>
+        <ul class="space-y-2 text-sm text-slate-500">
+          <li class="flex items-center gap-2"><svg width="14" height="14" fill="#059669" viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>Multi-cloud cost allocation</li>
+          <li class="flex items-center gap-2"><svg width="14" height="14" fill="#059669" viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>Reserved / Spot instance strategy</li>
+          <li class="flex items-center gap-2"><svg width="14" height="14" fill="#059669" viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>Automated budget alerts &amp; rightsizing</li>
+        </ul>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════ AI SECTION ══════════════════════════ -->
+<section id="ai" aria-label="AI Solutions" class="ai-bg py-24 relative overflow-hidden">
+  <div class="blob w-96 h-96 bg-purple-500 -top-20 -right-20 opacity-30" style="animation-delay:1s"></div>
+  <div class="blob w-80 h-80 bg-sky-light bottom-0 left-10 opacity-20" style="animation-delay:4s"></div>
+  <div class="absolute inset-0 opacity-5" style="background-image:linear-gradient(rgba(192,132,252,.3) 1px,transparent 1px),linear-gradient(90deg,rgba(192,132,252,.3) 1px,transparent 1px);background-size:60px 60px"></div>
+
+  <div class="relative z-10 max-w-7xl mx-auto px-6">
+    <div class="text-center mb-16 reveal">
+      <span class="badge badge-ai inline-block" style="background:rgba(192,132,252,.2);color:#C084FC">AI-First Approach</span>
+      <h2 class="font-heading font-700 text-4xl sm:text-5xl text-white mt-4 mb-5">
+        We Solve Problems Fast<br/><span class="gradient-text-ai">With AI</span>
+      </h2>
+      <p class="text-white/60 text-lg max-w-2xl mx-auto">From OpenClaw deployment to AI workflow automation — we cut resolution time from days to minutes.</p>
+    </div>
+
+    <!-- OpenClaw Feature -->
+    <div class="glass rounded-2xl p-8 md:p-12 mb-10 reveal">
+      <div class="grid md:grid-cols-2 gap-10 items-center">
+        <div>
+          <div class="flex items-center gap-3 mb-4">
+            <div class="w-12 h-12 rounded-xl flex items-center justify-center" style="background:linear-gradient(135deg,rgba(124,58,237,.4),rgba(192,132,252,.3))">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="3" stroke="#C084FC" stroke-width="2"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83" stroke="#C084FC" stroke-width="2" stroke-linecap="round"/></svg>
+            </div>
+            <span class="font-heading font-700 text-white text-xl">OpenClaw Installation</span>
+          </div>
+          <p class="text-white/70 leading-relaxed mb-6">We install and configure <strong class="text-white">OpenClaw</strong> — the AI-powered personal assistant platform — across your entire organisation. OpenClaw connects AI to your tools, workflows, and communication channels, automating repetitive tasks and resolving issues in real time.</p>
+          <ul class="space-y-3">
+            <li class="flex items-start gap-3 text-white/80 text-sm">
+              <svg width="18" height="18" fill="#A78BFA" viewBox="0 0 24 24" class="mt-0.5 shrink-0" aria-hidden="true"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+              Full setup across Mac, Windows, and Linux — all platforms handled
+            </li>
+            <li class="flex items-start gap-3 text-white/80 text-sm">
+              <svg width="18" height="18" fill="#A78BFA" viewBox="0 0 24 24" class="mt-0.5 shrink-0" aria-hidden="true"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+              Integration with Slack, Teams, WhatsApp, Telegram, Discord &amp; iMessage
+            </li>
+            <li class="flex items-start gap-3 text-white/80 text-sm">
+              <svg width="18" height="18" fill="#A78BFA" viewBox="0 0 24 24" class="mt-0.5 shrink-0" aria-hidden="true"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+              Custom AI workflow design — automate your team's most repetitive tasks
+            </li>
+            <li class="flex items-start gap-3 text-white/80 text-sm">
+              <svg width="18" height="18" fill="#A78BFA" viewBox="0 0 24 24" class="mt-0.5 shrink-0" aria-hidden="true"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+              Private &amp; secure — your data stays on your infrastructure
+            </li>
+          </ul>
+          <a href="#contact" class="btn-primary mt-8 inline-flex" style="background:linear-gradient(135deg,#7C3AED,#A855F7)">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M13 10V3L4 14h7v7l9-11h-7z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
+            Get OpenClaw Setup
+          </a>
+        </div>
+        <div class="space-y-4">
+          <div class="glass rounded-xl p-5 border border-purple-500/20">
+            <div class="flex items-center gap-3 mb-2">
+              <div class="w-8 h-8 rounded-lg bg-purple-500/20 flex items-center justify-center text-purple-300 text-xs font-bold">AI</div>
+              <span class="text-white font-medium text-sm">Problem detected: disk usage 94%</span>
+            </div>
+            <p class="text-white/50 text-xs">OpenClaw identified root cause, freed 40 GB of stale logs, and notified ops team — <strong class="text-green-400">resolved in 47 seconds</strong>.</p>
+          </div>
+          <div class="glass rounded-xl p-5 border border-purple-500/20">
+            <div class="flex items-center gap-3 mb-2">
+              <div class="w-8 h-8 rounded-lg bg-purple-500/20 flex items-center justify-center text-purple-300 text-xs font-bold">AI</div>
+              <span class="text-white font-medium text-sm">Deploy failed in staging</span>
+            </div>
+            <p class="text-white/50 text-xs">OpenClaw traced the failure to a misconfigured env variable, auto-patched the pipeline config, and re-triggered deploy — <strong class="text-green-400">team never paged</strong>.</p>
+          </div>
+          <div class="glass rounded-xl p-5 border border-purple-500/20">
+            <div class="flex items-center gap-3 mb-2">
+              <div class="w-8 h-8 rounded-lg bg-purple-500/20 flex items-center justify-center text-purple-300 text-xs font-bold">AI</div>
+              <span class="text-white font-medium text-sm">AWS bill spiked +180%</span>
+            </div>
+            <p class="text-white/50 text-xs">OpenClaw detected a runaway Lambda loop, shut it down, estimated savings of $4,200/mo, and generated a cost optimisation report — <strong class="text-green-400">in 2 minutes</strong>.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- AI pillars -->
+    <div class="grid sm:grid-cols-3 gap-6">
+      <div class="glass rounded-2xl p-7 text-center reveal" style="transition-delay:.05s">
+        <div class="w-14 h-14 mx-auto rounded-2xl flex items-center justify-center mb-4" style="background:rgba(124,58,237,.25)">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" stroke="#C084FC" stroke-width="2"/></svg>
+        </div>
+        <h3 class="font-heading font-600 text-white text-lg mb-2">10× Faster Resolution</h3>
+        <p class="text-white/55 text-sm leading-relaxed">AI-assisted diagnostics cut mean time to resolution from hours to minutes across all incident types.</p>
+      </div>
+      <div class="glass rounded-2xl p-7 text-center reveal" style="transition-delay:.1s">
+        <div class="w-14 h-14 mx-auto rounded-2xl flex items-center justify-center mb-4" style="background:rgba(124,58,237,.25)">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" stroke="#C084FC" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <h3 class="font-heading font-600 text-white text-lg mb-2">AI Workflow Automation</h3>
+        <p class="text-white/55 text-sm leading-relaxed">Custom AI agents that handle repetitive IT tasks autonomously — from provisioning to reporting.</p>
+      </div>
+      <div class="glass rounded-2xl p-7 text-center reveal" style="transition-delay:.15s">
+        <div class="w-14 h-14 mx-auto rounded-2xl flex items-center justify-center mb-4" style="background:rgba(124,58,237,.25)">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" stroke="#C084FC" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </div>
+        <h3 class="font-heading font-600 text-white text-lg mb-2">Predictive Monitoring</h3>
+        <p class="text-white/55 text-sm leading-relaxed">AI-powered anomaly detection predicts failures before they happen — keeping your systems always healthy.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════ STATS ══════════════════════════ -->
+<section aria-label="Key results" class="hero-bg py-24 relative overflow-hidden">
+  <div class="blob w-96 h-96 bg-sky-light top-0 right-0 opacity-15"></div>
+  <div class="relative z-10 max-w-7xl mx-auto px-6">
+    <div class="text-center mb-16 reveal">
+      <span class="badge" style="background:rgba(14,165,233,.2);color:#38BDF8">Proven Track Record</span>
+      <h2 class="font-heading font-700 text-4xl sm:text-5xl text-white mt-4 mb-5">Results That Speak</h2>
+    </div>
+    <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
+      <div class="glass rounded-2xl p-8 text-center reveal" style="transition-delay:.05s">
+        <p class="font-heading font-700 text-5xl text-sky-light mb-2" data-target="150" data-suffix="+">0</p>
+        <p class="text-white/50 text-sm mt-1">Successful Projects</p>
+      </div>
+      <div class="glass rounded-2xl p-8 text-center reveal" style="transition-delay:.1s">
+        <p class="font-heading font-700 text-5xl text-orange-400 mb-2" data-target="42" data-suffix="%">0</p>
+        <p class="text-white/50 text-sm mt-1">Avg. Infrastructure Cost Reduction</p>
+      </div>
+      <div class="glass rounded-2xl p-8 text-center reveal" style="transition-delay:.15s">
+        <p class="font-heading font-700 text-5xl text-purple-300 mb-2" data-target="10" data-suffix="×">0</p>
+        <p class="text-white/50 text-sm mt-1">Faster Problem Resolution with AI</p>
+      </div>
+      <div class="glass rounded-2xl p-8 text-center reveal" style="transition-delay:.2s">
+        <p class="font-heading font-700 text-5xl text-sky-light mb-2" data-target="10" data-suffix="+ yr">0</p>
+        <p class="text-white/50 text-sm mt-1">Industry Experience</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════ PORTFOLIO ══════════════════════════ -->
+<section id="portfolio" aria-label="Portfolio & Experience" class="py-24 bg-white">
+  <div class="max-w-7xl mx-auto px-6">
+    <div class="text-center mb-16 reveal">
+      <span class="badge">Behind UP2CLOUD</span>
+      <h2 class="font-heading font-700 text-4xl sm:text-5xl text-navy mt-4 mb-5">Built by a Certified Expert</h2>
+      <p class="text-slate-500 text-lg max-w-2xl mx-auto leading-relaxed">UP2CLOUD is led by <strong>Cesar A. Nogueira</strong>, a Cloud DevOps Engineer with 10+ years building and scaling infrastructure across three continents.</p>
+    </div>
+
+    <div class="grid lg:grid-cols-3 gap-10">
+
+      <!-- Left: Profile + certs -->
+      <div class="reveal">
+        <div class="bg-slate-50 rounded-2xl p-8 mb-6 border border-slate-100">
+          <div class="flex items-center gap-4 mb-5">
+            <div class="w-16 h-16 rounded-2xl flex items-center justify-center text-white font-heading font-700 text-2xl" style="background:linear-gradient(135deg,#0369A1,#0EA5E9)">CN</div>
+            <div>
+              <p class="font-heading font-700 text-navy text-lg">Cesar A. Nogueira</p>
+              <p class="text-slate-500 text-sm">Cloud FinOps &amp; DevOps Engineer</p>
+              <a href="https://cesarnogueira.tech" target="_blank" rel="noopener noreferrer" class="text-sky-brand text-xs hover:underline focus-visible:outline-2 focus-visible:outline-sky-brand rounded">cesarnogueira.tech ↗</a>
+            </div>
+          </div>
+          <p class="text-slate-500 text-sm leading-relaxed">Cloud DevOps Engineer with 10+ years specialising in infrastructure automation, FinOps, and cost optimisation across multi-cloud environments (GCP · AWS · Azure · Oracle Cloud).</p>
+        </div>
+
+        <p class="font-heading font-600 text-sm text-navy uppercase tracking-wider mb-4">Certifications</p>
+        <div class="space-y-3">
+          <div class="cert-badge">
+            <div class="w-8 h-8 rounded-lg flex items-center justify-center shrink-0" style="background:linear-gradient(135deg,#4285F4,#34A853)">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="white" aria-hidden="true"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+            </div>
+            <div>
+              <p class="text-xs font-600 text-navy">GCP Professional Cloud Architect</p>
+              <p class="text-xs text-slate-400">Google Cloud · ×2 Certified</p>
+            </div>
+          </div>
+          <div class="cert-badge">
+            <div class="w-8 h-8 rounded-lg flex items-center justify-center shrink-0" style="background:linear-gradient(135deg,#4285F4,#34A853)">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="white" aria-hidden="true"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/></svg>
+            </div>
+            <div>
+              <p class="text-xs font-600 text-navy">GCP Associate Cloud Engineer</p>
+              <p class="text-xs text-slate-400">Google Cloud</p>
+            </div>
+          </div>
+          <div class="cert-badge">
+            <div class="w-8 h-8 rounded-lg flex items-center justify-center shrink-0" style="background:linear-gradient(135deg,#FF9900,#FF6600)">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="white" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2"/></svg>
+            </div>
+            <div>
+              <p class="text-xs font-600 text-navy">AWS Cloud Practitioner</p>
+              <p class="text-xs text-slate-400">Amazon Web Services</p>
+            </div>
+          </div>
+          <div class="cert-badge">
+            <div class="w-8 h-8 rounded-lg flex items-center justify-center shrink-0" style="background:linear-gradient(135deg,#0078D4,#00BCF2)">
+              <svg width="14" height="14" viewBox="0 0 24 24" fill="white" aria-hidden="true"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+            </div>
+            <div>
+              <p class="text-xs font-600 text-navy">Azure Fundamentals AZ-900</p>
+              <p class="text-xs text-slate-400">Microsoft Azure</p>
+            </div>
+          </div>
+        </div>
+
+        <p class="font-heading font-600 text-sm text-navy uppercase tracking-wider mt-8 mb-4">Tech Stack</p>
+        <div class="flex flex-wrap gap-2">
+          <span class="badge text-xs">GCP</span><span class="badge text-xs">AWS</span><span class="badge text-xs">Azure</span>
+          <span class="badge text-xs">Terraform</span><span class="badge text-xs">Kubernetes</span><span class="badge text-xs">Docker</span>
+          <span class="badge text-xs">Jenkins</span><span class="badge text-xs">Python</span><span class="badge text-xs">FinOps</span>
+          <span class="badge text-xs">OpenClaw</span>
+        </div>
+      </div>
+
+      <!-- Right: Experience timeline -->
+      <div class="lg:col-span-2 reveal" style="transition-delay:.1s">
+        <p class="font-heading font-600 text-sm text-navy uppercase tracking-wider mb-6">Work Experience</p>
+        <div class="space-y-0">
+
+          <div class="flex gap-4">
+            <div class="flex flex-col items-center">
+              <div class="timeline-dot mt-1"></div>
+              <div class="w-0.5 bg-slate-200 flex-1 mt-2 mb-0"></div>
+            </div>
+            <div class="pb-8">
+              <div class="flex flex-wrap items-center gap-2 mb-1">
+                <p class="font-heading font-600 text-navy">Cloud FinOps Automation Engineer</p>
+                <span class="badge text-xs" style="background:#DCFCE7;color:#166534">Current</span>
+              </div>
+              <p class="text-sky-brand font-medium text-sm mb-1">Randstad Digital Portugal</p>
+              <p class="text-slate-400 text-xs mb-2">Feb 2022 – Present</p>
+              <p class="text-slate-500 text-sm leading-relaxed">Cloud infrastructure automation and FinOps optimisation across multi-cloud environments, driving significant cost reductions through automated governance and reporting pipelines.</p>
+            </div>
+          </div>
+
+          <div class="flex gap-4">
+            <div class="flex flex-col items-center">
+              <div class="timeline-dot mt-1"></div>
+              <div class="w-0.5 bg-slate-200 flex-1 mt-2 mb-0"></div>
+            </div>
+            <div class="pb-8">
+              <p class="font-heading font-600 text-navy mb-1">DevOps Engineer</p>
+              <p class="text-sky-brand font-medium text-sm mb-1">ZeroLight LLC</p>
+              <p class="text-slate-400 text-xs mb-2">Aug 2021 – Feb 2022</p>
+              <p class="text-slate-500 text-sm leading-relaxed">Built and managed cloud infrastructure for global automotive clients on AWS and GCP, enabling real-time 3D vehicle configurators at scale.</p>
+            </div>
+          </div>
+
+          <div class="flex gap-4">
+            <div class="flex flex-col items-center">
+              <div class="timeline-dot mt-1"></div>
+              <div class="w-0.5 bg-slate-200 flex-1 mt-2 mb-0"></div>
+            </div>
+            <div class="pb-8">
+              <p class="font-heading font-600 text-navy mb-1">Technology Architecture Manager</p>
+              <p class="text-sky-brand font-medium text-sm mb-1">Accenture Interactive Brazil</p>
+              <p class="text-slate-400 text-xs mb-2">Aug 2020 – Aug 2021</p>
+              <p class="text-slate-500 text-sm leading-relaxed">Led Kubernetes administration, Jenkins/Spinnaker pipeline automation, and managed cloud enablement teams delivering large-scale digital transformation projects.</p>
+            </div>
+          </div>
+
+          <div class="flex gap-4">
+            <div class="flex flex-col items-center">
+              <div class="timeline-dot mt-1"></div>
+              <div class="w-0.5 bg-slate-200 flex-1 mt-2 mb-0"></div>
+            </div>
+            <div class="pb-8">
+              <p class="font-heading font-600 text-navy mb-1">Cloud Architect</p>
+              <p class="text-sky-brand font-medium text-sm mb-1">everis Brazil (NTT Data)</p>
+              <p class="text-slate-400 text-xs mb-2">Feb 2019 – Aug 2020</p>
+              <p class="text-slate-500 text-sm leading-relaxed">Designed multi-cloud solutions across GCP, AWS, Azure, and Oracle Cloud with comprehensive monitoring, security implementations, and infrastructure automation.</p>
+            </div>
+          </div>
+
+          <div class="flex gap-4">
+            <div class="flex flex-col items-center">
+              <div class="timeline-dot mt-1"></div>
+            </div>
+            <div class="pb-2">
+              <p class="font-heading font-600 text-navy mb-1">Software Engineer</p>
+              <p class="text-sky-brand font-medium text-sm mb-1">CI&amp;T</p>
+              <p class="text-slate-400 text-xs mb-2">Dec 2017 – Feb 2019</p>
+              <p class="text-slate-500 text-sm leading-relaxed">Full-stack development with Java, Node.js, and React on Google Cloud — bridging software engineering with cloud-native architecture.</p>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════ TESTIMONIALS ══════════════════════════ -->
+<section id="testimonials" aria-label="Client testimonials" class="py-24 bg-slate-50">
+  <div class="max-w-7xl mx-auto px-6">
+    <div class="text-center mb-16 reveal">
+      <span class="badge">Client Stories</span>
+      <h2 class="font-heading font-700 text-4xl sm:text-5xl text-navy mt-4 mb-5">What Our Clients Say</h2>
+    </div>
+    <div class="grid md:grid-cols-3 gap-6">
+
+      <blockquote class="bg-white rounded-2xl p-8 shadow-sm border border-slate-100 reveal" style="transition-delay:.05s">
+        <div class="flex gap-1 mb-4" aria-label="5 stars">
+          <svg width="16" height="16" fill="#FBBF24" viewBox="0 0 20 20" aria-hidden="true"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+          <svg width="16" height="16" fill="#FBBF24" viewBox="0 0 20 20" aria-hidden="true"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+          <svg width="16" height="16" fill="#FBBF24" viewBox="0 0 20 20" aria-hidden="true"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+          <svg width="16" height="16" fill="#FBBF24" viewBox="0 0 20 20" aria-hidden="true"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+          <svg width="16" height="16" fill="#FBBF24" viewBox="0 0 20 20" aria-hidden="true"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+        </div>
+        <p class="text-slate-600 text-sm leading-relaxed mb-6">"UP2CLOUD cut our AWS bill by 38% in the first quarter while simultaneously improving our uptime to 99.98%. The ROI was undeniable within 60 days."</p>
+        <footer class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-full flex items-center justify-center text-white font-heading font-700 text-sm" style="background:linear-gradient(135deg,#0369A1,#0EA5E9)" aria-hidden="true">SM</div>
+          <div><p class="font-heading font-600 text-sm text-navy">Sarah Mitchell</p><p class="text-slate-400 text-xs">CTO — NovaTech Industries</p></div>
+        </footer>
+      </blockquote>
+
+      <blockquote class="bg-white rounded-2xl p-8 shadow-sm border border-slate-100 reveal" style="transition-delay:.1s">
+        <div class="flex gap-1 mb-4" aria-label="5 stars">
+          <svg width="16" height="16" fill="#FBBF24" viewBox="0 0 20 20" aria-hidden="true"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+          <svg width="16" height="16" fill="#FBBF24" viewBox="0 0 20 20" aria-hidden="true"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+          <svg width="16" height="16" fill="#FBBF24" viewBox="0 0 20 20" aria-hidden="true"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+          <svg width="16" height="16" fill="#FBBF24" viewBox="0 0 20 20" aria-hidden="true"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+          <svg width="16" height="16" fill="#FBBF24" viewBox="0 0 20 20" aria-hidden="true"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+        </div>
+        <p class="text-slate-600 text-sm leading-relaxed mb-6">"OpenClaw setup by UP2CLOUD transformed how our team handles incidents. What used to take 3 hours now resolves in minutes. Absolute game-changer for our on-call team."</p>
+        <footer class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-full flex items-center justify-center text-white font-heading font-700 text-sm" style="background:linear-gradient(135deg,#7C3AED,#A855F7)" aria-hidden="true">JR</div>
+          <div><p class="font-heading font-600 text-sm text-navy">James Rivera</p><p class="text-slate-400 text-xs">VP Engineering — Axient Corp</p></div>
+        </footer>
+      </blockquote>
+
+      <blockquote class="bg-white rounded-2xl p-8 shadow-sm border border-slate-100 reveal" style="transition-delay:.15s">
+        <div class="flex gap-1 mb-4" aria-label="5 stars">
+          <svg width="16" height="16" fill="#FBBF24" viewBox="0 0 20 20" aria-hidden="true"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+          <svg width="16" height="16" fill="#FBBF24" viewBox="0 0 20 20" aria-hidden="true"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+          <svg width="16" height="16" fill="#FBBF24" viewBox="0 0 20 20" aria-hidden="true"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+          <svg width="16" height="16" fill="#FBBF24" viewBox="0 0 20 20" aria-hidden="true"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+          <svg width="16" height="16" fill="#FBBF24" viewBox="0 0 20 20" aria-hidden="true"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+        </div>
+        <p class="text-slate-600 text-sm leading-relaxed mb-6">"Their security team got us through ISO 27001 in 4 months. That alone opened three enterprise contracts we couldn't pitch before. Cesar knows this stuff cold."</p>
+        <footer class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-full flex items-center justify-center text-white font-heading font-700 text-sm" style="background:linear-gradient(135deg,#059669,#0D9488)" aria-hidden="true">AL</div>
+          <div><p class="font-heading font-600 text-sm text-navy">Ana Lima</p><p class="text-slate-400 text-xs">CEO — CoreFlow Solutions</p></div>
+        </footer>
+      </blockquote>
+
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════ CTA BANNER ══════════════════════════ -->
+<section aria-label="Call to action" class="py-20 bg-white">
+  <div class="max-w-4xl mx-auto px-6 text-center reveal">
+    <div class="rounded-2xl p-12 relative overflow-hidden" style="background:linear-gradient(135deg,#0F172A,#1e0533,#0C4A6E)">
+      <div class="blob w-72 h-72 bg-purple-500 -top-10 right-0 opacity-25"></div>
+      <div class="relative z-10">
+        <h2 class="font-heading font-700 text-4xl text-white mb-4">Ready to scale smarter?</h2>
+        <p class="text-white/70 text-lg mb-8 max-w-xl mx-auto">Book a free 45-minute infrastructure audit and walk away with a prioritised action plan — no strings attached.</p>
+        <a href="#contact" class="btn-primary text-base inline-flex">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          Book Free Audit
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════ CONTACT ══════════════════════════ -->
+<section id="contact" aria-label="Contact" class="py-24 bg-slate-50">
+  <div class="max-w-7xl mx-auto px-6 grid lg:grid-cols-2 gap-16 items-start">
+    <div class="reveal">
+      <span class="badge">Get In Touch</span>
+      <h2 class="font-heading font-700 text-4xl sm:text-5xl text-navy mt-4 mb-5">Let's Talk About Your IT Goals</h2>
+      <p class="text-slate-500 text-lg leading-relaxed mb-10">Cloud migration, AI automation, OpenClaw setup, or just a quick question — we reply within 1 business day.</p>
+      <div class="space-y-5">
+        <div class="flex items-center gap-4">
+          <div class="w-11 h-11 rounded-xl bg-sky-ultra flex items-center justify-center">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" stroke="#0369A1" stroke-width="2"/></svg>
+          </div>
+          <div>
+            <p class="text-xs text-slate-400 font-medium uppercase tracking-wider">Email</p>
+            <a href="mailto:hello@up2cloud.io" class="text-navy font-medium hover:text-sky-brand transition-colors">hello@up2cloud.io</a>
+          </div>
+        </div>
+        <div class="flex items-center gap-4">
+          <div class="w-11 h-11 rounded-xl bg-sky-ultra flex items-center justify-center">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" stroke="#0369A1" stroke-width="2"/></svg>
+          </div>
+          <div>
+            <p class="text-xs text-slate-400 font-medium uppercase tracking-wider">Phone</p>
+            <a href="tel:+351937471554" class="text-navy font-medium hover:text-sky-brand transition-colors">+351 937 471 554</a>
+          </div>
+        </div>
+        <div class="flex items-center gap-4">
+          <div class="w-11 h-11 rounded-xl bg-sky-ultra flex items-center justify-center">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" stroke="#0369A1" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </div>
+          <div>
+            <p class="text-xs text-slate-400 font-medium uppercase tracking-wider">Personal Site</p>
+            <a href="https://cesarnogueira.tech" target="_blank" rel="noopener noreferrer" class="text-navy font-medium hover:text-sky-brand transition-colors">cesarnogueira.tech ↗</a>
+          </div>
+        </div>
+        <div class="flex items-center gap-4">
+          <div class="w-11 h-11 rounded-xl bg-sky-ultra flex items-center justify-center">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" stroke="#0369A1" stroke-width="2"/><path d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" stroke="#0369A1" stroke-width="2"/></svg>
+          </div>
+          <div>
+            <p class="text-xs text-slate-400 font-medium uppercase tracking-wider">Location</p>
+            <p class="text-navy font-medium">Lisbon, Portugal · Remote Anywhere</p>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Contact Form (Formspree) -->
+    <div class="reveal" style="transition-delay:.1s">
+      <form id="contact-form" class="bg-white rounded-2xl p-8 shadow-sm border border-slate-100" novalidate aria-label="Contact form">
+        <div id="form-error" class="hidden mb-4 p-4 bg-red-50 border border-red-200 rounded-xl" role="alert" aria-live="polite">
+          <p class="text-red-700 text-sm font-medium" id="form-error-msg">Something went wrong. Please try again.</p>
+        </div>
+        <div class="grid sm:grid-cols-2 gap-5 mb-5">
+          <div>
+            <label for="name" class="block text-sm font-medium text-navy mb-2">Full Name <span aria-hidden="true" class="text-red-500">*</span></label>
+            <input type="text" id="name" name="name" required autocomplete="name" placeholder="Your name" class="w-full border border-slate-200 rounded-lg px-4 py-3 text-sm text-navy placeholder-slate-400 hover:border-slate-300 transition-colors" style="height:44px" />
+          </div>
+          <div>
+            <label for="email" class="block text-sm font-medium text-navy mb-2">Work Email <span aria-hidden="true" class="text-red-500">*</span></label>
+            <input type="email" id="email" name="email" required autocomplete="email" placeholder="you@company.com" class="w-full border border-slate-200 rounded-lg px-4 py-3 text-sm text-navy placeholder-slate-400 hover:border-slate-300 transition-colors" style="height:44px" />
+          </div>
+        </div>
+        <div class="mb-5">
+          <label for="company" class="block text-sm font-medium text-navy mb-2">Company</label>
+          <input type="text" id="company" name="company" autocomplete="organization" placeholder="Your Company Ltd." class="w-full border border-slate-200 rounded-lg px-4 py-3 text-sm text-navy placeholder-slate-400 hover:border-slate-300 transition-colors" style="height:44px" />
+        </div>
+        <div class="mb-5">
+          <label for="service" class="block text-sm font-medium text-navy mb-2">Service of Interest</label>
+          <select id="service" name="service" class="w-full border border-slate-200 rounded-lg px-4 py-3 text-sm text-navy hover:border-slate-300 transition-colors bg-white" style="height:44px">
+            <option value="">Select a service…</option>
+            <option value="openclaw">OpenClaw Installation &amp; AI Setup</option>
+            <option value="cloud">Cloud Migration</option>
+            <option value="strategy">IT Strategy &amp; Advisory</option>
+            <option value="devops">DevOps &amp; CI/CD</option>
+            <option value="security">Cybersecurity</option>
+            <option value="digital">Digital Transformation</option>
+            <option value="managed">Managed IT Services</option>
+          </select>
+        </div>
+        <div class="mb-6">
+          <label for="message" class="block text-sm font-medium text-navy mb-2">Message <span aria-hidden="true" class="text-red-500">*</span></label>
+          <textarea id="message" name="message" required rows="4" placeholder="Tell us about your project or challenge…" class="w-full border border-slate-200 rounded-lg px-4 py-3 text-sm text-navy placeholder-slate-400 hover:border-slate-300 transition-colors resize-y" style="min-height:120px;line-height:1.6"></textarea>
+        </div>
+        <button type="submit" class="btn-primary w-full justify-center text-base" id="submit-btn">
+          <svg id="submit-icon" width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span id="submit-text">Send Message</span>
+        </button>
+        <p class="text-xs text-slate-400 text-center mt-4">We reply within 1 business day. No spam, ever.</p>
+        <div id="form-success" class="hidden mt-4 p-4 bg-green-50 border border-green-200 rounded-xl text-center" role="alert" aria-live="polite">
+          <p class="text-green-700 font-medium text-sm">Message sent! We'll be in touch within 24 hours.</p>
+        </div>
+      </form>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════ FOOTER ══════════════════════════ -->
+<footer class="hero-bg text-white py-16" role="contentinfo">
+  <div class="max-w-7xl mx-auto px-6">
+    <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-10 mb-12">
+      <div>
+        <div class="flex items-center gap-3 mb-4">
+          <div class="w-9 h-9 rounded-lg flex items-center justify-center" style="background:linear-gradient(135deg,#0369A1,#0EA5E9)">
+            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z" stroke="white" stroke-width="2" stroke-linejoin="round"/></svg>
+          </div>
+          <span class="font-heading font-700 text-xl">UP2<span class="text-sky-light">CLOUD</span></span>
+        </div>
+        <p class="text-white/50 text-sm leading-relaxed mb-4">Elevating businesses through expert cloud, DevOps, and AI consulting since 2016.</p>
+        <a href="https://github.com/CesarNog" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 text-white/50 hover:text-white text-sm transition-colors">
+          <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0112 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/></svg>
+          github.com/CesarNog
+        </a>
+      </div>
+      <nav aria-label="Services links">
+        <p class="font-heading font-600 text-sm text-white mb-4 uppercase tracking-wider">Services</p>
+        <ul class="space-y-2 text-sm text-white/60">
+          <li><a href="#ai" class="hover:text-white transition-colors">OpenClaw &amp; AI Setup</a></li>
+          <li><a href="#services" class="hover:text-white transition-colors">Cloud Migration</a></li>
+          <li><a href="#services" class="hover:text-white transition-colors">IT Strategy</a></li>
+          <li><a href="#services" class="hover:text-white transition-colors">DevOps &amp; CI/CD</a></li>
+          <li><a href="#services" class="hover:text-white transition-colors">Cybersecurity</a></li>
+          <li><a href="#services" class="hover:text-white transition-colors">Managed IT</a></li>
+        </ul>
+      </nav>
+      <nav aria-label="Company links">
+        <p class="font-heading font-600 text-sm text-white mb-4 uppercase tracking-wider">Company</p>
+        <ul class="space-y-2 text-sm text-white/60">
+          <li><a href="#portfolio" class="hover:text-white transition-colors">Portfolio</a></li>
+          <li><a href="#testimonials" class="hover:text-white transition-colors">Clients</a></li>
+          <li><a href="#contact" class="hover:text-white transition-colors">Contact</a></li>
+          <li><a href="https://cesarnogueira.tech" target="_blank" rel="noopener noreferrer" class="hover:text-white transition-colors">Personal Site ↗</a></li>
+        </ul>
+      </nav>
+      <div>
+        <p class="font-heading font-600 text-sm text-white mb-4 uppercase tracking-wider">Certifications</p>
+        <div class="space-y-3">
+          <div class="glass rounded-lg px-4 py-2 flex items-center gap-3">
+            <svg width="16" height="16" fill="#22C55E" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+            <span class="text-xs text-white/70">GCP Professional Architect ×2</span>
+          </div>
+          <div class="glass rounded-lg px-4 py-2 flex items-center gap-3">
+            <svg width="16" height="16" fill="#22C55E" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+            <span class="text-xs text-white/70">AWS Cloud Practitioner</span>
+          </div>
+          <div class="glass rounded-lg px-4 py-2 flex items-center gap-3">
+            <svg width="16" height="16" fill="#22C55E" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"/></svg>
+            <span class="text-xs text-white/70">Azure AZ-900 · OpenClaw Partner</span>
+          </div>
+        </div>
+      </div>
+    </div>
+    <div class="border-t border-white/10 pt-8 flex flex-col sm:flex-row justify-between items-center gap-4 text-sm text-white/40">
+      <p>&copy; 2026 UP2CLOUD · Cesar A. Nogueira. All rights reserved.</p>
+      <div class="flex gap-6">
+        <a href="#" class="hover:text-white/70 transition-colors">Privacy Policy</a>
+        <a href="#" class="hover:text-white/70 transition-colors">Terms of Service</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+
+<style>
+  @keyframes spin { to { transform: rotate(360deg); transform-origin: center; } }
+
+  /* ── 3D Parallax ── */
+  .parallax-scene { transform-style: preserve-3d; perspective: 1200px; }
+  .parallax-layer-bg  { transform: translateZ(-60px) scale(1.06); }
+  .parallax-layer-mid { transform: translateZ(-30px) scale(1.03); }
+
+  /* 3D tilt card */
+  .tilt-card { transition: transform 0.25s ease, box-shadow 0.25s ease; transform-style: preserve-3d; }
+  .tilt-card:hover { box-shadow: 0 32px 64px rgba(3,105,161,.2); }
+
+  /* Fancy scroll-reveal 3D */
+  .reveal-3d { opacity: 0; transform: perspective(800px) rotateX(12deg) translateY(40px); transition: opacity .7s ease, transform .7s ease; }
+  .reveal-3d.visible { opacity: 1; transform: perspective(800px) rotateX(0deg) translateY(0); }
+
+  /* Floating shapes */
+  .float-shape { position: absolute; pointer-events: none; animation: floatShape 10s ease-in-out infinite; }
+  @keyframes floatShape { 0%,100%{transform:translateY(0) rotate(0deg)} 50%{transform:translateY(-20px) rotate(8deg)} }
+
+  /* Chatbot */
+  #chatbot-btn { position: fixed; bottom: 1.5rem; right: 1.5rem; z-index: 100; width: 56px; height: 56px; border-radius: 50%; background: linear-gradient(135deg,#0369A1,#0EA5E9); color: #fff; border: none; cursor: pointer; box-shadow: 0 8px 24px rgba(3,105,161,.4); display: flex; align-items: center; justify-content: center; transition: transform .2s, box-shadow .2s; }
+  #chatbot-btn:hover { transform: scale(1.1); box-shadow: 0 12px 32px rgba(3,105,161,.5); }
+  #chatbot-panel { position: fixed; bottom: 5.5rem; right: 1.5rem; z-index: 100; width: 360px; max-width: calc(100vw - 3rem); background: #fff; border-radius: 20px; box-shadow: 0 24px 60px rgba(0,0,0,.18); border: 1px solid #E2E8F0; overflow: hidden; display: none; flex-direction: column; max-height: 520px; }
+  #chatbot-panel.open { display: flex; animation: chatOpen .25s ease; }
+  @keyframes chatOpen { from{opacity:0;transform:scale(.9) translateY(20px)}to{opacity:1;transform:scale(1) translateY(0)} }
+  #chat-messages { flex: 1; overflow-y: auto; padding: 1.25rem; display: flex; flex-direction: column; gap: .75rem; scroll-behavior: smooth; }
+  .chat-msg { max-width: 85%; padding: .65rem 1rem; border-radius: 16px; font-size: .83rem; line-height: 1.5; }
+  .chat-msg.bot { background: #F1F5F9; color: #0F172A; border-radius: 4px 16px 16px 16px; }
+  .chat-msg.user { background: linear-gradient(135deg,#0369A1,#0EA5E9); color: #fff; align-self: flex-end; border-radius: 16px 4px 16px 16px; }
+  .chat-faq-btn { background: #F0F9FF; border: 1px solid #BAE6FD; color: #0369A1; padding: .4rem .85rem; border-radius: 999px; font-size: .78rem; font-weight: 500; cursor: pointer; transition: background .2s; text-align: left; }
+  .chat-faq-btn:hover { background: #E0F2FE; }
+  #chat-input-row { display: flex; gap: .5rem; padding: .75rem 1rem; border-top: 1px solid #F1F5F9; background: #FAFAFA; }
+  #chat-input { flex: 1; border: 1px solid #E2E8F0; border-radius: 8px; padding: .5rem .75rem; font-size: .83rem; font-family: inherit; }
+  #chat-input:focus { outline: 2px solid #0369A1; }
+  #chat-send { background: #0369A1; color: #fff; border: none; border-radius: 8px; padding: .5rem .85rem; font-size: .83rem; cursor: pointer; font-weight: 600; }
+  #chat-send:hover { background: #025b88; }
+</style>
+
+
+<!-- ══════════════ CHATBOT FAQ WIDGET ══════════════ -->
+<button id="chatbot-btn" aria-label="Open chat FAQ" aria-expanded="false" aria-controls="chatbot-panel">
+  <svg id="chat-open-icon" width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+  <svg id="chat-close-icon" width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true" style="display:none"><path d="M6 18L18 6M6 6l12 12" stroke="white" stroke-width="2" stroke-linecap="round"/></svg>
+</button>
+
+<div id="chatbot-panel" role="dialog" aria-modal="true" aria-label="UP2CLOUD FAQ Chat">
+  <div style="background:linear-gradient(135deg,#0F172A,#0369A1);padding:1rem 1.25rem;display:flex;align-items:center;gap:.75rem">
+    <div style="width:36px;height:36px;border-radius:50%;background:rgba(255,255,255,.15);display:flex;align-items:center;justify-content:center">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z" stroke="white" stroke-width="2"/></svg>
+    </div>
+    <div>
+      <p style="font-family:'Space Grotesk',sans-serif;font-weight:600;color:#fff;font-size:.9rem">UP2CLOUD Assistant</p>
+      <p style="color:rgba(255,255,255,.6);font-size:.73rem">Ask me anything · Usually instant</p>
+    </div>
+  </div>
+  <div id="chat-messages" aria-live="polite" aria-label="Chat messages">
+    <div class="chat-msg bot">👋 Hi! I'm the UP2CLOUD assistant. Ask me anything or pick a topic below:</div>
+    <div style="display:flex;flex-wrap:wrap;gap:.4rem">
+      <button class="chat-faq-btn" onclick="askFaq(this)">What services do you offer?</button>
+      <button class="chat-faq-btn" onclick="askFaq(this)">What is OpenClaw?</button>
+      <button class="chat-faq-btn" onclick="askFaq(this)">How much does it cost?</button>
+      <button class="chat-faq-btn" onclick="askFaq(this)">Do you work remotely?</button>
+      <button class="chat-faq-btn" onclick="askFaq(this)">What is FinOps?</button>
+      <button class="chat-faq-btn" onclick="askFaq(this)">What is DevSecOps?</button>
+      <button class="chat-faq-btn" onclick="askFaq(this)">How fast can you start?</button>
+      <button class="chat-faq-btn" onclick="askFaq(this)">Cloud certifications?</button>
+    </div>
+  </div>
+  <div id="chat-input-row">
+    <input type="text" id="chat-input" placeholder="Type your question…" aria-label="Chat input" />
+    <button id="chat-send" onclick="sendChat()" aria-label="Send message">Send</button>
+  </div>
+</div>
+
+
+<script>
+  /* ── Navbar scroll ── */
+  const navbar = document.getElementById('navbar');
+  window.addEventListener('scroll', () => navbar.classList.toggle('scrolled', window.scrollY > 50), { passive: true });
+
+  /* ── Mobile menu ── */
+  const menuBtn = document.getElementById('menu-btn');
+  const mobileMenu = document.getElementById('mobile-menu');
+  menuBtn.addEventListener('click', () => {
+    const open = !mobileMenu.classList.contains('hidden');
+    mobileMenu.classList.toggle('hidden', open);
+    menuBtn.setAttribute('aria-expanded', String(!open));
+  });
+  function closeMobileMenu() {
+    mobileMenu.classList.add('hidden');
+    menuBtn.setAttribute('aria-expanded', 'false');
+  }
+
+  /* ── Scroll reveal (flat + 3D) ── */
+  const ro = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); ro.unobserve(e.target); } });
+  }, { threshold: 0.12 });
+  document.querySelectorAll('.reveal, .reveal-3d').forEach(el => ro.observe(el));
+
+  /* ── Counter animation ── */
+  function animateCounter(el) {
+    const target = parseInt(el.dataset.target, 10);
+    const suffix = el.dataset.suffix || '';
+    let current = 0;
+    const step = Math.max(1, Math.ceil(target / 60));
+    const timer = setInterval(() => {
+      current = Math.min(current + step, target);
+      el.textContent = current + suffix;
+      if (current >= target) clearInterval(timer);
+    }, 25);
+  }
+  const co = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { animateCounter(e.target); co.unobserve(e.target); } });
+  }, { threshold: 0.5 });
+  document.querySelectorAll('[data-target]').forEach(el => co.observe(el));
+
+  /* ── 3D Tilt on service cards ── */
+  document.querySelectorAll('.service-card').forEach(card => {
+    card.classList.add('tilt-card');
+    card.addEventListener('mousemove', e => {
+      const r = card.getBoundingClientRect();
+      const x = (e.clientX - r.left) / r.width  - 0.5;
+      const y = (e.clientY - r.top)  / r.height - 0.5;
+      card.style.transform = `perspective(600px) rotateY(${x*10}deg) rotateX(${-y*10}deg) translateY(-6px)`;
+    });
+    card.addEventListener('mouseleave', () => {
+      card.style.transform = '';
+    });
+  });
+
+  /* ── Hero 3D mouse parallax ── */
+  const hero = document.getElementById('hero');
+  if (hero) {
+    hero.addEventListener('mousemove', e => {
+      const cx = window.innerWidth / 2;
+      const cy = window.innerHeight / 2;
+      const dx = (e.clientX - cx) / cx;
+      const dy = (e.clientY - cy) / cy;
+      document.querySelectorAll('.blob').forEach((b, i) => {
+        const depth = (i + 1) * 8;
+        b.style.transform = `translate(${dx * depth}px, ${dy * depth}px)`;
+      });
+    });
+  }
+
+  /* ── Scroll parallax ── */
+  let lastScrollY = 0;
+  window.addEventListener('scroll', () => {
+    const sy = window.scrollY;
+    document.querySelectorAll('.blob').forEach((b, i) => {
+      const speed = (i % 3 + 1) * 0.08;
+      b.style.transform = `translateY(${sy * speed}px)`;
+    });
+    lastScrollY = sy;
+  }, { passive: true });
+
+  /* ── Contact Form (Formspree) ── */
+  document.getElementById('contact-form').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    const btn = document.getElementById('submit-btn');
+    const txt = document.getElementById('submit-text');
+    const icon = document.getElementById('submit-icon');
+    const errBox = document.getElementById('form-error');
+    const errMsg = document.getElementById('form-error-msg');
+    const successBox = document.getElementById('form-success');
+    const name = this.name.value.trim();
+    const email = this.email.value.trim();
+    const message = this.message.value.trim();
+    if (!name || !email || !message) {
+      errMsg.textContent = 'Please fill in all required fields.';
+      errBox.classList.remove('hidden'); return;
+    }
+    btn.disabled = true; txt.textContent = 'Sending…';
+    icon.innerHTML = '<circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" fill="none" stroke-dasharray="31.4" stroke-dashoffset="10" style="animation:spin 1s linear infinite" />';
+    errBox.classList.add('hidden'); successBox.classList.add('hidden');
+    try {
+      const res = await fetch(FORMSPREE_ENDPOINT, {
+        method: 'POST',
+        headers: { 'Accept': 'application/json', 'Content-Type': 'application/json' },
+        body: JSON.stringify({ name, email, company: this.company.value, service: this.service.value, message }),
+      });
+      if (res.ok) {
+        successBox.classList.remove('hidden'); this.reset();
+      } else {
+        const data = await res.json().catch(() => ({}));
+        errMsg.textContent = data.error || 'Submission failed. Please email us at hello@up2cloud.io';
+        errBox.classList.remove('hidden');
+      }
+    } catch {
+      errMsg.textContent = 'Network error. Please email hello@up2cloud.io directly.';
+      errBox.classList.remove('hidden');
+    } finally {
+      btn.disabled = false; txt.textContent = 'Send Message';
+      icon.innerHTML = '<path d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>';
+    }
+  });
+
+  /* ── Chatbot FAQ ── */
+  const chatBtn   = document.getElementById('chatbot-btn');
+  const chatPanel = document.getElementById('chatbot-panel');
+  const openIcon  = document.getElementById('chat-open-icon');
+  const closeIcon = document.getElementById('chat-close-icon');
+  const msgs      = document.getElementById('chat-messages');
+
+  chatBtn.addEventListener('click', () => {
+    const isOpen = chatPanel.classList.toggle('open');
+    openIcon.style.display  = isOpen ? 'none'  : '';
+    closeIcon.style.display = isOpen ? ''      : 'none';
+    chatBtn.setAttribute('aria-expanded', String(isOpen));
+    if (isOpen) document.getElementById('chat-input').focus();
+  });
+
+  const FAQ = {
+    'what services do you offer':    '🚀 We offer: Cloud Migration, FinOps & Cost Optimisation, DevOps & DevSecOps, Cybersecurity, Digital Transformation, OpenClaw AI Installation, and IT Strategy & Advisory.',
+    'what is openclaw':              '🤖 OpenClaw is an AI-powered personal assistant platform that automates workflows, connects to your tools (Slack, Teams, WhatsApp), and resolves IT issues in real time. We handle the full installation and setup for your team.',
+    'how much does it cost':         '💰 Pricing depends on scope. We offer project-based and retainer models. Book a free 45-min audit and we\'ll give you a transparent estimate — no hidden fees.',
+    'do you work remotely':          '🌍 Absolutely! We\'re based in Lisbon, Portugal but work with clients worldwide. Remote-first by design.',
+    'what is finops':                '📊 FinOps is a practice for cloud financial management. We help you get visibility into your cloud spend, reduce waste, allocate costs properly, and continuously optimise — typically saving 30–50% on cloud bills.',
+    'what is devsecops':             '🔐 DevSecOps embeds security into every stage of the development pipeline — from code to deployment. Think: SAST/DAST scanning, policy-as-code, container security, and zero-trust — all automated in your CI/CD.',
+    'how fast can you start':        '⚡ Fast! For most engagements we can kick off within 1 week. First measurable outcomes typically within 30 days.',
+    'cloud certifications':          '🏆 Cesar holds: GCP Professional Cloud Architect (×2), GCP Associate Cloud Engineer, AWS Cloud Practitioner, and Azure AZ-900. We\'re also an OpenClaw partner.',
+  };
+
+  function matchFaq(q) {
+    const lower = q.toLowerCase().replace(/[?!.]/g, '');
+    for (const [key, ans] of Object.entries(FAQ)) {
+      if (lower.includes(key) || key.split(' ').filter(w => w.length > 3).every(w => lower.includes(w))) return ans;
+    }
+    return null;
+  }
+
+  function appendMsg(text, type) {
+    const div = document.createElement('div');
+    div.className = `chat-msg ${type}`;
+    div.textContent = text;
+    msgs.appendChild(div);
+    msgs.scrollTop = msgs.scrollHeight;
+  }
+
+  function askFaq(btn) {
+    const q = btn.textContent;
+    appendMsg(q, 'user');
+    setTimeout(() => {
+      const ans = matchFaq(q) || '🤔 Great question! For detailed info please email hello@up2cloud.io or book a free audit above.';
+      appendMsg(ans, 'bot');
+    }, 300);
+  }
+
+  function sendChat() {
+    const input = document.getElementById('chat-input');
+    const q = input.value.trim();
+    if (!q) return;
+    appendMsg(q, 'user');
+    input.value = '';
+    setTimeout(() => {
+      const ans = matchFaq(q) || '🤔 I\'m not sure about that one! Drop us a line at hello@up2cloud.io and Cesar will reply within 24 hours.';
+      appendMsg(ans, 'bot');
+    }, 350);
+  }
+
+  document.getElementById('chat-input').addEventListener('keydown', e => {
+    if (e.key === 'Enter') sendChat();
+  });
+</script>
+</body>
+</html>
