@@ -1,0 +1,157 @@
+{
+  "name": "UP2CLOUD Lead Funnel - Scoring and Follow-up",
+  "nodes": [
+    {
+      "parameters": {
+        "path": "up2cloud-lead",
+        "httpMethod": "POST",
+        "responseMode": "responseNode",
+        "options": {}
+      },
+      "id": "webhook-up2cloud-lead",
+      "name": "Website Lead Webhook",
+      "type": "n8n-nodes-base.webhook",
+      "typeVersion": 2,
+      "position": [0, 0],
+      "webhookId": "up2cloud-lead"
+    },
+    {
+      "parameters": {
+        "jsCode": "const body = $json.body || $json;\nconst email = String(body.email || '').toLowerCase();\nconst message = String(body.message || '');\nconst service = String(body.service || '');\nconst budget = String(body.project_budget || '');\nconst spend = String(body.monthly_spend || '');\nconst timeline = String(body.timeline || '');\nlet score = 0;\nif (email && !/(gmail|hotmail|outlook|yahoo|icloud)\\./.test(email)) score += 25;\nif (body.company) score += 15;\nif (message.length >= 80) score += 15;\nif (['finops','cloud','devops','openclaw','audit'].includes(service)) score += 20;\nif (['10k-plus'].includes(budget)) score += 35;\nif (['5k-10k'].includes(budget)) score += 20;\nif (['10k-50k','50k-plus'].includes(spend)) score += 30;\nif (['5k-10k'].includes(spend)) score += 15;\nif (['immediately','30-days'].includes(timeline)) score += 25;\nconst status = score >= 70 ? 'HOT' : score >= 40 ? 'WARM' : 'COLD';\nreturn [{\n  json: {\n    timestamp: new Date().toISOString(),\n    name: body.name || '',\n    email,\n    company: body.company || '',\n    cloud_provider: body.cloud_provider || '',\n    monthly_spend: spend,\n    project_budget: budget,\n    timeline,\n    service,\n    message,\n    lead_source: body.lead_source || 'up2cloud.io',\n    offer: body.offer || 'Free Cloud Cost and AI Efficiency Audit',\n    score,\n    status\n  }\n}];"
+      },
+      "id": "score-lead",
+      "name": "Score Lead",
+      "type": "n8n-nodes-base.code",
+      "typeVersion": 2,
+      "position": [260, 0]
+    },
+    {
+      "parameters": {
+        "conditions": {
+          "string": [
+            {
+              "value1": "={{$json.status}}",
+              "operation": "equals",
+              "value2": "HOT"
+            }
+          ]
+        }
+      },
+      "id": "if-hot-lead",
+      "name": "Is HOT Lead?",
+      "type": "n8n-nodes-base.if",
+      "typeVersion": 1,
+      "position": [520, 0]
+    },
+    {
+      "parameters": {
+        "sendTo": "cesarnogueira1210@gmail.com",
+        "subject": "🔥 HOT LEAD - UP2CLOUD: {{$json.company || $json.name}}",
+        "message": "New HOT lead received.\n\nName: {{$json.name}}\nEmail: {{$json.email}}\nCompany: {{$json.company}}\nCloud: {{$json.cloud_provider}}\nMonthly spend: {{$json.monthly_spend}}\nBudget: {{$json.project_budget}}\nTimeline: {{$json.timeline}}\nService: {{$json.service}}\nScore: {{$json.score}}\n\nMessage:\n{{$json.message}}",
+        "options": {}
+      },
+      "id": "notify-hot-lead",
+      "name": "Notify Cesar - HOT Lead",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [780, -120]
+    },
+    {
+      "parameters": {
+        "sendTo": "={{$json.email}}",
+        "subject": "Your UP2CLOUD audit request was received",
+        "message": "Hi {{$json.name}},\n\nThanks for requesting a Cloud Cost & AI Efficiency Audit.\n\nWe will review your cloud context, budget, timeline and automation goals. If there is strong fit, you will receive next steps shortly.\n\nFor faster scheduling, reply with 2 time windows that work for you.\n\nBest,\nCesar\nUP2CLOUD",
+        "options": {}
+      },
+      "id": "auto-reply-lead",
+      "name": "Auto Reply to Lead",
+      "type": "n8n-nodes-base.gmail",
+      "typeVersion": 2.1,
+      "position": [780, 120]
+    },
+    {
+      "parameters": {
+        "respondWith": "json",
+        "responseBody": "={{ { success: true, status: $json.status, score: $json.score, message: 'Audit request received.' } }}",
+        "options": {}
+      },
+      "id": "respond-success",
+      "name": "Respond Success",
+      "type": "n8n-nodes-base.respondToWebhook",
+      "typeVersion": 1.1,
+      "position": [1040, 0]
+    }
+  ],
+  "connections": {
+    "Website Lead Webhook": {
+      "main": [
+        [
+          {
+            "node": "Score Lead",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Score Lead": {
+      "main": [
+        [
+          {
+            "node": "Is HOT Lead?",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Is HOT Lead?": {
+      "main": [
+        [
+          {
+            "node": "Notify Cesar - HOT Lead",
+            "type": "main",
+            "index": 0
+          },
+          {
+            "node": "Auto Reply to Lead",
+            "type": "main",
+            "index": 0
+          }
+        ],
+        [
+          {
+            "node": "Auto Reply to Lead",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Notify Cesar - HOT Lead": {
+      "main": [
+        [
+          {
+            "node": "Respond Success",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    },
+    "Auto Reply to Lead": {
+      "main": [
+        [
+          {
+            "node": "Respond Success",
+            "type": "main",
+            "index": 0
+          }
+        ]
+      ]
+    }
+  },
+  "settings": {
+    "executionOrder": "v1"
+  }
+}
