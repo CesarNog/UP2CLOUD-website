@@ -1,6 +1,9 @@
-name: Deploy UP2CLOUD Website to GitHub Pages
+name: CI/CD - Test and Deploy UP2CLOUD Website
 
 on:
+  pull_request:
+    branches:
+      - main
   push:
     branches:
       - main
@@ -15,46 +18,119 @@ concurrency:
   group: pages
   cancel-in-progress: false
 
+env:
+  FORM_ENDPOINT: https://formsubmit.co/ajax/cesarnogueira1210@gmail.com
+  CUSTOM_DOMAIN: up2cloud.io
+
 jobs:
-  validate:
-    name: Validate static site
+  test:
+    name: Test static website
     runs-on: ubuntu-latest
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
 
-      - name: Validate required files
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install test dependencies
+        run: npm ci
+
+      - name: Validate required static assets
         run: |
           test -f index.html
+          test -f CNAME
           test -f .nojekyll
-          echo "Static website files validated."
+          grep -q "up2cloud.io" CNAME
+          grep -q "UP2CLOUD" index.html
+          echo "Static asset checks passed."
 
-      - name: Check for broken placeholder form endpoint
-        run: |
-          if grep -q "REPLACE_WITH_YOUR_ID" index.html; then
-            echo "Legacy Formspree placeholder found. Please use the production form endpoint."
-            exit 1
-          fi
+      - name: Run HTML and link-quality tests
+        run: npm test
 
-  deploy:
-    name: Deploy to GitHub Pages
-    needs: validate
+  terraform-validate:
+    name: Terraform validate
     runs-on: ubuntu-latest
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+    defaults:
+      run:
+        working-directory: terraform/github-pages
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+
+      - name: Setup Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          terraform_version: 1.8.5
+
+      - name: Terraform fmt check
+        run: terraform fmt -check -recursive
+
+      - name: Terraform init without backend
+        run: terraform init -backend=false
+
+      - name: Terraform validate
+        run: terraform validate
+
+  build:
+    name: Build deploy artifact
+    needs:
+      - test
+      - terraform-validate
+    runs-on: ubuntu-latest
+    if: github.event_name != 'pull_request'
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Prepare GitHub Pages artifact
+        run: |
+          rm -rf public
+          mkdir -p public
+          cp index.html public/index.html
+          cp CNAME public/CNAME
+          cp .nojekyll public/.nojekyll
+
+          # Runtime production patch: make the static contact form use FormSubmit.
+          sed -i "s#https://formspree.io/f/REPLACE_WITH_YOUR_ID#${FORM_ENDPOINT}#g" public/index.html
+          sed -i "s#const FORMSPREE_ENDPOINT = '${FORM_ENDPOINT}'; // TODO: replace with the production UP2CLOUD Formspree endpoint before launch.#const FORMSPREE_ENDPOINT = '${FORM_ENDPOINT}';#g" public/index.html
+
+          # Add FormSubmit hidden fields into the deployed artifact if not already present.
+          if ! grep -q 'name="_subject" value="New UP2CLOUD Lead"' public/index.html; then
+            python3 - <<'PY'
+          from pathlib import Path
+          path = Path('public/index.html')
+          html = path.read_text()
+          marker = '<form id="contact-form" class="bg-white rounded-2xl p-8 shadow-sm border border-slate-100" novalidate aria-label="Contact form">'
+          replacement = marker + '\n        <input type="hidden" name="_captcha" value="false">\n        <input type="hidden" name="_subject" value="New UP2CLOUD Lead">\n        <input type="hidden" name="_template" value="table">'
+          html = html.replace(marker, replacement)
+          path.write_text(html)
+          PY
+          fi
+
+          grep -q "${FORM_ENDPOINT}" public/index.html
+          grep -q "up2cloud.io" public/CNAME
 
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v5
 
-      - name: Upload static site artifact
+      - name: Upload GitHub Pages artifact
         uses: actions/upload-pages-artifact@v3
         with:
-          path: .
+          path: public
 
+  deploy:
+    name: Deploy to GitHub Pages
+    needs: build
+    runs-on: ubuntu-latest
+    if: github.event_name != 'pull_request'
+    environment:
+      name: github-pages
+      url: https://up2cloud.io
+    steps:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
