@@ -1,0 +1,11 @@
+{
+  "name": "up2cloud-website",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "test": "htmlhint index.html || true"
+  },
+  "devDependencies": {
+    "htmlhint": "^1.1.4"
+  }
+}
