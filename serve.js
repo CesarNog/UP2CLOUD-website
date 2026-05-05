@@ -67,7 +67,15 @@ http.createServer((req, res) => {
 
   fs.readFile(filePath, (err, raw) => {
     if (err) {
-      if (err.code === 'ENOENT') { res.writeHead(404); return res.end('Not found'); }
+      if (err.code === 'ENOENT') {
+        // Return a transparent 1×1 PNG for missing images instead of a noisy 404
+        if (['.jpg','.jpeg','.png','.webp','.gif'].includes(path.extname(filePath).toLowerCase())) {
+          const px = Buffer.from('iVBORw0KGgoAAAANSUhEUgAAAAEAAAABCAYAAAAfFcSJAAAADUlEQVR42mNk+M9QDwADhgGAWjR9awAAAABJRU5ErkJggg==','base64');
+          res.writeHead(200, {'Content-Type':'image/png','Content-Length':px.length,'Cache-Control':'no-store'});
+          return res.end(px);
+        }
+        res.writeHead(404); return res.end('Not found');
+      }
       res.writeHead(500); return res.end('Server error');
     }
 
