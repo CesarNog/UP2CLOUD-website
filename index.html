@@ -47,7 +47,11 @@
 
     // ── Groq AI Chatbot ──────────────────────────────────────────────────────
     // Free tier: 14,400 req/day · Get your key at https://console.groq.com
-    const GROQ_API_KEY = 'REPLACE_WITH_GROQ_KEY';
+    // Key priority: 1) injected by CI/CD  2) saved in localStorage  3) empty
+    const _CI_KEY = 'REPLACE_WITH_GROQ_KEY';
+    const GROQ_API_KEY = (_CI_KEY && _CI_KEY !== 'REPLACE_WITH_GROQ_KEY')
+      ? _CI_KEY
+      : (localStorage.getItem('up2cloud-groq-key') || '');
     // ────────────────────────────────────────────────────────────────────────
   </script>
   <style>
@@ -1817,7 +1821,17 @@ TONE: Be helpful, concise, and professional. Keep answers to 2-4 sentences unles
     if (!GROQ_API_KEY || GROQ_API_KEY === 'REPLACE_WITH_GROQ_KEY' || GROQ_API_KEY === 'REPLACE_WITH_YOUR_GROQ_KEY') {
       hideTyping();
       setInputState(false);
-      appendMsg('⚙️ AI mode not configured yet. Drop us a line at <a href="mailto:hello@up2cloud.io">hello@up2cloud.io</a> and Cesar will reply within 24 hours!', 'bot');
+      // Show inline key-config prompt
+      const cfg = document.createElement('div');
+      cfg.style.cssText = 'background:#F0F9FF;border:1px solid #BAE6FD;border-radius:12px;padding:12px;margin-top:4px;font-size:.8rem';
+      cfg.innerHTML = `<p style="color:#0369A1;font-weight:600;margin:0 0 8px">🔑 Enter your Groq API key to activate AI</p>
+        <p style="color:#64748B;margin:0 0 8px;font-size:.75rem">Free at <a href="https://console.groq.com" target="_blank" style="color:#0369A1">console.groq.com</a> — saved in your browser only, never sent anywhere else.</p>
+        <div style="display:flex;gap:6px">
+          <input id="groq-key-input" type="password" placeholder="gsk_..." style="flex:1;border:1px solid #BAE6FD;border-radius:6px;padding:5px 8px;font-size:.78rem;font-family:monospace" />
+          <button onclick="saveGroqKey()" style="background:#0369A1;color:#fff;border:none;border-radius:6px;padding:5px 10px;font-size:.78rem;font-weight:600;cursor:pointer">Save</button>
+        </div>`;
+      msgs.appendChild(cfg);
+      msgs.scrollTop = msgs.scrollHeight;
       return;
     }
 
@@ -1840,6 +1854,11 @@ TONE: Be helpful, concise, and professional. Keep answers to 2-4 sentences unles
         })
       });
 
+      if (res.status === 401) {
+        // Key revoked or invalid — clear it so user is prompted again
+        localStorage.removeItem('up2cloud-groq-key');
+        throw new Error('INVALID_KEY');
+      }
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
       const data = await res.json();
       const reply = data.choices?.[0]?.message?.content?.trim() || 'Sorry, I couldn\'t get a response. Please try again.';
@@ -1850,7 +1869,10 @@ TONE: Be helpful, concise, and professional. Keep answers to 2-4 sentences unles
       appendMsg(reply.replace(/\n/g, '<br>').replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>'), 'bot');
     } catch (err) {
       hideTyping();
-      appendMsg('⚠️ Couldn\'t reach the AI right now. Email us at <a href="mailto:hello@up2cloud.io">hello@up2cloud.io</a> — we reply within 24h!', 'bot');
+      const msg = err.message === 'INVALID_KEY'
+        ? '🔑 API key was invalid or expired — it has been cleared. Click a question below to set a new key.'
+        : '⚠️ Couldn\'t reach the AI right now. Email us at <a href="mailto:hello@up2cloud.io">hello@up2cloud.io</a> — we reply within 24h!';
+      appendMsg(msg, 'bot');
     } finally {
       setInputState(false);
       document.getElementById('chat-input').focus();
@@ -1875,6 +1897,18 @@ TONE: Be helpful, concise, and professional. Keep answers to 2-4 sentences unles
   document.getElementById('chat-input').addEventListener('keydown', e => {
     if (e.key === 'Enter') sendChat();
   });
+
+  function saveGroqKey() {
+    const input = document.getElementById('groq-key-input');
+    const key = input ? input.value.trim() : '';
+    if (!key || !key.startsWith('gsk_')) {
+      input.style.border = '1px solid #EF4444';
+      return;
+    }
+    localStorage.setItem('up2cloud-groq-key', key);
+    // Reload page so the key is picked up by the top-level const
+    location.reload();
+  }
 
   /* ══════════════════════════════════════════════
      SCROLL PROGRESS BAR
