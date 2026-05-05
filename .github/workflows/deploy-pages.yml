@@ -88,7 +88,8 @@ jobs:
           rm -rf public
           mkdir -p public
           cp index.html public/index.html
-          cp .nojekyll public/.nojekyll
+          cp 404.html   public/404.html
+          cp .nojekyll  public/.nojekyll
           # Copy subpages and assets
           cp -r about   public/about   2>/dev/null || true
           cp -r privacy public/privacy 2>/dev/null || true
