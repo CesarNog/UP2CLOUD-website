@@ -229,6 +229,9 @@
           <button onclick="setLang('es')" data-lang="es" class="lang-opt w-full flex items-center gap-3 px-4 py-2.5 text-white/80 hover:text-white hover:bg-white/10 transition-colors text-sm text-left">
             <span class="text-lg">🇪🇸</span><span>Español</span>
           </button>
+          <button onclick="setLang('fr')" data-lang="fr" class="lang-opt w-full flex items-center gap-3 px-4 py-2.5 text-white/80 hover:text-white hover:bg-white/10 transition-colors text-sm text-left">
+            <span class="text-lg">🇫🇷</span><span>Français</span>
+          </button>
         </div>
       </div>
       <a href="#contact" class="btn-primary hidden sm:inline-flex text-sm" data-i18n="nav_cta">Get a Free Audit</a>
@@ -1830,7 +1833,7 @@ TONE: Be helpful, concise, and professional. Keep answers to 2-4 sentences unles
     showTyping();
 
     // Check if key is configured
-    if (!GROQ_API_KEY || GROQ_API_KEY === 'REPLACE_WITH_GROQ_KEY') {
+    if (!GROQ_API_KEY || GROQ_API_KEY.startsWith('REPLACE_WITH')) {
       hideTyping();
       setInputState(false);
       appendMsg('Hi! Ask me anything about UP2CLOUD services, cloud costs, AI automation, or offshore teams. I\'ll connect you with Cesar if needed — <a href="mailto:hello@up2cloud.io" style="color:#0369A1">hello@up2cloud.io</a>', 'bot');
@@ -2150,7 +2153,8 @@ TONE: Be helpful, concise, and professional. Keep answers to 2-4 sentences unles
   const LANG_META = {
     en: { flag: '🇺🇸', label: 'English',    code: 'EN' },
     pt: { flag: '🇧🇷', label: 'Português',  code: 'PT' },
-    es: { flag: '🇪🇸', label: 'Español',    code: 'ES' }
+    es: { flag: '🇪🇸', label: 'Español',    code: 'ES' },
+    fr: { flag: '🇫🇷', label: 'Français',   code: 'FR' }
   };
 
   // Embedded fallback translations (used on file:// or if fetch fails)
@@ -2223,7 +2227,7 @@ TONE: Be helpful, concise, and professional. Keep answers to 2-4 sentences unles
 
       const translations = await this.load(lang);
       this.apply(translations);
-      document.documentElement.lang = lang === 'pt' ? 'pt-BR' : lang === 'es' ? 'es' : 'en';
+      document.documentElement.lang = lang === 'pt' ? 'pt-BR' : lang === 'es' ? 'es' : lang === 'fr' ? 'fr' : 'en';
     },
 
     async init() {
