@@ -21,6 +21,7 @@ concurrency:
 env:
   FORM_ENDPOINT: https://formsubmit.co/ajax/cesarnogueira1210@gmail.com
   CUSTOM_DOMAIN: up2cloud.io
+  GROQ_API_KEY: ${{ secrets.GROQ_API_KEY }}
 
 jobs:
   test:
@@ -95,6 +96,9 @@ jobs:
 
           # Runtime production patch: make the static contact form use FormSubmit.
           sed -i "s#https://formspree.io/f/REPLACE_WITH_YOUR_ID#${FORM_ENDPOINT}#g" public/index.html
+
+          # Inject Groq API key from GitHub secret
+          sed -i "s#REPLACE_WITH_GROQ_KEY#${GROQ_API_KEY}#g" public/index.html
           sed -i "s#const FORMSPREE_ENDPOINT = '${FORM_ENDPOINT}'; // TODO: replace with the production UP2CLOUD Formspree endpoint before launch.#const FORMSPREE_ENDPOINT = '${FORM_ENDPOINT}';#g" public/index.html
 
           # Add FormSubmit hidden fields into the deployed artifact if not already present.
