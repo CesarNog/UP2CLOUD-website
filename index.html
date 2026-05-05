@@ -142,10 +142,6 @@
     .ticker-track{ display:flex; width:max-content; animation:tickerScroll 28s linear infinite; }
     .ticker-track:hover{ animation-play-state:paused; }
 
-    /* ── Status bar ── */
-    #status-bar{ background:#020617; border-bottom:1px solid rgba(14,165,233,.18); }
-    .status-dot{ width:6px;height:6px;border-radius:50%;background:#22C55E;
-      box-shadow:0 0 6px #22C55E; animation:pulse 2s ease-in-out infinite; }
 
     /* ── Circuit dot overlay for light sections ── */
     .circuit-bg::after{
@@ -180,23 +176,6 @@
 </head>
 <body>
 
-<!-- ══ System status bar ══ -->
-<div id="status-bar" class="relative z-50 py-1.5 px-4 hidden sm:flex items-center justify-center gap-6 text-xs" style="font-family:'DM Sans',sans-serif">
-  <div class="flex items-center gap-2">
-    <span class="status-dot"></span>
-    <span class="text-green-400 font-medium">All Systems Operational</span>
-  </div>
-  <span class="text-slate-600">·</span>
-  <span class="text-slate-400">Uptime <strong class="text-slate-300">99.98%</strong></span>
-  <span class="text-slate-600">·</span>
-  <span class="text-slate-400">Response <strong class="text-slate-300">&lt;200ms</strong></span>
-  <span class="text-slate-600">·</span>
-  <span class="text-slate-400">GCP · AWS · Azure</span>
-  <button onclick="this.parentElement.remove()" class="absolute right-4 text-slate-600 hover:text-slate-400 transition-colors" aria-label="Dismiss">
-    <svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M6 18L18 6M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
-  </button>
-</div>
-
 <!-- ══ Scroll progress bar ══ -->
 <div id="scroll-progress" style="position:fixed;top:0;left:0;height:3px;width:0%;background:linear-gradient(90deg,#0EA5E9,#7C3AED,#F97316);z-index:9999;transition:width .1s linear;pointer-events:none" aria-hidden="true"></div>
 
@@ -210,19 +189,34 @@
       <span class="font-heading font-700 text-xl text-white tracking-tight">UP2<span class="text-sky-light">CLOUD</span></span>
     </a>
     <ul class="hidden md:flex items-center gap-8" role="list">
-      <li><a href="#services" class="text-sm font-medium text-white/80 hover:text-white transition-colors">Services</a></li>
-      <li><a href="#ai" class="text-sm font-medium text-white/80 hover:text-white transition-colors">AI Solutions</a></li>
-      <li><a href="#portfolio" class="text-sm font-medium text-white/80 hover:text-white transition-colors">Portfolio</a></li>
-      <li><a href="#testimonials" class="text-sm font-medium text-white/80 hover:text-white transition-colors">Clients</a></li>
-      <li><a href="#offshore" class="text-sm font-medium text-white/80 hover:text-white transition-colors">Offshore Teams</a></li>
-      <li><a href="#contact" class="text-sm font-medium text-white/80 hover:text-white transition-colors">Contact</a></li>
+      <li><a href="#services" class="text-sm font-medium text-white/80 hover:text-white transition-colors" data-i18n="nav_services">Services</a></li>
+      <li><a href="#ai" class="text-sm font-medium text-white/80 hover:text-white transition-colors" data-i18n="nav_ai">AI Solutions</a></li>
+      <li><a href="#portfolio" class="text-sm font-medium text-white/80 hover:text-white transition-colors" data-i18n="nav_portfolio">Portfolio</a></li>
+      <li><a href="#testimonials" class="text-sm font-medium text-white/80 hover:text-white transition-colors" data-i18n="nav_clients">Clients</a></li>
+      <li><a href="#offshore" class="text-sm font-medium text-white/80 hover:text-white transition-colors" data-i18n="nav_offshore">Offshore Teams</a></li>
+      <li><a href="#contact" class="text-sm font-medium text-white/80 hover:text-white transition-colors" data-i18n="nav_contact">Contact</a></li>
     </ul>
     <div class="flex items-center gap-3">
-      <button id="lang-btn" onclick="toggleLang()" class="hidden sm:inline-flex items-center gap-1.5 text-white/70 hover:text-white text-xs font-medium border border-white/20 rounded-lg px-3 py-2 transition-colors hover:border-white/40" aria-label="Switch language">
-        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 010 20M12 2a15.3 15.3 0 000 20"/></svg>
-        <span id="lang-label">PT</span>
-      </button>
-      <a href="#contact" class="btn-primary hidden sm:inline-flex text-sm">Get a Free Audit</a>
+      <!-- Language picker -->
+      <div class="relative hidden sm:block" id="lang-picker">
+        <button id="lang-btn" onclick="toggleLangMenu(event)" class="flex items-center gap-2 text-white/70 hover:text-white text-xs font-medium border border-white/20 rounded-lg px-3 py-2 transition-colors hover:border-white/40 cursor-pointer" aria-haspopup="true" aria-expanded="false">
+          <span id="lang-flag" class="text-base leading-none">🇺🇸</span>
+          <span id="lang-code" class="font-semibold tracking-wide">EN</span>
+          <svg width="10" height="10" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M6 9l6 6 6-6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <div id="lang-menu" class="hidden absolute right-0 top-full mt-2 rounded-xl overflow-hidden shadow-2xl border border-white/10 z-50 min-w-[150px]" style="background:rgba(15,23,42,.97);backdrop-filter:blur(16px)">
+          <button onclick="setLang('en')" data-lang="en" class="lang-opt w-full flex items-center gap-3 px-4 py-2.5 text-white/80 hover:text-white hover:bg-white/10 transition-colors text-sm text-left">
+            <span class="text-lg">🇺🇸</span><span>English</span>
+          </button>
+          <button onclick="setLang('pt')" data-lang="pt" class="lang-opt w-full flex items-center gap-3 px-4 py-2.5 text-white/80 hover:text-white hover:bg-white/10 transition-colors text-sm text-left">
+            <span class="text-lg">🇧🇷</span><span>Português</span>
+          </button>
+          <button onclick="setLang('es')" data-lang="es" class="lang-opt w-full flex items-center gap-3 px-4 py-2.5 text-white/80 hover:text-white hover:bg-white/10 transition-colors text-sm text-left">
+            <span class="text-lg">🇪🇸</span><span>Español</span>
+          </button>
+        </div>
+      </div>
+      <a href="#contact" class="btn-primary hidden sm:inline-flex text-sm" data-i18n="nav_cta">Get a Free Audit</a>
       <button id="menu-btn" class="md:hidden text-white p-2 rounded focus-visible:outline-2 focus-visible:outline-white" aria-label="Toggle navigation" aria-expanded="false" aria-controls="mobile-menu">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
       </button>
@@ -268,7 +262,7 @@
   <div class="relative z-10 max-w-7xl mx-auto px-6 py-24 lg:py-32 grid lg:grid-cols-2 gap-16 items-center">
     <div>
       <div class="flex flex-wrap gap-2 mb-6">
-        <span class="badge" style="background:rgba(14,165,233,.2);color:#38BDF8">Cloud & IT Consulting</span>
+        <span class="badge" style="background:rgba(14,165,233,.2);color:#38BDF8" data-i18n="hero_badge_cloud">Cloud & IT Consulting</span>
         <span class="badge badge-ai" style="background:rgba(192,132,252,.2);color:#C084FC">
           <svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor" class="inline mr-1" aria-hidden="true"><path d="M13 10V3L4 14h7v7l9-11h-7z"/></svg>
           AI-Powered
@@ -283,11 +277,11 @@
       <div class="flex flex-wrap gap-4">
         <a href="#contact" class="btn-primary text-base shine glow-pulse">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M13 10V3L4 14h7v7l9-11h-7z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
-          Start Your Journey
+          <span data-i18n="hero_cta_primary">Start Your Journey</span>
         </a>
         <a href="#ai" class="btn-outline text-base" style="border-color:rgba(192,132,252,.5);color:#C084FC;">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="2"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
-          See AI Solutions
+          <span data-i18n="hero_cta_secondary">See AI Solutions</span>
         </a>
       </div>
       <div class="flex flex-wrap items-center gap-6 mt-12">
@@ -351,14 +345,58 @@
 <!-- ══════════════════════════ LOGO BAR ══════════════════════════ -->
 <section aria-label="Trusted by" class="bg-white border-y border-slate-100 py-12">
   <div class="max-w-7xl mx-auto px-6">
-    <p class="text-center text-sm font-medium text-slate-400 uppercase tracking-widest mb-8">Trusted by forward-thinking companies</p>
-    <div class="flex flex-wrap justify-center items-center gap-x-14 gap-y-6 grayscale" id="logo-bar">
-      <span class="logo-item font-heading font-700 text-slate-700 text-xl opacity-0" style="transition:opacity .5s ease,transform .5s ease;transform:translateY(12px)">Randstad</span>
-      <span class="logo-item font-heading font-700 text-slate-700 text-xl opacity-0" style="transition:opacity .5s ease,transform .5s ease;transform:translateY(12px);transition-delay:.08s">ZeroLight</span>
-      <span class="logo-item font-heading font-700 text-slate-700 text-xl opacity-0" style="transition:opacity .5s ease,transform .5s ease;transform:translateY(12px);transition-delay:.16s">Accenture</span>
-      <span class="logo-item font-heading font-700 text-slate-700 text-xl opacity-0" style="transition:opacity .5s ease,transform .5s ease;transform:translateY(12px);transition-delay:.24s">everis</span>
-      <span class="logo-item font-heading font-700 text-slate-700 text-xl opacity-0" style="transition:opacity .5s ease,transform .5s ease;transform:translateY(12px);transition-delay:.32s">CI&amp;T</span>
-      <span class="logo-item font-heading font-700 text-slate-700 text-xl opacity-0" style="transition:opacity .5s ease,transform .5s ease;transform:translateY(12px);transition-delay:.40s">Mindera</span>
+    <p class="text-center text-sm font-medium text-slate-400 uppercase tracking-widest mb-10">Trusted by forward-thinking companies</p>
+    <div class="flex flex-wrap justify-center items-center gap-x-12 gap-y-8" id="logo-bar">
+
+      <!-- Randstad -->
+      <div class="logo-item opacity-0" style="transition:opacity .5s ease,transform .5s ease;transform:translateY(12px)">
+        <svg height="32" viewBox="0 0 200 60" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="Randstad" role="img">
+          <circle cx="16" cy="30" r="14" fill="#EF7C00"/>
+          <text x="36" y="40" font-family="'Space Grotesk',sans-serif" font-weight="700" font-size="28" fill="#1a1a1a">randstad</text>
+        </svg>
+      </div>
+
+      <!-- Accenture -->
+      <div class="logo-item opacity-0" style="transition:opacity .5s ease,transform .5s ease;transform:translateY(12px);transition-delay:.07s">
+        <svg height="32" viewBox="0 0 220 60" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="Accenture" role="img">
+          <text x="0" y="42" font-family="'DM Sans',sans-serif" font-weight="300" font-size="30" fill="#1a1a1a" letter-spacing="-0.5">accenture</text>
+          <path d="M196 18 L212 30 L196 42" stroke="#A100FF" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+        </svg>
+      </div>
+
+      <!-- ZeroLight -->
+      <div class="logo-item opacity-0" style="transition:opacity .5s ease,transform .5s ease;transform:translateY(12px);transition-delay:.14s">
+        <svg height="32" viewBox="0 0 200 60" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="ZeroLight" role="img">
+          <rect x="0" y="10" width="6" height="40" fill="#0F172A"/>
+          <text x="14" y="42" font-family="'Space Grotesk',sans-serif" font-weight="600" font-size="26" fill="#0F172A" letter-spacing="-0.5">ZeroLight</text>
+        </svg>
+      </div>
+
+      <!-- everis / NTT Data -->
+      <div class="logo-item opacity-0" style="transition:opacity .5s ease,transform .5s ease;transform:translateY(12px);transition-delay:.21s">
+        <svg height="32" viewBox="0 0 180 60" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="everis NTT Data" role="img">
+          <text x="0" y="40" font-family="'DM Sans',sans-serif" font-weight="700" font-size="28" fill="#004B87">everis</text>
+          <text x="100" y="32" font-family="'DM Sans',sans-serif" font-weight="400" font-size="13" fill="#888">NTT Data</text>
+        </svg>
+      </div>
+
+      <!-- CI&T -->
+      <div class="logo-item opacity-0" style="transition:opacity .5s ease,transform .5s ease;transform:translateY(12px);transition-delay:.28s">
+        <svg height="32" viewBox="0 0 120 60" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="CI&amp;T" role="img">
+          <rect x="0" y="8" width="44" height="44" rx="6" fill="#3DBE29"/>
+          <text x="5" y="41" font-family="'Space Grotesk',sans-serif" font-weight="700" font-size="22" fill="white">CI</text>
+          <text x="52" y="42" font-family="'Space Grotesk',sans-serif" font-weight="700" font-size="26" fill="#1a1a1a">&amp;T</text>
+        </svg>
+      </div>
+
+      <!-- Mindera -->
+      <div class="logo-item opacity-0" style="transition:opacity .5s ease,transform .5s ease;transform:translateY(12px);transition-delay:.35s">
+        <svg height="32" viewBox="0 0 170 60" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="Mindera" role="img">
+          <polygon points="22,8 36,34 8,34" fill="#1DB954"/>
+          <text x="44" y="41" font-family="'Space Grotesk',sans-serif" font-weight="600" font-size="26" fill="#1a1a1a">mindera</text>
+        </svg>
+      </div>
+
     </div>
   </div>
 </section>
@@ -436,9 +474,9 @@
 <section id="services" aria-label="Services" class="py-24 bg-slate-50 circuit-bg">
   <div class="max-w-7xl mx-auto px-6">
     <div class="text-center mb-16 reveal">
-      <span class="badge">What We Do</span>
-      <h2 class="font-heading font-700 text-4xl sm:text-5xl mt-4 mb-5 shimmer-heading">End-to-End IT Solutions</h2>
-      <p class="text-slate-500 text-lg max-w-2xl mx-auto leading-relaxed">From cloud strategy to AI automation — we bring the expertise to modernize your infrastructure and accelerate growth.</p>
+      <span class="badge" data-i18n="services_badge">What We Do</span>
+      <h2 class="font-heading font-700 text-4xl sm:text-5xl mt-4 mb-5 shimmer-heading" data-i18n="services_title">End-to-End IT Solutions</h2>
+      <p class="text-slate-500 text-lg max-w-2xl mx-auto leading-relaxed" data-i18n="services_sub">From cloud strategy to AI automation — we bring the expertise to modernize your infrastructure and accelerate growth.</p>
     </div>
     <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
 
@@ -533,11 +571,11 @@
 
   <div class="relative z-10 max-w-7xl mx-auto px-6">
     <div class="text-center mb-16 reveal">
-      <span class="badge badge-ai inline-block" style="background:rgba(192,132,252,.2);color:#C084FC">AI-First Approach</span>
+      <span class="badge badge-ai inline-block" style="background:rgba(192,132,252,.2);color:#C084FC" data-i18n="ai_badge">AI-First Approach</span>
       <h2 class="font-heading font-700 text-4xl sm:text-5xl text-white mt-4 mb-5">
-        We Solve Problems Fast<br/><span class="gradient-text-ai">With AI</span>
+        <span data-i18n="ai_title">We Solve Problems Fast</span><br/><span class="gradient-text-ai" data-i18n="ai_title_accent">With AI</span>
       </h2>
-      <p class="text-white/60 text-lg max-w-2xl mx-auto">From OpenClaw deployment to AI workflow automation — we cut resolution time from days to minutes.</p>
+      <p class="text-white/60 text-lg max-w-2xl mx-auto" data-i18n="ai_sub">From OpenClaw deployment to AI workflow automation — we cut resolution time from days to minutes.</p>
     </div>
 
     <!-- Live Terminal decorative block -->
@@ -764,25 +802,25 @@
   <div class="blob w-96 h-96 bg-sky-light top-0 right-0 opacity-15"></div>
   <div class="relative z-10 max-w-7xl mx-auto px-6">
     <div class="text-center mb-16 reveal">
-      <span class="badge" style="background:rgba(14,165,233,.2);color:#38BDF8">Proven Track Record</span>
-      <h2 class="font-heading font-700 text-4xl sm:text-5xl text-white mt-4 mb-5">Results That Speak</h2>
+      <span class="badge" style="background:rgba(14,165,233,.2);color:#38BDF8" data-i18n="stats_badge">Proven Track Record</span>
+      <h2 class="font-heading font-700 text-4xl sm:text-5xl text-white mt-4 mb-5" data-i18n="stats_title">Results That Speak</h2>
     </div>
     <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
       <div class="glass rounded-2xl p-8 text-center reveal stat-card" style="transition-delay:.05s">
         <p class="font-heading font-700 text-5xl text-sky-light mb-2" data-target="15" data-suffix="+">0</p>
-        <p class="text-white/50 text-sm mt-1">Successful Projects</p>
+        <p class="text-white/50 text-sm mt-1" data-i18n="stats_projects">Successful Projects</p>
       </div>
       <div class="glass rounded-2xl p-8 text-center reveal stat-card" style="transition-delay:.1s">
         <p class="font-heading font-700 text-5xl text-orange-400 mb-2" data-target="42" data-suffix="%">0</p>
-        <p class="text-white/50 text-sm mt-1">Avg. Infrastructure Cost Reduction</p>
+        <p class="text-white/50 text-sm mt-1" data-i18n="stats_savings">Avg. Infrastructure Cost Reduction</p>
       </div>
       <div class="glass rounded-2xl p-8 text-center reveal stat-card" style="transition-delay:.15s">
         <p class="font-heading font-700 text-5xl text-purple-300 mb-2" data-target="10" data-suffix="×">0</p>
-        <p class="text-white/50 text-sm mt-1">Faster Problem Resolution with AI</p>
+        <p class="text-white/50 text-sm mt-1" data-i18n="stats_ai">Faster Problem Resolution with AI</p>
       </div>
       <div class="glass rounded-2xl p-8 text-center reveal stat-card" style="transition-delay:.2s">
         <p class="font-heading font-700 text-5xl text-sky-light mb-2" data-target="10" data-suffix="+ yr">0</p>
-        <p class="text-white/50 text-sm mt-1">Industry Experience</p>
+        <p class="text-white/50 text-sm mt-1" data-i18n="stats_exp">Industry Experience</p>
       </div>
     </div>
   </div>
@@ -942,7 +980,7 @@
           <div class="flex items-center gap-4 mb-5">
             <div class="relative profile-photo-wrap">
               <div class="w-20 h-20 rounded-2xl overflow-hidden profile-avatar-ring" style="box-shadow:0 0 0 3px #0EA5E9,0 0 0 6px rgba(14,165,233,.18),0 8px 24px rgba(3,105,161,.3)">
-                <img id="profile-photo" src="assets/img/cesar.jpg" alt="Cesar A. Nogueira" class="w-full h-full object-cover object-top" onerror="this.style.display='none';document.getElementById('profile-initials').style.display='flex';" />
+                <img id="profile-photo" src="assets/img/cesar.jpg" alt="Cesar A. Nogueira" class="w-full h-full object-cover object-top" loading="lazy" onerror="this.remove();document.getElementById('profile-initials').style.display='flex';" />
                 <div id="profile-initials" class="w-full h-full items-center justify-content-center text-white font-heading font-700 text-2xl" style="display:none;background:linear-gradient(135deg,#0369A1,#0EA5E9);align-items:center;justify-content:center">CN</div>
               </div>
               <span class="absolute -bottom-1 -right-1 w-5 h-5 bg-green-400 rounded-full border-2 border-white" title="Available for projects" style="animation:pulse 2s ease-in-out infinite"></span>
@@ -1119,9 +1157,9 @@
 <section id="testimonials" aria-label="Client testimonials" class="py-24 bg-slate-50 circuit-bg">
   <div class="max-w-7xl mx-auto px-6">
     <div class="text-center mb-16 reveal">
-      <span class="badge">Verified on LinkedIn</span>
-      <h2 class="font-heading font-700 text-4xl sm:text-5xl text-navy mt-4 mb-5">What Colleagues &amp; Clients Say</h2>
-      <p class="text-slate-500 text-base max-w-xl mx-auto">Real recommendations from LinkedIn — colleagues at H&amp;M, ZeroLight, Accenture, CI&amp;T and more.</p>
+      <span class="badge" data-i18n="testimonials_badge">Verified on LinkedIn</span>
+      <h2 class="font-heading font-700 text-4xl sm:text-5xl text-navy mt-4 mb-5" data-i18n="testimonials_title">What Colleagues &amp; Clients Say</h2>
+      <p class="text-slate-500 text-base max-w-xl mx-auto" data-i18n="testimonials_sub">Real recommendations from LinkedIn — colleagues at H&amp;M, ZeroLight, Accenture, CI&amp;T and more.</p>
     </div>
 
     <!-- Row 1: 3 cards -->
@@ -1228,11 +1266,11 @@
     <div class="rounded-2xl p-12 relative overflow-hidden premium-glow shine" style="background:radial-gradient(circle at 25% 20%,rgba(14,165,233,.22),transparent 28%),radial-gradient(circle at 78% 28%,rgba(124,58,237,.26),transparent 30%),linear-gradient(135deg,#0F172A,#1e0533,#0C4A6E)">
       <div class="blob w-72 h-72 bg-purple-500 -top-10 right-0 opacity-25"></div>
       <div class="relative z-10">
-        <h2 class="font-heading font-700 text-4xl text-white mb-4">Ready to scale smarter?</h2>
-        <p class="text-white/70 text-lg mb-8 max-w-xl mx-auto">Book a free 45-minute infrastructure audit and walk away with a prioritised action plan — no strings attached.</p>
+        <h2 class="font-heading font-700 text-4xl text-white mb-4" data-i18n="cta_title">Ready to scale smarter?</h2>
+        <p class="text-white/70 text-lg mb-8 max-w-xl mx-auto" data-i18n="cta_sub">Book a free 45-minute infrastructure audit and walk away with a prioritised action plan — no strings attached.</p>
         <a href="#contact" class="btn-primary text-base inline-flex">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          Book Free Audit
+          <span data-i18n="cta_btn">Book Free Audit</span>
         </a>
       </div>
     </div>
@@ -1244,9 +1282,9 @@
 <section id="contact" aria-label="Contact" class="py-24 bg-slate-50">
   <div class="max-w-7xl mx-auto px-6 grid lg:grid-cols-2 gap-16 items-start">
     <div class="reveal">
-      <span class="badge">Get In Touch</span>
-      <h2 class="font-heading font-700 text-4xl sm:text-5xl text-navy mt-4 mb-5">Let's Talk About Your IT Goals</h2>
-      <p class="text-slate-500 text-lg leading-relaxed mb-10">Cloud migration, AI automation, OpenClaw setup, or just a quick question — we reply within 1 business day.</p>
+      <span class="badge" data-i18n="contact_badge">Get In Touch</span>
+      <h2 class="font-heading font-700 text-4xl sm:text-5xl text-navy mt-4 mb-5" data-i18n="contact_title">Let's Talk About Your IT Goals</h2>
+      <p class="text-slate-500 text-lg leading-relaxed mb-10" data-i18n="contact_sub">Cloud migration, AI automation, OpenClaw setup, or just a quick question — we reply within 1 business day.</p>
       <div class="space-y-5">
         <div class="flex items-center gap-4">
           <div class="w-11 h-11 rounded-xl bg-sky-ultra flex items-center justify-center">
@@ -1262,8 +1300,16 @@
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" stroke="#0369A1" stroke-width="2"/></svg>
           </div>
           <div>
-            <p class="text-xs text-slate-400 font-medium uppercase tracking-wider">Phone</p>
-            <a href="tel:+351937471554" class="text-navy font-medium hover:text-sky-brand transition-colors">+351 937 471 554</a>
+            <p class="text-xs text-slate-400 font-medium uppercase tracking-wider" data-i18n="contact_phone_label">Phone</p>
+            <div class="flex items-center gap-3 flex-wrap">
+              <a href="tel:+351937471554" class="text-navy font-medium hover:text-sky-brand transition-colors">+351 937 471 554</a>
+              <a href="https://wa.me/351937471554?text=Hi%20Cesar%2C%20I%20found%20UP2CLOUD%20and%20I%27d%20like%20to%20know%20more%20about%20your%20services." target="_blank" rel="noopener noreferrer"
+                 class="inline-flex items-center gap-1.5 text-xs font-semibold text-white rounded-lg px-3 py-1.5 transition-all hover:opacity-90"
+                 style="background:#25D366" aria-label="Chat on WhatsApp">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="white" aria-hidden="true"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+                WhatsApp
+              </a>
+            </div>
           </div>
         </div>
         <div class="flex items-center gap-4">
@@ -1768,7 +1814,7 @@ TONE: Be helpful, concise, and professional. Keep answers to 2-4 sentences unles
     showTyping();
 
     // Check if key is configured
-    if (!GROQ_API_KEY || GROQ_API_KEY === 'REPLACE_WITH_YOUR_GROQ_KEY') {
+    if (!GROQ_API_KEY || GROQ_API_KEY === 'REPLACE_WITH_GROQ_KEY' || GROQ_API_KEY === 'REPLACE_WITH_YOUR_GROQ_KEY') {
       hideTyping();
       setInputState(false);
       appendMsg('⚙️ AI mode not configured yet. Drop us a line at <a href="mailto:hello@up2cloud.io">hello@up2cloud.io</a> and Cesar will reply within 24 hours!', 'bot');
@@ -1962,7 +2008,7 @@ TONE: Be helpful, concise, and professional. Keep answers to 2-4 sentences unles
       entries.forEach(entry => {
         if (entry.isIntersecting) {
           logoBar.querySelectorAll('.logo-item').forEach(item => {
-            item.style.opacity = '.4';
+            item.style.opacity = '1';
             item.style.transform = 'translateY(0)';
           });
           obs.unobserve(logoBar);
@@ -2015,8 +2061,8 @@ TONE: Be helpful, concise, and professional. Keep answers to 2-4 sentences unles
     const mapEl = document.getElementById('contact-map');
     if (!mapEl || typeof L === 'undefined') return;
 
-    // Zoom out to show both Portugal and Brazil
-    const map = L.map('contact-map', { zoomControl: true, scrollWheelZoom: false }).setView([15, -30], 3);
+    // Centre on Vila Real, Portugal — other pins still visible at zoom 5
+    const map = L.map('contact-map', { zoomControl: true, scrollWheelZoom: false }).setView([41.3006, -7.7453], 5);
 
     // Force correct size after possible layout shift
     setTimeout(() => map.invalidateSize(), 200);
@@ -2072,59 +2118,116 @@ TONE: Be helpful, concise, and professional. Keep answers to 2-4 sentences unles
   })();
 
   /* ══════════════════════════════════════════════
-     LANGUAGE TOGGLE — EN / PT
+     i18n ENGINE — JSON-driven, extensible
+     To add a language: create assets/i18n/{code}.json
+     and add an entry to LANG_META below.
   ══════════════════════════════════════════════ */
-  const TRANSLATIONS = {
-    en: {
-      'nav-services':   'Services',
-      'nav-ai':         'AI Solutions',
-      'nav-portfolio':  'Portfolio',
-      'nav-clients':    'Clients',
-      'nav-offshore':   'Offshore Teams',
-      'nav-contact':    'Contact',
-      'nav-cta':        'Get a Free Audit',
-      'hero-badge1':    'Cloud & IT Consulting',
-      'hero-badge2':    'AI-Powered',
-      'hero-sub':       'UP2CLOUD helps companies modernise infrastructure, automate delivery, reduce cloud waste, and ship secure platforms faster — with AI-assisted execution across FinOps, DevSecOps, Kubernetes, and multi-cloud operations.',
-      'hero-cta1':      'Start Your Journey',
-      'hero-cta2':      'See AI Solutions',
-      'contact-heading':'Let\'s Talk About Your IT Goals',
+  const LANG_META = {
+    en: { flag: '🇺🇸', label: 'English',    code: 'EN' },
+    pt: { flag: '🇧🇷', label: 'Português',  code: 'PT' },
+    es: { flag: '🇪🇸', label: 'Español',    code: 'ES' }
+  };
+
+  // Embedded fallback translations (used on file:// or if fetch fails)
+  const EMBEDDED = {
+    en: {"nav_services":"Services","nav_ai":"AI Solutions","nav_portfolio":"Portfolio","nav_clients":"Clients","nav_offshore":"Offshore Teams","nav_contact":"Contact","nav_cta":"Get a Free Audit","hero_badge_cloud":"Cloud & IT Consulting","hero_badge_ai":"AI-Powered","hero_title":"Elite Cloud,","hero_cta_primary":"Start Your Journey","hero_cta_secondary":"See AI Solutions","hero_trust_iso":"ISO 27001 Aligned","hero_trust_cert":"AWS · Azure · GCP Certified","hero_trust_fin":"FinOps · DevSecOps · OpenClaw","trusted_label":"Trusted by forward-thinking companies","services_badge":"What We Do","services_title":"End-to-End IT Solutions","services_sub":"From cloud strategy to AI automation — we bring the expertise to modernize your infrastructure and accelerate growth.","ai_badge":"AI-First Approach","ai_title":"We Solve Problems Fast","ai_title_accent":"With AI","ai_sub":"From OpenClaw deployment to AI workflow automation — we cut resolution time from days to minutes.","stats_badge":"Proven Track Record","stats_title":"Results That Speak","stats_projects":"Successful Projects","stats_savings":"Avg. Infrastructure Cost Reduction","stats_ai":"Faster Problem Resolution with AI","stats_exp":"Industry Experience","offshore_badge":"New Service","offshore_title":"Build Your APAC Offshore Team","testimonials_badge":"Verified on LinkedIn","testimonials_title":"What Colleagues & Clients Say","testimonials_sub":"Real recommendations from LinkedIn — colleagues at H&M, ZeroLight, Accenture, CI&T and more.","testimonials_linkedin":"View all 20+ recommendations on LinkedIn ↗","cta_title":"Ready to scale smarter?","cta_sub":"Book a free 45-minute infrastructure audit and walk away with a prioritised action plan — no strings attached.","cta_btn":"Book Free Audit","contact_badge":"Get In Touch","contact_title":"Let's Talk About Your IT Goals","contact_sub":"Cloud migration, AI automation, OpenClaw setup, or just a quick question — we reply within 1 business day.","contact_email_label":"Email","contact_phone_label":"Phone","contact_site_label":"Personal Site","contact_location_label":"Location","contact_map_heading":"Our Location","contact_map_sub":"🇵🇹 Vila Real, Portugal · 🇧🇷 São Paulo, Brasil · 🇪🇸 Madrid (soon) · Remote Worldwide","form_name_label":"Full Name","form_email_label":"Work Email","form_company_label":"Company","form_service_label":"Service of Interest","form_message_label":"Message","form_name_ph":"Your name","form_email_ph":"you@company.com","form_company_ph":"Your Company Ltd.","form_message_ph":"Tell us about your project or challenge…","form_submit":"Send Message","form_footer":"We reply within 1 business day. No spam, ever.","form_success":"Message sent! We'll be in touch within 24 hours.","footer_tagline":"Elevating businesses through expert cloud, DevOps, FinOps, cybersecurity, and AI consulting since 2016.","footer_copyright":"© 2026 UP2CLOUD · Cesar A. Nogueira. All rights reserved."},
+    pt: {"nav_services":"Serviços","nav_ai":"Soluções IA","nav_portfolio":"Portfólio","nav_clients":"Clientes","nav_offshore":"Equipes Offshore","nav_contact":"Contato","nav_cta":"Auditoria Gratuita","hero_badge_cloud":"Consultoria Cloud & TI","hero_badge_ai":"Movido por IA","hero_title":"Cloud de Elite,","hero_cta_primary":"Começar Agora","hero_cta_secondary":"Ver Soluções IA","hero_trust_iso":"Alinhado ISO 27001","hero_trust_cert":"Certificado AWS · Azure · GCP","hero_trust_fin":"FinOps · DevSecOps · OpenClaw","trusted_label":"Confiado por empresas inovadoras","services_badge":"O Que Fazemos","services_title":"Soluções TI Completas","services_sub":"Da estratégia cloud à automação com IA — trazemos a expertise para modernizar sua infraestrutura e acelerar o crescimento.","ai_badge":"Abordagem IA em Primeiro","ai_title":"Resolvemos Problemas Rápido","ai_title_accent":"Com IA","ai_sub":"Do deploy do OpenClaw à automação de fluxos com IA — reduzimos o tempo de resolução de dias para minutos.","stats_badge":"Histórico Comprovado","stats_title":"Resultados que Falam","stats_projects":"Projetos de Sucesso","stats_savings":"Redução Média de Custos de Infraestrutura","stats_ai":"Resolução Mais Rápida com IA","stats_exp":"Experiência no Setor","offshore_badge":"Novo Serviço","offshore_title":"Monte Sua Equipe Offshore APAC","testimonials_badge":"Verificado no LinkedIn","testimonials_title":"O Que Colegas e Clientes Dizem","testimonials_sub":"Recomendações reais do LinkedIn — colegas da H&M, ZeroLight, Accenture, CI&T e mais.","testimonials_linkedin":"Ver todas as 20+ recomendações no LinkedIn ↗","cta_title":"Pronto para escalar com inteligência?","cta_sub":"Agende uma auditoria gratuita de 45 minutos da infraestrutura e saia com um plano de ação priorizado — sem compromisso.","cta_btn":"Agendar Auditoria","contact_badge":"Entre em Contato","contact_title":"Vamos Falar Sobre Seus Objetivos de TI","contact_sub":"Migração para nuvem, automação com IA, configuração OpenClaw, ou apenas uma dúvida — respondemos em até 1 dia útil.","contact_email_label":"E-mail","contact_phone_label":"Telefone","contact_site_label":"Site Pessoal","contact_location_label":"Localização","contact_map_heading":"Nossa Localização","contact_map_sub":"🇵🇹 Vila Real, Portugal · 🇧🇷 São Paulo, Brasil · 🇪🇸 Madrid (em breve) · Remoto Mundial","form_name_label":"Nome Completo","form_email_label":"E-mail Profissional","form_company_label":"Empresa","form_service_label":"Serviço de Interesse","form_message_label":"Mensagem","form_name_ph":"Seu nome","form_email_ph":"voce@empresa.com","form_company_ph":"Sua Empresa Ltda.","form_message_ph":"Conte-nos sobre seu projeto ou desafio…","form_submit":"Enviar Mensagem","form_footer":"Respondemos em até 1 dia útil. Sem spam.","form_success":"Mensagem enviada! Entraremos em contato em até 24 horas.","footer_tagline":"Elevando negócios através de consultoria especializada em cloud, DevOps, FinOps, cibersegurança e IA desde 2016.","footer_copyright":"© 2026 UP2CLOUD · Cesar A. Nogueira. Todos os direitos reservados."},
+    es: {"nav_services":"Servicios","nav_ai":"Soluciones IA","nav_portfolio":"Portafolio","nav_clients":"Clientes","nav_offshore":"Equipos Offshore","nav_contact":"Contacto","nav_cta":"Auditoría Gratuita","hero_badge_cloud":"Consultoría Cloud & TI","hero_badge_ai":"Impulsado por IA","hero_title":"Cloud de Élite,","hero_cta_primary":"Comenzar Ahora","hero_cta_secondary":"Ver Soluciones IA","hero_trust_iso":"Alineado ISO 27001","hero_trust_cert":"Certificado AWS · Azure · GCP","hero_trust_fin":"FinOps · DevSecOps · OpenClaw","trusted_label":"Con la confianza de empresas innovadoras","services_badge":"Lo Que Hacemos","services_title":"Soluciones TI Integrales","services_sub":"De la estrategia cloud a la automatización con IA — aportamos la experiencia para modernizar su infraestructura y acelerar el crecimiento.","ai_badge":"Enfoque IA Primero","ai_title":"Resolvemos Problemas Rápido","ai_title_accent":"Con IA","ai_sub":"Desde el despliegue de OpenClaw hasta la automatización de flujos con IA — reducimos el tiempo de resolución de días a minutos.","stats_badge":"Historial Comprobado","stats_title":"Resultados que Hablan","stats_projects":"Proyectos Exitosos","stats_savings":"Reducción Media de Costes de Infraestructura","stats_ai":"Resolución Más Rápida con IA","stats_exp":"Experiencia en el Sector","offshore_badge":"Nuevo Servicio","offshore_title":"Construye Tu Equipo Offshore APAC","testimonials_badge":"Verificado en LinkedIn","testimonials_title":"Lo Que Dicen Colegas y Clientes","testimonials_sub":"Recomendaciones reales de LinkedIn — colegas de H&M, ZeroLight, Accenture, CI&T y más.","testimonials_linkedin":"Ver todas las 20+ recomendaciones en LinkedIn ↗","cta_title":"¿Listo para escalar con más inteligencia?","cta_sub":"Reserve una auditoría gratuita de infraestructura de 45 minutos y salga con un plan de acción priorizado — sin compromisos.","cta_btn":"Reservar Auditoría","contact_badge":"Contáctenos","contact_title":"Hablemos de Sus Objetivos TI","contact_sub":"Migración a la nube, automatización con IA, configuración de OpenClaw, o simplemente una pregunta — respondemos en 1 día hábil.","contact_email_label":"Correo","contact_phone_label":"Teléfono","contact_site_label":"Sitio Personal","contact_location_label":"Ubicación","contact_map_heading":"Nuestra Ubicación","contact_map_sub":"🇵🇹 Vila Real, Portugal · 🇧🇷 São Paulo, Brasil · 🇪🇸 Madrid (pronto) · Remoto Mundial","form_name_label":"Nombre Completo","form_email_label":"Correo Profesional","form_company_label":"Empresa","form_service_label":"Servicio de Interés","form_message_label":"Mensaje","form_name_ph":"Su nombre","form_email_ph":"usted@empresa.com","form_company_ph":"Su Empresa S.L.","form_message_ph":"Cuéntenos sobre su proyecto o desafío…","form_submit":"Enviar Mensaje","form_footer":"Respondemos en 1 día hábil. Sin spam.","form_success":"¡Mensaje enviado! Nos pondremos en contacto en 24 horas.","footer_tagline":"Elevando negocios a través de consultoría experta en cloud, DevOps, FinOps, ciberseguridad e IA desde 2016.","footer_copyright":"© 2026 UP2CLOUD · Cesar A. Nogueira. Todos los derechos reservados."}
+  };
+
+  const i18n = {
+    current: localStorage.getItem('up2cloud-lang') || 'en',
+    cache: {},
+
+    async load(lang) {
+      if (this.cache[lang]) return this.cache[lang];
+      // Try fetching external JSON first (works on HTTPS/deployed site)
+      try {
+        const r = await fetch(`assets/i18n/${lang}.json`);
+        if (!r.ok) throw new Error(`HTTP ${r.status}`);
+        this.cache[lang] = await r.json();
+        return this.cache[lang];
+      } catch(e) {
+        // Fallback to embedded translations (file:// / offline)
+        if (EMBEDDED[lang]) {
+          this.cache[lang] = EMBEDDED[lang];
+          return EMBEDDED[lang];
+        }
+        if (lang !== 'en') return this.load('en');
+        return {};
+      }
     },
-    pt: {
-      'nav-services':   'Serviços',
-      'nav-ai':         'Soluções IA',
-      'nav-portfolio':  'Portfólio',
-      'nav-clients':    'Clientes',
-      'nav-offshore':   'Equipas Offshore',
-      'nav-contact':    'Contacto',
-      'nav-cta':        'Auditoria Gratuita',
-      'hero-badge1':    'Consultoria Cloud & TI',
-      'hero-badge2':    'Com IA',
-      'hero-sub':       'A UP2CLOUD ajuda empresas a modernizar infraestruturas, automatizar entregas, reduzir custos cloud e lançar plataformas seguras mais rapidamente — com execução assistida por IA em FinOps, DevSecOps, Kubernetes e operações multi-cloud.',
-      'hero-cta1':      'Iniciar Jornada',
-      'hero-cta2':      'Ver Soluções IA',
-      'contact-heading':'Fale Sobre os Seus Objectivos TI',
+
+    apply(translations) {
+      // textContent elements
+      document.querySelectorAll('[data-i18n]').forEach(el => {
+        const key = el.dataset.i18n;
+        if (translations[key] !== undefined) el.textContent = translations[key];
+      });
+      // innerHTML elements (allow bold/span tags)
+      document.querySelectorAll('[data-i18n-html]').forEach(el => {
+        const key = el.dataset.i18nHtml;
+        if (translations[key] !== undefined) el.innerHTML = translations[key];
+      });
+      // placeholders
+      document.querySelectorAll('[data-i18n-ph]').forEach(el => {
+        const key = el.dataset.i18nPh;
+        if (translations[key] !== undefined) el.placeholder = translations[key];
+      });
+    },
+
+    async set(lang) {
+      if (!LANG_META[lang]) return;
+      this.current = lang;
+      localStorage.setItem('up2cloud-lang', lang);
+
+      const meta = LANG_META[lang];
+      const flagEl = document.getElementById('lang-flag');
+      const codeEl = document.getElementById('lang-code');
+      if (flagEl) flagEl.textContent = meta.flag;
+      if (codeEl) codeEl.textContent = meta.code;
+
+      // Highlight active option
+      document.querySelectorAll('.lang-opt').forEach(b => {
+        b.style.background = b.dataset.lang === lang ? 'rgba(14,165,233,.15)' : '';
+        b.style.color      = b.dataset.lang === lang ? '#fff' : '';
+      });
+
+      const translations = await this.load(lang);
+      this.apply(translations);
+      document.documentElement.lang = lang === 'pt' ? 'pt-BR' : lang === 'es' ? 'es' : 'en';
+    },
+
+    async init() {
+      // Pre-cache EN so it's instant
+      await this.load('en');
+      await this.set(this.current);
     }
   };
 
-  let currentLang = 'en';
-  function toggleLang() {
-    currentLang = currentLang === 'en' ? 'pt' : 'en';
-    document.getElementById('lang-label').textContent = currentLang === 'en' ? 'PT' : 'EN';
-    const t = TRANSLATIONS[currentLang];
-    // Nav links
-    const navLinks = document.querySelectorAll('#navbar a[href]');
-    navLinks.forEach(a => {
-      const href = a.getAttribute('href');
-      if (href === '#services')    a.textContent = t['nav-services'];
-      if (href === '#ai')          a.textContent = t['nav-ai'];
-      if (href === '#portfolio')   a.textContent = t['nav-portfolio'];
-      if (href === '#testimonials') a.textContent = t['nav-clients'];
-      if (href === '#offshore')    a.textContent = t['nav-offshore'];
-      if (href === '#contact' && a.classList.contains('btn-primary')) a.textContent = t['nav-cta'];
-      if (href === '#contact' && !a.classList.contains('btn-primary')) a.textContent = t['nav-contact'];
-    });
+  // Lang menu toggle
+  function toggleLangMenu(e) {
+    e && e.stopPropagation();
+    const menu = document.getElementById('lang-menu');
+    const btn  = document.getElementById('lang-btn');
+    const open = menu.classList.toggle('hidden');
+    btn.setAttribute('aria-expanded', String(!open));
   }
+  function setLang(lang) {
+    i18n.set(lang);
+    document.getElementById('lang-menu').classList.add('hidden');
+    document.getElementById('lang-btn').setAttribute('aria-expanded', 'false');
+  }
+  // Close menu when clicking outside
+  document.addEventListener('click', e => {
+    const picker = document.getElementById('lang-picker');
+    if (picker && !picker.contains(e.target)) {
+      document.getElementById('lang-menu')?.classList.add('hidden');
+    }
+  });
+
+  // Boot i18n
+  i18n.init();
 </script>
 </body>
 </html>
