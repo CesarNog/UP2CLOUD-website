@@ -47,11 +47,8 @@
 
     // ── Groq AI Chatbot ──────────────────────────────────────────────────────
     // Free tier: 14,400 req/day · Get your key at https://console.groq.com
-    // Key priority: 1) injected by CI/CD  2) saved in localStorage  3) empty
-    const _CI_KEY = 'REPLACE_WITH_GROQ_KEY';
-    const GROQ_API_KEY = (_CI_KEY && _CI_KEY !== 'REPLACE_WITH_GROQ_KEY')
-      ? _CI_KEY
-      : (localStorage.getItem('up2cloud-groq-key') || '');
+    // Injected at build time by GitHub Actions from repository secret GROQ_API_KEY
+    const GROQ_API_KEY = 'REPLACE_WITH_GROQ_KEY';
     // ────────────────────────────────────────────────────────────────────────
   </script>
   <style>
@@ -1818,20 +1815,10 @@ TONE: Be helpful, concise, and professional. Keep answers to 2-4 sentences unles
     showTyping();
 
     // Check if key is configured
-    if (!GROQ_API_KEY || GROQ_API_KEY === 'REPLACE_WITH_GROQ_KEY' || GROQ_API_KEY === 'REPLACE_WITH_YOUR_GROQ_KEY') {
+    if (!GROQ_API_KEY || GROQ_API_KEY === 'REPLACE_WITH_GROQ_KEY') {
       hideTyping();
       setInputState(false);
-      // Show inline key-config prompt
-      const cfg = document.createElement('div');
-      cfg.style.cssText = 'background:#F0F9FF;border:1px solid #BAE6FD;border-radius:12px;padding:12px;margin-top:4px;font-size:.8rem';
-      cfg.innerHTML = `<p style="color:#0369A1;font-weight:600;margin:0 0 8px">🔑 Enter your Groq API key to activate AI</p>
-        <p style="color:#64748B;margin:0 0 8px;font-size:.75rem">Free at <a href="https://console.groq.com" target="_blank" style="color:#0369A1">console.groq.com</a> — saved in your browser only, never sent anywhere else.</p>
-        <div style="display:flex;gap:6px">
-          <input id="groq-key-input" type="password" placeholder="gsk_..." style="flex:1;border:1px solid #BAE6FD;border-radius:6px;padding:5px 8px;font-size:.78rem;font-family:monospace" />
-          <button onclick="saveGroqKey()" style="background:#0369A1;color:#fff;border:none;border-radius:6px;padding:5px 10px;font-size:.78rem;font-weight:600;cursor:pointer">Save</button>
-        </div>`;
-      msgs.appendChild(cfg);
-      msgs.scrollTop = msgs.scrollHeight;
+      appendMsg('Hi! Ask me anything about UP2CLOUD services, cloud costs, AI automation, or offshore teams. I\'ll connect you with Cesar if needed — <a href="mailto:hello@up2cloud.io" style="color:#0369A1">hello@up2cloud.io</a>', 'bot');
       return;
     }
 
@@ -1898,17 +1885,6 @@ TONE: Be helpful, concise, and professional. Keep answers to 2-4 sentences unles
     if (e.key === 'Enter') sendChat();
   });
 
-  function saveGroqKey() {
-    const input = document.getElementById('groq-key-input');
-    const key = input ? input.value.trim() : '';
-    if (!key || !key.startsWith('gsk_')) {
-      input.style.border = '1px solid #EF4444';
-      return;
-    }
-    localStorage.setItem('up2cloud-groq-key', key);
-    // Reload page so the key is picked up by the top-level const
-    location.reload();
-  }
 
   /* ══════════════════════════════════════════════
      SCROLL PROGRESS BAR

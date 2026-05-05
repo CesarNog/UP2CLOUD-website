@@ -3,7 +3,9 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "test": "htmlhint index.html || true"
+    "start": "node serve.js",
+    "dev":   "node serve.js",
+    "test":  "htmlhint index.html || true"
   },
   "devDependencies": {
     "htmlhint": "^1.1.4"

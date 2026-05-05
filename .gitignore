@@ -1,2 +1,7 @@
 *.pyc
 .DS_Store
+
+# Local dev secrets — never commit
+.env
+.env.*
+!.env.example
