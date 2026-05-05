@@ -136,16 +136,39 @@
     @keyframes gradShimmer{0%{background-position:0% 50%}100%{background-position:200% 50%}}
     .shimmer-heading{background:linear-gradient(90deg,#0F172A 0%,#0369A1 30%,#0EA5E9 50%,#7C3AED 70%,#0F172A 100%);background-size:200% auto;-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;animation:gradShimmer 5s linear infinite}
 
-    /* ── Hero cloud drift (ambient) ── */
-    @keyframes cloudDrift {
-      0%,100% { transform: translateX(0px)  translateY(0px); }
-      25%      { transform: translateX(18px) translateY(-8px); }
-      50%      { transform: translateX(8px)  translateY(-16px); }
-      75%      { transform: translateX(-12px) translateY(-6px); }
+
+    /* ── Tech ticker ── */
+    @keyframes tickerScroll{ from{transform:translateX(0)} to{transform:translateX(-50%)} }
+    .ticker-track{ display:flex; width:max-content; animation:tickerScroll 28s linear infinite; }
+    .ticker-track:hover{ animation-play-state:paused; }
+
+    /* ── Status bar ── */
+    #status-bar{ background:#020617; border-bottom:1px solid rgba(14,165,233,.18); }
+    .status-dot{ width:6px;height:6px;border-radius:50%;background:#22C55E;
+      box-shadow:0 0 6px #22C55E; animation:pulse 2s ease-in-out infinite; }
+
+    /* ── Circuit dot overlay for light sections ── */
+    .circuit-bg::after{
+      content:''; position:absolute; inset:0; pointer-events:none; z-index:0;
+      background-image:radial-gradient(circle,rgba(3,105,161,.07) 1px,transparent 1px);
+      background-size:28px 28px;
     }
-    @media (prefers-reduced-motion: reduce) {
-      .hero-cloud { animation: none !important; }
+    .circuit-bg{ position:relative; }
+    .circuit-bg > *{ position:relative; z-index:1; }
+
+    /* ── Terminal / code block ── */
+    .term-block{
+      background:#020617; border:1px solid rgba(14,165,233,.2); border-radius:12px;
+      font-family:'Courier New',monospace; font-size:.76rem; line-height:1.7;
+      overflow:hidden;
     }
+    .term-titlebar{ background:rgba(255,255,255,.04); padding:8px 14px; display:flex; gap:6px; align-items:center; border-bottom:1px solid rgba(255,255,255,.06); }
+    .term-dot{ width:10px; height:10px; border-radius:50%; }
+    .term-body{ padding:14px 16px; color:#94A3B8; }
+    .term-body .t-cmd{ color:#38BDF8; }
+    .term-body .t-ok{ color:#22C55E; }
+    .term-body .t-dim{ color:#475569; }
+    .term-body .t-warn{ color:#F97316; }
 
     /* ── Leaflet popup style override ── */
     .leaflet-popup-content-wrapper{border-radius:14px!important;box-shadow:0 12px 36px rgba(3,105,161,.22)!important;border:1px solid #E2E8F0}
@@ -156,6 +179,23 @@
   </style>
 </head>
 <body>
+
+<!-- ══ System status bar ══ -->
+<div id="status-bar" class="relative z-50 py-1.5 px-4 hidden sm:flex items-center justify-center gap-6 text-xs" style="font-family:'DM Sans',sans-serif">
+  <div class="flex items-center gap-2">
+    <span class="status-dot"></span>
+    <span class="text-green-400 font-medium">All Systems Operational</span>
+  </div>
+  <span class="text-slate-600">·</span>
+  <span class="text-slate-400">Uptime <strong class="text-slate-300">99.98%</strong></span>
+  <span class="text-slate-600">·</span>
+  <span class="text-slate-400">Response <strong class="text-slate-300">&lt;200ms</strong></span>
+  <span class="text-slate-600">·</span>
+  <span class="text-slate-400">GCP · AWS · Azure</span>
+  <button onclick="this.parentElement.remove()" class="absolute right-4 text-slate-600 hover:text-slate-400 transition-colors" aria-label="Dismiss">
+    <svg width="12" height="12" viewBox="0 0 24 24" fill="none"><path d="M6 18L18 6M6 6l12 12" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+  </button>
+</div>
 
 <!-- ══ Scroll progress bar ══ -->
 <div id="scroll-progress" style="position:fixed;top:0;left:0;height:3px;width:0%;background:linear-gradient(90deg,#0EA5E9,#7C3AED,#F97316);z-index:9999;transition:width .1s linear;pointer-events:none" aria-hidden="true"></div>
@@ -178,6 +218,10 @@
       <li><a href="#contact" class="text-sm font-medium text-white/80 hover:text-white transition-colors">Contact</a></li>
     </ul>
     <div class="flex items-center gap-3">
+      <button id="lang-btn" onclick="toggleLang()" class="hidden sm:inline-flex items-center gap-1.5 text-white/70 hover:text-white text-xs font-medium border border-white/20 rounded-lg px-3 py-2 transition-colors hover:border-white/40" aria-label="Switch language">
+        <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 010 20M12 2a15.3 15.3 0 000 20"/></svg>
+        <span id="lang-label">PT</span>
+      </button>
       <a href="#contact" class="btn-primary hidden sm:inline-flex text-sm">Get a Free Audit</a>
       <button id="menu-btn" class="md:hidden text-white p-2 rounded focus-visible:outline-2 focus-visible:outline-white" aria-label="Toggle navigation" aria-expanded="false" aria-controls="mobile-menu">
         <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
@@ -208,114 +252,6 @@
   <div class="orb-ring w-[720px] h-[720px] -right-48 top-24 opacity-60 parallax-layer-bg" aria-hidden="true"></div>
   <div class="orb-ring w-[520px] h-[520px] -right-24 top-48 opacity-50 parallax-layer-mid" style="animation-direction:reverse;animation-duration:34s" aria-hidden="true"></div>
 
-  <!-- ══ 3D Parallax Cloud Layer (right hero side) ══ -->
-  <div id="hero-clouds" class="absolute inset-0 pointer-events-none overflow-hidden" aria-hidden="true"
-       style="perspective:900px;transform-style:preserve-3d">
-
-    <!-- Each cloud = outer wrapper (JS mouse parallax) → inner (CSS drift animation) -->
-
-    <!-- Cloud A — large back layer, slowest -->
-    <div class="hero-cloud" data-depth="0.03"
-         style="position:absolute;right:-4%;top:8%;will-change:transform">
-      <div style="animation:cloudDrift 26s ease-in-out infinite;transform-style:preserve-3d">
-        <svg width="380" height="190" viewBox="0 0 380 190" fill="none"
-             style="opacity:.11;filter:blur(3px) drop-shadow(0 12px 24px rgba(14,165,233,.3));transform:rotateX(20deg) rotateY(-12deg)">
-          <defs>
-            <linearGradient id="cg-a" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stop-color="#7DD3FC"/>
-              <stop offset="100%" stop-color="#0369A1" stop-opacity=".6"/>
-            </linearGradient>
-          </defs>
-          <ellipse cx="190" cy="145" rx="175" ry="48" fill="url(#cg-a)"/>
-          <ellipse cx="120" cy="120" rx="100" ry="72" fill="url(#cg-a)"/>
-          <ellipse cx="215" cy="108" rx="125" ry="80" fill="url(#cg-a)"/>
-          <ellipse cx="300" cy="130" rx="82"  ry="55" fill="url(#cg-a)"/>
-        </svg>
-      </div>
-    </div>
-
-    <!-- Cloud B — mid layer, mid speed -->
-    <div class="hero-cloud" data-depth="0.07"
-         style="position:absolute;right:3%;top:38%;will-change:transform">
-      <div style="animation:cloudDrift 18s ease-in-out infinite;animation-delay:-7s;transform-style:preserve-3d">
-        <svg width="260" height="130" viewBox="0 0 260 130" fill="none"
-             style="opacity:.2;filter:drop-shadow(0 8px 18px rgba(14,165,233,.35));transform:rotateX(18deg) rotateY(-8deg)">
-          <defs>
-            <linearGradient id="cg-b" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stop-color="#BAE6FD"/>
-              <stop offset="100%" stop-color="#0EA5E9" stop-opacity=".7"/>
-            </linearGradient>
-          </defs>
-          <ellipse cx="130" cy="98"  rx="122" ry="34" fill="url(#cg-b)"/>
-          <ellipse cx="84"  cy="78"  rx="68"  ry="50" fill="url(#cg-b)"/>
-          <ellipse cx="152" cy="70"  rx="85"  ry="56" fill="url(#cg-b)"/>
-          <ellipse cx="210" cy="88"  rx="54"  ry="38" fill="url(#cg-b)"/>
-        </svg>
-      </div>
-    </div>
-
-    <!-- Cloud C — close layer, fastest, brightest -->
-    <div class="hero-cloud" data-depth="0.13"
-         style="position:absolute;right:-2%;top:62%;will-change:transform">
-      <div style="animation:cloudDrift 11s ease-in-out infinite;animation-delay:-4s;transform-style:preserve-3d">
-        <svg width="180" height="90" viewBox="0 0 180 90" fill="none"
-             style="opacity:.28;filter:drop-shadow(0 6px 14px rgba(124,58,237,.4));transform:rotateX(16deg) rotateY(-6deg)">
-          <defs>
-            <linearGradient id="cg-c" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stop-color="#C4B5FD"/>
-              <stop offset="100%" stop-color="#7C3AED" stop-opacity=".8"/>
-            </linearGradient>
-          </defs>
-          <ellipse cx="90"  cy="68"  rx="84"  ry="24" fill="url(#cg-c)"/>
-          <ellipse cx="58"  cy="54"  rx="48"  ry="38" fill="url(#cg-c)"/>
-          <ellipse cx="108" cy="48"  rx="60"  ry="42" fill="url(#cg-c)"/>
-          <ellipse cx="148" cy="62"  rx="36"  ry="26" fill="url(#cg-c)"/>
-        </svg>
-      </div>
-    </div>
-
-    <!-- Cloud D — wide wispy top-right accent -->
-    <div class="hero-cloud" data-depth="0.05"
-         style="position:absolute;right:-8%;top:22%;will-change:transform">
-      <div style="animation:cloudDrift 32s ease-in-out infinite;animation-delay:-14s;transform-style:preserve-3d">
-        <svg width="300" height="110" viewBox="0 0 300 110" fill="none"
-             style="opacity:.09;filter:blur(4px) drop-shadow(0 10px 20px rgba(14,165,233,.2));transform:rotateX(22deg) rotateY(-16deg)">
-          <defs>
-            <linearGradient id="cg-d" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stop-color="white"/>
-              <stop offset="100%" stop-color="#38BDF8" stop-opacity=".5"/>
-            </linearGradient>
-          </defs>
-          <ellipse cx="150" cy="82"  rx="140" ry="30" fill="url(#cg-d)"/>
-          <ellipse cx="92"  cy="65"  rx="80"  ry="58" fill="url(#cg-d)"/>
-          <ellipse cx="178" cy="58"  rx="100" ry="62" fill="url(#cg-d)"/>
-          <ellipse cx="248" cy="74"  rx="56"  ry="38" fill="url(#cg-d)"/>
-        </svg>
-      </div>
-    </div>
-
-    <!-- Cloud E — tiny foreground puff, very close -->
-    <div class="hero-cloud" data-depth="0.18"
-         style="position:absolute;right:5%;top:78%;will-change:transform">
-      <div style="animation:cloudDrift 8s ease-in-out infinite;animation-delay:-1.5s;transform-style:preserve-3d">
-        <svg width="120" height="60" viewBox="0 0 120 60" fill="none"
-             style="opacity:.32;filter:drop-shadow(0 4px 10px rgba(14,165,233,.5));transform:rotateX(14deg) rotateY(-5deg)">
-          <defs>
-            <linearGradient id="cg-e" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="0%" stop-color="#E0F2FE"/>
-              <stop offset="100%" stop-color="#0EA5E9"/>
-            </linearGradient>
-          </defs>
-          <ellipse cx="60"  cy="46"  rx="56"  ry="16" fill="url(#cg-e)"/>
-          <ellipse cx="38"  cy="36"  rx="32"  ry="26" fill="url(#cg-e)"/>
-          <ellipse cx="72"  cy="32"  rx="40"  ry="28" fill="url(#cg-e)"/>
-          <ellipse cx="96"  cy="42"  rx="26"  ry="18" fill="url(#cg-e)"/>
-        </svg>
-      </div>
-    </div>
-
-  </div>
-  <!-- ══ End 3D Cloud Layer ══ -->
   <div class="float-shape command-chip hidden lg:flex items-center gap-3 rounded-2xl px-4 py-3 text-white/80 text-xs right-[7%] top-[21%]" style="animation-delay:.5s" aria-hidden="true">
     <span class="w-2 h-2 rounded-full bg-green-400"></span>
     <span>AI incident triage active</span>
@@ -428,8 +364,76 @@
 </section>
 
 
+<!-- ══════════════════════════ TECH STACK TICKER ══════════════════════════ -->
+<div aria-label="Tech stack" class="bg-slate-950 border-y border-slate-800 py-4 overflow-hidden" style="position:relative">
+  <div style="position:absolute;inset:0;background:linear-gradient(90deg,#020617 0%,transparent 12%,transparent 88%,#020617 100%);z-index:2;pointer-events:none"></div>
+  <div class="ticker-track" style="gap:0">
+    <!-- set × 2 for seamless loop -->
+    <template id="ticker-tpl">
+      <div class="flex items-center gap-8 px-8">
+        <!-- Terraform -->
+        <div class="flex items-center gap-2 text-slate-400 hover:text-purple-400 transition-colors" style="white-space:nowrap">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M1.386 1.96l6.323 3.653v7.306L1.386 9.267V1.96zm7.718 0l6.322 3.653v7.306l-6.322-3.652V1.96zm0 8.696l6.322 3.653v7.306l-6.322-3.652V10.656zM16.818 1.96l6.322 3.653v7.306l-6.322-3.652V1.96z"/></svg>
+          <span class="text-xs font-semibold" style="font-family:'Space Grotesk',sans-serif">Terraform</span>
+        </div>
+        <!-- Kubernetes -->
+        <div class="flex items-center gap-2 text-slate-400 hover:text-sky-400 transition-colors" style="white-space:nowrap">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M10.204 14.35l.007.01-.999 2.413a5.171 5.171 0 01-2.075-2.597l2.578-.437.004.005zm-.833-2.8l-2.58-.428a5.158 5.158 0 01.927-2.79l1.835 1.833-.006.007-.176 1.378zm4.655 2.233l-1.17-.196-.818-1.061.03-1.31 1.017-.793.77.14 1.102 1.437-.93 1.783zm3.127-2.866a5.17 5.17 0 01.072 2.875l-2.577-.44-.003-.003.36-2.34 2.148-.092zm-8.43 4.428l1.564 1.56a5.162 5.162 0 01-2.162-.813l.598-1.447.795.39-.795-.39zm7.23-.133l.596 1.442a5.18 5.18 0 01-2.16.81l.562-2.082 1.002-.17zm-3.625 1.66a5.196 5.196 0 01-1.395-.18l.817-1.97.55.093.588 1.97a5.196 5.196 0 01-.56.087zm-.015-11.53C7.29 5.34 4 8.634 4 12.681s3.29 7.34 7.334 7.34 7.334-3.294 7.334-7.34S15.377 5.34 11.334 5.34z"/></svg>
+          <span class="text-xs font-semibold" style="font-family:'Space Grotesk',sans-serif">Kubernetes</span>
+        </div>
+        <!-- Docker -->
+        <div class="flex items-center gap-2 text-slate-400 hover:text-blue-400 transition-colors" style="white-space:nowrap">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M13.983 11.078h2.119a.186.186 0 00.186-.186V9.006a.186.186 0 00-.186-.186h-2.119a.185.185 0 00-.185.185v1.888c0 .102.083.185.185.185m-2.954-5.43h2.118a.186.186 0 00.186-.186V3.574a.186.186 0 00-.186-.185h-2.118a.185.185 0 00-.185.185v1.888c0 .102.082.185.185.185m0 2.716h2.118a.187.187 0 00.186-.186V6.29a.186.186 0 00-.186-.185h-2.118a.185.185 0 00-.185.185v1.887c0 .102.082.185.185.186m-2.93 0h2.12a.186.186 0 00.184-.186V6.29a.185.185 0 00-.185-.185H8.1a.185.185 0 00-.185.185v1.887c0 .102.083.185.185.186m-2.964 0h2.119a.186.186 0 00.185-.186V6.29a.185.185 0 00-.185-.185H5.136a.186.186 0 00-.186.185v1.887c0 .102.084.185.186.186m5.893 2.715h2.118a.186.186 0 00.186-.185V9.006a.186.186 0 00-.186-.186h-2.118a.185.185 0 00-.185.185v1.888c0 .102.082.185.185.185m-2.93 0h2.12a.185.185 0 00.184-.185V9.006a.185.185 0 00-.184-.186h-2.12a.185.185 0 00-.184.185v1.888c0 .102.083.185.185.185m-2.964 0h2.119a.185.185 0 00.185-.185V9.006a.185.185 0 00-.184-.186h-2.12a.186.186 0 00-.186.186v1.887c0 .102.084.185.186.185m-2.92 0h2.12a.186.186 0 00.184-.185V9.006a.185.185 0 00-.184-.186h-2.12a.185.185 0 00-.184.185v1.888c0 .102.082.185.184.185M23.763 9.89c-.065-.051-.672-.51-1.954-.51-.338.001-.676.03-1.01.087-.248-1.7-1.653-2.53-1.716-2.566l-.344-.199-.226.327c-.284.438-.49.922-.612 1.43-.23.97-.09 1.882.403 2.661-.595.332-1.55.413-1.744.42H.751a.751.751 0 00-.75.748 11.376 11.376 0 00.692 4.062c.545 1.428 1.355 2.48 2.41 3.124 1.18.723 3.1 1.137 5.275 1.137.983.003 1.963-.086 2.93-.266a12.248 12.248 0 003.823-1.389c.98-.567 1.86-1.288 2.61-2.136 1.252-1.418 1.998-2.997 2.553-4.4h.221c1.372 0 2.215-.549 2.68-1.009.309-.293.55-.65.707-1.046l.098-.288z"/></svg>
+          <span class="text-xs font-semibold" style="font-family:'Space Grotesk',sans-serif">Docker</span>
+        </div>
+        <!-- Python -->
+        <div class="flex items-center gap-2 text-slate-400 hover:text-yellow-400 transition-colors" style="white-space:nowrap">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M11.914 0C5.82 0 6.2 2.656 6.2 2.656l.007 2.752h5.814v.826H3.9S0 5.789 0 11.969c0 6.18 3.403 5.959 3.403 5.959h2.031v-2.867s-.109-3.402 3.35-3.402h5.766s3.24.052 3.24-3.131V3.333S18.28 0 11.914 0zm-3.21 1.922a1.047 1.047 0 110 2.094 1.047 1.047 0 010-2.094zm-.006 10.46H9.73c3.459 0 3.35 3.403 3.35 3.403v2.867h2.031s3.403.22 3.403-5.959c0-6.18-3.9-5.733-3.9-5.733h-5.92v.826h5.814v-.826zm3.21 9.578a1.047 1.047 0 110-2.094 1.047 1.047 0 010 2.094z"/></svg>
+          <span class="text-xs font-semibold" style="font-family:'Space Grotesk',sans-serif">Python</span>
+        </div>
+        <!-- GitHub Actions -->
+        <div class="flex items-center gap-2 text-slate-400 hover:text-white transition-colors" style="white-space:nowrap">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0112 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/></svg>
+          <span class="text-xs font-semibold" style="font-family:'Space Grotesk',sans-serif">GitHub Actions</span>
+        </div>
+        <!-- GCP -->
+        <div class="flex items-center gap-2 text-slate-400 hover:text-sky-400 transition-colors" style="white-space:nowrap">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12.19 2.38a9.344 9.344 0 00-9.234 6.893c.053-.02-.055.013 0 0-3.875 2.551-3.922 8.11-.247 10.941l.006.005a6.904 6.904 0 004.077 1.355h12.39c1.837 0 3.097-.8 4.08-1.352l.007-.009c3.144-2.27 3.48-6.504 1.558-9.508-.01-.015-.013-.034-.023-.05A9.368 9.368 0 0012.19 2.38zm-.004 1.789a7.557 7.557 0 017.19 5.231H4.997a7.555 7.555 0 017.189-5.231z"/></svg>
+          <span class="text-xs font-semibold" style="font-family:'Space Grotesk',sans-serif">GCP</span>
+        </div>
+        <!-- AWS -->
+        <div class="flex items-center gap-2 text-slate-400 hover:text-orange-400 transition-colors" style="white-space:nowrap">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M6.763 10.036c0 .296.032.535.088.71.064.176.144.368.256.576.04.063.056.127.056.183 0 .08-.048.16-.152.24l-.503.335a.383.383 0 01-.208.072c-.08 0-.16-.04-.239-.112a2.47 2.47 0 01-.287-.375 6.18 6.18 0 01-.248-.471c-.622.734-1.405 1.101-2.347 1.101-.67 0-1.205-.191-1.596-.574-.391-.384-.59-.894-.59-1.533 0-.678.239-1.23.726-1.644.487-.415 1.133-.623 1.955-.623.272 0 .551.024.846.064.296.04.6.104.918.176v-.583c0-.607-.127-1.03-.375-1.277-.255-.248-.686-.367-1.3-.367-.28 0-.568.031-.863.103-.295.072-.583.16-.862.272a2.287 2.287 0 01-.28.104.488.488 0 01-.127.023c-.112 0-.168-.08-.168-.247v-.391c0-.128.016-.224.056-.28a.597.597 0 01.224-.167c.279-.144.614-.264 1.005-.36a4.84 4.84 0 011.246-.151c.95 0 1.644.216 2.091.647.439.43.662 1.085.662 1.963v2.586zm-3.24 1.214c.263 0 .534-.048.822-.144.287-.096.543-.271.758-.51.128-.152.224-.32.272-.512.047-.191.08-.423.08-.694v-.335a6.66 6.66 0 00-.735-.136 6.02 6.02 0 00-.75-.048c-.535 0-.926.104-1.19.32-.263.215-.39.518-.39.917 0 .375.095.655.295.846.191.2.47.296.838.296zm6.41.862c-.144 0-.24-.024-.304-.08-.064-.048-.12-.16-.168-.311L7.586 5.55a1.398 1.398 0 01-.072-.32c0-.128.064-.2.191-.2h.783c.15 0 .25.024.31.08.065.048.113.16.16.312l1.342 5.284 1.245-5.284c.04-.16.088-.264.151-.312a.549.549 0 01.32-.08h.638c.152 0 .25.024.32.08.063.048.12.16.151.312l1.261 5.348 1.381-5.348c.048-.16.104-.264.16-.312a.52.52 0 01.311-.08h.743c.127 0 .2.065.2.2 0 .04-.009.08-.017.128a1.137 1.137 0 01-.056.2l-1.923 6.17c-.048.16-.104.263-.168.311a.51.51 0 01-.303.08h-.687c-.151 0-.25-.024-.32-.08-.063-.056-.119-.16-.15-.32l-1.238-5.148-1.23 5.14c-.04.16-.087.264-.15.32-.065.056-.17.08-.32.08zm10.256.215c-.415 0-.83-.048-1.229-.143-.399-.096-.71-.2-.918-.32-.128-.071-.215-.151-.247-.223a.563.563 0 01-.048-.224v-.407c0-.167.064-.247.183-.247.048 0 .096.008.144.024.048.016.12.048.2.08.271.12.566.215.878.279.319.064.63.096.95.096.502 0 .894-.088 1.165-.264a.86.86 0 00.415-.758.777.777 0 00-.215-.559c-.144-.151-.416-.287-.807-.415l-1.157-.36c-.583-.183-1.014-.454-1.277-.813a1.902 1.902 0 01-.4-1.158c0-.335.073-.63.216-.886.144-.255.335-.479.575-.654.24-.184.51-.32.83-.415.32-.096.655-.136 1.006-.136.175 0 .359.008.535.032.183.024.35.056.518.088.16.04.312.08.455.127.144.048.256.096.336.144a.69.69 0 01.24.2.43.43 0 01.071.263v.375c0 .168-.064.256-.184.256a.83.83 0 01-.303-.096 3.652 3.652 0 00-1.532-.311c-.455 0-.815.071-1.062.223-.248.152-.375.383-.375.71 0 .224.08.416.24.567.159.152.454.304.877.44l1.134.358c.574.184.99.44 1.237.767.247.329.367.702.367 1.117 0 .343-.072.655-.207.926-.144.272-.336.511-.583.703-.248.2-.543.343-.886.447-.36.111-.743.167-1.155.167z"/></svg>
+          <span class="text-xs font-semibold" style="font-family:'Space Grotesk',sans-serif">AWS</span>
+        </div>
+        <!-- Azure -->
+        <div class="flex items-center gap-2 text-slate-400 hover:text-blue-500 transition-colors" style="white-space:nowrap">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M22.379 23.343a1.62 1.62 0 001.362-2.432L13.33.657A1.62 1.62 0 0011.97 0H8.026a1.62 1.62 0 00-1.36 2.505l2.847 4.28-6.76 11.715a1.62 1.62 0 001.408 2.428h4.316a1.62 1.62 0 001.44-.883l.85-1.718H9.2l5.382-9.33 4.965 8.553a1.62 1.62 0 001.408.883l1.424.91z"/></svg>
+          <span class="text-xs font-semibold" style="font-family:'Space Grotesk',sans-serif">Azure</span>
+        </div>
+        <!-- Datadog -->
+        <div class="flex items-center gap-2 text-slate-400 hover:text-purple-400 transition-colors" style="white-space:nowrap">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M3.77 8.83l1.08-.63.98.57v1.26l-1.08.63-.98-.57V8.83zm8.06-4.65L10.5 3.6V2.32l1.33-.77 1.33.77v1.28l-1.33.78zm3.77 2.17l-1.33-.77V4.3l1.33-.77 1.33.77v1.28l-1.33.77zm0 4.33L14.27 10V8.72l1.33-.77 1.33.77V10l-1.33.68zm-7.53-2.16L6.74 8l-.97-.57V6.17l.98-.57 1.07.62v1.25l-.75.45zM2.28 6.55L1 5.8V4.52l1.28-.74 1.28.74V5.8L2.28 6.55zM20.38 5.8l-1.28-.74V3.78l1.28-.74 1.28.74V5.06L20.38 5.8zM11.83 0l-1.8 1.04-5.72 3.3-.7.41v7.08l1.06.62 5.72 3.3 1.44.84 1.44-.84 5.72-3.3 1.06-.62V4.75l-.7-.41-5.72-3.3L11.83 0zm5.2 11.3l-5.2 3-5.2-3V5.75l5.2-3 5.2 3v5.55z"/></svg>
+          <span class="text-xs font-semibold" style="font-family:'Space Grotesk',sans-serif">Datadog</span>
+        </div>
+        <!-- Splunk -->
+        <div class="flex items-center gap-2 text-slate-400 hover:text-green-400 transition-colors" style="white-space:nowrap">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M1.414 10.38L0 11.793l7.19 7.19L24 2.172 22.586.758 7.19 16.154z"/></svg>
+          <span class="text-xs font-semibold" style="font-family:'Space Grotesk',sans-serif">Splunk</span>
+        </div>
+        <!-- Jenkins -->
+        <div class="flex items-center gap-2 text-slate-400 hover:text-red-400 transition-colors" style="white-space:nowrap">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M9.585 0l-.426 1.558-.53-.093-.427 1.56.528.093-.426 1.558.53.093.426-1.558.528.093.427-1.558-.53-.093.426-1.558-.526-.094zM7.24 3.574l-.957 1.24-.482-.266-1.014 1.311.516.282-.508 1.352.75-.048 1.013-1.311-.516-.282.508-1.352-.31.074zm8.33.01l-.18 1.592-.474-.028-.19 1.594.475.027-.19 1.596.473.028.191-1.596.474.028.19-1.594-.474-.027.191-1.595-.486-.025z"/></svg>
+          <span class="text-xs font-semibold" style="font-family:'Space Grotesk',sans-serif">Jenkins</span>
+        </div>
+        <div class="text-slate-700 px-4">✦</div>
+      </div>
+    </template>
+  </div>
+</div>
+
 <!-- ══════════════════════════ SERVICES ══════════════════════════ -->
-<section id="services" aria-label="Services" class="py-24 bg-slate-50">
+<section id="services" aria-label="Services" class="py-24 bg-slate-50 circuit-bg">
   <div class="max-w-7xl mx-auto px-6">
     <div class="text-center mb-16 reveal">
       <span class="badge">What We Do</span>
@@ -534,6 +538,28 @@
         We Solve Problems Fast<br/><span class="gradient-text-ai">With AI</span>
       </h2>
       <p class="text-white/60 text-lg max-w-2xl mx-auto">From OpenClaw deployment to AI workflow automation — we cut resolution time from days to minutes.</p>
+    </div>
+
+    <!-- Live Terminal decorative block -->
+    <div class="term-block mb-10 reveal max-w-2xl mx-auto">
+      <div class="term-titlebar">
+        <span class="term-dot" style="background:#FF5F57"></span>
+        <span class="term-dot" style="background:#FFBD2E"></span>
+        <span class="term-dot" style="background:#28C840"></span>
+        <span class="text-slate-500 text-xs ml-2" style="font-family:'DM Sans',sans-serif">up2cloud — terraform + kubectl</span>
+      </div>
+      <div class="term-body">
+        <div><span class="t-dim">$</span> <span class="t-cmd">terraform apply -auto-approve</span></div>
+        <div class="t-dim">Plan: 12 to add, 3 to change, 0 to destroy.</div>
+        <div><span class="t-ok">✔</span> Apply complete! Resources: 12 added, 3 changed.</div>
+        <div class="mt-2"><span class="t-dim">$</span> <span class="t-cmd">kubectl get pods -n production</span></div>
+        <div class="t-dim">NAME&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;READY&nbsp;&nbsp;STATUS&nbsp;&nbsp;&nbsp;RESTARTS</div>
+        <div><span class="t-ok">api-gateway-7d9f8b-xk2p</span>&nbsp;&nbsp;&nbsp;1/1&nbsp;&nbsp;&nbsp;&nbsp;Running&nbsp;&nbsp;0</div>
+        <div><span class="t-ok">cost-agent-6c4d9b-m3nq</span>&nbsp;&nbsp;&nbsp;&nbsp;1/1&nbsp;&nbsp;&nbsp;&nbsp;Running&nbsp;&nbsp;0</div>
+        <div><span class="t-ok">finops-reporter-5f8a-r7wt</span>&nbsp;1/1&nbsp;&nbsp;&nbsp;&nbsp;Running&nbsp;&nbsp;0</div>
+        <div class="mt-2"><span class="t-dim">$</span> <span class="t-cmd">gcloud billing budgets list --format=json | jq '.[0].amount'</span></div>
+        <div><span class="t-warn">→</span> <span style="color:#F97316">"$42,000 / month"</span> <span class="t-ok">↓ -38% vs last quarter</span></div>
+      </div>
     </div>
 
     <!-- OpenClaw Feature -->
@@ -764,7 +790,7 @@
 
 
 <!-- ══════════════════════════ APAC OFFSHORE ══════════════════════════ -->
-<section id="offshore" aria-label="APAC Offshore Teams" class="py-24 bg-white relative overflow-hidden">
+<section id="offshore" aria-label="APAC Offshore Teams" class="py-24 bg-white relative overflow-hidden circuit-bg">
   <!-- Decorative background blobs -->
   <div class="absolute top-0 right-0 w-[500px] h-[500px] opacity-5 pointer-events-none" style="background:radial-gradient(circle,#0EA5E9,transparent 70%);transform:translate(30%,-30%)"></div>
   <div class="absolute bottom-0 left-0 w-[400px] h-[400px] opacity-5 pointer-events-none" style="background:radial-gradient(circle,#7C3AED,transparent 70%);transform:translate(-30%,30%)"></div>
@@ -1006,12 +1032,12 @@
             </div>
             <div class="pb-8">
               <div class="flex flex-wrap items-center gap-2 mb-1">
-                <p class="font-heading font-600 text-navy">Cloud FinOps Automation Engineer</p>
+                <p class="font-heading font-600 text-navy">Senior Cloud DevOps &amp; FinOps Consultant</p>
                 <span class="badge text-xs" style="background:#DCFCE7;color:#166534">Current</span>
               </div>
-              <p class="text-sky-brand font-medium text-sm mb-1">Randstad Digital Portugal</p>
+              <p class="text-sky-brand font-medium text-sm mb-1">UP2CLOUD · via Randstad Digital</p>
               <p class="text-slate-400 text-xs mb-2">Feb 2022 – Present</p>
-              <p class="text-slate-500 text-sm leading-relaxed">Cloud infrastructure automation and FinOps optimisation across GCP, AWS &amp; Azure for clients including <strong class="text-navy">Repsol, AgileTV, and Universidad Europea</strong>. Built automated governance pipelines cutting cloud waste by 35–42%, deployed Kubernetes clusters at scale, and authored Terraform modules adopted org-wide.</p>
+              <p class="text-slate-500 text-sm leading-relaxed">International consultant delivering cloud infrastructure automation and FinOps optimisation across GCP, AWS &amp; Azure for global clients including <strong class="text-navy">H&amp;M, SAP, Revelo, Epic Games</strong>. Built automated governance pipelines cutting cloud waste by 35–42%, deployed Kubernetes clusters at scale, and authored Terraform modules adopted org-wide.</p>
               <div class="flex flex-wrap gap-2 mt-3">
                 <span class="badge text-xs" style="font-size:.7rem">GCP · AWS · Azure</span>
                 <span class="badge text-xs" style="font-size:.7rem">Terraform IaC</span>
@@ -1090,60 +1116,108 @@
 
 
 <!-- ══════════════════════════ TESTIMONIALS ══════════════════════════ -->
-<section id="testimonials" aria-label="Client testimonials" class="py-24 bg-slate-50">
+<section id="testimonials" aria-label="Client testimonials" class="py-24 bg-slate-50 circuit-bg">
   <div class="max-w-7xl mx-auto px-6">
     <div class="text-center mb-16 reveal">
-      <span class="badge">Client Stories</span>
-      <h2 class="font-heading font-700 text-4xl sm:text-5xl text-navy mt-4 mb-5">What Our Clients Say</h2>
+      <span class="badge">Verified on LinkedIn</span>
+      <h2 class="font-heading font-700 text-4xl sm:text-5xl text-navy mt-4 mb-5">What Colleagues &amp; Clients Say</h2>
+      <p class="text-slate-500 text-base max-w-xl mx-auto">Real recommendations from LinkedIn — colleagues at H&amp;M, ZeroLight, Accenture, CI&amp;T and more.</p>
     </div>
-    <div class="grid md:grid-cols-3 gap-6">
 
-      <blockquote class="bg-white rounded-2xl p-8 shadow-sm border border-slate-100 reveal" style="transition-delay:.05s">
+    <!-- Row 1: 3 cards -->
+    <div class="grid md:grid-cols-3 gap-6 mb-6">
+
+      <blockquote class="bg-white rounded-2xl p-8 shadow-sm border border-slate-100 reveal flex flex-col" style="transition-delay:.05s">
         <div class="flex gap-1 mb-4" aria-label="5 stars">
-          <svg width="16" height="16" fill="#FBBF24" viewBox="0 0 20 20" aria-hidden="true"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
-          <svg width="16" height="16" fill="#FBBF24" viewBox="0 0 20 20" aria-hidden="true"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
-          <svg width="16" height="16" fill="#FBBF24" viewBox="0 0 20 20" aria-hidden="true"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
-          <svg width="16" height="16" fill="#FBBF24" viewBox="0 0 20 20" aria-hidden="true"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
-          <svg width="16" height="16" fill="#FBBF24" viewBox="0 0 20 20" aria-hidden="true"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+          <svg width="14" height="14" fill="#FBBF24" viewBox="0 0 20 20" aria-hidden="true"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg><svg width="14" height="14" fill="#FBBF24" viewBox="0 0 20 20" aria-hidden="true"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg><svg width="14" height="14" fill="#FBBF24" viewBox="0 0 20 20" aria-hidden="true"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg><svg width="14" height="14" fill="#FBBF24" viewBox="0 0 20 20" aria-hidden="true"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg><svg width="14" height="14" fill="#FBBF24" viewBox="0 0 20 20" aria-hidden="true"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
         </div>
-        <p class="text-slate-600 text-sm leading-relaxed mb-6">"UP2CLOUD cut our AWS bill by 38% in the first quarter while simultaneously improving our uptime to 99.98%. The ROI was undeniable within 60 days."</p>
+        <p class="text-slate-600 text-sm leading-relaxed mb-6 flex-1">"He has a strong grasp of cloud and DevOps practices, especially within GCP environments, and approaches infrastructure challenges with calm focus and practical thinking. He doesn't just execute tasks — he takes responsibility for outcomes and ensures things are done the right way."</p>
         <footer class="flex items-center gap-3">
-          <div class="w-10 h-10 rounded-full flex items-center justify-center text-white font-heading font-700 text-sm" style="background:linear-gradient(135deg,#0369A1,#0EA5E9)" aria-hidden="true">SM</div>
-          <div><p class="font-heading font-600 text-sm text-navy">Sarah Mitchell</p><p class="text-slate-400 text-xs">CTO — NovaTech Industries</p></div>
+          <div class="w-10 h-10 rounded-full flex items-center justify-center text-white font-heading font-700 text-sm shrink-0" style="background:linear-gradient(135deg,#0369A1,#0EA5E9)" aria-hidden="true">PS</div>
+          <div>
+            <p class="font-heading font-600 text-sm text-navy">Pooja Sharma</p>
+            <p class="text-slate-400 text-xs">BI Specialist · H&amp;M Data Platform</p>
+            <span class="text-slate-300 text-xs">via Randstad Digital · 2026</span>
+          </div>
         </footer>
       </blockquote>
 
-      <blockquote class="bg-white rounded-2xl p-8 shadow-sm border border-slate-100 reveal" style="transition-delay:.1s">
+      <blockquote class="bg-white rounded-2xl p-8 shadow-sm border border-slate-100 reveal flex flex-col" style="transition-delay:.1s">
         <div class="flex gap-1 mb-4" aria-label="5 stars">
-          <svg width="16" height="16" fill="#FBBF24" viewBox="0 0 20 20" aria-hidden="true"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
-          <svg width="16" height="16" fill="#FBBF24" viewBox="0 0 20 20" aria-hidden="true"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
-          <svg width="16" height="16" fill="#FBBF24" viewBox="0 0 20 20" aria-hidden="true"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
-          <svg width="16" height="16" fill="#FBBF24" viewBox="0 0 20 20" aria-hidden="true"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
-          <svg width="16" height="16" fill="#FBBF24" viewBox="0 0 20 20" aria-hidden="true"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+          <svg width="14" height="14" fill="#FBBF24" viewBox="0 0 20 20" aria-hidden="true"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg><svg width="14" height="14" fill="#FBBF24" viewBox="0 0 20 20" aria-hidden="true"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg><svg width="14" height="14" fill="#FBBF24" viewBox="0 0 20 20" aria-hidden="true"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg><svg width="14" height="14" fill="#FBBF24" viewBox="0 0 20 20" aria-hidden="true"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg><svg width="14" height="14" fill="#FBBF24" viewBox="0 0 20 20" aria-hidden="true"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
         </div>
-        <p class="text-slate-600 text-sm leading-relaxed mb-6">"OpenClaw setup by UP2CLOUD transformed how our team handles incidents. What used to take 3 hours now resolves in minutes. Absolute game-changer for our on-call team."</p>
+        <p class="text-slate-600 text-sm leading-relaxed mb-6 flex-1">"Cesar is an exceptional DevOps engineer — great knowledge of Cloud and DevOps principles. Hard working, willing to take on any task and help others wherever he can. He was a credit to the team at Zerolight, championing the DevOps process. I would highly recommend Cesar."</p>
         <footer class="flex items-center gap-3">
-          <div class="w-10 h-10 rounded-full flex items-center justify-center text-white font-heading font-700 text-sm" style="background:linear-gradient(135deg,#7C3AED,#A855F7)" aria-hidden="true">JR</div>
-          <div><p class="font-heading font-600 text-sm text-navy">James Rivera</p><p class="text-slate-400 text-xs">VP Engineering — Axient Corp</p></div>
+          <div class="w-10 h-10 rounded-full flex items-center justify-center text-white font-heading font-700 text-sm shrink-0" style="background:linear-gradient(135deg,#7C3AED,#A855F7)" aria-hidden="true">CJ</div>
+          <div>
+            <p class="font-heading font-600 text-sm text-navy">Connor Jones</p>
+            <p class="text-slate-400 text-xs">DevOps Engineer · Spotlight Sports Group</p>
+            <span class="text-slate-300 text-xs">ex-ZeroLight · 2022</span>
+          </div>
         </footer>
       </blockquote>
 
-      <blockquote class="bg-white rounded-2xl p-8 shadow-sm border border-slate-100 reveal" style="transition-delay:.15s">
+      <blockquote class="bg-white rounded-2xl p-8 shadow-sm border border-slate-100 reveal flex flex-col" style="transition-delay:.15s">
         <div class="flex gap-1 mb-4" aria-label="5 stars">
-          <svg width="16" height="16" fill="#FBBF24" viewBox="0 0 20 20" aria-hidden="true"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
-          <svg width="16" height="16" fill="#FBBF24" viewBox="0 0 20 20" aria-hidden="true"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
-          <svg width="16" height="16" fill="#FBBF24" viewBox="0 0 20 20" aria-hidden="true"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
-          <svg width="16" height="16" fill="#FBBF24" viewBox="0 0 20 20" aria-hidden="true"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
-          <svg width="16" height="16" fill="#FBBF24" viewBox="0 0 20 20" aria-hidden="true"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+          <svg width="14" height="14" fill="#FBBF24" viewBox="0 0 20 20" aria-hidden="true"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg><svg width="14" height="14" fill="#FBBF24" viewBox="0 0 20 20" aria-hidden="true"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg><svg width="14" height="14" fill="#FBBF24" viewBox="0 0 20 20" aria-hidden="true"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg><svg width="14" height="14" fill="#FBBF24" viewBox="0 0 20 20" aria-hidden="true"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg><svg width="14" height="14" fill="#FBBF24" viewBox="0 0 20 20" aria-hidden="true"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
         </div>
-        <p class="text-slate-600 text-sm leading-relaxed mb-6">"Their security team got us through ISO 27001 in 4 months. That alone opened three enterprise contracts we couldn't pitch before. Cesar knows this stuff cold."</p>
+        <p class="text-slate-600 text-sm leading-relaxed mb-6 flex-1">"Cesar has strong technical skills and an excellent strategic and business vision. His knowledge with Cloud Services is outstanding — in the time we worked together I saw his professionalism and unparalleled knowledge. He is certainly someone of enormous value for any company."</p>
         <footer class="flex items-center gap-3">
-          <div class="w-10 h-10 rounded-full flex items-center justify-center text-white font-heading font-700 text-sm" style="background:linear-gradient(135deg,#059669,#0D9488)" aria-hidden="true">AL</div>
-          <div><p class="font-heading font-600 text-sm text-navy">Ana Lima</p><p class="text-slate-400 text-xs">CEO — CoreFlow Solutions</p></div>
+          <div class="w-10 h-10 rounded-full flex items-center justify-center text-white font-heading font-700 text-sm shrink-0" style="background:linear-gradient(135deg,#059669,#0D9488)" aria-hidden="true">GO</div>
+          <div>
+            <p class="font-heading font-600 text-sm text-navy">Geazi Oliveira</p>
+            <p class="text-slate-400 text-xs">Senior Full-Stack &amp; Cloud Architect</p>
+            <span class="text-slate-300 text-xs">Accenture · 2021</span>
+          </div>
         </footer>
       </blockquote>
 
     </div>
+
+    <!-- Row 2: 2 cards centred -->
+    <div class="grid md:grid-cols-2 gap-6 max-w-3xl mx-auto mb-10">
+
+      <blockquote class="bg-white rounded-2xl p-8 shadow-sm border border-slate-100 reveal flex flex-col" style="transition-delay:.2s">
+        <div class="flex gap-1 mb-4" aria-label="5 stars">
+          <svg width="14" height="14" fill="#FBBF24" viewBox="0 0 20 20" aria-hidden="true"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg><svg width="14" height="14" fill="#FBBF24" viewBox="0 0 20 20" aria-hidden="true"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg><svg width="14" height="14" fill="#FBBF24" viewBox="0 0 20 20" aria-hidden="true"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg><svg width="14" height="14" fill="#FBBF24" viewBox="0 0 20 20" aria-hidden="true"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg><svg width="14" height="14" fill="#FBBF24" viewBox="0 0 20 20" aria-hidden="true"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+        </div>
+        <p class="text-slate-600 text-sm leading-relaxed mb-6 flex-1">"I had the pleasure of working with Cesar on a cloud-native application. He was our go-to person for DevOps. One experience stands out — he skillfully used Checkov to bolster our security by identifying and fixing potential vulnerabilities in our code."</p>
+        <footer class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-full flex items-center justify-center text-white font-heading font-700 text-sm shrink-0" style="background:linear-gradient(135deg,#0369A1,#7C3AED)" aria-hidden="true">LF</div>
+          <div>
+            <p class="font-heading font-600 text-sm text-navy">Luiz Fernando França</p>
+            <p class="text-slate-400 text-xs">Java Tech Lead · ioasys</p>
+            <span class="text-slate-300 text-xs">Cloud-Native · 2024</span>
+          </div>
+        </footer>
+      </blockquote>
+
+      <blockquote class="bg-white rounded-2xl p-8 shadow-sm border border-slate-100 reveal flex flex-col" style="transition-delay:.25s">
+        <div class="flex gap-1 mb-4" aria-label="5 stars">
+          <svg width="14" height="14" fill="#FBBF24" viewBox="0 0 20 20" aria-hidden="true"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg><svg width="14" height="14" fill="#FBBF24" viewBox="0 0 20 20" aria-hidden="true"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg><svg width="14" height="14" fill="#FBBF24" viewBox="0 0 20 20" aria-hidden="true"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg><svg width="14" height="14" fill="#FBBF24" viewBox="0 0 20 20" aria-hidden="true"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg><svg width="14" height="14" fill="#FBBF24" viewBox="0 0 20 20" aria-hidden="true"><path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.07 3.292a1 1 0 00.95.69h3.462c.969 0 1.371 1.24.588 1.81l-2.8 2.034a1 1 0 00-.364 1.118l1.07 3.292c.3.921-.755 1.688-1.54 1.118l-2.8-2.034a1 1 0 00-1.175 0l-2.8 2.034c-.784.57-1.838-.197-1.539-1.118l1.07-3.292a1 1 0 00-.364-1.118L2.98 8.72c-.783-.57-.38-1.81.588-1.81h3.461a1 1 0 00.951-.69l1.07-3.292z"/></svg>
+        </div>
+        <p class="text-slate-600 text-sm leading-relaxed mb-6 flex-1">"Cesar is a skilled developer who helped us build a Data Analytics platform on top of Google Cloud using Big Data Engineering techniques. He certified as Google Cloud Architect and is always bringing new stuff to the team. He is that type of person you can always count on."</p>
+        <footer class="flex items-center gap-3">
+          <div class="w-10 h-10 rounded-full flex items-center justify-center text-white font-heading font-700 text-sm shrink-0" style="background:linear-gradient(135deg,#F97316,#EAB308)" aria-hidden="true">LA</div>
+          <div>
+            <p class="font-heading font-600 text-sm text-navy">Lucas Arruda</p>
+            <p class="text-slate-400 text-xs">Principal Developer · CI&amp;T</p>
+            <span class="text-slate-300 text-xs">ex-Google Cloud GDE · 2018</span>
+          </div>
+        </footer>
+      </blockquote>
+
+    </div>
+
+    <!-- LinkedIn CTA -->
+    <div class="text-center reveal">
+      <a href="https://www.linkedin.com/in/cesarnog/details/recommendations/" target="_blank" rel="noopener noreferrer"
+         class="inline-flex items-center gap-2 text-sky-brand hover:text-sky-light font-medium text-sm transition-colors">
+        <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
+        View all 20+ recommendations on LinkedIn ↗
+      </a>
+    </div>
+
   </div>
 </section>
 
@@ -1503,44 +1577,42 @@
     });
   });
 
-  /* ── Hero 3D mouse parallax (blobs + clouds) ── */
+  /* ── Hero blob mouse parallax (kept) ── */
   const hero = document.getElementById('hero');
-  const heroCloudEls = document.querySelectorAll('.hero-cloud');
-  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-
   if (hero) {
     hero.addEventListener('mousemove', e => {
-      const cx = window.innerWidth  / 2;
-      const cy = window.innerHeight / 2;
-      const dx = (e.clientX - cx) / cx;   // -1 … +1
-      const dy = (e.clientY - cy) / cy;   // -1 … +1
-
-      // Existing blob parallax
+      const cx = window.innerWidth / 2, cy = window.innerHeight / 2;
+      const dx = (e.clientX - cx) / cx, dy = (e.clientY - cy) / cy;
       document.querySelectorAll('.blob').forEach((b, i) => {
-        const depth = (i + 1) * 8;
-        b.style.transform = `translate(${dx * depth}px, ${dy * depth}px)`;
+        const d = (i + 1) * 8;
+        b.style.transform = `translate(${dx * d}px, ${dy * d}px)`;
       });
-
-      // Cloud parallax — each cloud has its own depth factor
-      if (!prefersReducedMotion) {
-        heroCloudEls.forEach(cloud => {
-          const depth = parseFloat(cloud.dataset.depth || 0.06) * 300;
-          // Clouds move left/right with mouse; vertical movement is gentler
-          const tx = dx * depth;
-          const ty = dy * depth * 0.5;
-          // Combine with the ambient CSS animation via a CSS variable approach
-          cloud.style.transform = `translate(${tx}px, ${ty}px)`;
-        });
-      }
     }, { passive: true });
-
-    // Reset clouds when mouse leaves hero
-    hero.addEventListener('mouseleave', () => {
-      if (!prefersReducedMotion) {
-        heroCloudEls.forEach(cloud => { cloud.style.transform = ''; });
-      }
-    });
   }
+
+  /* ── Cloud scroll animation ──
+     • Adds body.is-scrolling  → CSS plays cloudDrift animation
+     • Moves each cloud vertically at its own speed (scroll parallax)
+  ── */
+  const heroCloudEls = document.querySelectorAll('.hero-cloud');
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  let scrollTimer;
+
+  window.addEventListener('scroll', () => {
+    if (prefersReducedMotion) return;
+    const sy = window.scrollY;
+
+    // Toggle animation class
+    document.body.classList.add('is-scrolling');
+    clearTimeout(scrollTimer);
+    scrollTimer = setTimeout(() => document.body.classList.remove('is-scrolling'), 180);
+
+    // Scroll parallax — each cloud moves at its own speed
+    heroCloudEls.forEach(cloud => {
+      const speed = parseFloat(cloud.dataset.scrollSpeed || 0.1);
+      cloud.style.transform = `translateY(${sy * speed * -1}px)`;
+    });
+  }, { passive: true });
 
   /* ── Scroll parallax ── */
   let lastScrollY = 0;
@@ -1985,6 +2057,73 @@ TONE: Be helpful, concise, and professional. Keep answers to 2-4 sentences unles
     document.addEventListener('DOMContentLoaded', initMap);
   } else {
     initMap();
+  }
+
+  /* ══════════════════════════════════════════════
+     TECH STACK TICKER — clone items for seamless loop
+  ══════════════════════════════════════════════ */
+  (function() {
+    const tpl = document.getElementById('ticker-tpl');
+    const track = document.querySelector('.ticker-track');
+    if (!tpl || !track) return;
+    // Clone content from template × 2 for seamless loop
+    const content = tpl.innerHTML;
+    track.innerHTML = content + content;
+  })();
+
+  /* ══════════════════════════════════════════════
+     LANGUAGE TOGGLE — EN / PT
+  ══════════════════════════════════════════════ */
+  const TRANSLATIONS = {
+    en: {
+      'nav-services':   'Services',
+      'nav-ai':         'AI Solutions',
+      'nav-portfolio':  'Portfolio',
+      'nav-clients':    'Clients',
+      'nav-offshore':   'Offshore Teams',
+      'nav-contact':    'Contact',
+      'nav-cta':        'Get a Free Audit',
+      'hero-badge1':    'Cloud & IT Consulting',
+      'hero-badge2':    'AI-Powered',
+      'hero-sub':       'UP2CLOUD helps companies modernise infrastructure, automate delivery, reduce cloud waste, and ship secure platforms faster — with AI-assisted execution across FinOps, DevSecOps, Kubernetes, and multi-cloud operations.',
+      'hero-cta1':      'Start Your Journey',
+      'hero-cta2':      'See AI Solutions',
+      'contact-heading':'Let\'s Talk About Your IT Goals',
+    },
+    pt: {
+      'nav-services':   'Serviços',
+      'nav-ai':         'Soluções IA',
+      'nav-portfolio':  'Portfólio',
+      'nav-clients':    'Clientes',
+      'nav-offshore':   'Equipas Offshore',
+      'nav-contact':    'Contacto',
+      'nav-cta':        'Auditoria Gratuita',
+      'hero-badge1':    'Consultoria Cloud & TI',
+      'hero-badge2':    'Com IA',
+      'hero-sub':       'A UP2CLOUD ajuda empresas a modernizar infraestruturas, automatizar entregas, reduzir custos cloud e lançar plataformas seguras mais rapidamente — com execução assistida por IA em FinOps, DevSecOps, Kubernetes e operações multi-cloud.',
+      'hero-cta1':      'Iniciar Jornada',
+      'hero-cta2':      'Ver Soluções IA',
+      'contact-heading':'Fale Sobre os Seus Objectivos TI',
+    }
+  };
+
+  let currentLang = 'en';
+  function toggleLang() {
+    currentLang = currentLang === 'en' ? 'pt' : 'en';
+    document.getElementById('lang-label').textContent = currentLang === 'en' ? 'PT' : 'EN';
+    const t = TRANSLATIONS[currentLang];
+    // Nav links
+    const navLinks = document.querySelectorAll('#navbar a[href]');
+    navLinks.forEach(a => {
+      const href = a.getAttribute('href');
+      if (href === '#services')    a.textContent = t['nav-services'];
+      if (href === '#ai')          a.textContent = t['nav-ai'];
+      if (href === '#portfolio')   a.textContent = t['nav-portfolio'];
+      if (href === '#testimonials') a.textContent = t['nav-clients'];
+      if (href === '#offshore')    a.textContent = t['nav-offshore'];
+      if (href === '#contact' && a.classList.contains('btn-primary')) a.textContent = t['nav-cta'];
+      if (href === '#contact' && !a.classList.contains('btn-primary')) a.textContent = t['nav-contact'];
+    });
   }
 </script>
 </body>
