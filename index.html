@@ -43,7 +43,12 @@
         },
       },
     };
-    const FORMSPREE_ENDPOINT = 'https://formspree.io/f/REPLACE_WITH_YOUR_ID'; // TODO: replace with the production UP2CLOUD Formspree endpoint before launch.
+    const FORMSPREE_ENDPOINT = 'https://formspree.io/f/REPLACE_WITH_YOUR_ID';
+
+    // ── Groq AI Chatbot ──────────────────────────────────────────────────────
+    // Free tier: 14,400 req/day · Get your key at https://console.groq.com
+    const GROQ_API_KEY = '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';
+    // ────────────────────────────────────────────────────────────────────────
   </script>
   <style>
     *,*::before,*::after{box-sizing:border-box}
@@ -1374,8 +1379,17 @@
   #chat-input-row { display: flex; gap: .5rem; padding: .75rem 1rem; border-top: 1px solid #F1F5F9; background: #FAFAFA; }
   #chat-input { flex: 1; border: 1px solid #E2E8F0; border-radius: 8px; padding: .5rem .75rem; font-size: .83rem; font-family: inherit; }
   #chat-input:focus { outline: 2px solid #0369A1; }
-  #chat-send { background: #0369A1; color: #fff; border: none; border-radius: 8px; padding: .5rem .85rem; font-size: .83rem; cursor: pointer; font-weight: 600; }
+  #chat-send { background: #0369A1; color: #fff; border: none; border-radius: 8px; padding: .5rem .85rem; font-size: .83rem; cursor: pointer; font-weight: 600; transition: background .2s; }
   #chat-send:hover { background: #025b88; }
+  #chat-send:disabled { background: #94A3B8; cursor: not-allowed; }
+  #chat-input:disabled { background: #F8FAFC; }
+  .chat-typing { display: flex; align-items: center; gap: 4px; padding: .65rem 1rem; background: #F1F5F9; border-radius: 4px 16px 16px 16px; width: fit-content; }
+  .chat-typing span { width: 7px; height: 7px; background: #94A3B8; border-radius: 50%; animation: typingDot .9s ease-in-out infinite; }
+  .chat-typing span:nth-child(2) { animation-delay: .15s; }
+  .chat-typing span:nth-child(3) { animation-delay: .30s; }
+  @keyframes typingDot { 0%,60%,100%{transform:translateY(0);opacity:.4} 30%{transform:translateY(-6px);opacity:1} }
+  .chat-msg.bot a { color: #0369A1; text-decoration: underline; }
+  .ai-badge { display:inline-flex;align-items:center;gap:4px;background:linear-gradient(90deg,rgba(124,58,237,.15),rgba(14,165,233,.15));color:#7C3AED;font-size:.65rem;font-weight:700;padding:2px 7px;border-radius:999px;letter-spacing:.05em;text-transform:uppercase; }
 </style>
 
 
@@ -1391,8 +1405,11 @@
       <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z" stroke="white" stroke-width="2"/></svg>
     </div>
     <div>
-      <p style="font-family:'Space Grotesk',sans-serif;font-weight:600;color:#fff;font-size:.9rem">UP2CLOUD Assistant</p>
-      <p style="color:rgba(255,255,255,.6);font-size:.73rem">Ask me anything · Usually instant</p>
+      <div style="display:flex;align-items:center;gap:6px">
+        <p style="font-family:'Space Grotesk',sans-serif;font-weight:600;color:#fff;font-size:.9rem">UP2CLOUD Assistant</p>
+        <span class="ai-badge">AI</span>
+      </div>
+      <p style="color:rgba(255,255,255,.6);font-size:.73rem">Powered by Llama 3 · Free · Instant</p>
     </div>
   </div>
   <div id="chat-messages" aria-live="polite" aria-label="Chat messages">
@@ -1577,69 +1594,164 @@
     }
   });
 
-  /* ── Chatbot FAQ ── */
+  /* ══════════════════════════════════════════════
+     AI CHATBOT — Groq (Llama 3.1 8B Instant, free)
+  ══════════════════════════════════════════════ */
   const chatBtn   = document.getElementById('chatbot-btn');
   const chatPanel = document.getElementById('chatbot-panel');
   const openIcon  = document.getElementById('chat-open-icon');
   const closeIcon = document.getElementById('chat-close-icon');
   const msgs      = document.getElementById('chat-messages');
 
+  // Conversation history for multi-turn context
+  const chatHistory = [];
+
+  // System prompt — full UP2CLOUD context
+  const SYSTEM_PROMPT = `You are the UP2CLOUD AI assistant — a knowledgeable, friendly, and concise sales/support bot for UP2CLOUD, an IT consulting firm.
+
+ABOUT UP2CLOUD:
+- Founded and led by Cesar A. Nogueira, a Senior Cloud DevOps/FinOps Engineer with 10+ years experience
+- Offices: Vila Real (Portugal 🇵🇹), São Paulo (Brasil 🇧🇷), Madrid coming soon (🇪🇸)
+- Remote-first, works with clients worldwide
+
+SERVICES:
+1. Cloud Migration — AWS, Azure, GCP, zero-downtime, multi-cloud, FinOps optimisation
+2. IT Strategy & Advisory — technology roadmaps, IT audits, digital maturity scoring
+3. DevOps & DevSecOps — Jenkins, Kubernetes, Terraform IaC, SAST/DAST, Policy-as-Code
+4. Cybersecurity — penetration testing, Zero Trust, GDPR, ISO 27001 (achieved in 4 months for clients)
+5. Digital Transformation — RPA, AI/ML integration, legacy modernisation
+6. FinOps & Cost Optimisation — typically saves clients 30–50% on cloud bills; avg client saving: 42%
+7. OpenClaw AI Installation — AI-powered personal assistant platform, integrates with Slack/Teams/WhatsApp, resolves IT issues autonomously (10× faster resolution)
+8. AI Agent Teams — coordinated teams of specialist AI agents (FinOps, incident triage, security, deploy, reporting) — 24/7 autonomous ops
+9. APAC Offshore Teams — source, vet, and manage senior engineers from India, Philippines, Vietnam, Australia — up to 60% cost savings vs EU/US hire
+
+KEY STATS:
+- 15+ successful projects
+- 42% average cloud cost reduction
+- 10× faster incident resolution with AI
+- 10+ years industry experience
+- 99% client satisfaction
+
+CERTIFICATIONS (Cesar):
+- GCP Professional Cloud Architect ×2
+- GCP Associate Cloud Engineer
+- AWS Cloud Practitioner
+- Azure AZ-900
+- OpenClaw Partner
+
+CLIENTS WORKED WITH: Randstad, ZeroLight, Accenture, everis (NTT Data), CI&T, Mindera
+
+PRICING:
+- Start with a free 30-day infrastructure audit — identifies waste and delivers a prioritised action plan
+- Project-based and retainer models available
+- Transparent pricing, no hidden fees
+- Book via the contact form on the website
+
+CONTACT:
+- Email: hello@up2cloud.io
+- Phone: +351 937 471 554
+- Website: cesarnogueira.tech
+
+TONE: Be helpful, concise, and professional. Keep answers to 2-4 sentences unless more detail is genuinely needed. Always offer to help the user book the free audit or contact Cesar directly. Do not make up information.`;
+
   chatBtn.addEventListener('click', () => {
     const isOpen = chatPanel.classList.toggle('open');
-    openIcon.style.display  = isOpen ? 'none'  : '';
-    closeIcon.style.display = isOpen ? ''      : 'none';
+    openIcon.style.display  = isOpen ? 'none' : '';
+    closeIcon.style.display = isOpen ? ''     : 'none';
     chatBtn.setAttribute('aria-expanded', String(isOpen));
     if (isOpen) document.getElementById('chat-input').focus();
   });
 
-  const FAQ = {
-    'what services do you offer':    '🚀 We offer: Cloud Migration, FinOps & Cost Optimisation, DevOps & DevSecOps, Cybersecurity, Digital Transformation, OpenClaw AI Installation, and IT Strategy & Advisory.',
-    'what is openclaw':              '🤖 OpenClaw is an AI-powered personal assistant platform that automates workflows, connects to your tools (Slack, Teams, WhatsApp), and resolves IT issues in real time. We handle the full installation and setup for your team.',
-    'how much does it cost':         '💰 Pricing depends on scope. We offer project-based and retainer models. Book a free 45-min audit and we\'ll give you a transparent estimate — no hidden fees.',
-    'do you work remotely':          '🌍 Absolutely! We\'re based in Lisbon, Portugal but work with clients worldwide. Remote-first by design.',
-    'what is finops':                '📊 FinOps is a practice for cloud financial management. We help you get visibility into your cloud spend, reduce waste, allocate costs properly, and continuously optimise — typically saving 30–50% on cloud bills.',
-    'what is devsecops':             '🔐 DevSecOps embeds security into every stage of the development pipeline — from code to deployment. Think: SAST/DAST scanning, policy-as-code, container security, and zero-trust — all automated in your CI/CD.',
-    'how fast can you start':        '⚡ We start with a <strong>30-day infrastructure audit</strong> — within the first month you get a full cost breakdown, waste identification, and a prioritised action plan. Most clients see tangible cloud cost reductions within that same window, with deeper savings compounding over 90 days.',
-    'cloud certifications':          '🏆 Cesar holds: GCP Professional Cloud Architect (×2), GCP Associate Cloud Engineer, AWS Cloud Practitioner, and Azure AZ-900. We\'re also an OpenClaw partner.',
-    'ai agent':                      '🤖 We design and deploy coordinated teams of AI agents — each with a specialist role (FinOps, incident triage, security, deploy, reporting). They collaborate autonomously, plug into your existing stack (GitHub, Slack, Jira, AWS/GCP/Azure), and escalate to humans only when needed. Available 24/7, measurable ROI from day one.',
-    'ai agents':                     '🤖 We design and deploy coordinated teams of AI agents — each with a specialist role (FinOps, incident triage, security, deploy, reporting). They collaborate autonomously, plug into your existing stack (GitHub, Slack, Jira, AWS/GCP/Azure), and escalate to humans only when needed. Available 24/7, measurable ROI from day one.',
-  };
-
-  function matchFaq(q) {
-    const lower = q.toLowerCase().replace(/[?!.]/g, '');
-    for (const [key, ans] of Object.entries(FAQ)) {
-      if (lower.includes(key) || key.split(' ').filter(w => w.length > 3).every(w => lower.includes(w))) return ans;
-    }
-    return null;
-  }
-
-  function appendMsg(text, type) {
+  function appendMsg(html, type) {
     const div = document.createElement('div');
     div.className = `chat-msg ${type}`;
-    div.textContent = text;
+    div.innerHTML = html;
     msgs.appendChild(div);
     msgs.scrollTop = msgs.scrollHeight;
+    return div;
+  }
+
+  function showTyping() {
+    const el = document.createElement('div');
+    el.id = 'chat-typing-indicator';
+    el.className = 'chat-typing';
+    el.innerHTML = '<span></span><span></span><span></span>';
+    msgs.appendChild(el);
+    msgs.scrollTop = msgs.scrollHeight;
+  }
+
+  function hideTyping() {
+    const el = document.getElementById('chat-typing-indicator');
+    if (el) el.remove();
+  }
+
+  function setInputState(disabled) {
+    document.getElementById('chat-input').disabled = disabled;
+    document.getElementById('chat-send').disabled  = disabled;
+  }
+
+  async function askAI(userText) {
+    chatHistory.push({ role: 'user', content: userText });
+    setInputState(true);
+    showTyping();
+
+    // Check if key is configured
+    if (!GROQ_API_KEY || GROQ_API_KEY === 'REPLACE_WITH_YOUR_GROQ_KEY') {
+      hideTyping();
+      setInputState(false);
+      appendMsg('⚙️ AI mode not configured yet. Drop us a line at <a href="mailto:hello@up2cloud.io">hello@up2cloud.io</a> and Cesar will reply within 24 hours!', 'bot');
+      return;
+    }
+
+    try {
+      const res = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${GROQ_API_KEY}`,
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          model: 'llama-3.1-8b-instant',
+          messages: [
+            { role: 'system', content: SYSTEM_PROMPT },
+            ...chatHistory
+          ],
+          max_tokens: 350,
+          temperature: 0.65,
+          stream: false
+        })
+      });
+
+      if (!res.ok) throw new Error(`HTTP ${res.status}`);
+      const data = await res.json();
+      const reply = data.choices?.[0]?.message?.content?.trim() || 'Sorry, I couldn\'t get a response. Please try again.';
+
+      chatHistory.push({ role: 'assistant', content: reply });
+      hideTyping();
+      // Sanitise and render
+      appendMsg(reply.replace(/\n/g, '<br>').replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>'), 'bot');
+    } catch (err) {
+      hideTyping();
+      appendMsg('⚠️ Couldn\'t reach the AI right now. Email us at <a href="mailto:hello@up2cloud.io">hello@up2cloud.io</a> — we reply within 24h!', 'bot');
+    } finally {
+      setInputState(false);
+      document.getElementById('chat-input').focus();
+    }
   }
 
   function askFaq(btn) {
     const q = btn.textContent;
     appendMsg(q, 'user');
-    setTimeout(() => {
-      const ans = matchFaq(q) || '🤔 Great question! For detailed info please email hello@up2cloud.io or book a free audit above.';
-      appendMsg(ans, 'bot');
-    }, 300);
+    askAI(q);
   }
 
   function sendChat() {
     const input = document.getElementById('chat-input');
     const q = input.value.trim();
-    if (!q) return;
+    if (!q || input.disabled) return;
     appendMsg(q, 'user');
     input.value = '';
-    setTimeout(() => {
-      const ans = matchFaq(q) || '🤔 I\'m not sure about that one! Drop us a line at hello@up2cloud.io and Cesar will reply within 24 hours.';
-      appendMsg(ans, 'bot');
-    }, 350);
+    askAI(q);
   }
 
   document.getElementById('chat-input').addEventListener('keydown', e => {
