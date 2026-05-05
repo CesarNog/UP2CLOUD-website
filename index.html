@@ -24,6 +24,10 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet" />
+  <!-- UP2CLOUD favicon — cloud SVG inline data URL -->
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='5' fill='%230F172A'/%3E%3Cpath d='M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z' stroke='%230EA5E9' stroke-width='2' stroke-linejoin='round' fill='none'/%3E%3C/svg%3E" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <script src="https://cdn.tailwindcss.com"></script>
   <script>
     tailwind.config = {
@@ -82,9 +86,74 @@
     .timeline-line{border-left:2px solid #E2E8F0;padding-left:1.5rem;margin-left:.75rem}
     .timeline-dot{width:14px;height:14px;border-radius:50%;background:linear-gradient(135deg,#0369A1,#0EA5E9);margin-left:-1.65rem;margin-top:.3rem;flex-shrink:0;box-shadow:0 0 0 3px #F0F9FF}
     @media(prefers-reduced-motion:reduce){.blob,.reveal,.service-card,.btn-primary,.btn-outline{animation:none;transition:none}}
+
+    /* ── Typewriter cursor ── */
+    .typewriter-cursor{display:inline-block;width:3px;height:.9em;background:#0EA5E9;margin-left:4px;vertical-align:middle;animation:blink .7s step-end infinite}
+    @keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
+
+    /* ── Ripple on buttons ── */
+    .btn-primary,.btn-outline{position:relative;overflow:hidden}
+    .ripple{position:absolute;border-radius:50%;background:rgba(255,255,255,.35);transform:scale(0);animation:ripple-anim .55s linear;pointer-events:none}
+    @keyframes ripple-anim{to{transform:scale(4);opacity:0}}
+
+    /* ── Hero bar animate ── */
+    .hero-bar{transition:width 1.2s cubic-bezier(.22,1,.36,1)}
+
+    /* ── Glow pulse on primary CTA ── */
+    @keyframes ctaPulse{0%,100%{box-shadow:0 8px 20px rgba(249,115,22,.35)}50%{box-shadow:0 8px 36px rgba(249,115,22,.65),0 0 0 8px rgba(249,115,22,.10)}}
+    .btn-primary.glow-pulse{animation:ctaPulse 2.4s ease-in-out infinite}
+
+    /* ── Animated gradient border on AI cards ── */
+    @keyframes borderSpin{to{--angle:360deg}}
+    @property --angle{syntax:'<angle>';initial-value:0deg;inherits:false}
+    .ai-glow-border{position:relative}
+    .ai-glow-border::before{content:'';position:absolute;inset:-1px;border-radius:inherit;background:conic-gradient(from var(--angle),#7C3AED,#0EA5E9,#F97316,#7C3AED);animation:borderSpin 4s linear infinite;z-index:-1;padding:1px}
+
+    /* ── Floating badge wobble ── */
+    @keyframes floatBadge{0%,100%{transform:translateY(0) rotate(-1deg)}50%{transform:translateY(-6px) rotate(1deg)}}
+    .float-badge{animation:floatBadge 3.5s ease-in-out infinite}
+
+    /* ── Staggered reveal for stats cards ── */
+    .stat-card{opacity:0;transform:scale(.92) translateY(20px);transition:opacity .6s ease,transform .6s cubic-bezier(.34,1.56,.64,1)}
+    .stat-card.visible{opacity:1;transform:scale(1) translateY(0)}
+
+    /* ── Shine mini-cards in portfolio ── */
+    .shine-card{position:relative;overflow:hidden;transition:transform .2s ease,box-shadow .2s ease}
+    .shine-card:hover{transform:translateY(-3px);box-shadow:0 8px 20px rgba(3,105,161,.15)}
+    .shine-card::after{content:'';position:absolute;top:-80%;left:-30%;width:40%;height:260%;background:linear-gradient(90deg,transparent,rgba(255,255,255,.5),transparent);transform:rotate(20deg);animation:miniShine 4s ease-in-out infinite}
+    @keyframes miniShine{0%,70%{left:-45%;opacity:0}76%{opacity:1}100%{left:120%;opacity:0}}
+
+    /* ── Profile photo ring pulse ── */
+    @keyframes ringPulse{0%,100%{box-shadow:0 0 0 3px #0EA5E9,0 0 0 6px rgba(14,165,233,.18),0 8px 24px rgba(3,105,161,.3)}50%{box-shadow:0 0 0 3px #38BDF8,0 0 0 10px rgba(14,165,233,.25),0 12px 32px rgba(3,105,161,.4)}}
+    .profile-avatar-ring{animation:ringPulse 3s ease-in-out infinite}
+
+    /* ── Section heading gradient shimmer ── */
+    @keyframes gradShimmer{0%{background-position:0% 50%}100%{background-position:200% 50%}}
+    .shimmer-heading{background:linear-gradient(90deg,#0F172A 0%,#0369A1 30%,#0EA5E9 50%,#7C3AED 70%,#0F172A 100%);background-size:200% auto;-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;animation:gradShimmer 5s linear infinite}
+
+    /* ── Hero cloud drift (ambient) ── */
+    @keyframes cloudDrift {
+      0%,100% { transform: translateX(0px)  translateY(0px); }
+      25%      { transform: translateX(18px) translateY(-8px); }
+      50%      { transform: translateX(8px)  translateY(-16px); }
+      75%      { transform: translateX(-12px) translateY(-6px); }
+    }
+    @media (prefers-reduced-motion: reduce) {
+      .hero-cloud { animation: none !important; }
+    }
+
+    /* ── Leaflet popup style override ── */
+    .leaflet-popup-content-wrapper{border-radius:14px!important;box-shadow:0 12px 36px rgba(3,105,161,.22)!important;border:1px solid #E2E8F0}
+    .leaflet-popup-tip{background:#fff!important}
+
+    /* ── Card inner glow on hover ── */
+    .service-card:hover::after{content:'';position:absolute;inset:0;border-radius:inherit;background:radial-gradient(circle at var(--mx,50%) var(--my,50%),rgba(14,165,233,.07),transparent 60%);pointer-events:none}
   </style>
 </head>
 <body>
+
+<!-- ══ Scroll progress bar ══ -->
+<div id="scroll-progress" style="position:fixed;top:0;left:0;height:3px;width:0%;background:linear-gradient(90deg,#0EA5E9,#7C3AED,#F97316);z-index:9999;transition:width .1s linear;pointer-events:none" aria-hidden="true"></div>
 
 <!-- ══════════════════════════ NAV ══════════════════════════ -->
 <nav id="navbar" aria-label="Main navigation" class="fixed top-0 left-0 right-0 z-50 transition-all duration-300">
@@ -100,6 +169,7 @@
       <li><a href="#ai" class="text-sm font-medium text-white/80 hover:text-white transition-colors">AI Solutions</a></li>
       <li><a href="#portfolio" class="text-sm font-medium text-white/80 hover:text-white transition-colors">Portfolio</a></li>
       <li><a href="#testimonials" class="text-sm font-medium text-white/80 hover:text-white transition-colors">Clients</a></li>
+      <li><a href="#offshore" class="text-sm font-medium text-white/80 hover:text-white transition-colors">Offshore Teams</a></li>
       <li><a href="#contact" class="text-sm font-medium text-white/80 hover:text-white transition-colors">Contact</a></li>
     </ul>
     <div class="flex items-center gap-3">
@@ -115,6 +185,7 @@
       <a href="#ai" class="block px-4 py-3 text-white/90 hover:text-white hover:bg-white/10 rounded-lg transition-colors" onclick="closeMobileMenu()">AI Solutions</a>
       <a href="#portfolio" class="block px-4 py-3 text-white/90 hover:text-white hover:bg-white/10 rounded-lg transition-colors" onclick="closeMobileMenu()">Portfolio</a>
       <a href="#testimonials" class="block px-4 py-3 text-white/90 hover:text-white hover:bg-white/10 rounded-lg transition-colors" onclick="closeMobileMenu()">Clients</a>
+      <a href="#offshore" class="block px-4 py-3 text-white/90 hover:text-white hover:bg-white/10 rounded-lg transition-colors" onclick="closeMobileMenu()">Offshore Teams</a>
       <a href="#contact" class="block px-4 py-3 text-white/90 hover:text-white hover:bg-white/10 rounded-lg transition-colors" onclick="closeMobileMenu()">Contact</a>
       <a href="#contact" class="btn-primary w-full justify-center text-sm mt-2" onclick="closeMobileMenu()">Get a Free Audit</a>
     </div>
@@ -124,12 +195,122 @@
 
 <!-- ══════════════════════════ HERO ══════════════════════════ -->
   <section id="hero" class="hero-bg parallax-scene relative min-h-screen flex items-center overflow-hidden pt-20">
+  <canvas id="particle-canvas" class="absolute inset-0 w-full h-full pointer-events-none" aria-hidden="true" style="opacity:.5;mix-blend-mode:screen"></canvas>
   <div class="blob w-96 h-96 bg-sky-light top-1/4 left-1/4" style="animation-delay:0s"></div>
   <div class="blob w-80 h-80 bg-purple-500 top-1/2 right-1/4" style="animation-delay:2.5s"></div>
   <div class="blob w-64 h-64 bg-cta bottom-1/4 left-1/3" style="animation-delay:5s"></div>
   <div class="absolute inset-0 opacity-5" style="background-image:linear-gradient(rgba(255,255,255,.5) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.5) 1px,transparent 1px);background-size:60px 60px"></div>
   <div class="orb-ring w-[720px] h-[720px] -right-48 top-24 opacity-60 parallax-layer-bg" aria-hidden="true"></div>
   <div class="orb-ring w-[520px] h-[520px] -right-24 top-48 opacity-50 parallax-layer-mid" style="animation-direction:reverse;animation-duration:34s" aria-hidden="true"></div>
+
+  <!-- ══ 3D Parallax Cloud Layer (right hero side) ══ -->
+  <div id="hero-clouds" class="absolute inset-0 pointer-events-none overflow-hidden" aria-hidden="true"
+       style="perspective:900px;transform-style:preserve-3d">
+
+    <!-- Each cloud = outer wrapper (JS mouse parallax) → inner (CSS drift animation) -->
+
+    <!-- Cloud A — large back layer, slowest -->
+    <div class="hero-cloud" data-depth="0.03"
+         style="position:absolute;right:-4%;top:8%;will-change:transform">
+      <div style="animation:cloudDrift 26s ease-in-out infinite;transform-style:preserve-3d">
+        <svg width="380" height="190" viewBox="0 0 380 190" fill="none"
+             style="opacity:.11;filter:blur(3px) drop-shadow(0 12px 24px rgba(14,165,233,.3));transform:rotateX(20deg) rotateY(-12deg)">
+          <defs>
+            <linearGradient id="cg-a" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#7DD3FC"/>
+              <stop offset="100%" stop-color="#0369A1" stop-opacity=".6"/>
+            </linearGradient>
+          </defs>
+          <ellipse cx="190" cy="145" rx="175" ry="48" fill="url(#cg-a)"/>
+          <ellipse cx="120" cy="120" rx="100" ry="72" fill="url(#cg-a)"/>
+          <ellipse cx="215" cy="108" rx="125" ry="80" fill="url(#cg-a)"/>
+          <ellipse cx="300" cy="130" rx="82"  ry="55" fill="url(#cg-a)"/>
+        </svg>
+      </div>
+    </div>
+
+    <!-- Cloud B — mid layer, mid speed -->
+    <div class="hero-cloud" data-depth="0.07"
+         style="position:absolute;right:3%;top:38%;will-change:transform">
+      <div style="animation:cloudDrift 18s ease-in-out infinite;animation-delay:-7s;transform-style:preserve-3d">
+        <svg width="260" height="130" viewBox="0 0 260 130" fill="none"
+             style="opacity:.2;filter:drop-shadow(0 8px 18px rgba(14,165,233,.35));transform:rotateX(18deg) rotateY(-8deg)">
+          <defs>
+            <linearGradient id="cg-b" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#BAE6FD"/>
+              <stop offset="100%" stop-color="#0EA5E9" stop-opacity=".7"/>
+            </linearGradient>
+          </defs>
+          <ellipse cx="130" cy="98"  rx="122" ry="34" fill="url(#cg-b)"/>
+          <ellipse cx="84"  cy="78"  rx="68"  ry="50" fill="url(#cg-b)"/>
+          <ellipse cx="152" cy="70"  rx="85"  ry="56" fill="url(#cg-b)"/>
+          <ellipse cx="210" cy="88"  rx="54"  ry="38" fill="url(#cg-b)"/>
+        </svg>
+      </div>
+    </div>
+
+    <!-- Cloud C — close layer, fastest, brightest -->
+    <div class="hero-cloud" data-depth="0.13"
+         style="position:absolute;right:-2%;top:62%;will-change:transform">
+      <div style="animation:cloudDrift 11s ease-in-out infinite;animation-delay:-4s;transform-style:preserve-3d">
+        <svg width="180" height="90" viewBox="0 0 180 90" fill="none"
+             style="opacity:.28;filter:drop-shadow(0 6px 14px rgba(124,58,237,.4));transform:rotateX(16deg) rotateY(-6deg)">
+          <defs>
+            <linearGradient id="cg-c" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#C4B5FD"/>
+              <stop offset="100%" stop-color="#7C3AED" stop-opacity=".8"/>
+            </linearGradient>
+          </defs>
+          <ellipse cx="90"  cy="68"  rx="84"  ry="24" fill="url(#cg-c)"/>
+          <ellipse cx="58"  cy="54"  rx="48"  ry="38" fill="url(#cg-c)"/>
+          <ellipse cx="108" cy="48"  rx="60"  ry="42" fill="url(#cg-c)"/>
+          <ellipse cx="148" cy="62"  rx="36"  ry="26" fill="url(#cg-c)"/>
+        </svg>
+      </div>
+    </div>
+
+    <!-- Cloud D — wide wispy top-right accent -->
+    <div class="hero-cloud" data-depth="0.05"
+         style="position:absolute;right:-8%;top:22%;will-change:transform">
+      <div style="animation:cloudDrift 32s ease-in-out infinite;animation-delay:-14s;transform-style:preserve-3d">
+        <svg width="300" height="110" viewBox="0 0 300 110" fill="none"
+             style="opacity:.09;filter:blur(4px) drop-shadow(0 10px 20px rgba(14,165,233,.2));transform:rotateX(22deg) rotateY(-16deg)">
+          <defs>
+            <linearGradient id="cg-d" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="white"/>
+              <stop offset="100%" stop-color="#38BDF8" stop-opacity=".5"/>
+            </linearGradient>
+          </defs>
+          <ellipse cx="150" cy="82"  rx="140" ry="30" fill="url(#cg-d)"/>
+          <ellipse cx="92"  cy="65"  rx="80"  ry="58" fill="url(#cg-d)"/>
+          <ellipse cx="178" cy="58"  rx="100" ry="62" fill="url(#cg-d)"/>
+          <ellipse cx="248" cy="74"  rx="56"  ry="38" fill="url(#cg-d)"/>
+        </svg>
+      </div>
+    </div>
+
+    <!-- Cloud E — tiny foreground puff, very close -->
+    <div class="hero-cloud" data-depth="0.18"
+         style="position:absolute;right:5%;top:78%;will-change:transform">
+      <div style="animation:cloudDrift 8s ease-in-out infinite;animation-delay:-1.5s;transform-style:preserve-3d">
+        <svg width="120" height="60" viewBox="0 0 120 60" fill="none"
+             style="opacity:.32;filter:drop-shadow(0 4px 10px rgba(14,165,233,.5));transform:rotateX(14deg) rotateY(-5deg)">
+          <defs>
+            <linearGradient id="cg-e" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#E0F2FE"/>
+              <stop offset="100%" stop-color="#0EA5E9"/>
+            </linearGradient>
+          </defs>
+          <ellipse cx="60"  cy="46"  rx="56"  ry="16" fill="url(#cg-e)"/>
+          <ellipse cx="38"  cy="36"  rx="32"  ry="26" fill="url(#cg-e)"/>
+          <ellipse cx="72"  cy="32"  rx="40"  ry="28" fill="url(#cg-e)"/>
+          <ellipse cx="96"  cy="42"  rx="26"  ry="18" fill="url(#cg-e)"/>
+        </svg>
+      </div>
+    </div>
+
+  </div>
+  <!-- ══ End 3D Cloud Layer ══ -->
   <div class="float-shape command-chip hidden lg:flex items-center gap-3 rounded-2xl px-4 py-3 text-white/80 text-xs right-[7%] top-[21%]" style="animation-delay:.5s" aria-hidden="true">
     <span class="w-2 h-2 rounded-full bg-green-400"></span>
     <span>AI incident triage active</span>
@@ -153,13 +334,13 @@
         </span>
       </div>
       <h1 class="font-heading font-700 text-5xl sm:text-6xl lg:text-7xl text-white leading-tight mb-6">
-        Elite Cloud,<br/>DevOps &amp; <span class="gradient-text">AI Execution</span>
+        <span id="hero-typewriter">Elite Cloud,</span><br/>DevOps &amp; <span class="gradient-text">AI Execution</span>
       </h1>
       <p class="text-white/70 text-lg leading-relaxed mb-10 max-w-xl">
         UP2CLOUD helps companies modernise infrastructure, automate delivery, reduce cloud waste, and ship secure platforms faster — with <strong class="text-white">AI-assisted execution</strong> across FinOps, DevSecOps, Kubernetes, and multi-cloud operations.
       </p>
       <div class="flex flex-wrap gap-4">
-        <a href="#contact" class="btn-primary text-base shine">
+        <a href="#contact" class="btn-primary text-base shine glow-pulse">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M13 10V3L4 14h7v7l9-11h-7z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
           Start Your Journey
         </a>
@@ -196,23 +377,23 @@
         <div class="space-y-4">
           <div>
             <div class="flex justify-between text-sm mb-1"><span class="text-white/70">Cloud Migration</span><span class="font-600">94%</span></div>
-            <div class="h-2 bg-white/10 rounded-full"><div class="h-2 bg-sky-light rounded-full" style="width:94%"></div></div>
+            <div class="h-2 bg-white/10 rounded-full"><div class="h-2 bg-sky-light rounded-full hero-bar" style="width:0%" data-bar-width="94%"></div></div>
           </div>
           <div>
             <div class="flex justify-between text-sm mb-1"><span class="text-white/70">AI Automation Speed</span><span class="font-600 text-purple-300">10× faster</span></div>
-            <div class="h-2 bg-white/10 rounded-full"><div class="h-2 rounded-full" style="width:92%;background:linear-gradient(90deg,#7C3AED,#C084FC)"></div></div>
+            <div class="h-2 bg-white/10 rounded-full"><div class="h-2 rounded-full hero-bar" style="width:0%;background:linear-gradient(90deg,#7C3AED,#C084FC)" data-bar-width="92%"></div></div>
           </div>
           <div>
             <div class="flex justify-between text-sm mb-1"><span class="text-white/70">Security Score</span><span class="font-600 text-green-400">99%</span></div>
-            <div class="h-2 bg-white/10 rounded-full"><div class="h-2 bg-green-400 rounded-full" style="width:99%"></div></div>
+            <div class="h-2 bg-white/10 rounded-full"><div class="h-2 bg-green-400 rounded-full hero-bar" style="width:0%" data-bar-width="99%"></div></div>
           </div>
           <div>
             <div class="flex justify-between text-sm mb-1"><span class="text-white/70">Cost Reduction</span><span class="font-600 text-orange-400">-42%</span></div>
-            <div class="h-2 bg-white/10 rounded-full"><div class="h-2 rounded-full" style="width:42%;background:#F97316"></div></div>
+            <div class="h-2 bg-white/10 rounded-full"><div class="h-2 rounded-full hero-bar" style="width:0%;background:#F97316" data-bar-width="42%"></div></div>
           </div>
         </div>
         <div class="mt-6 pt-5 border-t border-white/10 grid grid-cols-3 gap-4 text-center">
-          <div><p class="text-2xl font-heading font-700 text-sky-light">150+</p><p class="text-xs text-white/50 mt-1">Projects</p></div>
+          <div><p class="text-2xl font-heading font-700 text-sky-light" data-hero-count="15" data-hero-suffix="+">15+</p><p class="text-xs text-white/50 mt-1">Projects</p></div>
           <div><p class="text-2xl font-heading font-700 text-purple-300">10yr</p><p class="text-xs text-white/50 mt-1">Experience</p></div>
           <div><p class="text-2xl font-heading font-700 text-sky-light">98%</p><p class="text-xs text-white/50 mt-1">Satisfaction</p></div>
         </div>
@@ -230,13 +411,13 @@
 <section aria-label="Trusted by" class="bg-white border-y border-slate-100 py-12">
   <div class="max-w-7xl mx-auto px-6">
     <p class="text-center text-sm font-medium text-slate-400 uppercase tracking-widest mb-8">Trusted by forward-thinking companies</p>
-    <div class="flex flex-wrap justify-center items-center gap-x-14 gap-y-6 opacity-40 grayscale">
-      <span class="font-heading font-700 text-slate-700 text-xl">Randstad</span>
-      <span class="font-heading font-700 text-slate-700 text-xl">ZeroLight</span>
-      <span class="font-heading font-700 text-slate-700 text-xl">Accenture</span>
-      <span class="font-heading font-700 text-slate-700 text-xl">everis</span>
-      <span class="font-heading font-700 text-slate-700 text-xl">CI&amp;T</span>
-      <span class="font-heading font-700 text-slate-700 text-xl">Mindera</span>
+    <div class="flex flex-wrap justify-center items-center gap-x-14 gap-y-6 grayscale" id="logo-bar">
+      <span class="logo-item font-heading font-700 text-slate-700 text-xl opacity-0" style="transition:opacity .5s ease,transform .5s ease;transform:translateY(12px)">Randstad</span>
+      <span class="logo-item font-heading font-700 text-slate-700 text-xl opacity-0" style="transition:opacity .5s ease,transform .5s ease;transform:translateY(12px);transition-delay:.08s">ZeroLight</span>
+      <span class="logo-item font-heading font-700 text-slate-700 text-xl opacity-0" style="transition:opacity .5s ease,transform .5s ease;transform:translateY(12px);transition-delay:.16s">Accenture</span>
+      <span class="logo-item font-heading font-700 text-slate-700 text-xl opacity-0" style="transition:opacity .5s ease,transform .5s ease;transform:translateY(12px);transition-delay:.24s">everis</span>
+      <span class="logo-item font-heading font-700 text-slate-700 text-xl opacity-0" style="transition:opacity .5s ease,transform .5s ease;transform:translateY(12px);transition-delay:.32s">CI&amp;T</span>
+      <span class="logo-item font-heading font-700 text-slate-700 text-xl opacity-0" style="transition:opacity .5s ease,transform .5s ease;transform:translateY(12px);transition-delay:.40s">Mindera</span>
     </div>
   </div>
 </section>
@@ -247,7 +428,7 @@
   <div class="max-w-7xl mx-auto px-6">
     <div class="text-center mb-16 reveal">
       <span class="badge">What We Do</span>
-      <h2 class="font-heading font-700 text-4xl sm:text-5xl text-navy mt-4 mb-5">End-to-End IT Solutions</h2>
+      <h2 class="font-heading font-700 text-4xl sm:text-5xl mt-4 mb-5 shimmer-heading">End-to-End IT Solutions</h2>
       <p class="text-slate-500 text-lg max-w-2xl mx-auto leading-relaxed">From cloud strategy to AI automation — we bring the expertise to modernize your infrastructure and accelerate growth.</p>
     </div>
     <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
@@ -410,8 +591,105 @@
       </div>
     </div>
 
+    <!-- AI Agent Teams Feature -->
+    <div class="glass rounded-2xl p-8 md:p-12 mb-10 reveal" style="border:1px solid rgba(192,132,252,.2)">
+      <div class="grid md:grid-cols-2 gap-10 items-center">
+        <div>
+          <div class="flex items-center gap-3 mb-4">
+            <div class="w-12 h-12 rounded-xl flex items-center justify-center" style="background:linear-gradient(135deg,rgba(124,58,237,.4),rgba(249,115,22,.25))">
+              <!-- robot/agent icon -->
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                <rect x="5" y="10" width="14" height="10" rx="2" stroke="#C084FC" stroke-width="2"/>
+                <path d="M9 14h.01M15 14h.01M9 17h6" stroke="#C084FC" stroke-width="2" stroke-linecap="round"/>
+                <path d="M12 10V7" stroke="#C084FC" stroke-width="2" stroke-linecap="round"/>
+                <circle cx="12" cy="5" r="2" stroke="#C084FC" stroke-width="2"/>
+                <path d="M5 14H3M21 14h-2" stroke="#C084FC" stroke-width="2" stroke-linecap="round"/>
+              </svg>
+            </div>
+            <div>
+              <span class="font-heading font-700 text-white text-xl">AI Agent Teams</span>
+              <span class="ml-2 badge badge-ai text-xs" style="background:rgba(249,115,22,.2);color:#FB923C">New</span>
+            </div>
+          </div>
+          <p class="text-white/70 leading-relaxed mb-6">Beyond single-agent automation — UP2CLOUD designs and deploys <strong class="text-white">coordinated teams of AI agents</strong> that collaborate autonomously across your infrastructure, codebase, and business workflows. Each agent has a defined role, memory, and toolset; together they operate as a 24/7 digital workforce that never sleeps, never misses an alert, and continuously improves.</p>
+          <ul class="space-y-3 mb-8">
+            <li class="flex items-start gap-3 text-white/80 text-sm">
+              <svg width="18" height="18" fill="#A78BFA" viewBox="0 0 24 24" class="mt-0.5 shrink-0"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+              <span><strong class="text-white">Specialist roles</strong> — dedicated agents for FinOps, incident triage, security scanning, deployment, and reporting.</span>
+            </li>
+            <li class="flex items-start gap-3 text-white/80 text-sm">
+              <svg width="18" height="18" fill="#A78BFA" viewBox="0 0 24 24" class="mt-0.5 shrink-0"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+              <span><strong class="text-white">Agent-to-agent collaboration</strong> — agents delegate tasks, share context, and escalate to humans only when needed.</span>
+            </li>
+            <li class="flex items-start gap-3 text-white/80 text-sm">
+              <svg width="18" height="18" fill="#A78BFA" viewBox="0 0 24 24" class="mt-0.5 shrink-0"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+              <span><strong class="text-white">Plugs into your stack</strong> — GitHub, Jira, Slack, PagerDuty, AWS, GCP, Azure, Datadog, and more.</span>
+            </li>
+            <li class="flex items-start gap-3 text-white/80 text-sm">
+              <svg width="18" height="18" fill="#A78BFA" viewBox="0 0 24 24" class="mt-0.5 shrink-0"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+              <span><strong class="text-white">Measurable ROI</strong> — track hours saved, incidents auto-resolved, and cost anomalies caught via a live dashboard.</span>
+            </li>
+          </ul>
+          <a href="#contact" class="btn-primary inline-flex" style="background:linear-gradient(135deg,#7C3AED,#F97316)">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><rect x="5" y="10" width="14" height="10" rx="2" stroke="currentColor" stroke-width="2"/><path d="M12 10V7M12 5a2 2 0 100-4 2 2 0 000 4z" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+            Deploy My AI Team
+          </a>
+        </div>
+
+        <!-- Right: agent roster visualization -->
+        <div class="space-y-3">
+          <p class="text-white/40 text-xs uppercase tracking-widest font-medium mb-4">Example Agent Roster</p>
+
+          <div class="glass rounded-xl p-4 border border-purple-500/20 flex items-center gap-4">
+            <div class="w-10 h-10 rounded-xl shrink-0 flex items-center justify-center text-xs font-bold" style="background:linear-gradient(135deg,#0369A1,#0EA5E9);color:#fff">💰</div>
+            <div class="flex-1">
+              <p class="text-white font-medium text-sm">FinOps Agent</p>
+              <p class="text-white/45 text-xs">Monitors cloud spend 24/7, flags anomalies, files rightsizing tickets automatically.</p>
+            </div>
+            <span class="text-green-400 text-xs font-medium shrink-0 flex items-center gap-1"><span class="w-1.5 h-1.5 bg-green-400 rounded-full" style="animation:pulse 2s ease-in-out infinite"></span>Active</span>
+          </div>
+
+          <div class="glass rounded-xl p-4 border border-purple-500/20 flex items-center gap-4">
+            <div class="w-10 h-10 rounded-xl shrink-0 flex items-center justify-center text-xs font-bold" style="background:linear-gradient(135deg,#E11D48,#F97316);color:#fff">🚨</div>
+            <div class="flex-1">
+              <p class="text-white font-medium text-sm">Incident Triage Agent</p>
+              <p class="text-white/45 text-xs">Receives alerts, correlates logs, proposes root cause, and auto-creates Jira tickets.</p>
+            </div>
+            <span class="text-green-400 text-xs font-medium shrink-0 flex items-center gap-1"><span class="w-1.5 h-1.5 bg-green-400 rounded-full" style="animation:pulse 2s ease-in-out infinite"></span>Active</span>
+          </div>
+
+          <div class="glass rounded-xl p-4 border border-purple-500/20 flex items-center gap-4">
+            <div class="w-10 h-10 rounded-xl shrink-0 flex items-center justify-center text-xs font-bold" style="background:linear-gradient(135deg,#059669,#0EA5E9);color:#fff">🔐</div>
+            <div class="flex-1">
+              <p class="text-white font-medium text-sm">Security Agent</p>
+              <p class="text-white/45 text-xs">Scans IaC, container images, and IAM policies on every commit. Blocks misconfigs before they ship.</p>
+            </div>
+            <span class="text-green-400 text-xs font-medium shrink-0 flex items-center gap-1"><span class="w-1.5 h-1.5 bg-green-400 rounded-full" style="animation:pulse 2s ease-in-out infinite"></span>Active</span>
+          </div>
+
+          <div class="glass rounded-xl p-4 border border-purple-500/20 flex items-center gap-4">
+            <div class="w-10 h-10 rounded-xl shrink-0 flex items-center justify-center text-xs font-bold" style="background:linear-gradient(135deg,#7C3AED,#C084FC);color:#fff">🚀</div>
+            <div class="flex-1">
+              <p class="text-white font-medium text-sm">Deploy Agent</p>
+              <p class="text-white/45 text-xs">Validates PRs, triggers pipelines, monitors rollouts, and auto-rolls back on error rate spikes.</p>
+            </div>
+            <span class="text-yellow-400 text-xs font-medium shrink-0 flex items-center gap-1"><span class="w-1.5 h-1.5 bg-yellow-400 rounded-full"></span>Standby</span>
+          </div>
+
+          <div class="glass rounded-xl p-4 border border-purple-500/20 flex items-center gap-4">
+            <div class="w-10 h-10 rounded-xl shrink-0 flex items-center justify-center text-xs font-bold" style="background:linear-gradient(135deg,#F97316,#FBBF24);color:#fff">📊</div>
+            <div class="flex-1">
+              <p class="text-white font-medium text-sm">Reporting Agent</p>
+              <p class="text-white/45 text-xs">Compiles weekly engineering health reports, SLO summaries, and cost digests — delivered to Slack.</p>
+            </div>
+            <span class="text-green-400 text-xs font-medium shrink-0 flex items-center gap-1"><span class="w-1.5 h-1.5 bg-green-400 rounded-full" style="animation:pulse 2s ease-in-out infinite"></span>Active</span>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <!-- AI pillars -->
-    <div class="grid sm:grid-cols-3 gap-6">
+    <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
       <div class="glass rounded-2xl p-7 text-center reveal" style="transition-delay:.05s">
         <div class="w-14 h-14 mx-auto rounded-2xl flex items-center justify-center mb-4" style="background:rgba(124,58,237,.25)">
           <svg width="28" height="28" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" stroke="#C084FC" stroke-width="2"/></svg>
@@ -433,6 +711,18 @@
         <h3 class="font-heading font-600 text-white text-lg mb-2">Predictive Monitoring</h3>
         <p class="text-white/55 text-sm leading-relaxed">AI-powered anomaly detection predicts failures before they happen — keeping your systems always healthy.</p>
       </div>
+      <div class="glass rounded-2xl p-7 text-center reveal" style="transition-delay:.2s;border:1px solid rgba(249,115,22,.2)">
+        <div class="w-14 h-14 mx-auto rounded-2xl flex items-center justify-center mb-4" style="background:linear-gradient(135deg,rgba(124,58,237,.3),rgba(249,115,22,.2))">
+          <svg width="28" height="28" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <rect x="4" y="9" width="16" height="11" rx="2" stroke="#FB923C" stroke-width="2"/>
+            <path d="M9 13h.01M15 13h.01M9 16h6" stroke="#FB923C" stroke-width="2" stroke-linecap="round"/>
+            <path d="M12 9V6M12 4a2 2 0 100-4 2 2 0 000 4z" stroke="#FB923C" stroke-width="2" stroke-linecap="round"/>
+            <path d="M4 13H2M22 13h-2" stroke="#FB923C" stroke-width="2" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <h3 class="font-heading font-600 text-white text-lg mb-2">AI Agent Teams</h3>
+        <p class="text-white/55 text-sm leading-relaxed">A coordinated crew of specialist AI agents — FinOps, security, deploy, triage — running your ops autonomously around the clock.</p>
+      </div>
     </div>
   </div>
 </section>
@@ -447,21 +737,157 @@
       <h2 class="font-heading font-700 text-4xl sm:text-5xl text-white mt-4 mb-5">Results That Speak</h2>
     </div>
     <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
-      <div class="glass rounded-2xl p-8 text-center reveal" style="transition-delay:.05s">
-        <p class="font-heading font-700 text-5xl text-sky-light mb-2" data-target="150" data-suffix="+">0</p>
+      <div class="glass rounded-2xl p-8 text-center reveal stat-card" style="transition-delay:.05s">
+        <p class="font-heading font-700 text-5xl text-sky-light mb-2" data-target="15" data-suffix="+">0</p>
         <p class="text-white/50 text-sm mt-1">Successful Projects</p>
       </div>
-      <div class="glass rounded-2xl p-8 text-center reveal" style="transition-delay:.1s">
+      <div class="glass rounded-2xl p-8 text-center reveal stat-card" style="transition-delay:.1s">
         <p class="font-heading font-700 text-5xl text-orange-400 mb-2" data-target="42" data-suffix="%">0</p>
         <p class="text-white/50 text-sm mt-1">Avg. Infrastructure Cost Reduction</p>
       </div>
-      <div class="glass rounded-2xl p-8 text-center reveal" style="transition-delay:.15s">
+      <div class="glass rounded-2xl p-8 text-center reveal stat-card" style="transition-delay:.15s">
         <p class="font-heading font-700 text-5xl text-purple-300 mb-2" data-target="10" data-suffix="×">0</p>
         <p class="text-white/50 text-sm mt-1">Faster Problem Resolution with AI</p>
       </div>
-      <div class="glass rounded-2xl p-8 text-center reveal" style="transition-delay:.2s">
+      <div class="glass rounded-2xl p-8 text-center reveal stat-card" style="transition-delay:.2s">
         <p class="font-heading font-700 text-5xl text-sky-light mb-2" data-target="10" data-suffix="+ yr">0</p>
         <p class="text-white/50 text-sm mt-1">Industry Experience</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+
+<!-- ══════════════════════════ APAC OFFSHORE ══════════════════════════ -->
+<section id="offshore" aria-label="APAC Offshore Teams" class="py-24 bg-white relative overflow-hidden">
+  <!-- Decorative background blobs -->
+  <div class="absolute top-0 right-0 w-[500px] h-[500px] opacity-5 pointer-events-none" style="background:radial-gradient(circle,#0EA5E9,transparent 70%);transform:translate(30%,-30%)"></div>
+  <div class="absolute bottom-0 left-0 w-[400px] h-[400px] opacity-5 pointer-events-none" style="background:radial-gradient(circle,#7C3AED,transparent 70%);transform:translate(-30%,30%)"></div>
+
+  <div class="relative z-10 max-w-7xl mx-auto px-6">
+    <div class="text-center mb-16 reveal">
+      <span class="badge" style="background:rgba(14,165,233,.12);color:#0369A1">New Service</span>
+      <h2 class="font-heading font-700 text-4xl sm:text-5xl mt-4 mb-5 shimmer-heading">Build Your APAC Offshore Team</h2>
+      <p class="text-slate-500 text-lg max-w-2xl mx-auto leading-relaxed">Cut engineering costs by up to <strong class="text-navy">60%</strong> without sacrificing quality. UP2CLOUD sources, vets, and manages high-calibre cloud &amp; software engineers across Asia-Pacific — fully integrated into your workflows.</p>
+    </div>
+
+    <!-- Main feature card -->
+    <div class="rounded-3xl overflow-hidden mb-10 reveal" style="background:linear-gradient(135deg,#020617 0%,#0F172A 40%,#0C4A6E 100%);box-shadow:0 24px 60px rgba(3,105,161,.2)">
+      <div class="grid lg:grid-cols-2 gap-0">
+        <!-- Left: pitch -->
+        <div class="p-10 md:p-14">
+          <div class="flex items-center gap-3 mb-6">
+            <div class="w-12 h-12 rounded-2xl flex items-center justify-content-center" style="background:linear-gradient(135deg,rgba(14,165,233,.3),rgba(124,58,237,.25));display:flex;align-items:center;justify-content:center">
+              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="10" stroke="#38BDF8" stroke-width="1.5"/><path d="M2 12h20M12 2a15.3 15.3 0 010 20M12 2a15.3 15.3 0 000 20" stroke="#38BDF8" stroke-width="1.5" stroke-linecap="round"/></svg>
+            </div>
+            <span class="font-heading font-700 text-white text-xl">Offshore-as-a-Service</span>
+          </div>
+          <p class="text-white/70 leading-relaxed mb-8">We handle the full lifecycle — from talent sourcing in India, Philippines, Vietnam, and Australia to onboarding, tooling, timezone alignment, and ongoing performance management. You get a battle-tested cloud team without the hiring overhead.</p>
+          <ul class="space-y-4 mb-10">
+            <li class="flex items-start gap-3 text-white/80 text-sm">
+              <svg width="20" height="20" fill="#38BDF8" viewBox="0 0 24 24" class="mt-0.5 shrink-0" aria-hidden="true"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+              <span><strong class="text-white">Pre-vetted engineers</strong> — cloud, DevOps, FinOps, and platform roles. Senior level minimum.</span>
+            </li>
+            <li class="flex items-start gap-3 text-white/80 text-sm">
+              <svg width="20" height="20" fill="#38BDF8" viewBox="0 0 24 24" class="mt-0.5 shrink-0" aria-hidden="true"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+              <span><strong class="text-white">24/7 coverage capability</strong> — APAC timezones complement EU/US teams for round-the-clock operations.</span>
+            </li>
+            <li class="flex items-start gap-3 text-white/80 text-sm">
+              <svg width="20" height="20" fill="#38BDF8" viewBox="0 0 24 24" class="mt-0.5 shrink-0" aria-hidden="true"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+              <span><strong class="text-white">Fully managed</strong> — UP2CLOUD acts as the technical lead. You keep full control, we handle day-to-day management.</span>
+            </li>
+            <li class="flex items-start gap-3 text-white/80 text-sm">
+              <svg width="20" height="20" fill="#38BDF8" viewBox="0 0 24 24" class="mt-0.5 shrink-0" aria-hidden="true"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+              <span><strong class="text-white">IP &amp; security compliant</strong> — NDAs, data residency controls, and ISO 27001-aligned practices from day one.</span>
+            </li>
+          </ul>
+          <a href="#contact" class="btn-primary inline-flex" style="background:linear-gradient(135deg,#0369A1,#0EA5E9)">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            Build My Offshore Team
+          </a>
+        </div>
+
+        <!-- Right: cost breakdown -->
+        <div class="p-10 md:p-14 border-t border-white/10 lg:border-t-0 lg:border-l">
+          <p class="font-heading font-600 text-white/60 text-xs uppercase tracking-widest mb-6">Typical Cost Comparison</p>
+          <div class="space-y-5">
+            <div>
+              <div class="flex justify-between text-sm mb-2">
+                <span class="text-white/70">Senior DevOps · EU / UK</span>
+                <span class="font-heading font-700 text-white">€110–140k/yr</span>
+              </div>
+              <div class="h-2.5 bg-white/10 rounded-full">
+                <div class="h-2.5 rounded-full hero-bar" style="width:0%;background:rgba(239,68,68,.6)" data-bar-width="100%"></div>
+              </div>
+            </div>
+            <div>
+              <div class="flex justify-between text-sm mb-2">
+                <span class="text-white/70">Senior DevOps · US</span>
+                <span class="font-heading font-700 text-white">$140–180k/yr</span>
+              </div>
+              <div class="h-2.5 bg-white/10 rounded-full">
+                <div class="h-2.5 rounded-full hero-bar" style="width:0%;background:rgba(239,68,68,.45)" data-bar-width="95%"></div>
+              </div>
+            </div>
+            <div>
+              <div class="flex justify-between text-sm mb-2">
+                <span class="text-white/70">Senior DevOps · India / SEA</span>
+                <span class="font-heading font-700 text-green-400">€40–60k/yr</span>
+              </div>
+              <div class="h-2.5 bg-white/10 rounded-full">
+                <div class="h-2.5 rounded-full hero-bar" style="width:0%;background:linear-gradient(90deg,#22C55E,#16A34A)" data-bar-width="40%"></div>
+              </div>
+            </div>
+            <div>
+              <div class="flex justify-between text-sm mb-2">
+                <span class="text-white/70">Senior DevOps · Australia / NZ</span>
+                <span class="font-heading font-700 text-sky-light">€65–90k/yr</span>
+              </div>
+              <div class="h-2.5 bg-white/10 rounded-full">
+                <div class="h-2.5 rounded-full hero-bar" style="width:0%;background:linear-gradient(90deg,#0EA5E9,#38BDF8)" data-bar-width="60%"></div>
+              </div>
+            </div>
+          </div>
+
+          <div class="mt-8 rounded-2xl p-5 text-center" style="background:rgba(34,197,94,.1);border:1px solid rgba(34,197,94,.25)">
+            <p class="text-green-400 font-heading font-700 text-3xl mb-1">Up to 60% savings</p>
+            <p class="text-white/55 text-sm">on equivalent engineering headcount vs EU/US hire</p>
+          </div>
+
+          <div class="mt-6 grid grid-cols-3 gap-3 text-center">
+            <div class="glass rounded-xl p-3">
+              <p class="font-heading font-700 text-sky-light text-lg">🇮🇳</p>
+              <p class="text-white/50 text-xs mt-1">India</p>
+            </div>
+            <div class="glass rounded-xl p-3">
+              <p class="font-heading font-700 text-sky-light text-lg">🇵🇭</p>
+              <p class="text-white/50 text-xs mt-1">Philippines</p>
+            </div>
+            <div class="glass rounded-xl p-3">
+              <p class="font-heading font-700 text-sky-light text-lg">🇻🇳</p>
+              <p class="text-white/50 text-xs mt-1">Vietnam</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 3 process steps -->
+    <div class="grid sm:grid-cols-3 gap-6">
+      <div class="bg-slate-50 border border-slate-100 rounded-2xl p-7 reveal" style="transition-delay:.05s">
+        <div class="step-dot mb-4">1</div>
+        <h3 class="font-heading font-600 text-navy text-lg mb-2">Define &amp; Source</h3>
+        <p class="text-slate-500 text-sm leading-relaxed">We map your exact role requirements, then source candidates from our APAC network — only senior-level, cloud-native engineers with proven production experience.</p>
+      </div>
+      <div class="bg-slate-50 border border-slate-100 rounded-2xl p-7 reveal" style="transition-delay:.1s">
+        <div class="step-dot mb-4">2</div>
+        <h3 class="font-heading font-600 text-navy text-lg mb-2">Onboard &amp; Integrate</h3>
+        <p class="text-slate-500 text-sm leading-relaxed">UP2CLOUD handles contracts, tooling setup, security onboarding, and async communication frameworks so your new team is productive from week one.</p>
+      </div>
+      <div class="bg-slate-50 border border-slate-100 rounded-2xl p-7 reveal" style="transition-delay:.15s">
+        <div class="step-dot mb-4">3</div>
+        <h3 class="font-heading font-600 text-navy text-lg mb-2">Lead &amp; Scale</h3>
+        <p class="text-slate-500 text-sm leading-relaxed">We provide ongoing technical leadership, performance reviews, and scaling support. Add engineers as demand grows — no agency fees, no long-term lock-in.</p>
       </div>
     </div>
   </div>
@@ -473,7 +899,7 @@
   <div class="max-w-7xl mx-auto px-6">
     <div class="text-center mb-16 reveal">
       <span class="badge">Behind UP2CLOUD</span>
-      <h2 class="font-heading font-700 text-4xl sm:text-5xl text-navy mt-4 mb-5">Built by a Certified Expert</h2>
+      <h2 class="font-heading font-700 text-4xl sm:text-5xl mt-4 mb-5 shimmer-heading">Built by a Certified Expert</h2>
       <p class="text-slate-500 text-lg max-w-2xl mx-auto leading-relaxed">UP2CLOUD is led by <strong>Cesar A. Nogueira</strong>, a Cloud DevOps Engineer with 10+ years building and scaling infrastructure across three continents.</p>
     </div>
 
@@ -483,14 +909,35 @@
       <div class="reveal">
         <div class="bg-slate-50 rounded-2xl p-8 mb-6 border border-slate-100">
           <div class="flex items-center gap-4 mb-5">
-            <div class="w-16 h-16 rounded-2xl flex items-center justify-center text-white font-heading font-700 text-2xl" style="background:linear-gradient(135deg,#0369A1,#0EA5E9)">CN</div>
+            <div class="relative profile-photo-wrap">
+              <div class="w-20 h-20 rounded-2xl overflow-hidden profile-avatar-ring" style="box-shadow:0 0 0 3px #0EA5E9,0 0 0 6px rgba(14,165,233,.18),0 8px 24px rgba(3,105,161,.3)">
+                <img id="profile-photo" src="assets/img/cesar.jpg" alt="Cesar A. Nogueira" class="w-full h-full object-cover object-top" onerror="this.style.display='none';document.getElementById('profile-initials').style.display='flex';" />
+                <div id="profile-initials" class="w-full h-full items-center justify-content-center text-white font-heading font-700 text-2xl" style="display:none;background:linear-gradient(135deg,#0369A1,#0EA5E9);align-items:center;justify-content:center">CN</div>
+              </div>
+              <span class="absolute -bottom-1 -right-1 w-5 h-5 bg-green-400 rounded-full border-2 border-white" title="Available for projects" style="animation:pulse 2s ease-in-out infinite"></span>
+            </div>
             <div>
               <p class="font-heading font-700 text-navy text-lg">Cesar A. Nogueira</p>
               <p class="text-slate-500 text-sm">Cloud FinOps &amp; DevOps Engineer</p>
               <a href="https://cesarnogueira.tech" target="_blank" rel="noopener noreferrer" class="text-sky-brand text-xs hover:underline focus-visible:outline-2 focus-visible:outline-sky-brand rounded">cesarnogueira.tech ↗</a>
             </div>
           </div>
-          <p class="text-slate-500 text-sm leading-relaxed">Cloud DevOps Engineer with 10+ years specialising in infrastructure automation, FinOps, and cost optimisation across multi-cloud environments (GCP · AWS · Azure · Oracle Cloud).</p>
+          <!-- Impact highlights strip -->
+          <div class="grid grid-cols-3 gap-3 mb-5">
+            <div class="rounded-xl p-3 text-center shine-card" style="background:linear-gradient(135deg,#EFF6FF,#DBEAFE)">
+              <p class="font-heading font-700 text-sky-brand text-lg">−42%</p>
+              <p class="text-slate-500 text-xs mt-0.5">Cloud cost saved</p>
+            </div>
+            <div class="rounded-xl p-3 text-center shine-card" style="background:linear-gradient(135deg,#F5F3FF,#EDE9FE)">
+              <p class="font-heading font-700 text-purple-600 text-lg">10×</p>
+              <p class="text-slate-500 text-xs mt-0.5">Faster resolution</p>
+            </div>
+            <div class="rounded-xl p-3 text-center shine-card" style="background:linear-gradient(135deg,#ECFDF5,#D1FAE5)">
+              <p class="font-heading font-700 text-green-600 text-lg">99%</p>
+              <p class="text-slate-500 text-xs mt-0.5">Uptime delivered</p>
+            </div>
+          </div>
+          <p class="text-slate-500 text-sm leading-relaxed">Senior Cloud DevOps Engineer with <strong class="text-navy">10+ years</strong> specialising in infrastructure automation, FinOps, and cost optimisation. Has led multi-cloud platforms (GCP · AWS · Azure · Oracle Cloud) for clients across <strong class="text-navy">Brazil, UK, Spain, and Portugal</strong> — from automotive 3D configurators at scale to enterprise FinOps pipelines reducing cloud spend by millions annually.</p>
         </div>
 
         <p class="font-heading font-600 text-sm text-navy uppercase tracking-wider mb-4">Certifications</p>
@@ -559,7 +1006,13 @@
               </div>
               <p class="text-sky-brand font-medium text-sm mb-1">Randstad Digital Portugal</p>
               <p class="text-slate-400 text-xs mb-2">Feb 2022 – Present</p>
-              <p class="text-slate-500 text-sm leading-relaxed">Cloud infrastructure automation and FinOps optimisation across multi-cloud environments, driving significant cost reductions through automated governance and reporting pipelines.</p>
+              <p class="text-slate-500 text-sm leading-relaxed">Cloud infrastructure automation and FinOps optimisation across GCP, AWS &amp; Azure for clients including <strong class="text-navy">Repsol, AgileTV, and Universidad Europea</strong>. Built automated governance pipelines cutting cloud waste by 35–42%, deployed Kubernetes clusters at scale, and authored Terraform modules adopted org-wide.</p>
+              <div class="flex flex-wrap gap-2 mt-3">
+                <span class="badge text-xs" style="font-size:.7rem">GCP · AWS · Azure</span>
+                <span class="badge text-xs" style="font-size:.7rem">Terraform IaC</span>
+                <span class="badge text-xs" style="font-size:.7rem">FinOps · BigQuery</span>
+                <span class="badge text-xs" style="font-size:.7rem">Kubernetes · GKE</span>
+              </div>
             </div>
           </div>
 
@@ -572,7 +1025,12 @@
               <p class="font-heading font-600 text-navy mb-1">DevOps Engineer</p>
               <p class="text-sky-brand font-medium text-sm mb-1">ZeroLight LLC</p>
               <p class="text-slate-400 text-xs mb-2">Aug 2021 – Feb 2022</p>
-              <p class="text-slate-500 text-sm leading-relaxed">Built and managed cloud infrastructure for global automotive clients on AWS and GCP, enabling real-time 3D vehicle configurators at scale.</p>
+              <p class="text-slate-500 text-sm leading-relaxed">Architected and managed cloud infrastructure on AWS &amp; GCP for global automotive clients, enabling <strong class="text-navy">real-time 3D vehicle configurators</strong> serving millions of users. Optimised Kubernetes node pools and CDN pipelines for sub-100ms render latency at scale.</p>
+              <div class="flex flex-wrap gap-2 mt-3">
+                <span class="badge text-xs" style="font-size:.7rem">AWS · GCP</span>
+                <span class="badge text-xs" style="font-size:.7rem">Kubernetes</span>
+                <span class="badge text-xs" style="font-size:.7rem">High-Traffic Scale</span>
+              </div>
             </div>
           </div>
 
@@ -585,7 +1043,12 @@
               <p class="font-heading font-600 text-navy mb-1">Technology Architecture Manager</p>
               <p class="text-sky-brand font-medium text-sm mb-1">Accenture Interactive Brazil</p>
               <p class="text-slate-400 text-xs mb-2">Aug 2020 – Aug 2021</p>
-              <p class="text-slate-500 text-sm leading-relaxed">Led Kubernetes administration, Jenkins/Spinnaker pipeline automation, and managed cloud enablement teams delivering large-scale digital transformation projects.</p>
+              <p class="text-slate-500 text-sm leading-relaxed">Led Kubernetes cluster administration and Jenkins/Spinnaker pipeline automation for <strong class="text-navy">large-scale digital transformation</strong> at one of Brazil's top consultancies. Managed cross-functional cloud enablement squads across multiple enterprise accounts.</p>
+              <div class="flex flex-wrap gap-2 mt-3">
+                <span class="badge text-xs" style="font-size:.7rem">Kubernetes · Spinnaker</span>
+                <span class="badge text-xs" style="font-size:.7rem">Jenkins CI/CD</span>
+                <span class="badge text-xs" style="font-size:.7rem">Team Leadership</span>
+              </div>
             </div>
           </div>
 
@@ -739,9 +1202,19 @@
           </div>
           <div>
             <p class="text-xs text-slate-400 font-medium uppercase tracking-wider">Location</p>
-            <p class="text-navy font-medium">Lisbon, Portugal · Remote Anywhere</p>
+            <p class="text-navy font-medium leading-relaxed">🇵🇹 Vila Real, Portugal &nbsp;·&nbsp; 🇧🇷 São Paulo, Brasil<br/><span class="text-slate-400 text-sm">🇪🇸 Madrid — coming soon &nbsp;·&nbsp; Remote Worldwide</span></p>
           </div>
         </div>
+      </div>
+
+      <!-- Interactive Map -->
+      <div class="mt-8 reveal" style="transition-delay:.15s">
+        <p class="font-heading font-600 text-sm text-navy uppercase tracking-wider mb-3 flex items-center gap-2">
+          <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#0369A1" stroke-width="2" aria-hidden="true"><path d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+          Our Location
+        </p>
+        <div id="contact-map" class="rounded-2xl overflow-hidden border border-slate-200" style="height:260px;box-shadow:0 4px 20px rgba(3,105,161,.12)"></div>
+        <p class="text-xs text-slate-400 mt-2 text-center">🇵🇹 Vila Real &nbsp;·&nbsp; 🇧🇷 São Paulo &nbsp;·&nbsp; 🇪🇸 Madrid (soon) &nbsp;·&nbsp; Remote Worldwide</p>
       </div>
     </div>
 
@@ -776,6 +1249,8 @@
             <option value="security">Cybersecurity</option>
             <option value="digital">Digital Transformation</option>
             <option value="managed">Managed IT Services</option>
+            <option value="offshore">APAC Offshore Team Building</option>
+            <option value="aiagents">AI Agent Team Deployment</option>
           </select>
         </div>
         <div class="mb-6">
@@ -808,9 +1283,10 @@
           <span class="font-heading font-700 text-xl">UP2<span class="text-sky-light">CLOUD</span></span>
         </div>
         <p class="text-white/50 text-sm leading-relaxed mb-4">Elevating businesses through expert cloud, DevOps, FinOps, cybersecurity, and AI consulting since 2016.</p>
-        <a href="https://github.com/CesarNog" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 text-white/50 hover:text-white text-sm transition-colors">
+        <p class="text-white/35 text-xs leading-relaxed mb-4">🇵🇹 Vila Real &nbsp;·&nbsp; 🇧🇷 São Paulo &nbsp;·&nbsp; 🇪🇸 Madrid (soon)<br/>Remote-first · APAC Offshore Teams</p>
+        <a href="https://github.com/UP2CLOUD" target="_blank" rel="noopener noreferrer" class="inline-flex items-center gap-2 text-white/50 hover:text-white text-sm transition-colors">
           <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24" aria-hidden="true"><path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0112 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/></svg>
-          github.com/CesarNog
+          github.com/UP2CLOUD
         </a>
       </div>
       <nav aria-label="Services links">
@@ -822,6 +1298,7 @@
           <li><a href="#services" class="hover:text-white transition-colors">DevOps &amp; CI/CD</a></li>
           <li><a href="#services" class="hover:text-white transition-colors">Cybersecurity</a></li>
           <li><a href="#services" class="hover:text-white transition-colors">Managed IT</a></li>
+          <li><a href="#offshore" class="hover:text-white transition-colors">APAC Offshore Teams</a></li>
         </ul>
       </nav>
       <nav aria-label="Company links">
@@ -854,7 +1331,7 @@
     <div class="border-t border-white/10 pt-8 flex flex-col sm:flex-row justify-between items-center gap-4 text-sm text-white/40">
       <p>&copy; 2026 UP2CLOUD · Cesar A. Nogueira. All rights reserved.</p>
       <div class="flex gap-6">
-        <a href="https://github.com/CesarNog/UP2CLOUD-website" target="_blank" rel="noopener noreferrer" class="hover:text-white/70 transition-colors">GitHub</a>
+        <a href="https://github.com/UP2CLOUD" target="_blank" rel="noopener noreferrer" class="hover:text-white/70 transition-colors">GitHub</a>
         <a href="#contact" class="hover:text-white/70 transition-colors">Contact</a>
       </div>
     </div>
@@ -927,8 +1404,9 @@
       <button class="chat-faq-btn" onclick="askFaq(this)">Do you work remotely?</button>
       <button class="chat-faq-btn" onclick="askFaq(this)">What is FinOps?</button>
       <button class="chat-faq-btn" onclick="askFaq(this)">What is DevSecOps?</button>
-      <button class="chat-faq-btn" onclick="askFaq(this)">How fast can you start?</button>
+      <button class="chat-faq-btn" onclick="askFaq(this)">30-day audit + cost reduction?</button>
       <button class="chat-faq-btn" onclick="askFaq(this)">Cloud certifications?</button>
+      <button class="chat-faq-btn" onclick="askFaq(this)">What are AI agents?</button>
     </div>
   </div>
   <div id="chat-input-row">
@@ -1008,18 +1486,42 @@
     });
   });
 
-  /* ── Hero 3D mouse parallax ── */
+  /* ── Hero 3D mouse parallax (blobs + clouds) ── */
   const hero = document.getElementById('hero');
+  const heroCloudEls = document.querySelectorAll('.hero-cloud');
+  const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
   if (hero) {
     hero.addEventListener('mousemove', e => {
-      const cx = window.innerWidth / 2;
+      const cx = window.innerWidth  / 2;
       const cy = window.innerHeight / 2;
-      const dx = (e.clientX - cx) / cx;
-      const dy = (e.clientY - cy) / cy;
+      const dx = (e.clientX - cx) / cx;   // -1 … +1
+      const dy = (e.clientY - cy) / cy;   // -1 … +1
+
+      // Existing blob parallax
       document.querySelectorAll('.blob').forEach((b, i) => {
         const depth = (i + 1) * 8;
         b.style.transform = `translate(${dx * depth}px, ${dy * depth}px)`;
       });
+
+      // Cloud parallax — each cloud has its own depth factor
+      if (!prefersReducedMotion) {
+        heroCloudEls.forEach(cloud => {
+          const depth = parseFloat(cloud.dataset.depth || 0.06) * 300;
+          // Clouds move left/right with mouse; vertical movement is gentler
+          const tx = dx * depth;
+          const ty = dy * depth * 0.5;
+          // Combine with the ambient CSS animation via a CSS variable approach
+          cloud.style.transform = `translate(${tx}px, ${ty}px)`;
+        });
+      }
+    }, { passive: true });
+
+    // Reset clouds when mouse leaves hero
+    hero.addEventListener('mouseleave', () => {
+      if (!prefersReducedMotion) {
+        heroCloudEls.forEach(cloud => { cloud.style.transform = ''; });
+      }
     });
   }
 
@@ -1097,8 +1599,10 @@
     'do you work remotely':          '🌍 Absolutely! We\'re based in Lisbon, Portugal but work with clients worldwide. Remote-first by design.',
     'what is finops':                '📊 FinOps is a practice for cloud financial management. We help you get visibility into your cloud spend, reduce waste, allocate costs properly, and continuously optimise — typically saving 30–50% on cloud bills.',
     'what is devsecops':             '🔐 DevSecOps embeds security into every stage of the development pipeline — from code to deployment. Think: SAST/DAST scanning, policy-as-code, container security, and zero-trust — all automated in your CI/CD.',
-    'how fast can you start':        '⚡ Fast! For most engagements we can kick off within 1 week. First measurable outcomes typically within 30 days.',
+    'how fast can you start':        '⚡ We start with a <strong>30-day infrastructure audit</strong> — within the first month you get a full cost breakdown, waste identification, and a prioritised action plan. Most clients see tangible cloud cost reductions within that same window, with deeper savings compounding over 90 days.',
     'cloud certifications':          '🏆 Cesar holds: GCP Professional Cloud Architect (×2), GCP Associate Cloud Engineer, AWS Cloud Practitioner, and Azure AZ-900. We\'re also an OpenClaw partner.',
+    'ai agent':                      '🤖 We design and deploy coordinated teams of AI agents — each with a specialist role (FinOps, incident triage, security, deploy, reporting). They collaborate autonomously, plug into your existing stack (GitHub, Slack, Jira, AWS/GCP/Azure), and escalate to humans only when needed. Available 24/7, measurable ROI from day one.',
+    'ai agents':                     '🤖 We design and deploy coordinated teams of AI agents — each with a specialist role (FinOps, incident triage, security, deploy, reporting). They collaborate autonomously, plug into your existing stack (GitHub, Slack, Jira, AWS/GCP/Azure), and escalate to humans only when needed. Available 24/7, measurable ROI from day one.',
   };
 
   function matchFaq(q) {
@@ -1141,6 +1645,235 @@
   document.getElementById('chat-input').addEventListener('keydown', e => {
     if (e.key === 'Enter') sendChat();
   });
+
+  /* ══════════════════════════════════════════════
+     SCROLL PROGRESS BAR
+  ══════════════════════════════════════════════ */
+  const progressBar = document.getElementById('scroll-progress');
+  window.addEventListener('scroll', () => {
+    const doc = document.documentElement;
+    const scrolled = doc.scrollTop / (doc.scrollHeight - doc.clientHeight);
+    progressBar.style.width = (scrolled * 100) + '%';
+  }, { passive: true });
+
+  /* ══════════════════════════════════════════════
+     PARTICLE CANVAS
+  ══════════════════════════════════════════════ */
+  (function() {
+    const canvas = document.getElementById('particle-canvas');
+    if (!canvas) return;
+    const ctx = canvas.getContext('2d');
+    let W, H, particles = [];
+
+    function resize() {
+      W = canvas.width  = canvas.offsetWidth;
+      H = canvas.height = canvas.offsetHeight;
+    }
+    resize();
+    window.addEventListener('resize', resize, { passive: true });
+
+    const COLORS = ['#0EA5E9','#7C3AED','#F97316','#38BDF8','#C084FC'];
+    function Particle() {
+      this.reset = function() {
+        this.x  = Math.random() * W;
+        this.y  = Math.random() * H;
+        this.r  = Math.random() * 1.8 + .4;
+        this.vx = (Math.random() - .5) * .35;
+        this.vy = (Math.random() - .5) * .35;
+        this.alpha = Math.random() * .55 + .15;
+        this.color = COLORS[Math.floor(Math.random() * COLORS.length)];
+      };
+      this.reset();
+    }
+    for (let i = 0; i < 90; i++) particles.push(new Particle());
+
+    function draw() {
+      ctx.clearRect(0, 0, W, H);
+      particles.forEach(p => {
+        p.x += p.vx; p.y += p.vy;
+        if (p.x < 0 || p.x > W || p.y < 0 || p.y > H) p.reset();
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        ctx.fillStyle = p.color;
+        ctx.globalAlpha = p.alpha;
+        ctx.fill();
+      });
+      ctx.globalAlpha = 1;
+      requestAnimationFrame(draw);
+    }
+    draw();
+  })();
+
+  /* ══════════════════════════════════════════════
+     TYPEWRITER EFFECT — hero headline
+  ══════════════════════════════════════════════ */
+  (function() {
+    const el = document.getElementById('hero-typewriter');
+    if (!el) return;
+    const phrases = ['Elite Cloud,', 'Scale Securely.', 'Ship Faster.', 'Spend Less.', 'Elite Cloud,'];
+    let phraseIdx = 0, charIdx = 0, deleting = false;
+    const cursor = document.createElement('span');
+    cursor.className = 'typewriter-cursor';
+    el.parentNode.insertBefore(cursor, el.nextSibling);
+
+    function type() {
+      const phrase = phrases[phraseIdx];
+      if (!deleting) {
+        el.textContent = phrase.slice(0, ++charIdx);
+        if (charIdx === phrase.length) {
+          if (phraseIdx === phrases.length - 1) return; // stop on final phrase
+          deleting = true;
+          setTimeout(type, 1400);
+          return;
+        }
+      } else {
+        el.textContent = phrase.slice(0, --charIdx);
+        if (charIdx === 0) {
+          deleting = false;
+          phraseIdx++;
+        }
+      }
+      setTimeout(type, deleting ? 55 : 95);
+    }
+    setTimeout(type, 800);
+  })();
+
+  /* ══════════════════════════════════════════════
+     HERO CARD PROGRESS BARS — animate on load
+  ══════════════════════════════════════════════ */
+  window.addEventListener('load', () => {
+    setTimeout(() => {
+      document.querySelectorAll('.hero-bar').forEach((bar, i) => {
+        setTimeout(() => {
+          bar.style.width = bar.dataset.barWidth;
+        }, i * 180);
+      });
+    }, 400);
+  });
+
+  /* ══════════════════════════════════════════════
+     RIPPLE EFFECT on .btn-primary & .btn-outline
+  ══════════════════════════════════════════════ */
+  document.querySelectorAll('.btn-primary, .btn-outline').forEach(btn => {
+    btn.addEventListener('click', function(e) {
+      const r = this.getBoundingClientRect();
+      const size = Math.max(r.width, r.height);
+      const x = e.clientX - r.left - size / 2;
+      const y = e.clientY - r.top  - size / 2;
+      const ripple = document.createElement('span');
+      ripple.className = 'ripple';
+      ripple.style.cssText = `width:${size}px;height:${size}px;left:${x}px;top:${y}px`;
+      this.appendChild(ripple);
+      setTimeout(() => ripple.remove(), 600);
+    });
+  });
+
+  /* ══════════════════════════════════════════════
+     LOGO BAR — staggered entrance
+  ══════════════════════════════════════════════ */
+  (function() {
+    const logoBar = document.getElementById('logo-bar');
+    if (!logoBar) return;
+    const obs = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          logoBar.querySelectorAll('.logo-item').forEach(item => {
+            item.style.opacity = '.4';
+            item.style.transform = 'translateY(0)';
+          });
+          obs.unobserve(logoBar);
+        }
+      });
+    }, { threshold: 0.3 });
+    obs.observe(logoBar);
+  })();
+
+  /* ══════════════════════════════════════════════
+     STAT CARDS — spring-scale reveal
+  ══════════════════════════════════════════════ */
+  const statObs = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) { e.target.classList.add('visible'); statObs.unobserve(e.target); }
+    });
+  }, { threshold: 0.2 });
+  document.querySelectorAll('.stat-card').forEach(el => statObs.observe(el));
+
+  /* ══════════════════════════════════════════════
+     MAGNETIC EFFECT on hero CTA area buttons
+  ══════════════════════════════════════════════ */
+  document.querySelectorAll('.btn-primary.glow-pulse, .btn-outline').forEach(btn => {
+    btn.addEventListener('mousemove', e => {
+      const r = btn.getBoundingClientRect();
+      const dx = (e.clientX - (r.left + r.width  / 2)) * .18;
+      const dy = (e.clientY - (r.top  + r.height / 2)) * .18;
+      btn.style.transform = `translate(${dx}px,${dy}px) translateY(-1px)`;
+    });
+    btn.addEventListener('mouseleave', () => {
+      btn.style.transform = '';
+    });
+  });
+
+  /* ══════════════════════════════════════════════
+     CARD INNER GLOW — track mouse for spotlight
+  ══════════════════════════════════════════════ */
+  document.querySelectorAll('.service-card').forEach(card => {
+    card.addEventListener('mousemove', e => {
+      const r = card.getBoundingClientRect();
+      card.style.setProperty('--mx', ((e.clientX - r.left) / r.width * 100) + '%');
+      card.style.setProperty('--my', ((e.clientY - r.top)  / r.height * 100) + '%');
+    });
+  });
+
+  /* ══════════════════════════════════════════════
+     LEAFLET INTERACTIVE MAP
+  ══════════════════════════════════════════════ */
+  function initMap() {
+    const mapEl = document.getElementById('contact-map');
+    if (!mapEl || typeof L === 'undefined') return;
+
+    // Zoom out to show both Portugal and Brazil
+    const map = L.map('contact-map', { zoomControl: true, scrollWheelZoom: false }).setView([15, -30], 3);
+
+    // Force correct size after possible layout shift
+    setTimeout(() => map.invalidateSize(), 200);
+
+    L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/">CARTO</a>',
+      subdomains: 'abcd',
+      maxZoom: 19
+    }).addTo(map);
+
+    function makeIcon(color1, color2) {
+      return L.divIcon({
+        className: '',
+        html: '<div style="width:40px;height:40px;background:linear-gradient(135deg,' + color1 + ',' + color2 + ');border-radius:50% 50% 50% 0;transform:rotate(-45deg);box-shadow:0 4px 16px rgba(0,0,0,.4);border:3px solid #fff;display:flex;align-items:center;justify-content:center"><div style="transform:rotate(45deg);color:#fff;font-size:16px">&#9729;</div></div>',
+        iconSize: [40, 40],
+        iconAnchor: [20, 40],
+        popupAnchor: [0, -44]
+      });
+    }
+
+    // Vila Real, Portugal
+    L.marker([41.3006, -7.7453], { icon: makeIcon('#0369A1', '#0EA5E9') })
+      .addTo(map)
+      .bindPopup('<div style="font-family:\'Space Grotesk\',sans-serif;padding:4px 2px;min-width:180px"><p style="font-weight:700;color:#0F172A;font-size:.9rem;margin:0 0 4px">UP2CLOUD 🇵🇹</p><p style="color:#64748B;font-size:.78rem;margin:0 0 6px">Vila Real, Portugal</p><span style="background:linear-gradient(90deg,#0369A1,#0EA5E9);color:#fff;font-size:.7rem;padding:2px 8px;border-radius:999px;font-weight:600">HQ · Europe</span></div>', { maxWidth: 220 });
+
+    // São Paulo, Brasil
+    L.marker([-23.5505, -46.6333], { icon: makeIcon('#059669', '#10B981') })
+      .addTo(map)
+      .bindPopup('<div style="font-family:\'Space Grotesk\',sans-serif;padding:4px 2px;min-width:180px"><p style="font-weight:700;color:#0F172A;font-size:.9rem;margin:0 0 4px">UP2CLOUD 🇧🇷</p><p style="color:#64748B;font-size:.78rem;margin:0 0 6px">São Paulo, Brasil</p><span style="background:linear-gradient(90deg,#059669,#10B981);color:#fff;font-size:.7rem;padding:2px 8px;border-radius:999px;font-weight:600">Office · LATAM</span></div>', { maxWidth: 220 });
+
+    // Madrid — "coming soon" greyed marker
+    L.marker([40.4168, -3.7038], { icon: makeIcon('#64748B', '#94A3B8'), opacity: 0.6 })
+      .addTo(map)
+      .bindPopup('<div style="font-family:\'Space Grotesk\',sans-serif;padding:4px 2px;min-width:180px"><p style="font-weight:700;color:#0F172A;font-size:.9rem;margin:0 0 4px">UP2CLOUD 🇪🇸</p><p style="color:#64748B;font-size:.78rem;margin:0 0 6px">Madrid, Spain</p><span style="background:linear-gradient(90deg,#64748B,#94A3B8);color:#fff;font-size:.7rem;padding:2px 8px;border-radius:999px;font-weight:600">Coming Soon</span></div>', { maxWidth: 220 });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initMap);
+  } else {
+    initMap();
+  }
 </script>
 </body>
 </html>
