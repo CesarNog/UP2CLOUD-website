@@ -90,8 +90,9 @@ jobs:
           cp index.html public/index.html
           cp .nojekyll public/.nojekyll
           # Copy subpages and assets
-          cp -r about public/about 2>/dev/null || true
-          cp -r assets public/assets 2>/dev/null || true
+          cp -r about   public/about   2>/dev/null || true
+          cp -r privacy public/privacy 2>/dev/null || true
+          cp -r assets  public/assets  2>/dev/null || true
 
           # Runtime production patch: make the static contact form use FormSubmit.
           sed -i "s#https://formspree.io/f/REPLACE_WITH_YOUR_ID#${FORM_ENDPOINT}#g" public/index.html
