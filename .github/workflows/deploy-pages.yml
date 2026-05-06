@@ -90,6 +90,10 @@ jobs:
           cp index.html public/index.html
           cp 404.html   public/404.html
           cp .nojekyll  public/.nojekyll
+          # SEO & security files
+          cp robots.txt  public/robots.txt  2>/dev/null || true
+          cp sitemap.xml public/sitemap.xml 2>/dev/null || true
+          cp _headers    public/_headers    2>/dev/null || true
           # Copy subpages and assets
           cp -r about   public/about   2>/dev/null || true
           cp -r privacy public/privacy 2>/dev/null || true

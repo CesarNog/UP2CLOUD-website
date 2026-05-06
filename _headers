@@ -1,0 +1,20 @@
+/*
+  Content-Security-Policy: default-src 'self'; script-src 'self' 'unsafe-inline' https://cdn.tailwindcss.com https://unpkg.com https://static.hotjar.com https://script.hotjar.com; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com https://unpkg.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data: https: blob:; connect-src 'self' https://api.groq.com https://console.groq.com https://formsubmit.co https://www.hotjar.com https://static.hotjar.com; frame-ancestors 'none'; upgrade-insecure-requests;
+  X-Frame-Options: DENY
+  X-Content-Type-Options: nosniff
+  X-XSS-Protection: 1; mode=block
+  Referrer-Policy: strict-origin-when-cross-origin
+  Permissions-Policy: accelerometer=(), camera=(), geolocation=(), gyroscope=(), magnetometer=(), microphone=(), payment=(), usb=()
+  Strict-Transport-Security: max-age=31536000; includeSubDomains; preload
+
+/index.html
+  Cache-Control: public, max-age=3600, stale-while-revalidate=86400
+
+/assets/*
+  Cache-Control: public, max-age=31536000, immutable
+
+/about
+  Cache-Control: public, max-age=3600, stale-while-revalidate=86400
+
+/privacy
+  Cache-Control: public, max-age=3600, stale-while-revalidate=86400
