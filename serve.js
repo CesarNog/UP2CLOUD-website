@@ -9,7 +9,6 @@
 const http = require('http');
 const fs   = require('fs');
 const path = require('path');
-const url  = require('url');
 
 /* ── Load .env ─────────────────────────────────────────────────── */
 function loadEnv(file = '.env') {
@@ -51,7 +50,7 @@ const MIME = {
 const ROOT = __dirname;
 
 http.createServer((req, res) => {
-  let pathname = url.parse(req.url).pathname;
+  let pathname = new URL(req.url, 'http://localhost').pathname;
 
   // Default to index.html
   if (pathname === '/' || pathname === '') pathname = '/index.html';
