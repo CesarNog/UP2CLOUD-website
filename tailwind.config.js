@@ -12,6 +12,15 @@ module.exports = {
         heading: ['Space Grotesk', 'sans-serif'],
         body:    ['DM Sans', 'sans-serif'],
       },
+      fontWeight: {
+        '300': '300',
+        '400': '400',
+        '500': '500',
+        '600': '600',
+        '700': '700',
+        '800': '800',
+        '900': '900',
+      },
       colors: {
         navy: {
           DEFAULT: '#0F172A',

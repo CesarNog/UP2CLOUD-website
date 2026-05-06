@@ -84,7 +84,7 @@ jobs:
         uses: actions/checkout@v4
 
       - name: Build Tailwind CSS
-        run: npm run build:css
+        run: npx tailwindcss -i src/input.css -o assets/css/tailwind.min.css --minify
 
       - name: Prepare GitHub Pages artifact
         run: |

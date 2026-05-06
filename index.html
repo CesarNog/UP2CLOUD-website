@@ -2093,7 +2093,7 @@ TONE: Be helpful, concise, and professional. Keep answers to 2-4 sentences unles
       entries.forEach(entry => {
         if (entry.isIntersecting) {
           logoBar.querySelectorAll('.logo-item').forEach(item => {
-            item.style.opacity = ''; // let CSS filter handle opacity
+            item.classList.remove('opacity-0'); // reveal; filter CSS handles grayscale+opacity
             item.style.transform = 'translateY(0)';
           });
           obs.unobserve(logoBar);
