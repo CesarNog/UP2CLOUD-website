@@ -35,7 +35,7 @@ jobs:
         with:
           node-version: 22
 
-      - name: Install test dependencies
+      - name: Install dependencies
         run: npm install
 
       - name: Validate required static assets
@@ -82,6 +82,9 @@ jobs:
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
+
+      - name: Build Tailwind CSS
+        run: npm run build:css
 
       - name: Prepare GitHub Pages artifact
         run: |

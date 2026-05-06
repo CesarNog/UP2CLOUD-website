@@ -3,11 +3,14 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "start": "node serve.js",
-    "dev":   "node serve.js",
-    "test":  "htmlhint index.html || true"
+    "build:css": "tailwindcss -i src/input.css -o assets/css/tailwind.min.css --minify",
+    "watch:css": "tailwindcss -i src/input.css -o assets/css/tailwind.min.css --watch",
+    "start":     "npm run build:css && node serve.js",
+    "dev":       "node serve.js",
+    "test":      "htmlhint index.html || true"
   },
   "devDependencies": {
-    "htmlhint": "^1.1.4"
+    "htmlhint": "^1.1.4",
+    "tailwindcss": "^3.4.19"
   }
 }
