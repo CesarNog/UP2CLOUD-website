@@ -52,11 +52,9 @@
     const GROQ_API_KEY = 'REPLACE_WITH_GROQ_KEY';
     // ────────────────────────────────────────────────────────────────────────
   </script>
+  <!-- All custom CSS is now compiled into assets/css/tailwind.min.css via src/input.css -->
   <style>
-    *,*::before,*::after{box-sizing:border-box}
-    html{scroll-behavior:smooth;overscroll-behavior:none}
-    body{font-family:'DM Sans',sans-serif;background:#F8FAFC;color:#0F172A;overscroll-behavior:none}
-    h1,h2,h3,h4{font-family:'Space Grotesk',sans-serif}
+    /* legacy overrides only — kept for specificity safety */
     .glass{background:rgba(255,255,255,.08);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border:1px solid rgba(255,255,255,.15)}
     .premium-glow{position:relative;overflow:hidden}
     .premium-glow::before{content:"";position:absolute;inset:-1px;background:linear-gradient(120deg,rgba(14,165,233,.45),rgba(124,58,237,.32),rgba(249,115,22,.35));opacity:.7;z-index:-1;filter:blur(18px)}
