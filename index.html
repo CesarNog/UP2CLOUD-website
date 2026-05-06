@@ -361,57 +361,68 @@
 
 
 <!-- ══════════════════════════ LOGO BAR ══════════════════════════ -->
-<section aria-label="Trusted by" class="bg-white border-y border-slate-100 py-12">
+<style>
+  .logo-item { filter:grayscale(1) opacity(.45); transition:filter .3s ease, opacity .3s ease, transform .5s ease; }
+  .logo-item:hover { filter:grayscale(0) opacity(1); }
+  /* Entrance from JS sets opacity:1 → override with filter opacity */
+</style>
+<section aria-label="Trusted by" class="bg-white border-y border-slate-100 py-16">
   <div class="max-w-7xl mx-auto px-6">
-    <p class="text-center text-sm font-medium text-slate-400 uppercase tracking-widest mb-10" data-i18n="trusted_label">Trusted by forward-thinking companies</p>
-    <div class="flex flex-wrap justify-center items-center gap-x-12 gap-y-8" id="logo-bar">
+    <p class="text-center text-xs font-semibold text-slate-400 uppercase tracking-[.18em] mb-12" data-i18n="trusted_label">Trusted by forward-thinking companies</p>
+    <div class="flex flex-wrap justify-center items-center gap-x-16 gap-y-10" id="logo-bar">
 
-      <!-- Randstad -->
-      <div class="logo-item opacity-0" style="transition:opacity .5s ease,transform .5s ease;transform:translateY(12px)">
-        <svg height="32" viewBox="0 0 200 60" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="Randstad" role="img">
-          <circle cx="16" cy="30" r="14" fill="#EF7C00"/>
-          <text x="36" y="40" font-family="'Space Grotesk',sans-serif" font-weight="700" font-size="28" fill="#1a1a1a">randstad</text>
+      <!-- Randstad — orange circle + wordmark -->
+      <div class="logo-item opacity-0" style="transform:translateY(14px)">
+        <svg height="44" viewBox="0 0 260 72" xmlns="http://www.w3.org/2000/svg" aria-label="Randstad" role="img">
+          <!-- Human-figure mark simplified as orange pill -->
+          <rect x="0" y="14" width="44" height="44" rx="22" fill="#EF7C00"/>
+          <circle cx="22" cy="22" r="9" fill="white"/>
+          <path d="M10 58 Q22 42 34 58" stroke="white" stroke-width="4" fill="none" stroke-linecap="round"/>
+          <text x="54" y="51" font-family="'DM Sans',Arial,sans-serif" font-weight="700" font-size="34" fill="#1a1a1a" letter-spacing="-1">randstad</text>
         </svg>
       </div>
 
-      <!-- Accenture -->
-      <div class="logo-item opacity-0" style="transition:opacity .5s ease,transform .5s ease;transform:translateY(12px);transition-delay:.07s">
-        <svg height="32" viewBox="0 0 220 60" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="Accenture" role="img">
-          <text x="0" y="42" font-family="'DM Sans',sans-serif" font-weight="300" font-size="30" fill="#1a1a1a" letter-spacing="-0.5">accenture</text>
-          <path d="M196 18 L212 30 L196 42" stroke="#A100FF" stroke-width="5" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
+      <!-- Accenture — wordmark + purple chevron -->
+      <div class="logo-item opacity-0" style="transform:translateY(14px);transition-delay:.08s">
+        <svg height="44" viewBox="0 0 280 72" xmlns="http://www.w3.org/2000/svg" aria-label="Accenture" role="img">
+          <text x="0" y="52" font-family="'DM Sans',Arial,sans-serif" font-weight="300" font-size="38" fill="#1a1a1a" letter-spacing="-1">accenture</text>
+          <path d="M254 14 L275 36 L254 58" stroke="#A100FF" stroke-width="7" stroke-linecap="round" stroke-linejoin="round" fill="none"/>
         </svg>
       </div>
 
-      <!-- ZeroLight -->
-      <div class="logo-item opacity-0" style="transition:opacity .5s ease,transform .5s ease;transform:translateY(12px);transition-delay:.14s">
-        <svg height="32" viewBox="0 0 200 60" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="ZeroLight" role="img">
-          <rect x="0" y="10" width="6" height="40" fill="#0F172A"/>
-          <text x="14" y="42" font-family="'Space Grotesk',sans-serif" font-weight="600" font-size="26" fill="#0F172A" letter-spacing="-0.5">ZeroLight</text>
+      <!-- ZeroLight — bold wordmark with blue accent bar -->
+      <div class="logo-item opacity-0" style="transform:translateY(14px);transition-delay:.16s">
+        <svg height="44" viewBox="0 0 230 72" xmlns="http://www.w3.org/2000/svg" aria-label="ZeroLight" role="img">
+          <rect x="0" y="10" width="7" height="52" rx="3" fill="#0EA5E9"/>
+          <text x="18" y="53" font-family="'Space Grotesk',Arial,sans-serif" font-weight="700" font-size="36" fill="#0F172A" letter-spacing="-1">ZeroLight</text>
         </svg>
       </div>
 
-      <!-- everis / NTT Data -->
-      <div class="logo-item opacity-0" style="transition:opacity .5s ease,transform .5s ease;transform:translateY(12px);transition-delay:.21s">
-        <svg height="32" viewBox="0 0 180 60" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="everis NTT Data" role="img">
-          <text x="0" y="40" font-family="'DM Sans',sans-serif" font-weight="700" font-size="28" fill="#004B87">everis</text>
-          <text x="100" y="32" font-family="'DM Sans',sans-serif" font-weight="400" font-size="13" fill="#888">NTT Data</text>
+      <!-- everis / NTT Data — stacked wordmarks -->
+      <div class="logo-item opacity-0" style="transform:translateY(14px);transition-delay:.24s">
+        <svg height="44" viewBox="0 0 200 72" xmlns="http://www.w3.org/2000/svg" aria-label="everis NTT Data" role="img">
+          <text x="0" y="46" font-family="'DM Sans',Arial,sans-serif" font-weight="800" font-size="38" fill="#004B87" letter-spacing="-1">everis</text>
+          <text x="2" y="64" font-family="'DM Sans',Arial,sans-serif" font-weight="400" font-size="14" fill="#6B7280" letter-spacing="1">NTT DATA GROUP</text>
         </svg>
       </div>
 
-      <!-- CI&T -->
-      <div class="logo-item opacity-0" style="transition:opacity .5s ease,transform .5s ease;transform:translateY(12px);transition-delay:.28s">
-        <svg height="32" viewBox="0 0 120 60" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="CI&amp;T" role="img">
-          <rect x="0" y="8" width="44" height="44" rx="6" fill="#3DBE29"/>
-          <text x="5" y="41" font-family="'Space Grotesk',sans-serif" font-weight="700" font-size="22" fill="white">CI</text>
-          <text x="52" y="42" font-family="'Space Grotesk',sans-serif" font-weight="700" font-size="26" fill="#1a1a1a">&amp;T</text>
+      <!-- CI&T — green badge + bold type -->
+      <div class="logo-item opacity-0" style="transform:translateY(14px);transition-delay:.32s">
+        <svg height="44" viewBox="0 0 150 72" xmlns="http://www.w3.org/2000/svg" aria-label="CI&amp;T" role="img">
+          <rect x="0" y="8" width="56" height="56" rx="10" fill="#3DBE29"/>
+          <text x="7" y="52" font-family="'Space Grotesk',Arial,sans-serif" font-weight="800" font-size="28" fill="white">CI</text>
+          <text x="64" y="52" font-family="'Space Grotesk',Arial,sans-serif" font-weight="800" font-size="34" fill="#1a1a1a">&amp;T</text>
         </svg>
       </div>
 
-      <!-- Mindera -->
-      <div class="logo-item opacity-0" style="transition:opacity .5s ease,transform .5s ease;transform:translateY(12px);transition-delay:.35s">
-        <svg height="32" viewBox="0 0 170 60" fill="none" xmlns="http://www.w3.org/2000/svg" aria-label="Mindera" role="img">
-          <polygon points="22,8 36,34 8,34" fill="#1DB954"/>
-          <text x="44" y="41" font-family="'Space Grotesk',sans-serif" font-weight="600" font-size="26" fill="#1a1a1a">mindera</text>
+      <!-- Mindera — triangle mark + wordmark -->
+      <div class="logo-item opacity-0" style="transform:translateY(14px);transition-delay:.40s">
+        <svg height="44" viewBox="0 0 220 72" xmlns="http://www.w3.org/2000/svg" aria-label="Mindera" role="img">
+          <!-- Upward triangle -->
+          <polygon points="28,10 52,54 4,54" fill="#00C896"/>
+          <line x1="28" y1="10" x2="28" y2="54" stroke="white" stroke-width="2.5" opacity=".5"/>
+          <line x1="4" y1="54" x2="52" y2="54" stroke="white" stroke-width="2.5" opacity=".5"/>
+          <text x="62" y="52" font-family="'DM Sans',Arial,sans-serif" font-weight="700" font-size="34" fill="#1a1a1a" letter-spacing="-0.5">mindera</text>
         </svg>
       </div>
 
@@ -2095,7 +2106,7 @@ TONE: Be helpful, concise, and professional. Keep answers to 2-4 sentences unles
       entries.forEach(entry => {
         if (entry.isIntersecting) {
           logoBar.querySelectorAll('.logo-item').forEach(item => {
-            item.style.opacity = '1';
+            item.style.opacity = ''; // let CSS filter handle opacity
             item.style.transform = 'translateY(0)';
           });
           obs.unobserve(logoBar);
