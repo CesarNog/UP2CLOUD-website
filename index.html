@@ -53,6 +53,7 @@
   <!-- All custom CSS is now compiled into assets/css/tailwind.min.css via src/input.css -->
   <style>
     /* legacy overrides only — kept for specificity safety */
+    html{scroll-behavior:smooth}
     .glass{background:rgba(255,255,255,.08);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border:1px solid rgba(255,255,255,.15)}
     .premium-glow{position:relative;overflow:hidden}
     .premium-glow::before{content:"";position:absolute;inset:-1px;background:linear-gradient(120deg,rgba(14,165,233,.45),rgba(124,58,237,.32),rgba(249,115,22,.35));opacity:.7;z-index:-1;filter:blur(18px)}
@@ -72,8 +73,8 @@
     .reveal{opacity:0;transform:translateY(32px);transition:opacity .6s ease,transform .6s ease}
     .reveal.visible{opacity:1;transform:none}
     section[id]{scroll-margin-top:6rem}
-    nav.scrolled{background:rgba(15,23,42,.95);backdrop-filter:blur(12px);box-shadow:0 1px 0 rgba(255,255,255,.08)}
-    .service-card{transition:transform .25s ease,box-shadow .25s ease,border-color .25s ease;background:linear-gradient(180deg,#fff 0%,#F8FAFC 100%)}
+    nav.scrolled{background:rgba(2,6,23,.93);backdrop-filter:blur(20px);-webkit-backdrop-filter:blur(20px);box-shadow:0 0 0 1px rgba(255,255,255,.06),0 4px 32px rgba(0,0,0,.4)}
+    .service-card{transition:transform .28s cubic-bezier(.25,.46,.45,.94),box-shadow .28s ease,border-color .28s ease;background:linear-gradient(180deg,#fff 0%,#F8FAFC 100%);will-change:transform}.service-card:hover{border-color:rgba(14,165,233,.3)!important;box-shadow:0 6px 20px rgba(14,165,233,.1),0 20px 48px rgba(0,0,0,.09)!important}
     .service-card:hover{transform:translateY(-8px);box-shadow:0 28px 70px rgba(3,105,161,.20);border-color:rgba(14,165,233,.28)}
     .ai-card:hover{box-shadow:0 20px 40px rgba(124,58,237,.22)}
     .btn-primary{background:#F97316;color:#fff;font-family:'Space Grotesk',sans-serif;font-weight:600;padding:.875rem 2rem;border-radius:8px;transition:background .2s,transform .15s,box-shadow .2s;cursor:pointer;border:none;display:inline-flex;align-items:center;gap:.5rem;min-height:44px}
@@ -95,7 +96,7 @@
     #mobile-menu:not(.hidden){animation:menuSlideDown .22s cubic-bezier(.23,1,.32,1) both}
     /* Skip link (sr-only utility) */
     .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border-width:0}
-    .badge{background:rgba(3,105,161,.12);color:#0369A1;font-size:.75rem;font-weight:600;padding:.25rem .75rem;border-radius:999px;letter-spacing:.05em;text-transform:uppercase}
+    .badge{background:rgba(3,105,161,.09);color:#0369A1;font-size:.73rem;font-weight:700;padding:.28rem .85rem;border-radius:999px;letter-spacing:.07em;text-transform:uppercase;border:1px solid rgba(3,105,161,.18)}
     .badge-ai{background:rgba(124,58,237,.15);color:#7C3AED}
     .step-dot{width:48px;height:48px;min-width:48px;border-radius:50%;background:linear-gradient(135deg,#0369A1,#0EA5E9);display:flex;align-items:center;justify-content:center;color:#fff;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:1.1rem;box-shadow:0 4px 12px rgba(3,105,161,.3)}
     .gradient-text{background:linear-gradient(90deg,#0EA5E9,#38BDF8,#7DD3FC);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
@@ -104,6 +105,10 @@
     .timeline-line{border-left:2px solid #E2E8F0;padding-left:1.5rem;margin-left:.75rem}
     .timeline-dot{width:14px;height:14px;border-radius:50%;background:linear-gradient(135deg,#0369A1,#0EA5E9);margin-left:-1.65rem;margin-top:.3rem;flex-shrink:0;box-shadow:0 0 0 3px #F0F9FF}
     @media(prefers-reduced-motion:reduce){.blob,.reveal,.service-card,.btn-primary,.btn-outline{animation:none;transition:none}}
+    .section-divider{height:1px;background:linear-gradient(90deg,transparent 0%,rgba(14,165,233,.35) 30%,rgba(124,58,237,.35) 70%,transparent 100%);margin:0}
+    .service-card .svc-icon-wrap{transition:transform .28s ease,box-shadow .28s ease}
+    .service-card:hover .svc-icon-wrap{transform:scale(1.08);box-shadow:0 4px 16px rgba(0,0,0,.12)}
+    .stat-num{font-variant-numeric:tabular-nums}
 
     /* ── Typewriter cursor ── */
     .typewriter-cursor{display:inline-block;width:3px;height:.9em;background:#0EA5E9;margin-left:4px;vertical-align:middle;animation:blink .7s step-end infinite}
@@ -385,12 +390,12 @@
         <span data-i18n="hero_badge_ai">AI-Augmented Delivery</span>
       </span>
     </div>
-    <h1 class="font-heading font-700 text-[2.6rem] sm:text-5xl lg:text-[3.6rem] xl:text-[4rem] text-white leading-[1.06] tracking-tight mb-5">
+    <h1 class="font-heading font-700 text-[2.6rem] sm:text-5xl lg:text-[3.7rem] xl:text-[4.2rem] text-white leading-[1.05] tracking-tight mb-6">
       <span class="hero-line" style="animation-delay:.15s" data-i18n="hero_title">Enterprise</span>
       <span class="hero-line gradient-text" style="animation-delay:.75s" data-i18n="hero_title2">Platform Engineering</span>
       <span class="hero-line text-white/65" style="font-size:.78em;font-weight:600;animation-delay:1.35s" data-i18n="hero_title2_accent">&amp; Cloud Transformation</span>
     </h1>
-    <p class="text-white/60 text-base sm:text-[1.05rem] leading-relaxed mb-7 max-w-[30rem]" data-i18n="hero_sub">
+    <p class="text-white/65 text-[1.05rem] sm:text-lg leading-relaxed mb-8 max-w-[32rem]" data-i18n="hero_sub">
       We architect, automate, and operate production-grade cloud platforms — Kubernetes, Terraform, multi-cloud, and AI-enabled DevSecOps — for engineering teams that ship fast without breaking things.
     </p>
     <div class="flex flex-col sm:flex-row flex-wrap gap-3 sm:gap-4">
@@ -484,7 +489,7 @@
   .logo-item:hover { filter:grayscale(0) opacity(1); }
   /* Entrance from JS sets opacity:1 → override with filter opacity */
 </style>
-<section aria-label="Trusted by" class="bg-white border-y border-slate-100 py-10">
+<section aria-label="Trusted by" class="bg-white border-y border-slate-100 py-12 lg:py-16">
   <div class="max-w-7xl mx-auto px-6">
     <p class="text-center text-xs font-semibold text-slate-400 uppercase tracking-[.18em] mb-8" data-i18n="trusted_label">Trusted by forward-thinking companies</p>
     <div class="flex flex-wrap justify-center items-center gap-x-16 gap-y-10" id="logo-bar">
@@ -641,21 +646,23 @@
   </div>
 </div>
 
+
+<div class="section-divider" aria-hidden="true"></div>
 <!-- ══════════════════════════ SERVICES ══════════════════════════ -->
-<section id="services" aria-label="Services" class="py-12 bg-slate-50 circuit-bg">
+<section id="services" aria-label="Services" class="py-20 lg:py-28 bg-slate-50 circuit-bg">
   <div class="max-w-7xl mx-auto px-6">
-    <div class="text-center mb-10 reveal">
+    <div class="text-center mb-16 reveal">
       <span class="badge" data-i18n="services_badge">Platform Engineering</span>
-      <h2 class="font-heading font-700 text-3xl sm:text-4xl lg:text-5xl mt-4 mb-4 shimmer-heading" data-i18n="services_title">Production-Grade Cloud Services</h2>
+      <h2 class="font-heading font-700 text-4xl sm:text-5xl lg:text-6xl mt-4 mb-5 shimmer-heading" data-i18n="services_title">Production-Grade Cloud Services</h2>
       <p class="text-slate-500 text-base max-w-2xl mx-auto leading-relaxed" data-i18n="services_sub">Specialized cloud engineering disciplines — not generic IT consulting. Engagements led by certified engineers with real production experience across AWS, GCP, and Azure.</p>
     </div>
-    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
+    <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-7">
 
-      <article class="service-card bg-white rounded-2xl p-6 sm:p-7 shadow-sm border border-slate-100 reveal" style="transition-delay:.05s">
-        <div class="w-12 h-12 rounded-xl flex items-center justify-center mb-4" style="background:linear-gradient(135deg,#EFF6FF,#DBEAFE)">
+      <article class="service-card bg-white rounded-2xl p-7 sm:p-8 shadow-sm border border-slate-100/80 reveal cursor-pointer" style="transition-delay:.05s">
+        <div class="svc-icon-wrap w-12 h-12 rounded-xl flex items-center justify-center mb-5" style="background:linear-gradient(135deg,#EFF6FF,#DBEAFE)">
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 5a1 1 0 011-1h4a1 1 0 011 1v4a1 1 0 01-1 1H5a1 1 0 01-1-1V5zM14 5a1 1 0 011-1h4a1 1 0 011 1v4a1 1 0 01-1 1h-4a1 1 0 01-1-1V5zM4 15a1 1 0 011-1h4a1 1 0 011 1v4a1 1 0 01-1 1H5a1 1 0 01-1-1v-4zM14 15a1 1 0 011-1h4a1 1 0 011 1v4a1 1 0 01-1 1h-4a1 1 0 01-1-1v-4z" stroke="#2563EB" stroke-width="2"/></svg>
         </div>
-        <h3 class="font-heading font-600 text-[1.05rem] text-navy mb-2" data-i18n="svc1_title">Platform Engineering</h3>
+        <h3 class="font-heading font-700 text-[1.1rem] text-navy mb-2" data-i18n="svc1_title">Platform Engineering</h3>
         <p class="text-slate-500 text-sm leading-relaxed mb-4" data-i18n="svc1_sub">Design and operate Internal Developer Platforms with golden paths, service catalogs, and self-service provisioning. Reduce cognitive load, accelerate velocity.</p>
         <ul class="space-y-1.5 text-sm text-slate-500">
           <li class="flex items-center gap-2"><svg width="13" height="13" fill="#0369A1" viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>Internal Developer Platform (Backstage)</li>
@@ -664,11 +671,11 @@
         </ul>
       </article>
 
-      <article class="service-card bg-white rounded-2xl p-6 sm:p-7 shadow-sm border border-slate-100 reveal" style="transition-delay:.1s">
-        <div class="w-12 h-12 rounded-xl flex items-center justify-center mb-4" style="background:linear-gradient(135deg,#F0F9FF,#E0F2FE)">
+      <article class="service-card bg-white rounded-2xl p-7 sm:p-8 shadow-sm border border-slate-100/80 reveal cursor-pointer" style="transition-delay:.1s">
+        <div class="svc-icon-wrap w-12 h-12 rounded-xl flex items-center justify-center mb-5" style="background:linear-gradient(135deg,#F0F9FF,#E0F2FE)">
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z" stroke="#0EA5E9" stroke-width="2" stroke-linejoin="round"/></svg>
         </div>
-        <h3 class="font-heading font-600 text-[1.05rem] text-navy mb-2" data-i18n="svc2_title">Multi-Cloud Architecture</h3>
+        <h3 class="font-heading font-700 text-[1.1rem] text-navy mb-2" data-i18n="svc2_title">Multi-Cloud Architecture</h3>
         <p class="text-slate-500 text-sm leading-relaxed mb-4" data-i18n="svc2_sub">Land-and-expand cloud strategy across AWS, GCP, and Azure. Zero-downtime migrations, well-architected landing zones, and cost-optimized multi-cloud operating models.</p>
         <ul class="space-y-1.5 text-sm text-slate-500">
           <li class="flex items-center gap-2"><svg width="13" height="13" fill="#0EA5E9" viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>AWS · GCP · Azure landing zones</li>
@@ -677,11 +684,11 @@
         </ul>
       </article>
 
-      <article class="service-card bg-white rounded-2xl p-6 sm:p-7 shadow-sm border border-slate-100 reveal" style="transition-delay:.15s">
-        <div class="w-12 h-12 rounded-xl flex items-center justify-center mb-4" style="background:linear-gradient(135deg,#FFF7ED,#FFEDD5)">
+      <article class="service-card bg-white rounded-2xl p-7 sm:p-8 shadow-sm border border-slate-100/80 reveal cursor-pointer" style="transition-delay:.15s">
+        <div class="svc-icon-wrap w-12 h-12 rounded-xl flex items-center justify-center mb-5" style="background:linear-gradient(135deg,#FFF7ED,#FFEDD5)">
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" stroke="#F97316" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </div>
-        <h3 class="font-heading font-600 text-[1.05rem] text-navy mb-2" data-i18n="svc3_title">Infrastructure Automation</h3>
+        <h3 class="font-heading font-700 text-[1.1rem] text-navy mb-2" data-i18n="svc3_title">Infrastructure Automation</h3>
         <p class="text-slate-500 text-sm leading-relaxed mb-4" data-i18n="svc3_sub">Terraform modules, GitOps pipelines, and policy-as-code — everything version-controlled, peer-reviewed, and continuously tested. Infrastructure that scales like software.</p>
         <ul class="space-y-1.5 text-sm text-slate-500">
           <li class="flex items-center gap-2"><svg width="13" height="13" fill="#F97316" viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>Terraform · Pulumi · Ansible</li>
@@ -690,11 +697,11 @@
         </ul>
       </article>
 
-      <article class="service-card bg-white rounded-2xl p-6 sm:p-7 shadow-sm border border-slate-100 reveal" style="transition-delay:.2s">
-        <div class="w-12 h-12 rounded-xl flex items-center justify-center mb-4" style="background:linear-gradient(135deg,#F0FDF4,#DCFCE7)">
+      <article class="service-card bg-white rounded-2xl p-7 sm:p-8 shadow-sm border border-slate-100/80 reveal cursor-pointer" style="transition-delay:.2s">
+        <div class="svc-icon-wrap w-12 h-12 rounded-xl flex items-center justify-center mb-5" style="background:linear-gradient(135deg,#F0FDF4,#DCFCE7)">
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" stroke="#16A34A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </div>
-        <h3 class="font-heading font-600 text-[1.05rem] text-navy mb-2" data-i18n="svc4_title">DevSecOps &amp; Enterprise CI/CD</h3>
+        <h3 class="font-heading font-700 text-[1.1rem] text-navy mb-2" data-i18n="svc4_title">DevSecOps &amp; Enterprise CI/CD</h3>
         <p class="text-slate-500 text-sm leading-relaxed mb-4" data-i18n="svc4_sub">Secure delivery pipelines from commit to production. Container scanning, SAST/DAST, supply-chain security, and compliance gates embedded at every stage.</p>
         <ul class="space-y-1.5 text-sm text-slate-500">
           <li class="flex items-center gap-2"><svg width="13" height="13" fill="#16A34A" viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>GitHub Actions · GitLab CI · Jenkins</li>
@@ -703,11 +710,11 @@
         </ul>
       </article>
 
-      <article class="service-card bg-white rounded-2xl p-6 sm:p-7 shadow-sm border border-slate-100 reveal" style="transition-delay:.25s">
-        <div class="w-12 h-12 rounded-xl flex items-center justify-center mb-4" style="background:linear-gradient(135deg,#ECFDF5,#D1FAE5)">
+      <article class="service-card bg-white rounded-2xl p-7 sm:p-8 shadow-sm border border-slate-100/80 reveal cursor-pointer" style="transition-delay:.25s">
+        <div class="svc-icon-wrap w-12 h-12 rounded-xl flex items-center justify-center mb-5" style="background:linear-gradient(135deg,#ECFDF5,#D1FAE5)">
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" stroke="#059669" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </div>
-        <h3 class="font-heading font-600 text-[1.05rem] text-navy mb-2" data-i18n="svc5_title">FinOps &amp; Cloud Cost Intelligence</h3>
+        <h3 class="font-heading font-700 text-[1.1rem] text-navy mb-2" data-i18n="svc5_title">FinOps &amp; Cloud Cost Intelligence</h3>
         <p class="text-slate-500 text-sm leading-relaxed mb-4" data-i18n="svc5_sub">FinOps Foundation-aligned framework — reserved instance strategy, anomaly detection, and showback/chargeback dashboards that create real cost accountability.</p>
         <ul class="space-y-1.5 text-sm text-slate-500">
           <li class="flex items-center gap-2"><svg width="13" height="13" fill="#059669" viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>FinOps Foundation methodology</li>
@@ -716,11 +723,11 @@
         </ul>
       </article>
 
-      <article class="service-card bg-white rounded-2xl p-6 sm:p-7 shadow-sm border border-slate-100 reveal" style="transition-delay:.3s">
-        <div class="w-12 h-12 rounded-xl flex items-center justify-center mb-4" style="background:linear-gradient(135deg,#FFF1F2,#FFE4E6)">
+      <article class="service-card bg-white rounded-2xl p-7 sm:p-8 shadow-sm border border-slate-100/80 reveal cursor-pointer" style="transition-delay:.3s">
+        <div class="svc-icon-wrap w-12 h-12 rounded-xl flex items-center justify-center mb-5" style="background:linear-gradient(135deg,#FFF1F2,#FFE4E6)">
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" stroke="#E11D48" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </div>
-        <h3 class="font-heading font-600 text-[1.05rem] text-navy mb-2" data-i18n="svc6_title">Observability &amp; SRE</h3>
+        <h3 class="font-heading font-700 text-[1.1rem] text-navy mb-2" data-i18n="svc6_title">Observability &amp; SRE</h3>
         <p class="text-slate-500 text-sm leading-relaxed mb-4" data-i18n="svc6_sub">End-to-end observability stacks — Prometheus, Grafana, Datadog, Splunk. SLO definition, error budgets, incident runbooks, and chaos engineering to validate resilience.</p>
         <ul class="space-y-1.5 text-sm text-slate-500">
           <li class="flex items-center gap-2"><svg width="13" height="13" fill="#E11D48" viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>Prometheus · Grafana · Datadog · Splunk</li>
@@ -734,8 +741,10 @@
 </section>
 
 
+
+<div class="section-divider" aria-hidden="true"></div>
 <!-- ══════════════════════════ ENGINEERING STACK ══════════════════════════ -->
-<section aria-label="Engineering toolchain" class="py-10 hero-bg relative overflow-hidden">
+<section aria-label="Engineering toolchain" class="py-16 lg:py-20 hero-bg relative overflow-hidden">
   <div class="absolute inset-0 opacity-[.055]" style="background-image:radial-gradient(rgba(14,165,233,.7) 1px,transparent 1px);background-size:28px 28px" aria-hidden="true"></div>
   <div class="relative z-10 max-w-7xl mx-auto px-6">
     <div class="text-center mb-8 reveal">
@@ -807,7 +816,7 @@
 
 
 <!-- ══════════════════════════ AI SECTION ══════════════════════════ -->
-<section id="ai" aria-label="AI Solutions" class="ai-bg py-12 relative overflow-hidden">
+<section id="ai" aria-label="AI Solutions" class="ai-bg py-20 lg:py-28 relative overflow-hidden">
   <div class="blob w-96 h-96 bg-purple-500 -top-20 -right-20 opacity-30" style="animation-delay:1s"></div>
   <div class="blob w-80 h-80 bg-sky-light bottom-0 left-10 opacity-20" style="animation-delay:4s"></div>
 
@@ -1031,28 +1040,28 @@
 
 
 <!-- ══════════════════════════ STATS ══════════════════════════ -->
-<section aria-label="Key results" class="hero-bg py-12 relative overflow-hidden">
+<section aria-label="Key results" class="hero-bg py-20 lg:py-24 relative overflow-hidden">
   <div class="blob w-96 h-96 bg-sky-light top-0 right-0 opacity-15"></div>
   <div class="relative z-10 max-w-7xl mx-auto px-6">
-    <div class="text-center mb-10 reveal">
+    <div class="text-center mb-14 reveal">
       <span class="badge" style="background:rgba(14,165,233,.2);color:#38BDF8" data-i18n="stats_badge">Proven Track Record</span>
-      <h2 class="font-heading font-700 text-3xl sm:text-4xl lg:text-5xl text-white mt-4 mb-5" data-i18n="stats_title">Results That Speak</h2>
+      <h2 class="font-heading font-700 text-4xl sm:text-5xl lg:text-6xl text-white mt-4 mb-5" data-i18n="stats_title">Results That Speak</h2>
     </div>
     <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
-      <div class="glass rounded-2xl p-6 sm:p-8 text-center reveal stat-card" style="transition-delay:.05s">
-        <p class="font-heading font-700 text-5xl text-sky-light mb-2" data-target="15" data-suffix="+">0</p>
+      <div class="glass rounded-2xl p-8 sm:p-10 text-center reveal stat-card" style="transition-delay:.05s">
+        <p class="font-heading font-700 text-6xl text-sky-light mb-2 stat-num" data-target="15" data-suffix="+">0</p>
         <p class="text-white/50 text-sm mt-1" data-i18n="stats_projects">Successful Projects</p>
       </div>
-      <div class="glass rounded-2xl p-6 sm:p-8 text-center reveal stat-card" style="transition-delay:.1s">
-        <p class="font-heading font-700 text-5xl text-orange-400 mb-2" data-target="42" data-suffix="%">0</p>
+      <div class="glass rounded-2xl p-8 sm:p-10 text-center reveal stat-card" style="transition-delay:.1s">
+        <p class="font-heading font-700 text-6xl text-orange-400 mb-2 stat-num" data-target="42" data-suffix="%">0</p>
         <p class="text-white/50 text-sm mt-1" data-i18n="stats_savings">Avg. Infrastructure Cost Reduction</p>
       </div>
-      <div class="glass rounded-2xl p-6 sm:p-8 text-center reveal stat-card" style="transition-delay:.15s">
-        <p class="font-heading font-700 text-5xl text-purple-300 mb-2" data-target="10" data-suffix="×">0</p>
+      <div class="glass rounded-2xl p-8 sm:p-10 text-center reveal stat-card" style="transition-delay:.15s">
+        <p class="font-heading font-700 text-6xl text-purple-300 mb-2 stat-num" data-target="10" data-suffix="×">0</p>
         <p class="text-white/50 text-sm mt-1" data-i18n="stats_ai">Faster Problem Resolution with AI</p>
       </div>
-      <div class="glass rounded-2xl p-6 sm:p-8 text-center reveal stat-card" style="transition-delay:.2s">
-        <p class="font-heading font-700 text-5xl text-sky-light mb-2" data-target="10" data-suffix="+ yr">0</p>
+      <div class="glass rounded-2xl p-8 sm:p-10 text-center reveal stat-card" style="transition-delay:.2s">
+        <p class="font-heading font-700 text-6xl text-sky-light mb-2 stat-num" data-target="10" data-suffix="+ yr">0</p>
         <p class="text-white/50 text-sm mt-1" data-i18n="stats_exp">Industry Experience</p>
       </div>
     </div>
@@ -1061,9 +1070,9 @@
 
 
 <!-- ══════════════════════════ HOW WE WORK ══════════════════════════ -->
-<section id="how-we-work" aria-label="Engagement process" class="py-12 bg-white">
+<section id="how-we-work" aria-label="Engagement process" class="py-20 lg:py-28 bg-white">
   <div class="max-w-7xl mx-auto px-6">
-    <div class="text-center mb-10 reveal">
+    <div class="text-center mb-14 reveal">
       <span class="badge">Engineering Delivery</span>
       <h2 class="font-heading font-700 text-3xl sm:text-4xl lg:text-5xl mt-4 mb-4 shimmer-heading">How We Deliver</h2>
       <p class="text-slate-500 text-base max-w-2xl mx-auto">A structured, repeatable delivery model — from initial assessment to continuous optimization. Every engagement follows the same rigorous engineering process.</p>
@@ -1073,7 +1082,7 @@
     <div class="hidden lg:block mb-10">
       <div class="relative">
         <div class="absolute left-[calc(100%/12)] right-[calc(100%/12)] top-[22px] h-px" style="background:linear-gradient(90deg,#0369A1,#0EA5E9,#7C3AED,#F97316,#E11D48,#059669)" aria-hidden="true"></div>
-        <div class="grid grid-cols-6 gap-4 text-center">
+        <div class="grid grid-cols-6 gap-6 text-center">
           <div class="reveal" style="transition-delay:.05s">
             <div class="process-num mx-auto mb-4 relative z-10" style="background:linear-gradient(135deg,#0369A1,#0EA5E9)">1</div>
             <h3 class="font-heading font-600 text-sm text-navy mb-1.5">Discovery &amp; Audit</h3>
@@ -1136,7 +1145,7 @@
       </div>
     </div>
 
-    <div class="border-t border-slate-100 pt-8 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 reveal">
+    <div class="border-t border-slate-200 pt-10 mt-4 flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 reveal">
       <div>
         <p class="font-heading font-600 text-navy text-lg">Ready to start your infrastructure transformation?</p>
         <p class="text-slate-400 text-sm mt-1">Free 45-minute audit. No commitment required.</p>
@@ -1151,11 +1160,11 @@
 
 
 <!-- ══════════════════════════ PORTFOLIO ══════════════════════════ -->
-<section id="portfolio" aria-label="Portfolio & Experience" class="py-12 bg-white">
+<section id="portfolio" aria-label="Portfolio & Experience" class="py-20 lg:py-28 bg-white">
   <div class="max-w-7xl mx-auto px-6">
     <div class="text-center mb-10 reveal">
       <span class="badge" data-i18n="portfolio_badge">Behind UP2CLOUD</span>
-      <h2 class="font-heading font-700 text-3xl sm:text-4xl lg:text-5xl mt-4 mb-5 shimmer-heading" data-i18n="portfolio_title">Built by a Certified Expert</h2>
+      <h2 class="font-heading font-700 text-4xl sm:text-5xl lg:text-6xl mt-4 mb-5 shimmer-heading" data-i18n="portfolio_title">Built by a Certified Expert</h2>
       <p class="text-slate-500 text-lg max-w-2xl mx-auto leading-relaxed" data-i18n-html="portfolio_sub">UP2CLOUD is led by <strong>Cesar A. Nogueira</strong>, a Cloud DevOps Engineer with 10+ years building and scaling infrastructure across three continents.</p>
     </div>
 
@@ -1340,8 +1349,10 @@
 </section>
 
 
+
+<div class="section-divider" aria-hidden="true"></div>
 <!-- ══════════════════════════ GLOBAL DELIVERY ══════════════════════════ -->
-<section id="global-delivery" aria-label="Global delivery model" class="py-12 hero-bg relative overflow-hidden">
+<section id="global-delivery" aria-label="Global delivery model" class="py-20 lg:py-24 hero-bg relative overflow-hidden">
   <div class="blob w-72 h-72 bg-sky-light top-10 right-10 opacity-12" style="animation-delay:2s"></div>
   <div class="blob w-56 h-56 bg-purple-500 bottom-10 left-10 opacity-10" style="animation-delay:5s"></div>
   <div class="relative z-10 max-w-7xl mx-auto px-6">
@@ -1467,12 +1478,14 @@
 </section>
 
 
+
+<div class="section-divider" aria-hidden="true"></div>
 <!-- ══════════════════════════ TESTIMONIALS ══════════════════════════ -->
-<section id="testimonials" aria-label="Client testimonials" class="py-12 bg-slate-50 circuit-bg">
+<section id="testimonials" aria-label="Client testimonials" class="py-20 lg:py-28 bg-slate-50 circuit-bg">
   <div class="max-w-7xl mx-auto px-6">
-    <div class="text-center mb-10 reveal">
+    <div class="text-center mb-14 reveal">
       <span class="badge" data-i18n="testimonials_badge">Verified on LinkedIn</span>
-      <h2 class="font-heading font-700 text-3xl sm:text-4xl lg:text-5xl text-navy mt-4 mb-5" data-i18n="testimonials_title">What Colleagues &amp; Clients Say</h2>
+      <h2 class="font-heading font-700 text-4xl sm:text-5xl lg:text-6xl text-navy mt-4 mb-5" data-i18n="testimonials_title">What Colleagues &amp; Clients Say</h2>
       <p class="text-slate-500 text-base max-w-xl mx-auto" data-i18n="testimonials_sub">Real recommendations from LinkedIn — colleagues at H&amp;M, ZeroLight, Accenture, CI&amp;T and more.</p>
     </div>
 
@@ -1574,13 +1587,15 @@
 </section>
 
 
+
+<div class="section-divider" aria-hidden="true"></div>
 <!-- ══════════════════════════ CTA BANNER ══════════════════════════ -->
-<section aria-label="Call to action" class="py-12 bg-white">
+<section aria-label="Call to action" class="py-16 lg:py-24 bg-white">
   <div class="max-w-4xl mx-auto px-6 text-center reveal">
-    <div class="rounded-2xl p-6 sm:p-10 lg:p-12 relative overflow-hidden premium-glow shine" style="background:radial-gradient(circle at 25% 20%,rgba(14,165,233,.22),transparent 28%),radial-gradient(circle at 78% 28%,rgba(124,58,237,.26),transparent 30%),linear-gradient(135deg,#0F172A,#1e0533,#0C4A6E)">
+    <div class="rounded-3xl p-8 sm:p-12 lg:p-16 relative overflow-hidden premium-glow shine" style="background:radial-gradient(circle at 25% 20%,rgba(14,165,233,.22),transparent 28%),radial-gradient(circle at 78% 28%,rgba(124,58,237,.26),transparent 30%),linear-gradient(135deg,#0F172A,#1e0533,#0C4A6E)">
       <div class="blob w-72 h-72 bg-purple-500 -top-10 right-0 opacity-25"></div>
       <div class="relative z-10">
-        <h2 class="font-heading font-700 text-3xl sm:text-4xl text-white mb-4" data-i18n="cta_title">Ready to scale smarter?</h2>
+        <h2 class="font-heading font-700 text-4xl sm:text-5xl text-white mb-5" data-i18n="cta_title">Ready to scale smarter?</h2>
         <p class="text-white/70 text-lg mb-8 max-w-xl mx-auto" data-i18n="cta_sub">Book a free 45-minute infrastructure audit and walk away with a prioritised action plan — no strings attached.</p>
         <a href="#contact" class="btn-primary text-base inline-flex">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -1593,11 +1608,11 @@
 
 
 <!-- ══════════════════════════ CONTACT ══════════════════════════ -->
-<section id="contact" aria-label="Contact" class="py-12 bg-slate-50">
+<section id="contact" aria-label="Contact" class="py-20 lg:py-28 bg-slate-50">
   <div class="max-w-7xl mx-auto px-6 grid lg:grid-cols-2 gap-8 lg:gap-16 items-start">
     <div class="reveal">
       <span class="badge" data-i18n="contact_badge">Get In Touch</span>
-      <h2 class="font-heading font-700 text-3xl sm:text-4xl lg:text-5xl text-navy mt-4 mb-5" data-i18n="contact_title">Let's Talk About Your IT Goals</h2>
+      <h2 class="font-heading font-700 text-4xl sm:text-5xl lg:text-6xl text-navy mt-4 mb-5" data-i18n="contact_title">Let's Talk About Your IT Goals</h2>
       <p class="text-slate-500 text-lg leading-relaxed mb-6 lg:mb-10" data-i18n="contact_sub">Cloud migration, AI automation, OpenClaw setup, or just a quick question — we reply within 1 business day.</p>
       <div class="space-y-5">
         <div class="flex items-center gap-4">
@@ -1647,20 +1662,20 @@
         </div>
         <div class="grid sm:grid-cols-2 gap-5 mb-5">
           <div>
-            <label for="name" class="block text-sm font-medium text-navy mb-2" data-i18n="form_name_label">Full Name <span aria-hidden="true" class="text-red-500">*</span></label>
+            <label for="name" class="block text-sm font-semibold text-navy mb-2" data-i18n="form_name_label">Full Name <span aria-hidden="true" class="text-red-500">*</span></label>
             <input type="text" id="name" name="name" required autocomplete="name" placeholder="Your name" data-i18n-ph="form_name_ph" class="w-full border border-slate-200 rounded-lg px-4 py-3 text-sm text-navy placeholder-slate-400 hover:border-slate-300 transition-colors" style="height:44px" />
           </div>
           <div>
-            <label for="email" class="block text-sm font-medium text-navy mb-2" data-i18n="form_email_label">Work Email <span aria-hidden="true" class="text-red-500">*</span></label>
+            <label for="email" class="block text-sm font-semibold text-navy mb-2" data-i18n="form_email_label">Work Email <span aria-hidden="true" class="text-red-500">*</span></label>
             <input type="email" id="email" name="email" required autocomplete="email" placeholder="you@company.com" data-i18n-ph="form_email_ph" class="w-full border border-slate-200 rounded-lg px-4 py-3 text-sm text-navy placeholder-slate-400 hover:border-slate-300 transition-colors" style="height:44px" />
           </div>
         </div>
         <div class="mb-5">
-          <label for="company" class="block text-sm font-medium text-navy mb-2" data-i18n="form_company_label">Company</label>
+          <label for="company" class="block text-sm font-semibold text-navy mb-2" data-i18n="form_company_label">Company</label>
           <input type="text" id="company" name="company" autocomplete="organization" placeholder="Your Company Ltd." data-i18n-ph="form_company_ph" class="w-full border border-slate-200 rounded-lg px-4 py-3 text-sm text-navy placeholder-slate-400 hover:border-slate-300 transition-colors" style="height:44px" />
         </div>
         <div class="mb-5">
-          <label for="service" class="block text-sm font-medium text-navy mb-2" data-i18n="form_service_label">Service of Interest</label>
+          <label for="service" class="block text-sm font-semibold text-navy mb-2" data-i18n="form_service_label">Service of Interest</label>
           <select id="service" name="service" class="w-full border border-slate-200 rounded-lg px-4 py-3 text-sm text-navy hover:border-slate-300 transition-colors bg-white" style="height:44px">
             <option value="">Select a service…</option>
             <option value="openclaw">OpenClaw Installation &amp; AI Setup</option>
@@ -1675,7 +1690,7 @@
           </select>
         </div>
         <div class="mb-6">
-          <label for="message" class="block text-sm font-medium text-navy mb-2" data-i18n="form_message_label">Message <span aria-hidden="true" class="text-red-500">*</span></label>
+          <label for="message" class="block text-sm font-semibold text-navy mb-2" data-i18n="form_message_label">Message <span aria-hidden="true" class="text-red-500">*</span></label>
           <textarea id="message" name="message" required rows="4" placeholder="Tell us about your project or challenge…" data-i18n-ph="form_message_ph" class="w-full border border-slate-200 rounded-lg px-4 py-3 text-sm text-navy placeholder-slate-400 hover:border-slate-300 transition-colors resize-y" style="min-height:120px;line-height:1.6"></textarea>
         </div>
         <button type="submit" class="btn-primary w-full justify-center text-base" id="submit-btn">
