@@ -108,6 +108,14 @@
     /* ── Typewriter cursor ── */
     .typewriter-cursor{display:inline-block;width:3px;height:.9em;background:#0EA5E9;margin-left:4px;vertical-align:middle;animation:blink .7s step-end infinite}
     @keyframes blink{0%,100%{opacity:1}50%{opacity:0}}
+    /* Hero H1 line-by-line reveal */
+    @keyframes heroLineReveal{0%{clip-path:inset(0 100% 0 0);opacity:0}100%{clip-path:inset(0 0% 0 0);opacity:1}}
+    .hero-line{display:block;opacity:0;animation:heroLineReveal .65s cubic-bezier(.25,.46,.45,.94) forwards}
+    /* Floating cloud+dollar bill */
+    @keyframes moneyFloat{0%,100%{transform:translateY(0) rotate(-1.5deg)}50%{transform:translateY(-20px) rotate(2deg)}}
+    @keyframes moneyFloatAlt{0%,100%{transform:translateY(0) rotate(2deg)}50%{transform:translateY(-14px) rotate(-2.5deg)}}
+    .money-cloud{position:absolute;pointer-events:none;animation:moneyFloat 7s ease-in-out infinite;opacity:.55;z-index:12}
+    .money-cloud.alt{animation-name:moneyFloatAlt}
 
     /* ── Ripple on buttons ── */
     .btn-primary,.btn-outline{position:relative;overflow:hidden}
@@ -297,6 +305,48 @@
 <div class="float-shape command-chip hidden lg:flex items-center gap-2.5 rounded-2xl px-4 py-3 text-white/75 text-xs left-[48%] top-[18%]" style="animation-delay:4s" aria-hidden="true">
   <span class="w-2 h-2 bg-green-400 rounded-full shrink-0" style="animation:pulse 2s infinite"></span>
   <span>k8s: 99.97% uptime</span>
+</div>
+
+<!-- ══ Floating cloud + dollar bill decorations ══ -->
+<!-- Cloud 1 — large, upper-left -->
+<div class="money-cloud hidden lg:block" style="left:3%;top:8%;animation-delay:0s;animation-duration:9s;opacity:.80" aria-hidden="true">
+  <svg width="200" height="148" viewBox="0 0 200 148" overflow="visible" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M20,78 C10,78 5,70 5,63 C5,54 12,48 20,48 C18,36 28,28 40,28 C42,18 54,12 68,16 C74,6 88,3 100,8 C110,2 126,4 132,16 C146,12 160,20 158,34 C170,32 182,42 180,54 C188,54 196,62 194,72 C192,80 184,84 176,82 L20,82 Z"
+      fill="rgba(255,255,255,.20)" stroke="rgba(255,255,255,.45)" stroke-width="1.5"/>
+    <line x1="100" y1="83" x2="100" y2="103" stroke="rgba(255,255,255,.42)" stroke-width="1.8" stroke-dasharray="3 2"/>
+    <rect x="50" y="103" width="100" height="34" rx="8" fill="rgba(22,163,74,.38)" stroke="rgba(74,222,128,.88)" stroke-width="1.8"/>
+    <text x="100" y="125" text-anchor="middle" fill="#86efac" font-size="15" font-weight="800" font-family="Space Grotesk,monospace">$42K saved</text>
+  </svg>
+</div>
+<!-- Cloud 2 — medium, lower-left -->
+<div class="money-cloud alt hidden lg:block" style="left:2%;top:56%;animation-delay:1.8s;animation-duration:10s;opacity:.72" aria-hidden="true">
+  <svg width="168" height="125" viewBox="0 0 200 148" overflow="visible" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M20,78 C10,78 5,70 5,63 C5,54 12,48 20,48 C18,36 28,28 40,28 C42,18 54,12 68,16 C74,6 88,3 100,8 C110,2 126,4 132,16 C146,12 160,20 158,34 C170,32 182,42 180,54 C188,54 196,62 194,72 C192,80 184,84 176,82 L20,82 Z"
+      fill="rgba(14,165,233,.22)" stroke="rgba(56,189,248,.50)" stroke-width="1.5"/>
+    <line x1="100" y1="83" x2="100" y2="103" stroke="rgba(56,189,248,.42)" stroke-width="1.8" stroke-dasharray="3 2"/>
+    <rect x="50" y="103" width="100" height="34" rx="8" fill="rgba(22,163,74,.35)" stroke="rgba(74,222,128,.85)" stroke-width="1.8"/>
+    <text x="100" y="125" text-anchor="middle" fill="#86efac" font-size="15" font-weight="800" font-family="Space Grotesk,monospace">−38% cost</text>
+  </svg>
+</div>
+<!-- Cloud 3 — medium, upper-right -->
+<div class="money-cloud hidden lg:block" style="right:3%;top:7%;animation-delay:3.2s;animation-duration:8s;opacity:.68" aria-hidden="true">
+  <svg width="155" height="116" viewBox="0 0 200 148" overflow="visible" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M20,78 C10,78 5,70 5,63 C5,54 12,48 20,48 C18,36 28,28 40,28 C42,18 54,12 68,16 C74,6 88,3 100,8 C110,2 126,4 132,16 C146,12 160,20 158,34 C170,32 182,42 180,54 C188,54 196,62 194,72 C192,80 184,84 176,82 L20,82 Z"
+      fill="rgba(124,58,237,.22)" stroke="rgba(192,132,252,.50)" stroke-width="1.5"/>
+    <line x1="100" y1="83" x2="100" y2="103" stroke="rgba(192,132,252,.40)" stroke-width="1.8" stroke-dasharray="3 2"/>
+    <rect x="50" y="103" width="100" height="34" rx="8" fill="rgba(22,163,74,.33)" stroke="rgba(74,222,128,.82)" stroke-width="1.8"/>
+    <text x="100" y="125" text-anchor="middle" fill="#86efac" font-size="15" font-weight="800" font-family="Space Grotesk,monospace">$8.4K/mo</text>
+  </svg>
+</div>
+<!-- Cloud 4 — small, lower-right -->
+<div class="money-cloud alt hidden lg:block" style="right:4%;top:62%;animation-delay:5s;animation-duration:12s;opacity:.62" aria-hidden="true">
+  <svg width="126" height="96" viewBox="0 0 200 148" overflow="visible" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M20,78 C10,78 5,70 5,63 C5,54 12,48 20,48 C18,36 28,28 40,28 C42,18 54,12 68,16 C74,6 88,3 100,8 C110,2 126,4 132,16 C146,12 160,20 158,34 C170,32 182,42 180,54 C188,54 196,62 194,72 C192,80 184,84 176,82 L20,82 Z"
+      fill="rgba(255,255,255,.17)" stroke="rgba(255,255,255,.38)" stroke-width="1.5"/>
+    <line x1="100" y1="83" x2="100" y2="103" stroke="rgba(255,255,255,.38)" stroke-width="1.8" stroke-dasharray="3 2"/>
+    <rect x="50" y="103" width="100" height="34" rx="8" fill="rgba(22,163,74,.30)" stroke="rgba(74,222,128,.78)" stroke-width="1.8"/>
+    <text x="100" y="125" text-anchor="middle" fill="#86efac" font-size="15" font-weight="800" font-family="Space Grotesk,monospace">FinOps ✓</text>
+  </svg>
 </div>
 
 <div class="relative z-10 max-w-7xl mx-auto px-6 py-8 lg:py-12 grid lg:grid-cols-2 gap-8 lg:gap-16 items-center">
@@ -1146,8 +1196,8 @@
             </div>
           </div>
           <div class="cert-badge">
-            <div class="w-8 h-8 rounded-lg flex items-center justify-center shrink-0" style="background:linear-gradient(135deg,#0078D4,#00BCF2)">
-              <svg width="14" height="14" viewBox="0 0 24 24" fill="white" aria-hidden="true"><path d="M13 2L3 14h9l-1 8 10-12h-9l1-8z"/></svg>
+            <div class="w-8 h-8 rounded-lg flex items-center justify-center shrink-0" style="background:#EFF6FF">
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="#0078D4" aria-label="Microsoft Azure"><path d="M22.379 23.343a1.62 1.62 0 001.362-2.432L13.33.657A1.62 1.62 0 0011.97 0H8.026a1.62 1.62 0 00-1.36 2.505l2.847 4.28-6.76 11.715a1.62 1.62 0 001.408 2.428h4.316a1.62 1.62 0 001.44-.883l.85-1.718H9.2l5.382-9.33 4.965 8.553a1.62 1.62 0 001.408.883z"/></svg>
             </div>
             <div>
               <p class="text-xs font-600 text-navy">Azure Fundamentals AZ-900</p>
