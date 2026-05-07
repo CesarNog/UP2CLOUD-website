@@ -72,11 +72,26 @@ jobs:
       - name: Terraform validate
         run: terraform validate
 
-  build:
-    name: Build deploy artifact
+  # Manual approval gate — runs on every PR and on pushes to main.
+  # Requires a GitHub environment named "production-approval" with at least
+  # one required reviewer configured under:
+  #   Settings → Environments → production-approval → Required reviewers
+  approve:
+    name: Awaiting approval
     needs:
       - test
       - terraform-validate
+    runs-on: ubuntu-latest
+    environment:
+      name: production-approval
+    steps:
+      - name: Approval received
+        run: echo "Deployment approved by ${{ github.actor }} ✓"
+
+  build:
+    name: Build deploy artifact
+    needs:
+      - approve
     runs-on: ubuntu-latest
     if: github.event_name != 'pull_request'
     steps:
