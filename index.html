@@ -92,6 +92,11 @@
     #menu-btn.is-open .burger-top{transform:translateY(7px) rotate(45deg)}
     #menu-btn.is-open .burger-mid{opacity:0;transform:scaleX(0)}
     #menu-btn.is-open .burger-bot{transform:translateY(-7px) rotate(-45deg)}
+    /* Mobile menu slide animation */
+    @keyframes menuSlideDown{from{opacity:0;transform:translateY(-8px)}to{opacity:1;transform:translateY(0)}}
+    #mobile-menu:not(.hidden){animation:menuSlideDown .22s cubic-bezier(.23,1,.32,1) both}
+    /* Skip link (sr-only utility) */
+    .sr-only{position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border-width:0}
     .badge{background:rgba(3,105,161,.12);color:#0369A1;font-size:.75rem;font-weight:600;padding:.25rem .75rem;border-radius:999px;letter-spacing:.05em;text-transform:uppercase}
     .badge-ai{background:rgba(124,58,237,.15);color:#7C3AED}
     .step-dot{width:48px;height:48px;min-width:48px;border-radius:50%;background:linear-gradient(135deg,#0369A1,#0EA5E9);display:flex;align-items:center;justify-content:center;color:#fff;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:1.1rem;box-shadow:0 4px 12px rgba(3,105,161,.3)}
@@ -120,9 +125,11 @@
 
     /* ── Animated gradient border on AI cards ── */
     @keyframes borderSpin{to{--angle:360deg}}
-    @property --angle{syntax:'<angle>';initial-value:0deg;inherits:false}
+    @supports(background:conic-gradient(from 0deg,red,blue)){
+      @property --angle{syntax:'<angle>';initial-value:0deg;inherits:false}
+      .ai-glow-border::before{content:'';position:absolute;inset:-1px;border-radius:inherit;background:conic-gradient(from var(--angle),#7C3AED,#0EA5E9,#F97316,#7C3AED);animation:borderSpin 4s linear infinite;z-index:-1;padding:1px}
+    }
     .ai-glow-border{position:relative}
-    .ai-glow-border::before{content:'';position:absolute;inset:-1px;border-radius:inherit;background:conic-gradient(from var(--angle),#7C3AED,#0EA5E9,#F97316,#7C3AED);animation:borderSpin 4s linear infinite;z-index:-1;padding:1px}
 
     /* ── Floating badge wobble ── */
     @keyframes floatBadge{0%,100%{transform:translateY(0) rotate(-1deg)}50%{transform:translateY(-6px) rotate(1deg)}}
@@ -193,6 +200,9 @@
   </div>
 </div>
 
+<!-- ══ Skip navigation (accessibility) ══ -->
+<a href="#main-content" class="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[9999] focus:bg-sky-brand focus:text-white focus:px-4 focus:py-2 focus:rounded-lg focus:font-semibold focus:text-sm">Skip to main content</a>
+
 <!-- ══ Scroll progress bar ══ -->
 <div id="scroll-progress" style="position:fixed;top:0;left:0;height:3px;width:0%;background:linear-gradient(90deg,#0EA5E9,#7C3AED,#F97316);z-index:9999;transition:width .1s linear;pointer-events:none" aria-hidden="true"></div>
 
@@ -261,8 +271,8 @@
 
 
 <!-- ══════════════════════════ HERO ══════════════════════════ -->
-  <section id="hero" class="hero-bg parallax-scene relative min-h-screen flex items-center overflow-hidden pt-20">
-  <canvas id="particle-canvas" class="absolute inset-0 w-full h-full pointer-events-none" aria-hidden="true" style="opacity:.35;mix-blend-mode:screen"></canvas>
+  <section id="hero" class="hero-bg parallax-scene relative min-h-[100svh] flex items-center overflow-hidden pt-20" id="main-content">
+  <canvas id="particle-canvas" class="absolute inset-0 w-full h-full pointer-events-none" aria-hidden="true" style="opacity:.35"></canvas>
   <div class="blob w-96 h-96 bg-sky-light top-1/4 left-1/4" style="animation-delay:0s"></div>
   <div class="orb-ring w-[640px] h-[640px] -right-48 top-16 opacity-40 parallax-layer-bg" aria-hidden="true"></div>
 
@@ -279,7 +289,7 @@
     <span>faster resolution</span>
   </div>
 
-  <div class="relative z-10 max-w-7xl mx-auto px-6 py-10 lg:py-14 grid lg:grid-cols-2 gap-16 items-center">
+  <div class="relative z-10 max-w-7xl mx-auto px-6 py-10 lg:py-14 grid lg:grid-cols-2 gap-8 lg:gap-16 items-center">
     <div>
       <div class="flex flex-wrap gap-2 mb-6">
         <span class="badge" style="background:rgba(14,165,233,.2);color:#38BDF8" data-i18n="hero_badge_cloud">Cloud & IT Consulting</span>
@@ -288,10 +298,10 @@
           AI-Powered
         </span>
       </div>
-      <h1 class="font-heading font-700 text-5xl sm:text-6xl lg:text-7xl text-white leading-tight mb-6">
+      <h1 class="font-heading font-700 text-4xl sm:text-5xl lg:text-7xl text-white leading-tight mb-6">
         <span id="hero-typewriter">Elite Cloud,</span><br/><span data-i18n="hero_title2">DevOps &amp; </span><span class="gradient-text" data-i18n="hero_title2_accent">AI Execution</span>
       </h1>
-      <p class="text-white/70 text-lg leading-relaxed mb-10 max-w-xl">
+      <p class="text-white/70 text-lg leading-relaxed mb-6 lg:mb-10 max-w-xl">
         <span data-i18n-html="hero_sub">UP2CLOUD helps companies modernise infrastructure, automate delivery, reduce cloud waste, and ship secure platforms faster — with <strong class="text-white">AI-assisted execution</strong> across FinOps, DevSecOps, Kubernetes, and multi-cloud operations.</span>
       </p>
       <div class="flex flex-col sm:flex-row flex-wrap gap-4">
@@ -530,12 +540,12 @@
   <div class="max-w-7xl mx-auto px-6">
     <div class="text-center mb-10 reveal">
       <span class="badge" data-i18n="services_badge">What We Do</span>
-      <h2 class="font-heading font-700 text-4xl sm:text-5xl mt-4 mb-5 shimmer-heading" data-i18n="services_title">End-to-End IT Solutions</h2>
+      <h2 class="font-heading font-700 text-3xl sm:text-4xl lg:text-5xl mt-4 mb-5 shimmer-heading" data-i18n="services_title">End-to-End IT Solutions</h2>
       <p class="text-slate-500 text-lg max-w-2xl mx-auto leading-relaxed" data-i18n="services_sub">From cloud strategy to AI automation — we bring the expertise to modernize your infrastructure and accelerate growth.</p>
     </div>
     <div class="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
 
-      <article class="service-card bg-white rounded-2xl p-8 shadow-sm border border-slate-100 reveal" style="transition-delay:.05s">
+      <article class="service-card bg-white rounded-2xl p-6 sm:p-8 shadow-sm border border-slate-100 reveal" style="transition-delay:.05s">
         <div class="w-12 h-12 rounded-xl flex items-center justify-center mb-5" style="background:linear-gradient(135deg,#EFF6FF,#DBEAFE)">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z" stroke="#2563EB" stroke-width="2" stroke-linejoin="round"/></svg>
         </div>
@@ -548,7 +558,7 @@
         </ul>
       </article>
 
-      <article class="service-card bg-white rounded-2xl p-8 shadow-sm border border-slate-100 reveal" style="transition-delay:.1s">
+      <article class="service-card bg-white rounded-2xl p-6 sm:p-8 shadow-sm border border-slate-100 reveal" style="transition-delay:.1s">
         <div class="w-12 h-12 rounded-xl flex items-center justify-center mb-5" style="background:linear-gradient(135deg,#FFF7ED,#FFEDD5)">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z" stroke="#F97316" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </div>
@@ -561,7 +571,7 @@
         </ul>
       </article>
 
-      <article class="service-card bg-white rounded-2xl p-8 shadow-sm border border-slate-100 reveal" style="transition-delay:.15s">
+      <article class="service-card bg-white rounded-2xl p-6 sm:p-8 shadow-sm border border-slate-100 reveal" style="transition-delay:.15s">
         <div class="w-12 h-12 rounded-xl flex items-center justify-center mb-5" style="background:linear-gradient(135deg,#F0FDF4,#DCFCE7)">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 4v5h.582m15.356 2A8.001 8.001 0 004.582 9m0 0H9m11 11v-5h-.581m0 0a8.003 8.003 0 01-15.357-2m15.357 2H15" stroke="#16A34A" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </div>
@@ -574,7 +584,7 @@
         </ul>
       </article>
 
-      <article class="service-card bg-white rounded-2xl p-8 shadow-sm border border-slate-100 reveal" style="transition-delay:.2s">
+      <article class="service-card bg-white rounded-2xl p-6 sm:p-8 shadow-sm border border-slate-100 reveal" style="transition-delay:.2s">
         <div class="w-12 h-12 rounded-xl flex items-center justify-center mb-5" style="background:linear-gradient(135deg,#FFF1F2,#FFE4E6)">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" stroke="#E11D48" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </div>
@@ -587,7 +597,7 @@
         </ul>
       </article>
 
-      <article class="service-card bg-white rounded-2xl p-8 shadow-sm border border-slate-100 reveal" style="transition-delay:.25s">
+      <article class="service-card bg-white rounded-2xl p-6 sm:p-8 shadow-sm border border-slate-100 reveal" style="transition-delay:.25s">
         <div class="w-12 h-12 rounded-xl flex items-center justify-center mb-5" style="background:linear-gradient(135deg,#F5F3FF,#EDE9FE)">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M13 10V3L4 14h7v7l9-11h-7z" stroke="#7C3AED" stroke-width="2" stroke-linejoin="round"/></svg>
         </div>
@@ -600,7 +610,7 @@
         </ul>
       </article>
 
-      <article class="service-card bg-white rounded-2xl p-8 shadow-sm border border-slate-100 reveal" style="transition-delay:.3s">
+      <article class="service-card bg-white rounded-2xl p-6 sm:p-8 shadow-sm border border-slate-100 reveal" style="transition-delay:.3s">
         <div class="w-12 h-12 rounded-xl flex items-center justify-center mb-5" style="background:linear-gradient(135deg,#ECFDF5,#D1FAE5)">
           <svg width="24" height="24" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" stroke="#059669" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
         </div>
@@ -626,7 +636,7 @@
   <div class="relative z-10 max-w-7xl mx-auto px-6">
     <div class="text-center mb-10 reveal">
       <span class="badge badge-ai inline-block" style="background:rgba(192,132,252,.2);color:#C084FC" data-i18n="ai_badge">AI-First Approach</span>
-      <h2 class="font-heading font-700 text-4xl sm:text-5xl text-white mt-4 mb-5">
+      <h2 class="font-heading font-700 text-3xl sm:text-4xl lg:text-5xl text-white mt-4 mb-5">
         <span data-i18n="ai_title">We Solve Problems Fast</span><br/><span class="gradient-text-ai" data-i18n="ai_title_accent">With AI</span>
       </h2>
       <p class="text-white/60 text-lg max-w-2xl mx-auto" data-i18n="ai_sub">From OpenClaw deployment to AI workflow automation — we cut resolution time from days to minutes.</p>
@@ -846,22 +856,22 @@
   <div class="relative z-10 max-w-7xl mx-auto px-6">
     <div class="text-center mb-10 reveal">
       <span class="badge" style="background:rgba(14,165,233,.2);color:#38BDF8" data-i18n="stats_badge">Proven Track Record</span>
-      <h2 class="font-heading font-700 text-4xl sm:text-5xl text-white mt-4 mb-5" data-i18n="stats_title">Results That Speak</h2>
+      <h2 class="font-heading font-700 text-3xl sm:text-4xl lg:text-5xl text-white mt-4 mb-5" data-i18n="stats_title">Results That Speak</h2>
     </div>
     <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-6">
-      <div class="glass rounded-2xl p-8 text-center reveal stat-card" style="transition-delay:.05s">
+      <div class="glass rounded-2xl p-6 sm:p-8 text-center reveal stat-card" style="transition-delay:.05s">
         <p class="font-heading font-700 text-5xl text-sky-light mb-2" data-target="15" data-suffix="+">0</p>
         <p class="text-white/50 text-sm mt-1" data-i18n="stats_projects">Successful Projects</p>
       </div>
-      <div class="glass rounded-2xl p-8 text-center reveal stat-card" style="transition-delay:.1s">
+      <div class="glass rounded-2xl p-6 sm:p-8 text-center reveal stat-card" style="transition-delay:.1s">
         <p class="font-heading font-700 text-5xl text-orange-400 mb-2" data-target="42" data-suffix="%">0</p>
         <p class="text-white/50 text-sm mt-1" data-i18n="stats_savings">Avg. Infrastructure Cost Reduction</p>
       </div>
-      <div class="glass rounded-2xl p-8 text-center reveal stat-card" style="transition-delay:.15s">
+      <div class="glass rounded-2xl p-6 sm:p-8 text-center reveal stat-card" style="transition-delay:.15s">
         <p class="font-heading font-700 text-5xl text-purple-300 mb-2" data-target="10" data-suffix="×">0</p>
         <p class="text-white/50 text-sm mt-1" data-i18n="stats_ai">Faster Problem Resolution with AI</p>
       </div>
-      <div class="glass rounded-2xl p-8 text-center reveal stat-card" style="transition-delay:.2s">
+      <div class="glass rounded-2xl p-6 sm:p-8 text-center reveal stat-card" style="transition-delay:.2s">
         <p class="font-heading font-700 text-5xl text-sky-light mb-2" data-target="10" data-suffix="+ yr">0</p>
         <p class="text-white/50 text-sm mt-1" data-i18n="stats_exp">Industry Experience</p>
       </div>
@@ -875,7 +885,7 @@
   <div class="max-w-7xl mx-auto px-6">
     <div class="text-center mb-10 reveal">
       <span class="badge" data-i18n="portfolio_badge">Behind UP2CLOUD</span>
-      <h2 class="font-heading font-700 text-4xl sm:text-5xl mt-4 mb-5 shimmer-heading" data-i18n="portfolio_title">Built by a Certified Expert</h2>
+      <h2 class="font-heading font-700 text-3xl sm:text-4xl lg:text-5xl mt-4 mb-5 shimmer-heading" data-i18n="portfolio_title">Built by a Certified Expert</h2>
       <p class="text-slate-500 text-lg max-w-2xl mx-auto leading-relaxed">UP2CLOUD is led by <strong>Cesar A. Nogueira</strong>, a Cloud DevOps Engineer with 10+ years building and scaling infrastructure across three continents.</p>
     </div>
 
@@ -1065,7 +1075,7 @@
   <div class="max-w-7xl mx-auto px-6">
     <div class="text-center mb-10 reveal">
       <span class="badge" data-i18n="testimonials_badge">Verified on LinkedIn</span>
-      <h2 class="font-heading font-700 text-4xl sm:text-5xl text-navy mt-4 mb-5" data-i18n="testimonials_title">What Colleagues &amp; Clients Say</h2>
+      <h2 class="font-heading font-700 text-3xl sm:text-4xl lg:text-5xl text-navy mt-4 mb-5" data-i18n="testimonials_title">What Colleagues &amp; Clients Say</h2>
       <p class="text-slate-500 text-base max-w-xl mx-auto" data-i18n="testimonials_sub">Real recommendations from LinkedIn — colleagues at H&amp;M, ZeroLight, Accenture, CI&amp;T and more.</p>
     </div>
 
@@ -1170,10 +1180,10 @@
 <!-- ══════════════════════════ CTA BANNER ══════════════════════════ -->
 <section aria-label="Call to action" class="py-12 bg-white">
   <div class="max-w-4xl mx-auto px-6 text-center reveal">
-    <div class="rounded-2xl p-12 relative overflow-hidden premium-glow shine" style="background:radial-gradient(circle at 25% 20%,rgba(14,165,233,.22),transparent 28%),radial-gradient(circle at 78% 28%,rgba(124,58,237,.26),transparent 30%),linear-gradient(135deg,#0F172A,#1e0533,#0C4A6E)">
+    <div class="rounded-2xl p-6 sm:p-10 lg:p-12 relative overflow-hidden premium-glow shine" style="background:radial-gradient(circle at 25% 20%,rgba(14,165,233,.22),transparent 28%),radial-gradient(circle at 78% 28%,rgba(124,58,237,.26),transparent 30%),linear-gradient(135deg,#0F172A,#1e0533,#0C4A6E)">
       <div class="blob w-72 h-72 bg-purple-500 -top-10 right-0 opacity-25"></div>
       <div class="relative z-10">
-        <h2 class="font-heading font-700 text-4xl text-white mb-4" data-i18n="cta_title">Ready to scale smarter?</h2>
+        <h2 class="font-heading font-700 text-3xl sm:text-4xl text-white mb-4" data-i18n="cta_title">Ready to scale smarter?</h2>
         <p class="text-white/70 text-lg mb-8 max-w-xl mx-auto" data-i18n="cta_sub">Book a free 45-minute infrastructure audit and walk away with a prioritised action plan — no strings attached.</p>
         <a href="#contact" class="btn-primary text-base inline-flex">
           <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
@@ -1187,11 +1197,11 @@
 
 <!-- ══════════════════════════ CONTACT ══════════════════════════ -->
 <section id="contact" aria-label="Contact" class="py-12 bg-slate-50">
-  <div class="max-w-7xl mx-auto px-6 grid lg:grid-cols-2 gap-16 items-start">
+  <div class="max-w-7xl mx-auto px-6 grid lg:grid-cols-2 gap-8 lg:gap-16 items-start">
     <div class="reveal">
       <span class="badge" data-i18n="contact_badge">Get In Touch</span>
-      <h2 class="font-heading font-700 text-4xl sm:text-5xl text-navy mt-4 mb-5" data-i18n="contact_title">Let's Talk About Your IT Goals</h2>
-      <p class="text-slate-500 text-lg leading-relaxed mb-10" data-i18n="contact_sub">Cloud migration, AI automation, OpenClaw setup, or just a quick question — we reply within 1 business day.</p>
+      <h2 class="font-heading font-700 text-3xl sm:text-4xl lg:text-5xl text-navy mt-4 mb-5" data-i18n="contact_title">Let's Talk About Your IT Goals</h2>
+      <p class="text-slate-500 text-lg leading-relaxed mb-6 lg:mb-10" data-i18n="contact_sub">Cloud migration, AI automation, OpenClaw setup, or just a quick question — we reply within 1 business day.</p>
       <div class="space-y-5">
         <div class="flex items-center gap-4">
           <div class="w-11 h-11 rounded-xl bg-sky-ultra flex items-center justify-center">
@@ -1865,7 +1875,8 @@ TONE: Be helpful, concise, and professional. Keep answers to 2-4 sentences unles
       };
       this.reset();
     }
-    for (let i = 0; i < 90; i++) particles.push(new Particle());
+    const PARTICLE_COUNT = window.innerWidth < 768 ? 30 : 90;
+    for (let i = 0; i < PARTICLE_COUNT; i++) particles.push(new Particle());
 
     function draw() {
       ctx.clearRect(0, 0, W, H);
