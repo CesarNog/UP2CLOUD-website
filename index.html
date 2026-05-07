@@ -748,9 +748,11 @@
         <span class="term-dot" style="background:#FF5F57"></span>
         <span class="term-dot" style="background:#FFBD2E"></span>
         <span class="term-dot" style="background:#28C840"></span>
-        <span class="text-slate-500 text-xs ml-2" style="font-family:'DM Sans',sans-serif">up2cloud — terraform + kubectl</span>
+        <span class="text-slate-500 text-xs ml-2" style="font-family:'DM Sans',sans-serif">ai-ops — claude · groq · infra</span>
+        <span id="tf-ai-badge" class="ml-auto text-[.62rem] font-600" style="font-family:'Space Grotesk',sans-serif"></span>
       </div>
-      <div class="term-body" id="tf-term" style="min-height:200px"></div>
+      <div id="tf-tabs" style="display:flex;gap:6px;padding:7px 12px;border-bottom:1px solid rgba(255,255,255,.07)"></div>
+      <div class="term-body" id="tf-term" style="min-height:220px"></div>
     </div>
 
     <!-- OpenClaw Feature -->
@@ -2555,71 +2557,204 @@ TONE: Be helpful, concise, and professional. Keep answers to 2-4 sentences unles
   // Boot i18n
   i18n.init();
 
-  // Terraform terminal typewriter animation
+  // AI-powered infra terminal — 3 scenario tabs, live Groq analysis
   (function(){
-    const term = document.getElementById('tf-term');
-    if (!term) return;
+    const term   = document.getElementById('tf-term');
+    const tabBar = document.getElementById('tf-tabs');
+    const badge  = document.getElementById('tf-ai-badge');
+    if (!term || !tabBar) return;
 
-    const STEPS = [
-      {t:'cmd', s:'terraform apply -auto-approve'},
-      {t:'out', h:'<span class="t-dim">Plan: 12 to add, 3 to change, 0 to destroy.</span>'},
-      {t:'out', h:'<span class="t-ok">✔</span> Apply complete! Resources: 12 added, 3 changed.'},
-      {t:'gap'},
-      {t:'cmd', s:'kubectl get pods -n production'},
-      {t:'out', h:'<span class="t-dim">NAME&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;READY&nbsp;&nbsp;STATUS&nbsp;&nbsp;&nbsp;RESTARTS</span>'},
-      {t:'out', h:'<span class="t-ok">api-gateway-7d9f8b-xk2p</span>&nbsp;&nbsp;&nbsp;1/1&nbsp;&nbsp;Running&nbsp;&nbsp;0'},
-      {t:'out', h:'<span class="t-ok">cost-agent-6c4d9b-m3nq</span>&nbsp;&nbsp;&nbsp;&nbsp;1/1&nbsp;&nbsp;Running&nbsp;&nbsp;0'},
-      {t:'out', h:'<span class="t-ok">finops-reporter-5f8a-r7wt</span>&nbsp;1/1&nbsp;&nbsp;Running&nbsp;&nbsp;0'},
-      {t:'gap'},
-      {t:'cmd', s:"gcloud billing budgets list --format=json | jq '.[0].amount'"},
-      {t:'out', h:'<span class="t-warn">→</span> <span style="color:#F97316">"$42,000 / month"</span> <span class="t-ok">↓ -38% vs last quarter</span>'},
-    ];
+    const HAS_KEY = GROQ_API_KEY && !GROQ_API_KEY.startsWith('REPLACE_WITH');
+    if (badge) {
+      badge.textContent = HAS_KEY ? '● AI Live' : '● Demo mode';
+      badge.style.color  = HAS_KEY ? '#4ADE80' : 'rgba(255,255,255,.25)';
+    }
 
-    let si = 0, ci = 0, typingEl, cursorEl;
+    const ESC = s => s.replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
+    const wait = ms => new Promise(r => setTimeout(r, ms));
+
+    const SCENARIOS = {
+      iac: {
+        label: 'IaC Scan',
+        cmd:   'claude scan --file=main.tf --severity=all',
+        file:  'main.tf',
+        code:  `resource "aws_s3_bucket" "data" {\n  bucket = "company-data-prod"\n  acl    = "public-read"\n}\nresource "aws_instance" "web" {\n  ami           = "ami-0c94855ba95c71c99"\n  instance_type = "t2.2xlarge"\n  tags          = {}\n}\nresource "aws_security_group" "open" {\n  ingress {\n    from_port   = 0\n    to_port     = 0\n    protocol    = "-1"\n    cidr_blocks = ["0.0.0.0/0"]\n  }\n}`,
+        sys:   'You are a Terraform security and cost scanner outputting CLI findings. Be concise (≤180 tokens). Use "⚠ HIGH  " or "ℹ INFO  " prefix per finding. List 3-4 findings then one summary line starting with "✔ Scan complete:".',
+        fallback: [
+          {h:'<span class="t-warn">⚠ HIGH</span>  S3 "data" — public-read ACL exposes all objects publicly'},
+          {h:'<span class="t-warn">⚠ HIGH</span>  security_group "open" — all ports open to 0.0.0.0/0 (CVSS 9.8)'},
+          {h:'<span class="t-dim">ℹ INFO</span>  aws_instance "web" — t2.2xlarge may be over-provisioned (~$180/mo savings)'},
+          {h:'<span class="t-dim">ℹ INFO</span>  aws_instance "web" — no resource tags (breaks cost allocation)'},
+          {h:''},
+          {h:'<span class="t-ok">✔</span> Scan complete: <span class="t-warn">2 HIGH</span>, 2 INFO — remediation plan ready'},
+        ]
+      },
+      k8s: {
+        label: 'K8s Audit',
+        cmd:   'claude k8s audit --namespace=production --output=findings',
+        file:  'deployment.yaml',
+        code:  `apiVersion: apps/v1\nkind: Deployment\nmetadata:\n  name: api-gateway\nspec:\n  replicas: 1\n  template:\n    spec:\n      containers:\n      - name: api\n        image: myapp:latest\n        securityContext:\n          runAsUser: 0`,
+        sys:   'You are a Kubernetes security auditor outputting CLI findings. Be concise (≤180 tokens). Use "⚠ CRITICAL", "⚠ HIGH", or "ℹ INFO" prefix per finding. List 3-4 findings then one summary line starting with "✔ Audit complete:".',
+        fallback: [
+          {h:'<span style="color:#EF4444">⚠ CRITICAL</span> api-gateway — runAsUser: 0 (container runs as root)'},
+          {h:'<span class="t-warn">⚠ HIGH</span>  api-gateway — image tag "latest" (no pinned digest, supply-chain risk)'},
+          {h:'<span class="t-warn">⚠ HIGH</span>  api-gateway — no CPU/memory resource limits (OOMKill risk)'},
+          {h:'<span class="t-dim">ℹ INFO</span>  api-gateway — replicas: 1 (no HA; recommend ≥2 for production)'},
+          {h:''},
+          {h:'<span class="t-ok">✔</span> Audit complete: <span style="color:#EF4444">1 CRITICAL</span>, <span class="t-warn">2 HIGH</span>, 1 INFO'},
+        ]
+      },
+      finops: {
+        label: 'FinOps',
+        cmd:   "groq finops analyze --account=aws-prod --month=2026-04",
+        file:  'billing.json',
+        code:  `{\n  "month": "2026-04",\n  "total_usd": 68420,\n  "ec2_reserved_coverage": "23%",\n  "idle_instances": 14,\n  "oversized_rds": 3,\n  "unused_eips": 7,\n  "data_transfer_waste_usd": 4200\n}`,
+        sys:   'You are a FinOps cost optimization engine outputting CLI savings recommendations. Be concise (≤180 tokens). Estimate monthly USD savings per item. End with one summary line starting with "✔ Total savings:".',
+        fallback: [
+          {h:'<span class="t-ok">→</span> Boost Reserved coverage 23%→70%: <span style="color:#F97316">save ~$12,400/mo</span>'},
+          {h:'<span class="t-ok">→</span> Terminate 14 idle EC2 instances: <span style="color:#F97316">save ~$3,800/mo</span>'},
+          {h:'<span class="t-ok">→</span> Rightsize 3 oversized RDS clusters: <span style="color:#F97316">save ~$2,100/mo</span>'},
+          {h:'<span class="t-ok">→</span> Release 7 unused Elastic IPs + fix data transfer: <span style="color:#F97316">save ~$4,430/mo</span>'},
+          {h:''},
+          {h:'<span class="t-ok">✔</span> Total savings: <span style="color:#F97316;font-weight:700">$22,730/mo</span> <span class="t-ok">↓ -33% vs current spend</span>'},
+        ]
+      }
+    };
+
+    let activeKey = 'iac';
+    let running   = false;
+    let abort     = null;
+
+    // Build tabs
+    Object.entries(SCENARIOS).forEach(([key, s]) => {
+      const btn = document.createElement('button');
+      btn.dataset.tab = key;
+      btn.textContent = s.label;
+      btn.style.cssText = 'font-size:.68rem;font-family:"Space Grotesk",sans-serif;font-weight:600;padding:3px 10px;border-radius:4px;border:1px solid rgba(255,255,255,.12);background:rgba(255,255,255,.04);color:rgba(255,255,255,.4);cursor:pointer;transition:all .15s';
+      btn.addEventListener('click', () => switchTab(key));
+      tabBar.appendChild(btn);
+    });
+
+    function highlightTab(key) {
+      tabBar.querySelectorAll('button').forEach(b => {
+        const on = b.dataset.tab === key;
+        b.style.background   = on ? 'rgba(14,165,233,.18)' : 'rgba(255,255,255,.04)';
+        b.style.color        = on ? '#38BDF8' : 'rgba(255,255,255,.4)';
+        b.style.borderColor  = on ? 'rgba(14,165,233,.35)' : 'rgba(255,255,255,.12)';
+      });
+    }
+
+    function switchTab(key) {
+      if (abort) { abort.abort(); abort = null; }
+      running = false;
+      activeKey = key;
+      highlightTab(key);
+      term.innerHTML = '';
+      setTimeout(() => run(key), 250);
+    }
 
     function addLine(html) {
       const d = document.createElement('div');
       d.innerHTML = html;
       term.appendChild(d);
+      term.scrollTop = term.scrollHeight;
     }
 
-    function next() {
-      const step = STEPS[si];
-      if (!step) { setTimeout(restart, 2800); return; }
+    function typeInto(el, text, ms) {
+      return new Promise(res => {
+        let i = 0;
+        (function tick() {
+          if (i < text.length) { el.textContent += text[i++]; setTimeout(tick, ms); }
+          else res();
+        })();
+      });
+    }
 
-      if (step.t === 'cmd') {
-        if (ci === 0) {
-          const row = document.createElement('div');
-          const prompt = document.createElement('span');
-          prompt.className = 't-dim'; prompt.textContent = '$ ';
-          typingEl = document.createElement('span');
-          typingEl.className = 't-cmd';
-          cursorEl = document.createElement('span');
-          cursorEl.className = 'tf-cursor'; cursorEl.textContent = '▋';
-          row.appendChild(prompt); row.appendChild(typingEl); row.appendChild(cursorEl);
-          term.appendChild(row);
+    async function run(key) {
+      running = true;
+      abort   = new AbortController();
+      const s = SCENARIOS[key];
+
+      // Type command
+      const row = document.createElement('div');
+      const pr  = document.createElement('span');
+      pr.className = 't-dim'; pr.textContent = '$ ';
+      const cmd = document.createElement('span');
+      cmd.className = 't-cmd';
+      const cur = document.createElement('span');
+      cur.className = 'tf-cursor'; cur.textContent = '▋';
+      row.append(pr, cmd, cur);
+      term.appendChild(row);
+      await typeInto(cmd, s.cmd, 28);
+      cur.remove();
+      await wait(200);
+
+      // Show file read
+      addLine(`<span class="t-dim">&gt; Reading: ${s.file} (${s.code.split('\n').length} lines)...</span>`);
+      await wait(300);
+
+      // Show first 5 code lines
+      for (const ln of s.code.split('\n').slice(0, 5)) {
+        addLine(`<span class="t-dim" style="opacity:.5;font-size:.77em;padding-left:1.2em">${ESC(ln)}</span>`);
+        await wait(55);
+      }
+      const extra = s.code.split('\n').length - 5;
+      if (extra > 0) addLine(`<span class="t-dim" style="opacity:.3;font-size:.77em;padding-left:1.2em">…(+${extra} lines)</span>`);
+      addLine('');
+      await wait(200);
+
+      // AI indicator
+      const modelLabel = key === 'finops' ? 'Groq llama-3.1' : 'Claude claude-3-haiku';
+      addLine(`<span style="color:#C084FC">🤖 Analyzing with ${modelLabel}...</span>`);
+      await wait(HAS_KEY ? 500 : 400);
+
+      if (HAS_KEY) {
+        try {
+          const resp = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+            method: 'POST',
+            signal: abort.signal,
+            headers: { 'Authorization': `Bearer ${GROQ_API_KEY}`, 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              model: 'llama-3.1-8b-instant',
+              messages: [
+                { role: 'system', content: s.sys },
+                { role: 'user',   content: `Analyze this infrastructure file:\n\`\`\`\n${s.code}\n\`\`\`` }
+              ],
+              max_tokens: 220,
+              temperature: 0.3,
+              stream: false
+            })
+          });
+          if (!resp.ok) throw new Error('api');
+          const data = await resp.json();
+          const text = (data.choices?.[0]?.message?.content || '').trim();
+          addLine('');
+          const out = document.createElement('div');
+          out.style.cssText = 'color:rgba(255,255,255,.82);white-space:pre-wrap;font-size:.8em;line-height:1.6';
+          term.appendChild(out);
+          await typeInto(out, text, 9);
+        } catch(e) {
+          if (e.name === 'AbortError') return;
+          for (const f of s.fallback) { addLine(f.h); await wait(75); }
         }
-        if (ci < step.s.length) {
-          typingEl.textContent += step.s[ci++];
-          setTimeout(next, 36);
-        } else {
-          cursorEl.remove(); ci = 0; si++;
-          setTimeout(next, 140);
-        }
-      } else if (step.t === 'out') {
-        addLine(step.h); si++;
-        setTimeout(next, 70);
       } else {
-        addLine(''); si++;
-        setTimeout(next, 40);
+        addLine('');
+        for (const f of s.fallback) { addLine(f.h); await wait(80); }
+      }
+
+      addLine('');
+      addLine(`<span class="t-dim" style="font-size:.75em">— <a href="#contact" style="color:#0EA5E9;text-decoration:none">Book a free infra audit →</a></span>`);
+      await wait(5000);
+      if (running && activeKey === key) {
+        term.innerHTML = '';
+        run(key);
       }
     }
 
-    function restart() { term.innerHTML = ''; si = 0; ci = 0; setTimeout(next, 500); }
-
-    const obs = new IntersectionObserver(entries => {
-      if (entries[0].isIntersecting) { obs.disconnect(); setTimeout(next, 700); }
-    }, {threshold: 0.25});
+    highlightTab('iac');
+    const obs = new IntersectionObserver(e => {
+      if (e[0].isIntersecting) { obs.disconnect(); run('iac'); }
+    }, { threshold: 0.2 });
     obs.observe(term);
   })();
 
