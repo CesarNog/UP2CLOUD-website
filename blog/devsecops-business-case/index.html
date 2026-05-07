@@ -3,172 +3,210 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>The Business Case for DevSecOps: Ship Faster Without Sacrificing Security | UP2CLOUD Blog</title>
-  <meta name="description" content="Learn how DevSecOps shifts security left in your CI/CD pipeline, reduces breach costs, and helps engineering teams ship faster with SAST, DAST, IaC scanning, and compliance as code." />
-  <meta name="keywords" content="DevSecOps, shift-left security, SAST, DAST, IaC scanning, Snyk, Semgrep, Checkov, compliance as code, CI/CD security" />
-  <link rel="canonical" href="https://up2cloud.co/blog/devsecops-business-case/" />
-  <!-- Open Graph -->
-  <meta property="og:title" content="The Business Case for DevSecOps: Ship Faster Without Sacrificing Security" />
-  <meta property="og:description" content="How shift-left security practices reduce breach costs and accelerate delivery at the same time." />
+  <title>The Business Case for DevSecOps: Ship Faster Without Sacrificing Security — UP2CLOUD</title>
+  <meta name="description" content="Late-stage vulnerabilities cost 30× more to fix than shift-left catches. Here's the ROI case for integrating SAST, DAST, IaC scanning, and compliance as code into your CI/CD pipeline." />
+  <meta name="keywords" content="DevSecOps, shift-left security, SAST, DAST, security automation, compliance as code, Snyk, Semgrep, OWASP ZAP, Checkov, tfsec" />
+  <meta property="og:title" content="The Business Case for DevSecOps: Ship Faster Without Sacrificing Security — UP2CLOUD" />
   <meta property="og:type" content="article" />
-  <meta property="og:url" content="https://up2cloud.co/blog/devsecops-business-case/" />
+  <meta property="og:url" content="https://up2cloud.github.io/blog/devsecops-business-case/" />
+  <meta property="article:published_time" content="2025-05-26" />
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='5' fill='%230F172A'/%3E%3Cpath d='M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z' stroke='%230EA5E9' stroke-width='2' stroke-linejoin='round' fill='none'/%3E%3C/svg%3E" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet" />
   <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: { extend: {
+        fontFamily: { heading: ['Space Grotesk','sans-serif'], body: ['DM Sans','sans-serif'] },
+        colors: {
+          navy:  { DEFAULT:'#0F172A', 700:'#1E293B' },
+          sky:   { brand:'#0369A1', light:'#0EA5E9' },
+        }
+      }}
+    };
+  </script>
   <style>
-    :root { --clr-primary: #6366f1; --clr-dark: #0f172a; }
-    body { background: var(--clr-dark); color: #e2e8f0; font-family: 'Inter', system-ui, sans-serif; }
-    .prose h2 { font-size: 1.5rem; font-weight: 700; margin: 2rem 0 0.75rem; color: #f1f5f9; }
-    .prose h3 { font-size: 1.125rem; font-weight: 600; margin: 1.5rem 0 0.5rem; color: #cbd5e1; }
-    .prose p { margin: 0 0 1rem; line-height: 1.75; color: #94a3b8; }
-    .prose ul { margin: 0 0 1rem 1.25rem; list-style: disc; color: #94a3b8; }
-    .prose li { margin-bottom: 0.4rem; line-height: 1.7; }
-    .prose strong { color: #e2e8f0; font-weight: 600; }
-    .prose code { background: #1e293b; color: #a5b4fc; padding: 0.15rem 0.4rem; border-radius: 4px; font-size: 0.875em; }
-    .prose pre { background: #1e293b; border: 1px solid #334155; border-radius: 8px; padding: 1.25rem; overflow-x: auto; margin: 1.25rem 0; }
-    .prose pre code { background: none; padding: 0; color: #a5b4fc; font-size: 0.875rem; }
-    .badge-security { background: rgba(249,115,22,0.15); color: #fb923c; border: 1px solid rgba(249,115,22,0.3); }
-    .check-item { display: flex; gap: 0.75rem; align-items: flex-start; padding: 0.875rem 1rem; background: #1e293b; border-radius: 8px; border: 1px solid #334155; margin-bottom: 0.5rem; }
-    .check-icon { flex-shrink: 0; width: 1.25rem; height: 1.25rem; background: rgba(99,102,241,0.2); border-radius: 50%; display: flex; align-items: center; justify-content: center; margin-top: 0.1rem; }
-    .stat-card { background: #1e293b; border: 1px solid #334155; border-radius: 12px; padding: 1.5rem; text-align: center; }
-    .reveal { opacity: 0; transform: translateY(20px); transition: opacity 0.55s ease, transform 0.55s ease; }
-    .reveal.visible { opacity: 1; transform: translateY(0); }
+    *,*::before,*::after { box-sizing:border-box }
+    html { scroll-behavior:smooth; overscroll-behavior:none }
+    body { font-family:'DM Sans',sans-serif; background:#0F172A; color:#fff; margin:0 }
+    h1,h2,h3,h4 { font-family:'Space Grotesk',sans-serif }
+    .glass { background:rgba(255,255,255,.07); backdrop-filter:blur(14px); border:1px solid rgba(255,255,255,.12) }
+    .badge { background:rgba(3,105,161,.15); color:#38BDF8; font-size:.72rem; font-weight:600; padding:.25rem .75rem; border-radius:999px; letter-spacing:.05em; text-transform:uppercase }
+    .badge-orange { background:rgba(234,88,12,.18); color:#FB923C }
+    .reveal { opacity:0; transform:translateY(24px); transition:opacity .6s ease,transform .6s ease }
+    .reveal.visible { opacity:1; transform:none }
+    .prose p { color:rgba(255,255,255,.72); line-height:1.8; margin-bottom:1.25rem; font-size:1.0625rem }
+    .prose h2 { font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:1.5rem; color:#fff; margin-top:2.5rem; margin-bottom:1rem }
+    .prose h3 { font-family:'Space Grotesk',sans-serif; font-weight:600; font-size:1.2rem; color:rgba(255,255,255,.9); margin-top:2rem; margin-bottom:.75rem }
+    .prose ul { color:rgba(255,255,255,.72); line-height:1.8; margin-bottom:1.25rem; padding-left:1.5rem; list-style-type:disc }
+    .prose ul li { margin-bottom:.5rem }
+    .prose strong { color:#fff; font-weight:600 }
+    .prose pre { background:#0a0f1a; border:1px solid rgba(251,146,60,.18); border-radius:12px; padding:1.25rem 1.5rem; overflow-x:auto; margin-bottom:1.5rem }
+    .prose pre code { font-family:'Courier New',Courier,monospace; font-size:.88rem; color:#fed7aa; line-height:1.7; white-space:pre }
+    .prose code { font-family:'Courier New',Courier,monospace; font-size:.88rem; color:#fb923c; background:rgba(234,88,12,.1); padding:.1rem .35rem; border-radius:4px }
+    .prose pre code { background:none; padding:0; color:#fed7aa }
+    .cost-bar { background:rgba(239,68,68,.08); border:1px solid rgba(239,68,68,.18); border-radius:12px; padding:1rem 1.25rem; margin-bottom:.75rem }
+    .roi-bar { background:rgba(5,150,105,.08); border:1px solid rgba(52,211,153,.18); border-radius:12px; padding:1rem 1.25rem; margin-bottom:.75rem }
+    .check-item { display:flex; gap:.75rem; align-items:flex-start; padding:.875rem 1rem; background:rgba(255,255,255,.04); border:1px solid rgba(255,255,255,.08); border-radius:10px; margin-bottom:.5rem }
+    .check-icon { width:22px; height:22px; min-width:22px; border-radius:50%; display:flex; align-items:center; justify-content:center; background:rgba(251,146,60,.15); margin-top:.1rem }
+    @media(prefers-reduced-motion:reduce){.reveal{animation:none;transition:none}}
   </style>
 </head>
 <body>
-  <!-- Nav -->
-  <nav class="fixed top-0 w-full z-50 border-b border-white/10" style="background:rgba(15,23,42,0.95);backdrop-filter:blur(12px)">
-    <div class="max-w-6xl mx-auto px-4 sm:px-6 h-16 flex items-center justify-between">
-      <a href="/" class="flex items-center gap-2">
-        <svg width="28" height="28" viewBox="0 0 32 32" fill="none"><rect width="32" height="32" rx="8" fill="#6366f1"/><path d="M8 22l8-12 8 12" stroke="#fff" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><circle cx="16" cy="11" r="2.5" fill="#fff"/></svg>
-        <span class="font-bold text-white text-lg">UP2CLOUD</span>
-      </a>
-      <div class="flex items-center gap-4 text-sm">
-        <a href="/blog/" class="text-slate-300 hover:text-white transition-colors">← Blog</a>
-        <a href="/#contact" class="px-4 py-2 rounded-lg font-semibold text-white" style="background:#6366f1">Get in Touch</a>
+
+<!-- NAV -->
+<nav class="fixed top-0 left-0 right-0 z-50" style="background:rgba(15,23,42,.92);backdrop-filter:blur(12px);border-bottom:1px solid rgba(255,255,255,.07)">
+  <div class="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
+    <a href="/" class="flex items-center gap-3">
+      <div class="w-8 h-8 rounded-lg flex items-center justify-center" style="background:linear-gradient(135deg,#0369A1,#0EA5E9)">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z" stroke="white" stroke-width="2" stroke-linejoin="round"/></svg>
+      </div>
+      <span style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:1.125rem;color:#fff">UP2<span style="color:#0EA5E9">CLOUD</span></span>
+    </a>
+    <div class="flex items-center gap-4">
+      <a href="/blog" class="text-white/70 hover:text-white text-sm transition-colors">Blog</a>
+      <a href="/" class="text-white/70 hover:text-white text-sm transition-colors">← Back to site</a>
+      <a href="/#contact" class="text-xs font-semibold text-white px-4 py-2 rounded-lg" style="background:linear-gradient(135deg,#0369A1,#0EA5E9)">Get in Touch</a>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="pt-32 pb-12 relative overflow-hidden" style="background:radial-gradient(circle at 15% 20%,rgba(234,88,12,.15),transparent 35%),radial-gradient(circle at 85% 10%,rgba(14,165,233,.12),transparent 30%),linear-gradient(135deg,#020617 0%,#0F172A 50%,#1a0c05 100%)">
+  <div class="absolute w-96 h-96 rounded-full opacity-15 pointer-events-none" style="background:radial-gradient(circle,#EA580C,transparent);top:-5%;right:-5%;filter:blur(70px)"></div>
+  <div class="max-w-3xl mx-auto px-6">
+    <div class="flex items-center gap-3 mb-6">
+      <a href="/blog" class="text-white/50 hover:text-white text-sm transition-colors">Blog</a>
+      <span class="text-white/25">/</span>
+      <span class="badge badge-orange">Security</span>
+    </div>
+    <h1 class="font-heading font-bold text-4xl sm:text-5xl leading-tight text-white mb-6">
+      The Business Case for <span style="color:#FB923C">DevSecOps</span>: Ship Faster Without Sacrificing Security
+    </h1>
+    <div class="flex flex-wrap items-center gap-4 text-sm text-white/50 mb-8">
+      <div class="flex items-center gap-2">
+        <div class="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold text-white" style="background:linear-gradient(135deg,#0369A1,#0EA5E9)">CN</div>
+        <span class="text-white/70 font-medium">Cesar A. Nogueira</span>
+      </div>
+      <span>May 26, 2025</span>
+      <span>·</span>
+      <span>6 min read</span>
+    </div>
+    <!-- Stats row -->
+    <div class="grid grid-cols-3 gap-4 mb-8">
+      <div class="text-center" style="background:rgba(234,88,12,.08);border:1px solid rgba(251,146,60,.2);border-radius:14px;padding:1.25rem">
+        <p class="font-heading font-bold text-2xl" style="color:#FB923C">30×</p>
+        <p class="text-white/50 text-xs mt-1">Cost to fix in prod vs dev</p>
+      </div>
+      <div class="text-center" style="background:rgba(234,88,12,.08);border:1px solid rgba(251,146,60,.2);border-radius:14px;padding:1.25rem">
+        <p class="font-heading font-bold text-2xl" style="color:#FB923C">$4.88M</p>
+        <p class="text-white/50 text-xs mt-1">Avg breach cost (IBM 2024)</p>
+      </div>
+      <div class="text-center" style="background:rgba(234,88,12,.08);border:1px solid rgba(251,146,60,.2);border-radius:14px;padding:1.25rem">
+        <p class="font-heading font-bold text-2xl" style="color:#FB923C">2.5×</p>
+        <p class="text-white/50 text-xs mt-1">Faster MTTR with automation</p>
       </div>
     </div>
-  </nav>
+  </div>
+</section>
 
-  <!-- Article Header -->
-  <header class="pt-32 pb-12 px-4 sm:px-6 max-w-3xl mx-auto">
-    <div class="reveal">
-      <div class="flex flex-wrap gap-2 mb-4">
-        <span class="badge-security text-xs font-semibold px-3 py-1 rounded-full">Security</span>
-        <span class="text-slate-500 text-sm flex items-center gap-1">May 26, 2025 · 6 min read</span>
+<!-- ARTICLE BODY -->
+<article class="py-12" style="background:#0F172A">
+  <div class="max-w-3xl mx-auto px-6 prose reveal">
+
+    <p>
+      Security teams and engineering teams have traditionally operated in opposition: security slows things down, engineering wants to move fast, and the result is a negotiated compromise that satisfies nobody. DevSecOps reframes that relationship — not by removing security, but by moving it left so that it becomes an accelerator rather than a bottleneck.
+    </p>
+
+    <h2>The Real Cost of Late-Stage Vulnerabilities</h2>
+    <p>
+      The IBM Cost of a Data Breach Report consistently shows the same finding: the earlier in the development lifecycle a vulnerability is caught, the cheaper it is to fix. The numbers make the case unmissable:
+    </p>
+
+    <div class="not-prose space-y-3 my-6">
+      <div class="cost-bar">
+        <div class="flex justify-between items-center mb-1">
+          <span class="text-white/80 text-sm font-medium">Found during code review (SAST, pre-merge)</span>
+          <span class="font-heading font-bold text-green-400">~$80</span>
+        </div>
+        <div class="h-1.5 rounded-full" style="background:rgba(34,197,94,.15)"><div class="h-1.5 rounded-full" style="background:#22C55E;width:1%"></div></div>
       </div>
-      <h1 class="text-3xl sm:text-4xl font-extrabold text-white leading-tight mb-4">
-        The Business Case for DevSecOps: Ship Faster Without Sacrificing Security
-      </h1>
-      <p class="text-slate-400 text-lg leading-relaxed">
-        Security doesn't have to be the handbrake on your delivery pipeline. When you shift left properly, it becomes a competitive advantage — faster releases, fewer breaches, lower remediation costs.
-      </p>
-    </div>
-  </header>
-
-  <!-- Stats Row -->
-  <section class="max-w-3xl mx-auto px-4 sm:px-6 mb-12 reveal">
-    <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
-      <div class="stat-card">
-        <div class="text-3xl font-extrabold text-indigo-400 mb-1">6×</div>
-        <div class="text-slate-400 text-sm">more expensive to fix a vuln in production vs. development</div>
+      <div class="cost-bar">
+        <div class="flex justify-between items-center mb-1">
+          <span class="text-white/80 text-sm font-medium">Found in QA / staging (DAST)</span>
+          <span class="font-heading font-bold text-yellow-400">~$960</span>
+        </div>
+        <div class="h-1.5 rounded-full" style="background:rgba(234,179,8,.15)"><div class="h-1.5 rounded-full" style="background:#EAB308;width:13%"></div></div>
       </div>
-      <div class="stat-card">
-        <div class="text-3xl font-extrabold text-indigo-400 mb-1">83%</div>
-        <div class="text-slate-400 text-sm">of organisations had a breach linked to a third-party component in 2024</div>
-      </div>
-      <div class="stat-card">
-        <div class="text-3xl font-extrabold text-indigo-400 mb-1">2.5×</div>
-        <div class="text-slate-400 text-sm">faster mean time to remediate with automated scanning in the pipeline</div>
-      </div>
-    </div>
-  </section>
-
-  <!-- Article Body -->
-  <article class="max-w-3xl mx-auto px-4 sm:px-6 pb-24 prose">
-
-    <div class="reveal">
-      <h2>Why DevSecOps Now?</h2>
-      <p>Traditional security operated as a gate at the end of the release cycle. QA passed, then a security team ran penetration tests, found issues, and handed a report back to developers who had already moved on to the next sprint. The result: vulnerabilities sat open for weeks, remediation was expensive and disruptive, and security became adversarial to product velocity.</p>
-      <p>DevSecOps removes that gate and embeds security controls directly into the development workflow. <strong>Every pull request triggers static analysis. Every container image is scanned before it reaches staging. Every Terraform plan is evaluated against your compliance policies before it's applied.</strong> Security becomes a continuous check, not a periodic audit.</p>
-    </div>
-
-    <div class="reveal">
-      <h2>Shift-Left: The Core Principle</h2>
-      <p>"Shift left" simply means catching problems earlier in the software development lifecycle (SDLC) — moving from the right side of the pipeline (production) toward the left (development). The further left you catch a vulnerability, the cheaper it is to fix:</p>
-      <ul>
-        <li>Developer's IDE: ~$80 to fix</li>
-        <li>CI pipeline: ~$240 to fix</li>
-        <li>QA / staging: ~$960 to fix</li>
-        <li>Production: ~$7,600 to fix (IBM Cost of a Data Breach report average)</li>
-      </ul>
-      <p>The math is unambiguous. Investing in pre-merge security tooling pays for itself the first time it blocks a critical vulnerability from reaching production.</p>
-    </div>
-
-    <div class="reveal">
-      <h2>SAST: Static Application Security Testing</h2>
-      <p>SAST tools analyse source code for known vulnerability patterns without executing the code. They integrate directly into your CI pipeline and comment on PRs before a human reviewer even looks at the diff.</p>
-
-      <h3>Recommended Tools</h3>
-      <div class="check-item">
-        <div class="check-icon"><svg width="12" height="12" fill="none" viewBox="0 0 24 24"><path stroke="#6366f1" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg></div>
-        <div><strong>Semgrep</strong> — Fast, rule-based SAST. Write custom rules in YAML to enforce your own security standards. Open-source with a generous free tier.</div>
-      </div>
-      <div class="check-item">
-        <div class="check-icon"><svg width="12" height="12" fill="none" viewBox="0 0 24 24"><path stroke="#6366f1" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg></div>
-        <div><strong>Snyk Code</strong> — Developer-friendly SAST with AI-assisted fix suggestions. IDE plugin + PR decoration + dashboard.</div>
-      </div>
-      <div class="check-item">
-        <div class="check-icon"><svg width="12" height="12" fill="none" viewBox="0 0 24 24"><path stroke="#6366f1" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg></div>
-        <div><strong>CodeQL</strong> — GitHub's native SAST engine. Free for public repositories; included in GitHub Advanced Security for enterprises.</div>
+      <div class="cost-bar">
+        <div class="flex justify-between items-center mb-1">
+          <span class="text-white/80 text-sm font-medium">Found in production (post-breach average)</span>
+          <span class="font-heading font-bold text-red-400">$7,600+</span>
+        </div>
+        <div class="h-1.5 rounded-full" style="background:rgba(239,68,68,.15)"><div class="h-1.5 rounded-full" style="background:#EF4444;width:100%"></div></div>
       </div>
     </div>
 
-    <div class="reveal">
-      <h2>DAST: Dynamic Application Security Testing</h2>
-      <p>Where SAST reads code, DAST attacks a running application — simulating how an attacker would probe it. Run DAST against your staging environment after each deployment to catch runtime vulnerabilities that static analysis misses (injection flaws, authentication bypasses, business logic errors).</p>
+    <p>
+      The 95× cost multiplier from development to production isn't just about remediation time. It includes incident response costs, regulatory fines (GDPR: up to 4% of global annual revenue), customer notification obligations, reputational damage, and engineering resources pulled off roadmap work to firefight a breach.
+    </p>
 
-      <h3>Recommended Tools</h3>
-      <div class="check-item">
-        <div class="check-icon"><svg width="12" height="12" fill="none" viewBox="0 0 24 24"><path stroke="#6366f1" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg></div>
-        <div><strong>OWASP ZAP</strong> — Mature, open-source DAST. Run headless in your CD pipeline with the <code>zap-baseline</code> Docker image. Zero licence cost.</div>
-      </div>
-      <div class="check-item">
-        <div class="check-icon"><svg width="12" height="12" fill="none" viewBox="0 0 24 24"><path stroke="#6366f1" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg></div>
-        <div><strong>Nuclei</strong> — Template-based scanner with 9,000+ community-maintained vulnerability templates. Extremely fast and CI-friendly.</div>
-      </div>
+    <h2>The Shift-Left Approach</h2>
+    <p>
+      Shift-left means embedding security checks as early as possible — ideally in the developer's IDE and in every pull request, not at the end of a sprint in a dedicated security review. A mature shift-left pipeline has four layers:
+    </p>
+    <ul>
+      <li><strong>Pre-commit hooks</strong> — secret scanning (gitleaks), dependency audit, lightweight SAST rules in the developer's local environment.</li>
+      <li><strong>SAST in CI</strong> — runs on every pull request, blocks merge on Critical findings.</li>
+      <li><strong>IaC and container scanning</strong> — gates on Terraform plan and Docker image build.</li>
+      <li><strong>DAST in staging</strong> — active scanning against a running environment before production deploy.</li>
+    </ul>
 
-      <p>Typical pipeline step for ZAP:</p>
-      <pre><code>- name: DAST – ZAP Baseline Scan
+    <h2>SAST in CI/CD: Snyk and Semgrep</h2>
+    <p>
+      Static Application Security Testing scans source code for known vulnerability patterns without executing it. Two tools dominate:
+    </p>
+    <ul>
+      <li><strong>Snyk Code</strong> — developer-friendly, deep language support (JS/TS, Python, Java, Go), integrates as a PR check. IDE plugin provides inline fix suggestions.</li>
+      <li><strong>Semgrep</strong> — open source, extremely fast, rule-based. Write custom Rego-like rules to enforce organisation-specific security patterns alongside community rulesets.</li>
+    </ul>
+
+    <pre><code># Semgrep GitHub Actions integration
+- name: Run Semgrep SAST
+  uses: semgrep/semgrep-action@v1
+  with:
+    config: >
+      p/owasp-top-ten
+      p/secrets
+      p/python
+  env:
+    SEMGREP_APP_TOKEN: ${{ secrets.SEMGREP_APP_TOKEN }}</code></pre>
+
+    <h2>DAST: OWASP ZAP</h2>
+    <p>
+      Where SAST reads code, DAST attacks a running application — simulating how an attacker would probe it. Run DAST against your staging environment after each deployment to catch runtime vulnerabilities that static analysis misses: injection flaws, authentication bypasses, and business logic errors.
+    </p>
+
+    <pre><code># OWASP ZAP baseline scan — GitHub Actions
+- name: DAST – ZAP Baseline Scan
   uses: zaproxy/action-baseline@v0.12.0
   with:
     target: 'https://staging.your-app.com'
     fail_action: warn
     artifact_name: zap-report</code></pre>
-    </div>
 
-    <div class="reveal">
-      <h2>IaC Scanning: Security in Infrastructure as Code</h2>
-      <p>If you're using Terraform, CloudFormation, or Kubernetes YAML, your infrastructure is code — and it can have security misconfigurations just like application code. IaC scanning catches these before <code>terraform apply</code> ever runs.</p>
+    <h2>IaC Scanning: Checkov and tfsec</h2>
+    <p>
+      Infrastructure as Code is code — and it can carry security misconfigurations just like application code. A Terraform resource that opens port 22 to 0.0.0.0/0, or an S3 bucket with public access, is preventable with a 30-second scan.
+    </p>
+    <ul>
+      <li><strong>Checkov</strong> (Bridgecrew/Palo Alto) — 1,000+ built-in policies for Terraform, CloudFormation, K8s manifests, Dockerfiles. Free to self-host.</li>
+      <li><strong>tfsec / Trivy config</strong> — Terraform-specific, extremely fast for pre-commit hooks. <code>trivy config .</code> also scans Kubernetes YAML.</li>
+    </ul>
 
-      <h3>Common Misconfigurations IaC Scanners Catch</h3>
-      <ul>
-        <li>S3 buckets with public ACLs or server-side encryption disabled</li>
-        <li>Security groups with <code>0.0.0.0/0</code> ingress on sensitive ports</li>
-        <li>RDS instances without deletion protection or encryption at rest</li>
-        <li>EKS clusters with public API endpoints and no IP allowlist</li>
-        <li>IAM roles with wildcard <code>*</code> actions</li>
-      </ul>
-
-      <div class="check-item">
-        <div class="check-icon"><svg width="12" height="12" fill="none" viewBox="0 0 24 24"><path stroke="#6366f1" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg></div>
-        <div><strong>Checkov</strong> (Bridgecrew/Palo Alto) — 1,000+ built-in policies across Terraform, ARM, CloudFormation, Kubernetes, Dockerfile. Integrates with Terraform Cloud as a pre-plan check.</div>
-      </div>
-      <div class="check-item">
-        <div class="check-icon"><svg width="12" height="12" fill="none" viewBox="0 0 24 24"><path stroke="#6366f1" stroke-width="3" stroke-linecap="round" stroke-linejoin="round" d="M5 13l4 4L19 7"/></svg></div>
-        <div><strong>tfsec / Trivy</strong> — Aqua Security's scanners. <code>trivy config .</code> scans IaC; <code>trivy image</code> scans container images. Single tool for both use cases.</div>
-      </div>
-
-      <pre><code># GitHub Actions step — scan Terraform before apply
-- name: Run Checkov
+    <pre><code># Checkov in GitHub Actions — blocks Terraform apply on policy failure
+- name: Run Checkov IaC Scan
   uses: bridgecrewio/checkov-action@v12
   with:
     directory: ./terraform
@@ -176,95 +214,92 @@
     soft_fail: false
     output_format: sarif
     output_file_path: checkov-results.sarif</code></pre>
-    </div>
 
-    <div class="reveal">
-      <h2>Compliance as Code</h2>
-      <p>Compliance requirements (SOC 2, ISO 27001, PCI-DSS, HIPAA) have traditionally been addressed through point-in-time audits: collect evidence, write reports, pass the audit, repeat next year. Compliance as Code automates continuous evidence collection and policy enforcement.</p>
+    <h2>Compliance as Code</h2>
+    <p>
+      For regulated industries — PCI-DSS, HIPAA, SOC 2, ISO 27001 — compliance as code transforms audit evidence from annual spreadsheet exercises into continuous automated verification. Tools like <strong>InSpec</strong>, <strong>Cloud Custodian</strong>, <strong>Prowler</strong>, and <strong>Drata</strong> run automated compliance checks daily, generating audit evidence that would otherwise take weeks to compile manually.
+    </p>
+    <p>
+      A client in financial services reduced their annual SOC 2 audit preparation from 6 weeks to 4 days after implementing a compliance-as-code framework with UP2CLOUD. The key change: evidence collection became a continuous background process rather than a point-in-time scramble.
+    </p>
 
-      <h3>What This Looks Like in Practice</h3>
-      <ul>
-        <li><strong>OPA/Rego policies</strong> enforced via Gatekeeper in Kubernetes — no privileged containers, all images must come from approved registries</li>
-        <li><strong>AWS Config Rules</strong> with auto-remediation — CloudTrail enabled, S3 Block Public Access enforced, root MFA required</li>
-        <li><strong>Drata / Vanta</strong> — SaaS platforms that continuously collect evidence from AWS, GitHub, Slack, and HR systems, mapping controls to SOC 2 requirements in real time</li>
-        <li><strong>Sentinel policies in Terraform Cloud</strong> — fine-grained policy as code that blocks non-compliant plans before they reach apply</li>
-      </ul>
-
-      <p>The audit preparation that once took three months of scrambling is reduced to a dashboard export. Engineers stop dreading compliance cycles because nothing needs to be manually assembled.</p>
-    </div>
-
-    <div class="reveal">
-      <h2>Building the Business Case</h2>
-      <p>Security leadership often needs to justify DevSecOps investment to a CFO or board. Here's the framework:</p>
-
-      <h3>Cost of Inaction</h3>
-      <ul>
-        <li>Average data breach cost (2024): <strong>$4.88M</strong> (IBM)</li>
-        <li>Average time to identify and contain a breach: <strong>277 days</strong></li>
-        <li>Regulatory fines under GDPR: up to <strong>4% of global annual revenue</strong></li>
-        <li>Customer churn following a public breach: <strong>20–30%</strong> in B2C; significant in B2B</li>
-      </ul>
-
-      <h3>Cost of DevSecOps Programme</h3>
-      <ul>
-        <li>Tooling (Snyk, Checkov, ZAP, Semgrep): <strong>$30K–$100K/year</strong> depending on team size</li>
-        <li>Engineering time to integrate and tune: <strong>2–4 weeks per team</strong> initially</li>
-        <li>Ongoing maintenance: <strong>minimal</strong> — most tools are pipeline-native and self-serve</li>
-      </ul>
-
-      <p>For a company with $50M ARR, preventing even one mid-size breach more than pays for a multi-year DevSecOps programme. The ROI argument writes itself.</p>
-    </div>
-
-    <div class="reveal">
-      <h2>Getting Started: The 90-Day Roadmap</h2>
+    <h2>The 90-Day DevSecOps Roadmap</h2>
+    <div class="not-prose space-y-2 my-6">
       <div class="check-item">
-        <div class="check-icon"><span class="text-indigo-400 font-bold text-xs">1</span></div>
-        <div><strong>Days 1–30:</strong> Add Semgrep and Snyk SCA to every repository's CI pipeline. Baseline findings — don't block yet, just measure.</div>
+        <div class="check-icon"><span class="font-heading font-bold text-orange-400 text-xs">1</span></div>
+        <div>
+          <p class="text-white font-semibold text-sm m-0">Days 1–30: Baseline &amp; measure</p>
+          <p class="text-white/55 text-sm m-0 mt-1">Add Semgrep and Snyk SCA to every repository's CI pipeline. Don't block yet — measure the finding rate and categorise by severity.</p>
+        </div>
       </div>
       <div class="check-item">
-        <div class="check-icon"><span class="text-indigo-400 font-bold text-xs">2</span></div>
-        <div><strong>Days 31–60:</strong> Enable blocking on Critical/High. Add Checkov to all Terraform repositories. Run ZAP baseline against staging after each deployment.</div>
+        <div class="check-icon"><span class="font-heading font-bold text-orange-400 text-xs">2</span></div>
+        <div>
+          <p class="text-white font-semibold text-sm m-0">Days 31–60: Enforce &amp; expand</p>
+          <p class="text-white/55 text-sm m-0 mt-1">Enable blocking on Critical/High SAST findings. Add Checkov to all Terraform repositories. Run ZAP baseline against staging after each deployment.</p>
+        </div>
       </div>
       <div class="check-item">
-        <div class="check-icon"><span class="text-indigo-400 font-bold text-xs">3</span></div>
-        <div><strong>Days 61–90:</strong> Add OPA/Gatekeeper to Kubernetes clusters. Begin compliance-as-code evidence collection. Define SLOs for mean time to remediate (MTTR) by severity.</div>
-      </div>
-
-      <p>By the end of 90 days, you'll have a measurable baseline, automated enforcement on all new code, and a clear remediation backlog for existing debt — with the data to report on improvement over time.</p>
-    </div>
-
-    <div class="reveal">
-      <h2>Conclusion</h2>
-      <p>DevSecOps is not about adding security friction. It's about moving the cost of security failures from millions of dollars in production to thousands of dollars in development. The teams that do this well ship faster, not slower — because they're not stopping for quarterly security reviews or scrambling to respond to incidents.</p>
-      <p>The business case is straightforward: shift-left security reduces breach risk, cuts remediation cost, accelerates compliance, and gives developers ownership of quality end-to-end. That's not a security investment — it's an engineering productivity investment that happens to eliminate your biggest business risk.</p>
-    </div>
-
-    <!-- CTA -->
-    <div class="mt-16 p-8 rounded-2xl text-center reveal" style="background:rgba(99,102,241,0.08);border:1px solid rgba(99,102,241,0.25)">
-      <h3 class="text-xl font-bold text-white mb-2">Ready to embed security into your delivery pipeline?</h3>
-      <p class="text-slate-400 mb-6">UP2CLOUD's DevSecOps practice helps engineering teams implement shift-left security without slowing delivery. Let's talk about your current pipeline.</p>
-      <a href="/#contact" class="inline-flex items-center gap-2 px-6 py-3 rounded-xl font-semibold text-white" style="background:#6366f1">Get in Touch →</a>
-    </div>
-  </article>
-
-  <!-- Footer -->
-  <footer class="border-t border-white/10 py-8 px-4 sm:px-6 text-center text-slate-500 text-sm">
-    <div class="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4">
-      <span>© 2025 UP2CLOUD. All rights reserved.</span>
-      <div class="flex gap-6">
-        <a href="/" class="hover:text-white transition-colors">Home</a>
-        <a href="/blog/" class="hover:text-white transition-colors">Blog</a>
-        <a href="/about/" class="hover:text-white transition-colors">About</a>
-        <a href="/#contact" class="hover:text-white transition-colors">Contact</a>
+        <div class="check-icon"><span class="font-heading font-bold text-orange-400 text-xs">3</span></div>
+        <div>
+          <p class="text-white font-semibold text-sm m-0">Days 61–90: Govern &amp; comply</p>
+          <p class="text-white/55 text-sm m-0 mt-1">Add OPA/Gatekeeper to Kubernetes clusters. Begin compliance-as-code evidence collection. Define SLOs for mean time to remediate by severity.</p>
+        </div>
       </div>
     </div>
-  </footer>
 
-  <script>
-    const obs = new IntersectionObserver(entries => {
-      entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); obs.unobserve(e.target); } });
-    }, { threshold: 0.12 });
-    document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
-  </script>
+    <h2>The Business ROI</h2>
+    <p>
+      The investment in a DevSecOps pipeline — tooling, integration, and initial configuration — typically runs £15,000–40,000 for a medium-sized engineering organisation. The return: for a company with $50M ARR, preventing even one mid-size breach more than pays for a multi-year programme. Engineering teams also report a paradoxical finding: adding security gates to CI/CD typically <em>increases</em> deployment frequency — because security becomes a continuous background activity rather than a pre-release blocker that halts the pipeline every quarter.
+    </p>
+    <p>
+      The teams shipping the most frequently in 2025 are, increasingly, the same teams that shifted security furthest left. DevSecOps is not a security cost — it's an engineering productivity investment that eliminates your biggest business risk.
+    </p>
+
+  </div>
+</article>
+
+<!-- CTA -->
+<section class="py-16" style="background:#020617">
+  <div class="max-w-3xl mx-auto px-6 reveal">
+    <div class="rounded-2xl p-10 text-center relative overflow-hidden" style="background:linear-gradient(135deg,rgba(234,88,12,.15),rgba(3,105,161,.2));border:1px solid rgba(251,146,60,.2)">
+      <div class="absolute w-64 h-64 rounded-full opacity-10 pointer-events-none" style="background:radial-gradient(circle,#EA580C,transparent);top:-20%;right:-10%;filter:blur(50px)"></div>
+      <span class="badge badge-orange inline-block mb-4">DevSecOps</span>
+      <h2 class="font-heading font-bold text-3xl text-white mb-4">Need to build a DevSecOps pipeline?</h2>
+      <p class="text-white/60 mb-8 leading-relaxed max-w-xl mx-auto">
+        We design and implement shift-left security pipelines — SAST, DAST, IaC scanning, container scanning, and compliance as code — integrated into your existing CI/CD workflow.
+      </p>
+      <a href="/#contact" class="inline-flex items-center gap-2 font-semibold text-white px-8 py-3.5 rounded-xl transition-all hover:opacity-90" style="background:linear-gradient(135deg,#EA580C,#FB923C)">
+        Let's Talk
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer style="background:#020617;border-top:1px solid rgba(255,255,255,.07)" class="py-12 mt-0">
+  <div class="max-w-6xl mx-auto px-6 flex flex-col sm:flex-row justify-between items-center gap-6 text-sm text-white/40">
+    <div class="flex items-center gap-3">
+      <div class="w-7 h-7 rounded-lg flex items-center justify-center" style="background:linear-gradient(135deg,#0369A1,#0EA5E9)">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z" stroke="white" stroke-width="2" stroke-linejoin="round"/></svg>
+      </div>
+      <span>© 2026 UP2CLOUD · Cesar A. Nogueira</span>
+    </div>
+    <div class="flex gap-6">
+      <a href="/" class="hover:text-white/70 transition-colors">Home</a>
+      <a href="/blog" class="hover:text-white/70 transition-colors">Blog</a>
+      <a href="/about" class="hover:text-white/70 transition-colors">About</a>
+      <a href="/#contact" class="hover:text-white/70 transition-colors">Contact</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+  const ro = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); ro.unobserve(e.target); }});
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.reveal').forEach(el => ro.observe(el));
+</script>
 </body>
 </html>
