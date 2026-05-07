@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Kubernetes Security Hardening: A Production Checklist for 2025 — UP2CLOUD</title>
+  <meta name="description" content="A practical Kubernetes security checklist for 2025: RBAC, Pod Security Standards, network policies, secrets management, image scanning, audit logging, and runtime security with Falco." />
+  <meta name="keywords" content="Kubernetes security, K8s hardening, container security, Pod Security Standards, RBAC, network policies, Falco, Trivy, OPA Gatekeeper" />
+  <meta property="og:title" content="Kubernetes Security Hardening: A Production Checklist for 2025 — UP2CLOUD" />
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="https://up2cloud.github.io/blog/kubernetes-security-checklist/" />
+  <meta property="article:published_time" content="2025-05-12" />
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='5' fill='%230F172A'/%3E%3Cpath d='M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z' stroke='%230EA5E9' stroke-width='2' stroke-linejoin='round' fill='none'/%3E%3C/svg%3E" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>tailwind.config={theme:{extend:{fontFamily:{heading:['Space Grotesk','sans-serif'],body:['DM Sans','sans-serif']},colors:{navy:{DEFAULT:'#0F172A'},sky:{brand:'#0369A1',light:'#0EA5E9'}}}}};</script>
+  <style>
+    *,*::before,*::after{box-sizing:border-box}html{scroll-behavior:smooth;overscroll-behavior:none}body{font-family:'DM Sans',sans-serif;background:#0F172A;color:#fff;margin:0}h1,h2,h3,h4{font-family:'Space Grotesk',sans-serif}
+    .glass{background:rgba(255,255,255,.07);backdrop-filter:blur(14px);border:1px solid rgba(255,255,255,.12)}
+    .gradient-text{background:linear-gradient(90deg,#0EA5E9,#38BDF8,#7DD3FC);-webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text}
+    .badge{background:rgba(3,105,161,.15);color:#38BDF8;font-size:.72rem;font-weight:600;padding:.25rem .75rem;border-radius:999px;letter-spacing:.05em;text-transform:uppercase}
+    .reveal{opacity:0;transform:translateY(24px);transition:opacity .6s ease,transform .6s ease}.reveal.visible{opacity:1;transform:none}
+    .prose p{color:rgba(255,255,255,.72);line-height:1.8;margin-bottom:1.25rem;font-size:1.0625rem}
+    .prose h2{font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:1.5rem;color:#fff;margin-top:2.5rem;margin-bottom:1rem}
+    .prose h3{font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:1.15rem;color:rgba(255,255,255,.9);margin-top:1.75rem;margin-bottom:.75rem}
+    .prose ul{color:rgba(255,255,255,.72);line-height:1.8;margin-bottom:1.25rem;padding-left:1.5rem;list-style-type:disc}.prose ul li{margin-bottom:.5rem}
+    .prose strong{color:#fff;font-weight:600}
+    .prose pre{background:#020617;border:1px solid rgba(255,255,255,.1);border-radius:12px;padding:1.25rem 1.5rem;overflow-x:auto;margin-bottom:1.5rem;font-size:.875rem;line-height:1.7;color:#94A3B8}
+    .check-item{display:flex;gap:.75rem;align-items:flex-start;padding:.875rem 1rem;background:rgba(255,255,255,.04);border:1px solid rgba(255,255,255,.07);border-radius:10px;margin-bottom:.5rem}
+    .check-icon{width:20px;height:20px;border-radius:50%;background:rgba(34,197,94,.15);border:1.5px solid rgba(34,197,94,.4);display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:.1rem}
+    @media(prefers-reduced-motion:reduce){.reveal{animation:none;transition:none}}
+  </style>
+</head>
+<body>
+
+<nav class="fixed top-0 left-0 right-0 z-50" style="background:rgba(15,23,42,.92);backdrop-filter:blur(12px);border-bottom:1px solid rgba(255,255,255,.07)">
+  <div class="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
+    <a href="/" class="flex items-center gap-3">
+      <div class="w-8 h-8 rounded-lg flex items-center justify-center" style="background:linear-gradient(135deg,#0369A1,#0EA5E9)">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z" stroke="white" stroke-width="2" stroke-linejoin="round"/></svg>
+      </div>
+      <span style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:1.125rem;color:#fff">UP2<span style="color:#0EA5E9">CLOUD</span></span>
+    </a>
+    <div class="flex items-center gap-4">
+      <a href="/blog" class="text-white/70 hover:text-white text-sm transition-colors">← Blog</a>
+      <a href="/#contact" class="text-xs font-semibold text-white px-4 py-2 rounded-lg" style="background:linear-gradient(135deg,#0369A1,#0EA5E9)">Get in Touch</a>
+    </div>
+  </div>
+</nav>
+
+<main class="pt-28 pb-20 max-w-3xl mx-auto px-6">
+
+  <div class="reveal mb-10">
+    <div class="flex flex-wrap items-center gap-3 mb-6">
+      <span class="badge" style="background:rgba(234,88,12,.15);color:#FB923C">Security</span>
+      <span class="text-white/40 text-sm">May 12, 2025</span>
+      <span class="text-white/40 text-sm">·</span>
+      <span class="text-white/40 text-sm">7 min read</span>
+    </div>
+    <h1 class="font-heading font-bold text-4xl sm:text-5xl leading-tight mb-6">
+      Kubernetes Security Hardening: A <span class="gradient-text">Production Checklist</span> for 2025
+    </h1>
+    <p class="text-white/60 text-lg leading-relaxed">Running Kubernetes without a security baseline is not a calculated risk — it is an incident waiting to happen. This checklist covers what we verify on every cluster we inherit or build from scratch.</p>
+    <div class="flex items-center gap-3 mt-8 pt-8 border-t border-white/10">
+      <div class="w-10 h-10 rounded-full flex items-center justify-center text-white font-bold text-sm" style="background:linear-gradient(135deg,#0369A1,#0EA5E9)">CN</div>
+      <div>
+        <p class="text-white font-semibold text-sm">Cesar A. Nogueira</p>
+        <p class="text-white/40 text-xs">Platform Engineer · UP2CLOUD</p>
+      </div>
+    </div>
+  </div>
+
+  <article class="prose reveal">
+
+    <h2>Why your cluster is probably misconfigured</h2>
+    <p>The majority of Kubernetes security incidents trace back to three root causes: overly permissive RBAC, workloads running as root, and secrets stored as plain environment variables. The Kubernetes default configuration is optimised for flexibility, not security. Hardening requires deliberate choices at every layer.</p>
+
+    <h2>Identity & Access</h2>
+
+    <div class="check-item">
+      <div class="check-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#22C55E" stroke-width="3"><path d="M5 13l4 4L19 7"/></svg></div>
+      <div><strong>RBAC minimum privilege</strong> — Every service account should have exactly the permissions it needs, verified quarterly. Use <code style="background:rgba(255,255,255,.08);padding:.1rem .35rem;border-radius:4px;font-size:.9em">kubectl auth can-i --list --as=system:serviceaccount:ns:sa</code> to audit what each SA can do.</div>
+    </div>
+    <div class="check-item">
+      <div class="check-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#22C55E" stroke-width="3"><path d="M5 13l4 4L19 7"/></svg></div>
+      <div><strong>No cluster-admin for workloads</strong> — If an application requests <code>cluster-admin</code>, that is a red flag requiring architectural review, not a rubber-stamp approval.</div>
+    </div>
+    <div class="check-item">
+      <div class="check-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#22C55E" stroke-width="3"><path d="M5 13l4 4L19 7"/></svg></div>
+      <div><strong>Disable automountServiceAccountToken</strong> — Set <code>automountServiceAccountToken: false</code> on all pods that do not need Kubernetes API access.</div>
+    </div>
+
+    <h2>Workload Security</h2>
+
+    <div class="check-item">
+      <div class="check-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#22C55E" stroke-width="3"><path d="M5 13l4 4L19 7"/></svg></div>
+      <div><strong>Pod Security Standards — Restricted</strong> — Enforce the <code>restricted</code> profile on production namespaces using the built-in Pod Security Admission controller. This blocks privileged containers, host path mounts, and root execution by default.</div>
+    </div>
+    <div class="check-item">
+      <div class="check-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#22C55E" stroke-width="3"><path d="M5 13l4 4L19 7"/></svg></div>
+      <div><strong>Non-root containers</strong> — Set <code>runAsNonRoot: true</code> and <code>runAsUser: 1000</code> in your security context. Most application containers do not need root. Those that claim to do should be investigated.</div>
+    </div>
+    <div class="check-item">
+      <div class="check-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#22C55E" stroke-width="3"><path d="M5 13l4 4L19 7"/></svg></div>
+      <div><strong>Read-only root filesystem</strong> — <code>readOnlyRootFilesystem: true</code> prevents attackers from writing malware to disk after a container escape. Mount writable volumes only where needed (e.g., <code>/tmp</code>).</div>
+    </div>
+    <div class="check-item">
+      <div class="check-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#22C55E" stroke-width="3"><path d="M5 13l4 4L19 7"/></svg></div>
+      <div><strong>Drop ALL capabilities</strong> — <code>capabilities: drop: [ALL]</code> and add back only what you need (<code>NET_BIND_SERVICE</code> for port 80/443, nothing else for most workloads).</div>
+    </div>
+
+    <h2>Network Policies</h2>
+    <p>By default, all pods can talk to all pods. Network policies are your firewall inside the cluster. Every namespace should have a <strong>default-deny ingress and egress</strong> policy, with explicit allow rules for each required communication path:</p>
+    <pre><code>apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: default-deny-all
+  namespace: production
+spec:
+  podSelector: {}
+  policyTypes: [Ingress, Egress]</code></pre>
+    <p>Then add specific allow policies. A service that only needs to receive traffic from the ingress controller and talk to the database should have exactly two policies — nothing more.</p>
+
+    <h2>Secrets Management</h2>
+
+    <div class="check-item">
+      <div class="check-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#22C55E" stroke-width="3"><path d="M5 13l4 4L19 7"/></svg></div>
+      <div><strong>External Secrets Operator</strong> — Pull secrets from GCP Secret Manager, AWS Secrets Manager, or HashiCorp Vault at pod startup. Kubernetes Secrets are base64-encoded, not encrypted — anyone with etcd access can read them.</div>
+    </div>
+    <div class="check-item">
+      <div class="check-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#22C55E" stroke-width="3"><path d="M5 13l4 4L19 7"/></svg></div>
+      <div><strong>Encrypt etcd at rest</strong> — Enable encryption provider configuration for Secrets in your control plane. On managed clusters (GKE, EKS, AKS), verify that CMEK is enabled.</div>
+    </div>
+
+    <h2>Image Security</h2>
+
+    <div class="check-item">
+      <div class="check-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#22C55E" stroke-width="3"><path d="M5 13l4 4L19 7"/></svg></div>
+      <div><strong>Scan every image in CI</strong> — Trivy or Snyk Container should block builds with Critical CVEs. Do not scan in production — fix upstream.</div>
+    </div>
+    <div class="check-item">
+      <div class="check-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#22C55E" stroke-width="3"><path d="M5 13l4 4L19 7"/></svg></div>
+      <div><strong>Admission controller — OPA Gatekeeper</strong> — Enforce that only images from your approved registry (<code>europe-west1-docker.pkg.dev/my-project/*</code>) can run in production namespaces. Block <code>:latest</code> tags.</div>
+    </div>
+    <div class="check-item">
+      <div class="check-icon"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#22C55E" stroke-width="3"><path d="M5 13l4 4L19 7"/></svg></div>
+      <div><strong>Image signing</strong> — Use Cosign with Sigstore to sign images at build time and verify signatures at admission. Unsigned images should not run in production.</div>
+    </div>
+
+    <h2>Runtime Security</h2>
+    <p><strong>Falco</strong> is the open-source standard for Kubernetes runtime threat detection. It monitors syscalls and generates alerts when a process deviates from expected behaviour — for example, a web server spawning a shell or reading <code>/etc/shadow</code>:</p>
+    <pre><code>- rule: Terminal shell in container
+  desc: A shell was spawned inside a container
+  condition: >
+    container and
+    shell_procs and
+    proc.name in (shell_binaries) and
+    k8s.pod.name != ""
+  output: >
+    Shell opened in container (user=%user.name
+    container=%container.name pod=%k8s.pod.name)
+  priority: WARNING</code></pre>
+    <p>Connect Falco alerts to your SIEM or PagerDuty. A shell spawning in a production container at 03:00 UTC is worth waking someone up for.</p>
+
+    <h2>Audit Logging</h2>
+    <p>Enable API server audit logging with a policy that captures all requests at the <code>RequestResponse</code> level for sensitive resources (Secrets, RBAC, ServiceAccounts) and <code>Metadata</code> for everything else. Ship logs to your SIEM within 5 minutes. Retention: 90 days minimum for compliance.</p>
+
+    <h2>The bottom line</h2>
+    <p>Security hardening is not a one-time task — it is an ongoing posture. Run a quarterly RBAC audit, update your Falco rules when you add new workloads, and re-scan images on a schedule even if they have not changed (new CVEs are disclosed daily). The clusters that get compromised are rarely the ones attacked by sophisticated actors — they are the ones that never closed the basics.</p>
+
+  </article>
+
+  <div class="mt-16 glass rounded-2xl p-8 text-center reveal">
+    <p class="text-white/50 text-sm uppercase tracking-widest mb-3">Need a K8s security review?</p>
+    <h3 class="font-heading font-bold text-2xl mb-4">We audit and harden Kubernetes clusters for production workloads.</h3>
+    <a href="/#contact" class="inline-flex items-center gap-2 text-white font-semibold px-6 py-3 rounded-xl text-sm transition-all hover:opacity-90" style="background:linear-gradient(135deg,#0369A1,#0EA5E9)">Book a Free Security Audit →</a>
+  </div>
+
+  <div class="mt-12 pt-8 border-t border-white/10 flex flex-wrap gap-4 justify-between items-center">
+    <a href="/blog" class="text-white/50 hover:text-white text-sm transition-colors">← All articles</a>
+    <a href="/blog/platform-engineering-vs-devops/" class="text-sky-light hover:text-white text-sm transition-colors">Next: Platform Engineering vs DevOps →</a>
+  </div>
+</main>
+
+<footer style="background:#020617;border-top:1px solid rgba(255,255,255,.07)" class="py-10 mt-8">
+  <div class="max-w-6xl mx-auto px-6 flex flex-col sm:flex-row justify-between items-center gap-6 text-sm text-white/40">
+    <span>© 2026 UP2CLOUD · Cesar A. Nogueira</span>
+    <div class="flex gap-6">
+      <a href="/" class="hover:text-white/70 transition-colors">Home</a>
+      <a href="/blog" class="hover:text-white/70 transition-colors">Blog</a>
+      <a href="/about" class="hover:text-white/70 transition-colors">About</a>
+      <a href="/#contact" class="hover:text-white/70 transition-colors">Contact</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+  const obs = new IntersectionObserver(els => els.forEach(e => { if(e.isIntersecting){e.target.classList.add('visible');obs.unobserve(e.target)} }), {threshold:.1});
+  document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
+</script>
+</body>
+</html>

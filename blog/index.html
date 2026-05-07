@@ -1,0 +1,302 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Blog — UP2CLOUD | Cloud Infrastructure, FinOps, DevOps & AI Automation</title>
+  <meta name="description" content="Expert insights on cloud infrastructure, FinOps cost optimisation, DevOps best practices, Kubernetes security, and AI-powered automation from UP2CLOUD." />
+  <meta property="og:title" content="UP2CLOUD Blog — Cloud, FinOps, DevOps & AI" />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://up2cloud.github.io/blog" />
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='5' fill='%230F172A'/%3E%3Cpath d='M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z' stroke='%230EA5E9' stroke-width='2' stroke-linejoin='round' fill='none'/%3E%3C/svg%3E" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: { extend: {
+        fontFamily: { heading: ['Space Grotesk','sans-serif'], body: ['DM Sans','sans-serif'] },
+        colors: {
+          navy:  { DEFAULT:'#0F172A', 700:'#1E293B' },
+          sky:   { brand:'#0369A1', light:'#0EA5E9' },
+        }
+      }}
+    };
+  </script>
+  <style>
+    *,*::before,*::after { box-sizing:border-box }
+    html { scroll-behavior:smooth; overscroll-behavior:none }
+    body { font-family:'DM Sans',sans-serif; background:#0F172A; color:#fff; margin:0 }
+    h1,h2,h3,h4 { font-family:'Space Grotesk',sans-serif }
+    .hero-bg { background:radial-gradient(circle at 15% 20%,rgba(14,165,233,.22),transparent 30%),radial-gradient(circle at 85% 10%,rgba(124,58,237,.2),transparent 28%),linear-gradient(135deg,#020617 0%,#0F172A 40%,#0C4A6E 75%,#0369A1 100%) }
+    .glass { background:rgba(255,255,255,.07); backdrop-filter:blur(14px); border:1px solid rgba(255,255,255,.12) }
+    .gradient-text { background:linear-gradient(90deg,#0EA5E9,#38BDF8,#7DD3FC); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text }
+    .reveal { opacity:0; transform:translateY(24px); transition:opacity .6s ease,transform .6s ease }
+    .reveal.visible { opacity:1; transform:none }
+    .badge { background:rgba(3,105,161,.15); color:#38BDF8; font-size:.72rem; font-weight:600; padding:.25rem .75rem; border-radius:999px; letter-spacing:.05em; text-transform:uppercase }
+    .badge-green { background:rgba(5,150,105,.18); color:#34D399 }
+    .badge-sky { background:rgba(3,105,161,.18); color:#38BDF8 }
+    .badge-purple { background:rgba(124,58,237,.18); color:#A78BFA }
+    .badge-orange { background:rgba(234,88,12,.18); color:#FB923C }
+    .card-hover { transition:transform .25s ease, box-shadow .25s ease }
+    .card-hover:hover { transform:translateY(-4px); box-shadow:0 20px 48px rgba(14,165,233,.12) }
+    @media(prefers-reduced-motion:reduce){.reveal,.card-hover{animation:none;transition:none}}
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="fixed top-0 left-0 right-0 z-50" style="background:rgba(15,23,42,.92);backdrop-filter:blur(12px);border-bottom:1px solid rgba(255,255,255,.07)">
+  <div class="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
+    <a href="/" class="flex items-center gap-3">
+      <div class="w-8 h-8 rounded-lg flex items-center justify-center" style="background:linear-gradient(135deg,#0369A1,#0EA5E9)">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z" stroke="white" stroke-width="2" stroke-linejoin="round"/></svg>
+      </div>
+      <span style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:1.125rem;color:#fff">UP2<span style="color:#0EA5E9">CLOUD</span></span>
+    </a>
+    <div class="flex items-center gap-4">
+      <a href="/blog" class="text-white/70 hover:text-white text-sm transition-colors">Blog</a>
+      <a href="/" class="text-white/70 hover:text-white text-sm transition-colors">← Back to site</a>
+      <a href="/#contact" class="text-xs font-semibold text-white px-4 py-2 rounded-lg" style="background:linear-gradient(135deg,#0369A1,#0EA5E9)">Get in Touch</a>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero-bg pt-32 pb-20 relative overflow-hidden">
+  <div class="absolute w-96 h-96 rounded-full opacity-20 pointer-events-none" style="background:radial-gradient(circle,#0EA5E9,transparent);top:-5%;right:-5%;filter:blur(60px)"></div>
+  <div class="absolute w-72 h-72 rounded-full opacity-15 pointer-events-none" style="background:radial-gradient(circle,#7C3AED,transparent);bottom:5%;left:5%;filter:blur(50px)"></div>
+  <div class="max-w-6xl mx-auto px-6 text-center relative">
+    <span class="badge mb-5 inline-block">Expert Insights</span>
+    <h1 class="font-heading font-bold text-5xl sm:text-6xl lg:text-7xl mb-6 leading-tight">
+      UP2CLOUD <span class="gradient-text">Blog</span>
+    </h1>
+    <p class="text-white/65 text-xl leading-relaxed max-w-2xl mx-auto mb-8">
+      Insights on Cloud Infrastructure, FinOps, DevOps &amp; AI Automation
+    </p>
+    <div class="flex flex-wrap justify-center gap-3 text-sm">
+      <span class="badge badge-green" style="font-size:.72rem">FinOps</span>
+      <span class="badge badge-sky" style="font-size:.72rem">DevOps</span>
+      <span class="badge badge-purple" style="font-size:.72rem">AI</span>
+      <span class="badge badge-orange" style="font-size:.72rem">Security</span>
+    </div>
+  </div>
+</section>
+
+<!-- ARTICLE GRID -->
+<section class="py-20" style="background:#0F172A">
+  <div class="max-w-6xl mx-auto px-6">
+
+    <!-- Featured Article -->
+    <div class="mb-10 reveal">
+      <p class="text-white/40 text-xs uppercase tracking-widest font-semibold mb-6">Featured Article</p>
+      <a href="/blog/finops-cloud-cost-reduction/" class="block group card-hover">
+        <div class="glass rounded-2xl p-8 lg:p-10 grid lg:grid-cols-5 gap-8 items-center">
+          <div class="lg:col-span-3">
+            <div class="flex items-center gap-3 mb-4">
+              <span class="badge badge-green" style="font-size:.72rem;background:rgba(5,150,105,.18);color:#34D399">FinOps</span>
+              <span class="text-white/40 text-xs font-medium px-2 py-0.5 rounded-full" style="background:rgba(255,255,255,.06);border:1px solid rgba(234,179,8,.3);color:#FDE047">Featured</span>
+            </div>
+            <h2 class="font-heading font-bold text-2xl lg:text-3xl text-white mb-3 group-hover:text-sky-300 transition-colors leading-tight">
+              FinOps in Practice: How We Reduced Cloud Costs by 42% for a Global Retailer
+            </h2>
+            <p class="text-white/60 leading-relaxed mb-5">
+              Cloud sprawl was silently draining the client's budget — zombie resources, untagged workloads, and over-provisioned instances. We ran a full FinOps audit and delivered $4,200/month in savings within six weeks.
+            </p>
+            <div class="flex items-center gap-4">
+              <div class="flex items-center gap-2">
+                <div class="w-7 h-7 rounded-full flex items-center justify-center text-xs font-bold text-white" style="background:linear-gradient(135deg,#0369A1,#0EA5E9)">CN</div>
+                <span class="text-white/50 text-sm">Cesar A. Nogueira</span>
+              </div>
+              <span class="text-white/30 text-sm">April 8, 2025</span>
+              <span class="text-white/30 text-sm">7 min read</span>
+            </div>
+          </div>
+          <div class="lg:col-span-2 flex justify-center">
+            <div class="rounded-2xl w-full h-40 lg:h-48 flex items-center justify-center" style="background:linear-gradient(135deg,rgba(5,150,105,.2),rgba(14,165,233,.15));border:1px solid rgba(52,211,153,.15)">
+              <div class="text-center">
+                <p class="font-heading font-bold text-5xl text-green-400">-42%</p>
+                <p class="text-white/50 text-sm mt-1">Cloud Cost Reduction</p>
+                <p class="text-green-400/70 text-xs mt-1">$4,200 / month saved</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </a>
+    </div>
+
+    <!-- Article Grid -->
+    <p class="text-white/40 text-xs uppercase tracking-widest font-semibold mb-6 reveal">All Articles</p>
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+
+      <!-- Article 2: Terraform -->
+      <a href="/blog/terraform-iac-best-practices/" class="block group card-hover reveal">
+        <div class="glass rounded-2xl p-6 h-full flex flex-col">
+          <div class="flex items-center gap-2 mb-4">
+            <span class="badge badge-sky" style="font-size:.72rem;background:rgba(3,105,161,.18);color:#38BDF8">DevOps</span>
+          </div>
+          <div class="flex items-center gap-3 text-white/40 text-xs mb-3">
+            <span>April 22, 2025</span>
+            <span>·</span>
+            <span>8 min read</span>
+          </div>
+          <h2 class="font-heading font-bold text-lg text-white mb-3 group-hover:text-sky-300 transition-colors leading-snug flex-grow">
+            Terraform at Scale: IaC Best Practices for Multi-Cloud Teams
+          </h2>
+          <p class="text-white/55 text-sm leading-relaxed mb-5">
+            Module structure, remote state management, policy as code, and CI/CD integration — everything your team needs to manage Terraform at scale without state drift.
+          </p>
+          <div class="flex items-center gap-2 mt-auto pt-4" style="border-top:1px solid rgba(255,255,255,.08)">
+            <div class="w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold text-white" style="background:linear-gradient(135deg,#0369A1,#0EA5E9)">CN</div>
+            <span class="text-white/45 text-xs">Cesar A. Nogueira</span>
+            <span class="ml-auto text-sky-400 text-sm font-medium group-hover:translate-x-1 transition-transform inline-block">Read article →</span>
+          </div>
+        </div>
+      </a>
+
+      <!-- Article 3: AI Incident Response -->
+      <a href="/blog/ai-incident-response-automation/" class="block group card-hover reveal" style="transition-delay:.06s">
+        <div class="glass rounded-2xl p-6 h-full flex flex-col">
+          <div class="flex items-center gap-2 mb-4">
+            <span class="badge badge-purple" style="font-size:.72rem;background:rgba(124,58,237,.18);color:#A78BFA">AI</span>
+          </div>
+          <div class="flex items-center gap-3 text-white/40 text-xs mb-3">
+            <span>May 5, 2025</span>
+            <span>·</span>
+            <span>6 min read</span>
+          </div>
+          <h2 class="font-heading font-bold text-lg text-white mb-3 group-hover:text-purple-300 transition-colors leading-snug flex-grow">
+            AI-Powered Incident Response: From Alert to Resolution in Under 60 Seconds
+          </h2>
+          <p class="text-white/55 text-sm leading-relaxed mb-5">
+            Traditional on-call is broken — alerts at 3 AM, manual triage, and hours of MTTR. See how AI agents now detect, correlate, and resolve incidents autonomously in under a minute.
+          </p>
+          <div class="flex items-center gap-2 mt-auto pt-4" style="border-top:1px solid rgba(255,255,255,.08)">
+            <div class="w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold text-white" style="background:linear-gradient(135deg,#0369A1,#0EA5E9)">CN</div>
+            <span class="text-white/45 text-xs">Cesar A. Nogueira</span>
+            <span class="ml-auto text-purple-400 text-sm font-medium group-hover:translate-x-1 transition-transform inline-block">Read article →</span>
+          </div>
+        </div>
+      </a>
+
+      <!-- Article 4: Kubernetes Security -->
+      <a href="/blog/kubernetes-security-checklist/" class="block group card-hover reveal" style="transition-delay:.12s">
+        <div class="glass rounded-2xl p-6 h-full flex flex-col">
+          <div class="flex items-center gap-2 mb-4">
+            <span class="badge badge-orange" style="font-size:.72rem;background:rgba(234,88,12,.18);color:#FB923C">Security</span>
+          </div>
+          <div class="flex items-center gap-3 text-white/40 text-xs mb-3">
+            <span>May 12, 2025</span>
+            <span>·</span>
+            <span>7 min read</span>
+          </div>
+          <h2 class="font-heading font-bold text-lg text-white mb-3 group-hover:text-orange-300 transition-colors leading-snug flex-grow">
+            Kubernetes Security Hardening: A Production Checklist for 2025
+          </h2>
+          <p class="text-white/55 text-sm leading-relaxed mb-5">
+            RBAC, Pod Security Standards, network policies, secrets management with External Secrets Operator, image scanning, and runtime protection with Falco — the complete K8s security checklist.
+          </p>
+          <div class="flex items-center gap-2 mt-auto pt-4" style="border-top:1px solid rgba(255,255,255,.08)">
+            <div class="w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold text-white" style="background:linear-gradient(135deg,#0369A1,#0EA5E9)">CN</div>
+            <span class="text-white/45 text-xs">Cesar A. Nogueira</span>
+            <span class="ml-auto text-orange-400 text-sm font-medium group-hover:translate-x-1 transition-transform inline-block">Read article →</span>
+          </div>
+        </div>
+      </a>
+
+      <!-- Article 5: Platform Engineering vs DevOps -->
+      <a href="/blog/platform-engineering-vs-devops/" class="block group card-hover reveal" style="transition-delay:.18s">
+        <div class="glass rounded-2xl p-6 h-full flex flex-col">
+          <div class="flex items-center gap-2 mb-4">
+            <span class="badge badge-sky" style="font-size:.72rem;background:rgba(3,105,161,.18);color:#38BDF8">DevOps</span>
+          </div>
+          <div class="flex items-center gap-3 text-white/40 text-xs mb-3">
+            <span>May 19, 2025</span>
+            <span>·</span>
+            <span>5 min read</span>
+          </div>
+          <h2 class="font-heading font-bold text-lg text-white mb-3 group-hover:text-sky-300 transition-colors leading-snug flex-grow">
+            Platform Engineering vs DevOps: What's the Difference and Why It Matters in 2025
+          </h2>
+          <p class="text-white/55 text-sm leading-relaxed mb-5">
+            Platform Engineering is redefining how teams build and ship software. Learn how Internal Developer Platforms, golden paths, and self-service tooling differ from traditional DevOps practices.
+          </p>
+          <div class="flex items-center gap-2 mt-auto pt-4" style="border-top:1px solid rgba(255,255,255,.08)">
+            <div class="w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold text-white" style="background:linear-gradient(135deg,#0369A1,#0EA5E9)">CN</div>
+            <span class="text-white/45 text-xs">Cesar A. Nogueira</span>
+            <span class="ml-auto text-sky-400 text-sm font-medium group-hover:translate-x-1 transition-transform inline-block">Read article →</span>
+          </div>
+        </div>
+      </a>
+
+      <!-- Article 6: DevSecOps Business Case -->
+      <a href="/blog/devsecops-business-case/" class="block group card-hover reveal" style="transition-delay:.24s">
+        <div class="glass rounded-2xl p-6 h-full flex flex-col">
+          <div class="flex items-center gap-2 mb-4">
+            <span class="badge badge-orange" style="font-size:.72rem;background:rgba(234,88,12,.18);color:#FB923C">Security</span>
+          </div>
+          <div class="flex items-center gap-3 text-white/40 text-xs mb-3">
+            <span>May 26, 2025</span>
+            <span>·</span>
+            <span>6 min read</span>
+          </div>
+          <h2 class="font-heading font-bold text-lg text-white mb-3 group-hover:text-orange-300 transition-colors leading-snug flex-grow">
+            The Business Case for DevSecOps: Ship Faster Without Sacrificing Security
+          </h2>
+          <p class="text-white/55 text-sm leading-relaxed mb-5">
+            Late-stage vulnerabilities cost 30× more to fix than shift-left catches. Here's the ROI case for integrating SAST, DAST, IaC scanning, and compliance as code into your CI/CD pipeline.
+          </p>
+          <div class="flex items-center gap-2 mt-auto pt-4" style="border-top:1px solid rgba(255,255,255,.08)">
+            <div class="w-6 h-6 rounded-full flex items-center justify-center text-xs font-bold text-white" style="background:linear-gradient(135deg,#0369A1,#0EA5E9)">CN</div>
+            <span class="text-white/45 text-xs">Cesar A. Nogueira</span>
+            <span class="ml-auto text-orange-400 text-sm font-medium group-hover:translate-x-1 transition-transform inline-block">Read article →</span>
+          </div>
+        </div>
+      </a>
+
+      <!-- CTA Card -->
+      <div class="reveal" style="transition-delay:.30s">
+        <div class="rounded-2xl p-6 h-full flex flex-col items-center justify-center text-center" style="background:linear-gradient(135deg,rgba(3,105,161,.2),rgba(124,58,237,.15));border:1px solid rgba(14,165,233,.2)">
+          <div class="w-12 h-12 rounded-xl flex items-center justify-center mb-4" style="background:linear-gradient(135deg,#0369A1,#0EA5E9)">
+            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z" stroke-linejoin="round"/></svg>
+          </div>
+          <h3 class="font-heading font-bold text-white text-lg mb-2">Need hands-on help?</h3>
+          <p class="text-white/55 text-sm mb-5 leading-relaxed">Book a free 45-minute infrastructure audit and walk away with an action plan.</p>
+          <a href="/#contact" class="inline-flex items-center gap-2 text-sm font-semibold text-white px-5 py-2.5 rounded-xl" style="background:linear-gradient(135deg,#0369A1,#0EA5E9)">
+            Get in Touch
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+          </a>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer style="background:#020617;border-top:1px solid rgba(255,255,255,.07)" class="py-12 mt-16">
+  <div class="max-w-6xl mx-auto px-6 flex flex-col sm:flex-row justify-between items-center gap-6 text-sm text-white/40">
+    <div class="flex items-center gap-3">
+      <div class="w-7 h-7 rounded-lg flex items-center justify-center" style="background:linear-gradient(135deg,#0369A1,#0EA5E9)">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z" stroke="white" stroke-width="2" stroke-linejoin="round"/></svg>
+      </div>
+      <span>© 2026 UP2CLOUD · Cesar A. Nogueira</span>
+    </div>
+    <div class="flex gap-6">
+      <a href="/" class="hover:text-white/70 transition-colors">Home</a>
+      <a href="/blog" class="hover:text-white/70 transition-colors">Blog</a>
+      <a href="/about" class="hover:text-white/70 transition-colors">About</a>
+      <a href="/#contact" class="hover:text-white/70 transition-colors">Contact</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+  const ro = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); ro.unobserve(e.target); }});
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.reveal').forEach(el => ro.observe(el));
+</script>
+</body>
+</html>

@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Platform Engineering vs DevOps: What's the Difference and Why It Matters in 2025 — UP2CLOUD</title>
+  <meta name="description" content="Platform Engineering is redefining how teams build and ship software. Learn how Internal Developer Platforms, golden paths, and self-service tooling differ from traditional DevOps practices." />
+  <meta name="keywords" content="platform engineering, DevOps, Internal Developer Platform, IDP, golden paths, developer experience, Backstage, Crossplane, Port" />
+  <meta property="og:title" content="Platform Engineering vs DevOps: What's the Difference and Why It Matters in 2025 — UP2CLOUD" />
+  <meta property="og:type" content="article" />
+  <meta property="og:url" content="https://up2cloud.github.io/blog/platform-engineering-vs-devops/" />
+  <meta property="article:published_time" content="2025-05-19" />
+  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='5' fill='%230F172A'/%3E%3Cpath d='M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z' stroke='%230EA5E9' stroke-width='2' stroke-linejoin='round' fill='none'/%3E%3C/svg%3E" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet" />
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script>
+    tailwind.config = {
+      theme: { extend: {
+        fontFamily: { heading: ['Space Grotesk','sans-serif'], body: ['DM Sans','sans-serif'] },
+        colors: {
+          navy:  { DEFAULT:'#0F172A', 700:'#1E293B' },
+          sky:   { brand:'#0369A1', light:'#0EA5E9' },
+        }
+      }}
+    };
+  </script>
+  <style>
+    *,*::before,*::after { box-sizing:border-box }
+    html { scroll-behavior:smooth; overscroll-behavior:none }
+    body { font-family:'DM Sans',sans-serif; background:#0F172A; color:#fff; margin:0 }
+    h1,h2,h3,h4 { font-family:'Space Grotesk',sans-serif }
+    .glass { background:rgba(255,255,255,.07); backdrop-filter:blur(14px); border:1px solid rgba(255,255,255,.12) }
+    .gradient-text { background:linear-gradient(90deg,#0EA5E9,#38BDF8,#7DD3FC); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text }
+    .badge { background:rgba(3,105,161,.15); color:#38BDF8; font-size:.72rem; font-weight:600; padding:.25rem .75rem; border-radius:999px; letter-spacing:.05em; text-transform:uppercase }
+    .badge-sky { background:rgba(3,105,161,.18); color:#38BDF8 }
+    .reveal { opacity:0; transform:translateY(24px); transition:opacity .6s ease,transform .6s ease }
+    .reveal.visible { opacity:1; transform:none }
+    .prose p { color:rgba(255,255,255,.72); line-height:1.8; margin-bottom:1.25rem; font-size:1.0625rem }
+    .prose h2 { font-family:'Space Grotesk',sans-serif; font-weight:700; font-size:1.5rem; color:#fff; margin-top:2.5rem; margin-bottom:1rem }
+    .prose h3 { font-family:'Space Grotesk',sans-serif; font-weight:600; font-size:1.2rem; color:rgba(255,255,255,.9); margin-top:2rem; margin-bottom:.75rem }
+    .prose ul { color:rgba(255,255,255,.72); line-height:1.8; margin-bottom:1.25rem; padding-left:1.5rem; list-style-type:disc }
+    .prose ul li { margin-bottom:.5rem }
+    .prose strong { color:#fff; font-weight:600 }
+    .prose code { font-family:'Courier New',Courier,monospace; font-size:.88rem; color:#7dd3fc; background:rgba(14,165,233,.1); padding:.1rem .35rem; border-radius:4px }
+    .compare-card { background:rgba(255,255,255,.05); border:1px solid rgba(255,255,255,.1); border-radius:16px; padding:1.5rem }
+    .compare-card h3 { margin-top:0 }
+    .tool-chip { display:inline-flex; align-items:center; gap:.4rem; background:rgba(14,165,233,.1); border:1px solid rgba(14,165,233,.2); border-radius:8px; padding:.35rem .75rem; font-size:.8rem; color:#7dd3fc; margin:.2rem }
+    @media(prefers-reduced-motion:reduce){.reveal{animation:none;transition:none}}
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav class="fixed top-0 left-0 right-0 z-50" style="background:rgba(15,23,42,.92);backdrop-filter:blur(12px);border-bottom:1px solid rgba(255,255,255,.07)">
+  <div class="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between">
+    <a href="/" class="flex items-center gap-3">
+      <div class="w-8 h-8 rounded-lg flex items-center justify-center" style="background:linear-gradient(135deg,#0369A1,#0EA5E9)">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z" stroke="white" stroke-width="2" stroke-linejoin="round"/></svg>
+      </div>
+      <span style="font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:1.125rem;color:#fff">UP2<span style="color:#0EA5E9">CLOUD</span></span>
+    </a>
+    <div class="flex items-center gap-4">
+      <a href="/blog" class="text-white/70 hover:text-white text-sm transition-colors">Blog</a>
+      <a href="/" class="text-white/70 hover:text-white text-sm transition-colors">← Back to site</a>
+      <a href="/#contact" class="text-xs font-semibold text-white px-4 py-2 rounded-lg" style="background:linear-gradient(135deg,#0369A1,#0EA5E9)">Get in Touch</a>
+    </div>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="pt-32 pb-12 relative overflow-hidden" style="background:radial-gradient(circle at 15% 20%,rgba(14,165,233,.18),transparent 35%),radial-gradient(circle at 85% 10%,rgba(3,105,161,.15),transparent 30%),linear-gradient(135deg,#020617 0%,#0F172A 50%,#0c2240 100%)">
+  <div class="absolute w-96 h-96 rounded-full opacity-15 pointer-events-none" style="background:radial-gradient(circle,#0EA5E9,transparent);top:-5%;right:-5%;filter:blur(70px)"></div>
+  <div class="max-w-3xl mx-auto px-6">
+    <div class="flex items-center gap-3 mb-6">
+      <a href="/blog" class="text-white/50 hover:text-white text-sm transition-colors">Blog</a>
+      <span class="text-white/25">/</span>
+      <span class="badge badge-sky">DevOps</span>
+    </div>
+    <h1 class="font-heading font-bold text-4xl sm:text-5xl leading-tight text-white mb-6">
+      Platform Engineering vs DevOps: What's the Difference and <span class="gradient-text">Why It Matters</span> in 2025
+    </h1>
+    <div class="flex flex-wrap items-center gap-4 text-sm text-white/50 mb-8">
+      <div class="flex items-center gap-2">
+        <div class="w-8 h-8 rounded-full flex items-center justify-center text-xs font-bold text-white" style="background:linear-gradient(135deg,#0369A1,#0EA5E9)">CN</div>
+        <span class="text-white/70 font-medium">Cesar A. Nogueira</span>
+      </div>
+      <span>May 19, 2025</span>
+      <span>·</span>
+      <span>5 min read</span>
+    </div>
+  </div>
+</section>
+
+<!-- ARTICLE BODY -->
+<article class="py-12" style="background:#0F172A">
+  <div class="max-w-3xl mx-auto px-6 prose reveal">
+
+    <p>
+      "Platform Engineering" was the most-searched engineering discipline on LinkedIn in Q1 2025. Yet conversations about it often collapse into confusion: is it just DevOps with a new name? Is it an evolution, a replacement, or something entirely different? The short answer: it's a strategic evolution that makes sense at a specific organisational scale — and confusing the two leads to expensive hiring and tooling mistakes.
+    </p>
+
+    <h2>What is DevOps?</h2>
+    <p>
+      DevOps is a <strong>cultural and operational philosophy</strong>: break down the wall between development and operations, automate deployments, and make teams responsible for the full lifecycle of their services. In practice, DevOps teams handle CI/CD, infrastructure provisioning, monitoring, and on-call. The critical characteristic: DevOps is <strong>execution-focused</strong> — DevOps engineers do the work alongside developers, often embedded in product teams.
+    </p>
+    <p>
+      At small-to-medium scale (1–50 engineers), a DevOps culture is highly effective. Every team can make their own infrastructure decisions, pipelines are per-service, and the overhead of shared platforms isn't justified by the team size.
+    </p>
+
+    <h2>What is Platform Engineering?</h2>
+    <p>
+      Platform Engineering is the discipline of building and operating <strong>Internal Developer Platforms (IDPs)</strong> — self-service infrastructure and tooling that product teams consume without needing to understand the underlying complexity. Platform engineers are <strong>enablement-focused</strong>: they build the paved road that everyone else drives on.
+    </p>
+    <p>
+      The key principle is the <strong>golden path</strong>: a blessed, opinionated, well-maintained way to deploy a service, provision a database, or configure a secret. Teams are free to deviate from the golden path — but the platform makes the right way the easy way.
+    </p>
+
+    <h2>The Core Difference: Execution vs Enablement</h2>
+    <div class="grid md:grid-cols-2 gap-4 my-8 not-prose">
+      <div class="compare-card">
+        <h3 class="font-heading font-bold text-sky-300 text-base mb-3">DevOps</h3>
+        <ul class="text-white/65 text-sm space-y-2 list-none p-0">
+          <li>Embedded in product teams</li>
+          <li>Builds and operates CI/CD per service</li>
+          <li>Handles infrastructure provisioning directly</li>
+          <li>Responds to incidents alongside developers</li>
+          <li>Scales with headcount (team per team)</li>
+          <li>Best fit: up to ~100 engineers</li>
+        </ul>
+      </div>
+      <div class="compare-card" style="border-color:rgba(14,165,233,.25)">
+        <h3 class="font-heading font-bold text-sky-300 text-base mb-3">Platform Engineering</h3>
+        <ul class="text-white/65 text-sm space-y-2 list-none p-0">
+          <li>Centralised platform team</li>
+          <li>Builds self-service IDP consumed by all teams</li>
+          <li>Golden paths replace direct provisioning</li>
+          <li>Reduces cognitive load for all developers</li>
+          <li>Scales by leverage (one platform, many teams)</li>
+          <li>Best fit: 100+ engineers, multiple teams</li>
+        </ul>
+      </div>
+    </div>
+
+    <h2>When to Adopt Platform Engineering</h2>
+    <p>
+      Platform Engineering makes economic sense when the <strong>cognitive load tax</strong> of infrastructure decisions starts hurting developer velocity. Common symptoms: new developers take 2+ weeks to make their first production deploy, CI/CD pipelines look different across every service, and your most experienced engineers spend a disproportionate amount of time helping teams with infrastructure questions.
+    </p>
+    <p>
+      Gartner estimates that by 2026, 80% of large engineering organisations will have a dedicated platform engineering team. The driver is simple: as organisations scale beyond 5–10 product teams, the cost of every team managing its own infrastructure choices exceeds the cost of building shared, opinionated tooling.
+    </p>
+
+    <h2>Platform Engineering Tooling in 2025</h2>
+    <p>The platform engineering ecosystem has matured rapidly. Key tools:</p>
+    <ul>
+      <li><strong>Backstage</strong> (Spotify, open source) — the dominant IDP portal. Provides service catalogue, tech docs, scaffolding templates, and plugin ecosystem. Widely adopted but requires significant investment to operate well.</li>
+      <li><strong>Port</strong> — lightweight, hosted IDP alternative to Backstage. Faster time-to-value, lower operational overhead.</li>
+      <li><strong>Crossplane</strong> — Kubernetes-native infrastructure orchestration. Lets platform teams define composite resources (e.g., "a production database") that developers provision via kubectl, with all the cloud-specific details abstracted away.</li>
+      <li><strong>Argo CD + ApplicationSets</strong> — GitOps delivery for the platform itself and for tenant workloads. Golden path deployment patterns live in Git, not in wiki pages.</li>
+      <li><strong>Kyverno / OPA Gatekeeper</strong> — policy engines that enforce platform standards at admission time, without requiring developer action.</li>
+    </ul>
+    <div class="flex flex-wrap gap-1 my-4 not-prose">
+      <span class="tool-chip">Backstage</span>
+      <span class="tool-chip">Port</span>
+      <span class="tool-chip">Crossplane</span>
+      <span class="tool-chip">Argo CD</span>
+      <span class="tool-chip">Kyverno</span>
+      <span class="tool-chip">OPA Gatekeeper</span>
+    </div>
+
+    <h2>Golden Path Templates</h2>
+    <p>
+      A golden path is more than a Helm chart. It's a complete, curated starter that bundles: service scaffolding, CI/CD pipeline configuration, monitoring dashboards, SLO definitions, security baseline (non-root, resource limits, network policies), and runbook templates. When a developer creates a new service from a golden path template in Backstage or Port, they get production-ready infrastructure in minutes — not after two weeks of back-and-forth with the platform team.
+    </p>
+    <p>
+      Golden paths also encode organisational standards implicitly: you can't accidentally create a service without a health check endpoint or without resource limits, because they're baked into the template.
+    </p>
+
+    <h2>UP2CLOUD's Approach</h2>
+    <p>
+      At UP2CLOUD, we help organisations determine whether they need a DevOps culture shift, a Platform Engineering capability, or both. For clients in the 50–200 engineer range, we typically design a "Platform Engineering Lite" approach: a Backstage portal with 3–5 golden path templates, Crossplane for self-service database and queue provisioning, and GitOps delivery via Argo CD — all delivered in a 12-week engagement. The goal isn't to build a perfect platform; it's to reduce the infrastructure cognitive load enough that product teams can move faster.
+    </p>
+
+  </div>
+</article>
+
+<!-- CTA -->
+<section class="py-16" style="background:#020617">
+  <div class="max-w-3xl mx-auto px-6 reveal">
+    <div class="rounded-2xl p-10 text-center relative overflow-hidden" style="background:linear-gradient(135deg,rgba(3,105,161,.2),rgba(14,165,233,.15));border:1px solid rgba(14,165,233,.2)">
+      <div class="absolute w-64 h-64 rounded-full opacity-10 pointer-events-none" style="background:radial-gradient(circle,#0EA5E9,transparent);top:-20%;right:-10%;filter:blur(50px)"></div>
+      <span class="badge badge-sky inline-block mb-4">Platform Engineering</span>
+      <h2 class="font-heading font-bold text-3xl text-white mb-4">Need help with platform engineering?</h2>
+      <p class="text-white/60 mb-8 leading-relaxed max-w-xl mx-auto">
+        We design and build Internal Developer Platforms — Backstage portals, golden path templates, Crossplane infrastructure, and GitOps delivery — tailored to your team size and tech stack.
+      </p>
+      <a href="/#contact" class="inline-flex items-center gap-2 font-semibold text-white px-8 py-3.5 rounded-xl transition-all hover:opacity-90" style="background:linear-gradient(135deg,#0369A1,#0EA5E9)">
+        Let's Talk
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14M12 5l7 7-7 7"/></svg>
+      </a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer style="background:#020617;border-top:1px solid rgba(255,255,255,.07)" class="py-12 mt-0">
+  <div class="max-w-6xl mx-auto px-6 flex flex-col sm:flex-row justify-between items-center gap-6 text-sm text-white/40">
+    <div class="flex items-center gap-3">
+      <div class="w-7 h-7 rounded-lg flex items-center justify-center" style="background:linear-gradient(135deg,#0369A1,#0EA5E9)">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none"><path d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z" stroke="white" stroke-width="2" stroke-linejoin="round"/></svg>
+      </div>
+      <span>© 2026 UP2CLOUD · Cesar A. Nogueira</span>
+    </div>
+    <div class="flex gap-6">
+      <a href="/" class="hover:text-white/70 transition-colors">Home</a>
+      <a href="/blog" class="hover:text-white/70 transition-colors">Blog</a>
+      <a href="/about" class="hover:text-white/70 transition-colors">About</a>
+      <a href="/#contact" class="hover:text-white/70 transition-colors">Contact</a>
+    </div>
+  </div>
+</footer>
+
+<script>
+  const ro = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); ro.unobserve(e.target); }});
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.reveal').forEach(el => ro.observe(el));
+</script>
+</body>
+</html>

@@ -205,6 +205,7 @@
       <li><a href="#portfolio" class="text-sm font-medium text-white/80 hover:text-white transition-colors" data-i18n="nav_portfolio">Portfolio</a></li>
       <li><a href="#testimonials" class="text-sm font-medium text-white/80 hover:text-white transition-colors" data-i18n="nav_clients">Clients</a></li>
       <li><a href="/about" class="text-sm font-medium text-white/80 hover:text-white transition-colors">About</a></li>
+      <li><a href="/blog" class="text-sm font-medium text-white/80 hover:text-white transition-colors">Blog</a></li>
       <li><a href="#contact" class="text-sm font-medium text-white/80 hover:text-white transition-colors" data-i18n="nav_contact">Contact</a></li>
     </ul>
     <div class="flex items-center gap-3">
@@ -242,6 +243,7 @@
       <a href="#portfolio" class="block px-4 py-3 text-white/90 hover:text-white hover:bg-white/10 rounded-lg transition-colors" onclick="closeMobileMenu()" data-i18n="nav_portfolio">Portfolio</a>
       <a href="#testimonials" class="block px-4 py-3 text-white/90 hover:text-white hover:bg-white/10 rounded-lg transition-colors" onclick="closeMobileMenu()" data-i18n="nav_clients">Clients</a>
       <a href="/about" class="block px-4 py-3 text-white/90 hover:text-white hover:bg-white/10 rounded-lg transition-colors" onclick="closeMobileMenu()">About</a>
+      <a href="/blog" class="block px-4 py-3 text-white/90 hover:text-white hover:bg-white/10 rounded-lg transition-colors" onclick="closeMobileMenu()">Blog</a>
       <a href="#contact" class="block px-4 py-3 text-white/90 hover:text-white hover:bg-white/10 rounded-lg transition-colors" onclick="closeMobileMenu()" data-i18n="nav_contact">Contact</a>
     </div>
   </div>
@@ -249,14 +251,11 @@
 
 
 <!-- ══════════════════════════ HERO ══════════════════════════ -->
-  <section id="hero" class="hero-bg parallax-scene relative h-auto flex items-start overflow-hidden pt-12">
-  <canvas id="particle-canvas" class="absolute inset-0 w-full h-full pointer-events-none" aria-hidden="true" style="opacity:.5;mix-blend-mode:screen"></canvas>
+  <section id="hero" class="hero-bg parallax-scene relative min-h-screen flex items-center overflow-hidden pt-20">
+  <canvas id="particle-canvas" class="absolute inset-0 w-full h-full pointer-events-none" aria-hidden="true" style="opacity:.35;mix-blend-mode:screen"></canvas>
   <div class="blob w-96 h-96 bg-sky-light top-1/4 left-1/4" style="animation-delay:0s"></div>
-  <div class="blob w-80 h-80 bg-purple-500 top-1/2 right-1/4" style="animation-delay:2.5s"></div>
-  <div class="blob w-64 h-64 bg-cta bottom-1/4 left-1/3" style="animation-delay:5s"></div>
-  <div class="absolute inset-0 opacity-5" style="background-image:linear-gradient(rgba(255,255,255,.5) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.5) 1px,transparent 1px);background-size:60px 60px"></div>
-  <div class="orb-ring w-[720px] h-[720px] -right-48 top-24 opacity-60 parallax-layer-bg" aria-hidden="true"></div>
-  <div class="orb-ring w-[520px] h-[520px] -right-24 top-48 opacity-50 parallax-layer-mid" style="animation-direction:reverse;animation-duration:34s" aria-hidden="true"></div>
+  <div class="absolute inset-0 opacity-4" style="background-image:linear-gradient(rgba(255,255,255,.4) 1px,transparent 1px),linear-gradient(90deg,rgba(255,255,255,.4) 1px,transparent 1px);background-size:72px 72px"></div>
+  <div class="orb-ring w-[640px] h-[640px] -right-48 top-16 opacity-40 parallax-layer-bg" aria-hidden="true"></div>
 
   <div class="float-shape command-chip hidden lg:flex items-center gap-3 rounded-2xl px-4 py-3 text-white/80 text-xs right-[7%] top-[21%]" style="animation-delay:.5s" aria-hidden="true">
     <span class="w-2 h-2 rounded-full bg-green-400"></span>
@@ -288,12 +287,12 @@
       </p>
       <div class="flex flex-col sm:flex-row flex-wrap gap-4">
         <a href="#contact" class="btn-primary text-base shine glow-pulse w-full sm:w-auto justify-center">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M13 10V3L4 14h7v7l9-11h-7z" stroke="currentColor" stroke-width="2" stroke-linejoin="round"/></svg>
-          <span data-i18n="hero_cta_primary">Start Your Journey</span>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span data-i18n="hero_cta_primary">Book a Free Audit</span>
         </a>
-        <a href="#ai" class="btn-outline text-base w-full sm:w-auto justify-center" style="border-color:rgba(192,132,252,.5);color:#C084FC;">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="3" stroke="currentColor" stroke-width="2"/><path d="M12 1v4M12 19v4M4.22 4.22l2.83 2.83M16.95 16.95l2.83 2.83M1 12h4M19 12h4M4.22 19.78l2.83-2.83M16.95 7.05l2.83-2.83" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
-          <span data-i18n="hero_cta_secondary">See AI Solutions</span>
+        <a href="#portfolio" class="btn-outline text-base w-full sm:w-auto justify-center" style="border-color:rgba(255,255,255,.25);color:rgba(255,255,255,.85);">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          <span data-i18n="hero_cta_secondary">View Our Work</span>
         </a>
       </div>
       <div class="flex flex-wrap items-center gap-6 mt-8">
@@ -360,7 +359,7 @@
   .logo-item:hover { filter:grayscale(0) opacity(1); }
   /* Entrance from JS sets opacity:1 → override with filter opacity */
 </style>
-<section aria-label="Trusted by" class="bg-white border-y border-slate-100 py-16">
+<section aria-label="Trusted by" class="bg-white border-y border-slate-100 py-10">
   <div class="max-w-7xl mx-auto px-6">
     <p class="text-center text-xs font-semibold text-slate-400 uppercase tracking-[.18em] mb-8" data-i18n="trusted_label">Trusted by forward-thinking companies</p>
     <div class="flex flex-wrap justify-center items-center gap-x-16 gap-y-10" id="logo-bar">
@@ -518,9 +517,9 @@
 </div>
 
 <!-- ══════════════════════════ SERVICES ══════════════════════════ -->
-<section id="services" aria-label="Services" class="py-16 bg-slate-50 circuit-bg">
+<section id="services" aria-label="Services" class="py-12 bg-slate-50 circuit-bg">
   <div class="max-w-7xl mx-auto px-6">
-    <div class="text-center mb-16 reveal">
+    <div class="text-center mb-10 reveal">
       <span class="badge" data-i18n="services_badge">What We Do</span>
       <h2 class="font-heading font-700 text-4xl sm:text-5xl mt-4 mb-5 shimmer-heading" data-i18n="services_title">End-to-End IT Solutions</h2>
       <p class="text-slate-500 text-lg max-w-2xl mx-auto leading-relaxed" data-i18n="services_sub">From cloud strategy to AI automation — we bring the expertise to modernize your infrastructure and accelerate growth.</p>
@@ -611,13 +610,13 @@
 
 
 <!-- ══════════════════════════ AI SECTION ══════════════════════════ -->
-<section id="ai" aria-label="AI Solutions" class="ai-bg py-16 relative overflow-hidden">
+<section id="ai" aria-label="AI Solutions" class="ai-bg py-12 relative overflow-hidden">
   <div class="blob w-96 h-96 bg-purple-500 -top-20 -right-20 opacity-30" style="animation-delay:1s"></div>
   <div class="blob w-80 h-80 bg-sky-light bottom-0 left-10 opacity-20" style="animation-delay:4s"></div>
   <div class="absolute inset-0 opacity-5" style="background-image:linear-gradient(rgba(192,132,252,.3) 1px,transparent 1px),linear-gradient(90deg,rgba(192,132,252,.3) 1px,transparent 1px);background-size:60px 60px"></div>
 
   <div class="relative z-10 max-w-7xl mx-auto px-6">
-    <div class="text-center mb-16 reveal">
+    <div class="text-center mb-10 reveal">
       <span class="badge badge-ai inline-block" style="background:rgba(192,132,252,.2);color:#C084FC" data-i18n="ai_badge">AI-First Approach</span>
       <h2 class="font-heading font-700 text-4xl sm:text-5xl text-white mt-4 mb-5">
         <span data-i18n="ai_title">We Solve Problems Fast</span><br/><span class="gradient-text-ai" data-i18n="ai_title_accent">With AI</span>
@@ -834,10 +833,10 @@
 
 
 <!-- ══════════════════════════ STATS ══════════════════════════ -->
-<section aria-label="Key results" class="hero-bg py-16 relative overflow-hidden">
+<section aria-label="Key results" class="hero-bg py-12 relative overflow-hidden">
   <div class="blob w-96 h-96 bg-sky-light top-0 right-0 opacity-15"></div>
   <div class="relative z-10 max-w-7xl mx-auto px-6">
-    <div class="text-center mb-16 reveal">
+    <div class="text-center mb-10 reveal">
       <span class="badge" style="background:rgba(14,165,233,.2);color:#38BDF8" data-i18n="stats_badge">Proven Track Record</span>
       <h2 class="font-heading font-700 text-4xl sm:text-5xl text-white mt-4 mb-5" data-i18n="stats_title">Results That Speak</h2>
     </div>
@@ -864,9 +863,9 @@
 
 
 <!-- ══════════════════════════ PORTFOLIO ══════════════════════════ -->
-<section id="portfolio" aria-label="Portfolio & Experience" class="py-16 bg-white">
+<section id="portfolio" aria-label="Portfolio & Experience" class="py-12 bg-white">
   <div class="max-w-7xl mx-auto px-6">
-    <div class="text-center mb-16 reveal">
+    <div class="text-center mb-10 reveal">
       <span class="badge" data-i18n="portfolio_badge">Behind UP2CLOUD</span>
       <h2 class="font-heading font-700 text-4xl sm:text-5xl mt-4 mb-5 shimmer-heading" data-i18n="portfolio_title">Built by a Certified Expert</h2>
       <p class="text-slate-500 text-lg max-w-2xl mx-auto leading-relaxed">UP2CLOUD is led by <strong>Cesar A. Nogueira</strong>, a Cloud DevOps Engineer with 10+ years building and scaling infrastructure across three continents.</p>
@@ -1054,9 +1053,9 @@
 
 
 <!-- ══════════════════════════ TESTIMONIALS ══════════════════════════ -->
-<section id="testimonials" aria-label="Client testimonials" class="py-16 bg-slate-50 circuit-bg">
+<section id="testimonials" aria-label="Client testimonials" class="py-12 bg-slate-50 circuit-bg">
   <div class="max-w-7xl mx-auto px-6">
-    <div class="text-center mb-16 reveal">
+    <div class="text-center mb-10 reveal">
       <span class="badge" data-i18n="testimonials_badge">Verified on LinkedIn</span>
       <h2 class="font-heading font-700 text-4xl sm:text-5xl text-navy mt-4 mb-5" data-i18n="testimonials_title">What Colleagues &amp; Clients Say</h2>
       <p class="text-slate-500 text-base max-w-xl mx-auto" data-i18n="testimonials_sub">Real recommendations from LinkedIn — colleagues at H&amp;M, ZeroLight, Accenture, CI&amp;T and more.</p>
@@ -1179,7 +1178,7 @@
 
 
 <!-- ══════════════════════════ CONTACT ══════════════════════════ -->
-<section id="contact" aria-label="Contact" class="py-16 bg-slate-50">
+<section id="contact" aria-label="Contact" class="py-12 bg-slate-50">
   <div class="max-w-7xl mx-auto px-6 grid lg:grid-cols-2 gap-16 items-start">
     <div class="reveal">
       <span class="badge" data-i18n="contact_badge">Get In Touch</span>
@@ -1288,7 +1287,7 @@
 
 
 <!-- ══════════════════════════ FOOTER ══════════════════════════ -->
-<footer class="hero-bg text-white py-16" role="contentinfo">
+<footer class="hero-bg text-white py-12" role="contentinfo">
   <div class="max-w-7xl mx-auto px-6">
     <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-10 mb-12">
       <div>
@@ -1321,6 +1320,8 @@
         <ul class="space-y-2 text-sm text-white/60">
           <li><a href="#portfolio" class="hover:text-white transition-colors">Portfolio</a></li>
           <li><a href="#testimonials" class="hover:text-white transition-colors">Clients</a></li>
+          <li><a href="/about" class="hover:text-white transition-colors">About</a></li>
+          <li><a href="/blog" class="hover:text-white transition-colors">Blog</a></li>
           <li><a href="#contact" class="hover:text-white transition-colors">Contact</a></li>
         </ul>
       </nav>
@@ -1345,7 +1346,9 @@
     <div class="border-t border-white/10 pt-8 flex flex-col sm:flex-row justify-between items-center gap-4 text-sm text-white/40">
       <p data-i18n="footer_copyright">&copy; 2026 UP2CLOUD · Cesar A. Nogueira. All rights reserved.</p>
       <div class="flex gap-6">
-        <a href="https://up2cloud.github.io/privacy" target="_blank" rel="noopener noreferrer" class="hover:text-white/70 transition-colors">Privacy Policy</a>
+        <a href="/blog" class="hover:text-white/70 transition-colors">Blog</a>
+        <a href="/about" class="hover:text-white/70 transition-colors">About</a>
+        <a href="https://up2cloud.github.io/privacy" target="_blank" rel="noopener noreferrer" class="hover:text-white/70 transition-colors">Privacy</a>
         <a href="https://github.com/UP2CLOUD" target="_blank" rel="noopener noreferrer" class="hover:text-white/70 transition-colors">GitHub</a>
         <a href="#contact" class="hover:text-white/70 transition-colors">Contact</a>
       </div>
