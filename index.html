@@ -199,7 +199,7 @@
     </ul>
     <div class="flex items-center gap-3">
       <!-- Language picker -->
-      <div class="relative hidden sm:block" id="lang-picker">
+      <div class="relative block" id="lang-picker">
         <button id="lang-btn" onclick="toggleLangMenu(event)" class="flex items-center gap-2 text-white/70 hover:text-white text-xs font-medium border border-white/20 rounded-lg px-3 py-2 transition-colors hover:border-white/40 cursor-pointer" aria-haspopup="true" aria-expanded="false">
           <span id="lang-flag" class="text-base leading-none">🇺🇸</span>
           <span id="lang-code" class="font-semibold tracking-wide">EN</span>
@@ -2085,7 +2085,7 @@ TONE: Be helpful, concise, and professional. Keep answers to 2-4 sentences unles
   };
 
   const i18n = {
-    current: localStorage.getItem('up2cloud-lang') || 'en',
+    current: 'en',
     cache: {},
 
     async load(lang) {
