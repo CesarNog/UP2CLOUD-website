@@ -40,8 +40,6 @@
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet" />
   <!-- UP2CLOUD favicon — cloud SVG inline data URL -->
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='5' fill='%230F172A'/%3E%3Cpath d='M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z' stroke='%230EA5E9' stroke-width='2' stroke-linejoin='round' fill='none'/%3E%3C/svg%3E" />
-  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
-  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
   <link rel="stylesheet" href="assets/css/tailwind.min.css" />
   <script>
     const FORMSPREE_ENDPOINT = 'https://formspree.io/f/REPLACE_WITH_YOUR_ID';
@@ -2061,11 +2059,31 @@ TONE: Be helpful, concise, and professional. Keep answers to 2-4 sentences unles
       .bindPopup('<div style="font-family:\'Space Grotesk\',sans-serif;padding:4px 2px;min-width:180px"><p style="font-weight:700;color:#0F172A;font-size:.9rem;margin:0 0 4px">UP2CLOUD 🇪🇸</p><p style="color:#64748B;font-size:.78rem;margin:0 0 6px">Madrid, Spain</p><span style="background:linear-gradient(90deg,#64748B,#94A3B8);color:#fff;font-size:.7rem;padding:2px 8px;border-radius:999px;font-weight:600">Coming Soon</span></div>', { maxWidth: 220 });
   }
 
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initMap);
-  } else {
-    initMap();
-  }
+  (function() {
+    var mapLoaded = false;
+    function loadLeaflet() {
+      if (mapLoaded) return;
+      mapLoaded = true;
+      var link = document.createElement('link');
+      link.rel = 'stylesheet';
+      link.href = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.css';
+      document.head.appendChild(link);
+      var script = document.createElement('script');
+      script.src = 'https://unpkg.com/leaflet@1.9.4/dist/leaflet.js';
+      script.onload = initMap;
+      document.head.appendChild(script);
+    }
+    var mapEl = document.getElementById('contact-map');
+    if (mapEl && 'IntersectionObserver' in window) {
+      new IntersectionObserver(function(entries, obs) {
+        if (entries[0].isIntersecting) { obs.disconnect(); loadLeaflet(); }
+      }, { rootMargin: '300px' }).observe(mapEl);
+    } else if (document.readyState === 'loading') {
+      document.addEventListener('DOMContentLoaded', loadLeaflet);
+    } else {
+      loadLeaflet();
+    }
+  })();
 
   /* ══════════════════════════════════════════════
      TECH STACK TICKER — clone items for seamless loop
