@@ -114,7 +114,7 @@
     /* Floating cloud+dollar bill */
     @keyframes moneyFloat{0%,100%{transform:translateY(0) rotate(-1.5deg)}50%{transform:translateY(-20px) rotate(2deg)}}
     @keyframes moneyFloatAlt{0%,100%{transform:translateY(0) rotate(2deg)}50%{transform:translateY(-14px) rotate(-2.5deg)}}
-    .money-cloud{position:absolute;pointer-events:none;animation:moneyFloat 7s ease-in-out infinite;opacity:.55;z-index:3}
+    .money-cloud{position:absolute;pointer-events:none;animation:moneyFloat 7s ease-in-out infinite;opacity:.55;z-index:12}
     .money-cloud.alt{animation-name:moneyFloatAlt}
 
     /* ── Ripple on buttons ── */
@@ -294,73 +294,82 @@
 <div class="blob w-96 h-96 bg-sky-light top-1/4 left-1/4" style="animation-delay:0s"></div>
 <div class="orb-ring w-[640px] h-[640px] -right-48 top-16 opacity-35 parallax-layer-bg" aria-hidden="true"></div>
 
-<div class="float-shape command-chip hidden lg:flex items-center gap-2.5 rounded-2xl px-4 py-3 text-white/75 text-xs right-[7%] top-[22%]" style="animation-delay:.5s" aria-hidden="true">
+<div class="float-shape command-chip hidden lg:flex items-center gap-2.5 rounded-2xl px-4 py-3 text-white/75 text-xs right-[7%] top-[22%]" style="animation-delay:.5s;z-index:12" aria-hidden="true">
   <span class="font-mono text-green-400 font-bold text-[.8rem]">✓</span>
   <span>terraform apply · 2m 41s</span>
 </div>
-<div class="float-shape command-chip hidden lg:flex items-center gap-2.5 rounded-2xl px-4 py-3 text-white/75 text-xs right-[15%] bottom-[20%]" style="animation-delay:2.4s" aria-hidden="true">
+<div class="float-shape command-chip hidden lg:flex items-center gap-2.5 rounded-2xl px-4 py-3 text-white/75 text-xs right-[15%] bottom-[20%]" style="animation-delay:2.4s;z-index:12" aria-hidden="true">
   <span class="font-heading text-sky-light font-700">−42%</span>
   <span>cloud cost reduction</span>
 </div>
-<div class="float-shape command-chip hidden lg:flex items-center gap-2.5 rounded-2xl px-4 py-3 text-white/75 text-xs left-[48%] top-[18%]" style="animation-delay:4s" aria-hidden="true">
+<div class="float-shape command-chip hidden lg:flex items-center gap-2.5 rounded-2xl px-4 py-3 text-white/75 text-xs left-[48%] top-[18%]" style="animation-delay:4s;z-index:12" aria-hidden="true">
   <span class="w-2 h-2 bg-green-400 rounded-full shrink-0" style="animation:pulse 2s infinite"></span>
   <span>k8s: 99.97% uptime</span>
 </div>
 
 <!-- ══ Floating cloud + dollar bill decorations ══ -->
-<!-- Cloud 1 — large, centre-top between columns -->
-<div class="money-cloud hidden lg:block" style="left:42%;top:18%;animation-delay:0s;animation-duration:8s;opacity:.72" aria-hidden="true">
-  <svg width="220" height="170" viewBox="0 0 220 170" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <!-- cloud body -->
-    <ellipse cx="80" cy="88" rx="42" ry="34" fill="rgba(255,255,255,.11)"/>
-    <ellipse cx="120" cy="80" rx="52" ry="42" fill="rgba(255,255,255,.13)"/>
-    <ellipse cx="160" cy="90" rx="38" ry="30" fill="rgba(255,255,255,.10)"/>
-    <rect x="38" y="88" width="144" height="34" rx="8" fill="rgba(255,255,255,.12)"/>
-    <path d="M38 96a42 42 0 0042-42 52 52 0 0052 0 38 38 0 0130 38v26a8 8 0 01-8 8H46a8 8 0 01-8-8z" fill="rgba(255,255,255,.09)" stroke="rgba(255,255,255,.28)" stroke-width="1.5"/>
-    <!-- string -->
-    <line x1="110" y1="126" x2="110" y2="144" stroke="rgba(255,255,255,.35)" stroke-width="1.8" stroke-dasharray="3 2"/>
-    <!-- bill -->
-    <rect x="72" y="144" width="76" height="34" rx="7" fill="rgba(22,163,74,.32)" stroke="rgba(74,222,128,.75)" stroke-width="1.8"/>
-    <text x="110" y="166" text-anchor="middle" fill="#86efac" font-size="16" font-weight="800" font-family="Space Grotesk,monospace">$42K saved</text>
+<!-- Cloud 1 — large white, upper-left -->
+<div class="money-cloud hidden lg:block" style="left:3%;top:8%;animation-delay:0s;animation-duration:9s;opacity:.92" aria-hidden="true">
+  <svg width="190" height="128" viewBox="0 0 190 128" overflow="visible" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <defs><filter id="cloud-f1" x="-10%" y="-20%" width="120%" height="140%"><feGaussianBlur stdDeviation="1.5"/></filter></defs>
+    <g opacity="0.30" filter="url(#cloud-f1)">
+      <circle cx="36" cy="62" r="22" fill="white"/>
+      <circle cx="72" cy="44" r="32" fill="white"/>
+      <circle cx="118" cy="48" r="28" fill="white"/>
+      <circle cx="156" cy="60" r="20" fill="white"/>
+      <rect x="16" y="62" width="158" height="20" fill="white"/>
+    </g>
+    <line x1="95" y1="82" x2="95" y2="98" stroke="rgba(255,255,255,.52)" stroke-width="1.8" stroke-dasharray="3 2"/>
+    <rect x="22" y="98" width="146" height="30" rx="8" fill="rgba(22,163,74,.44)" stroke="rgba(74,222,128,.94)" stroke-width="1.8"/>
+    <text x="95" y="118" text-anchor="middle" fill="#86efac" font-size="15" font-weight="800" font-family="Space Grotesk,monospace">$42K saved</text>
   </svg>
 </div>
-<!-- Cloud 2 — medium, left side -->
-<div class="money-cloud alt hidden lg:block" style="left:4%;top:46%;animation-delay:1.8s;animation-duration:10s;opacity:.65" aria-hidden="true">
-  <svg width="170" height="130" viewBox="0 0 170 130" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <ellipse cx="60" cy="66" rx="32" ry="26" fill="rgba(14,165,233,.14)"/>
-    <ellipse cx="92" cy="58" rx="42" ry="34" fill="rgba(14,165,233,.17)"/>
-    <ellipse cx="124" cy="68" rx="30" ry="24" fill="rgba(14,165,233,.13)"/>
-    <rect x="28" y="68" width="114" height="28" rx="6" fill="rgba(14,165,233,.13)"/>
-    <path d="M28 74a32 32 0 0032-32 42 42 0 0042 0 30 30 0 0124 30v22a6 6 0 01-6 6H34a6 6 0 01-6-6z" fill="rgba(14,165,233,.10)" stroke="rgba(56,189,248,.38)" stroke-width="1.4"/>
-    <line x1="85" y1="100" x2="85" y2="114" stroke="rgba(255,255,255,.32)" stroke-width="1.6" stroke-dasharray="3 2"/>
-    <rect x="51" y="114" width="68" height="28" rx="6" fill="rgba(22,163,74,.28)" stroke="rgba(74,222,128,.68)" stroke-width="1.6"/>
-    <text x="85" y="132" text-anchor="middle" fill="#86efac" font-size="13" font-weight="800" font-family="Space Grotesk,monospace">−38% cost</text>
+<!-- Cloud 2 — medium sky-blue, lower-left -->
+<div class="money-cloud alt hidden lg:block" style="left:2%;top:55%;animation-delay:1.8s;animation-duration:10s;opacity:.90" aria-hidden="true">
+  <svg width="162" height="112" viewBox="0 0 162 112" overflow="visible" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <defs><filter id="cloud-f2" x="-10%" y="-20%" width="120%" height="140%"><feGaussianBlur stdDeviation="1.5"/></filter></defs>
+    <g opacity="0.34" filter="url(#cloud-f2)">
+      <circle cx="30" cy="52" r="18" fill="#38BDF8"/>
+      <circle cx="62" cy="36" r="28" fill="#38BDF8"/>
+      <circle cx="104" cy="40" r="24" fill="#38BDF8"/>
+      <circle cx="136" cy="52" r="18" fill="#38BDF8"/>
+      <rect x="13" y="52" width="136" height="20" fill="#38BDF8"/>
+    </g>
+    <line x1="81" y1="72" x2="81" y2="88" stroke="rgba(56,189,248,.58)" stroke-width="1.8" stroke-dasharray="3 2"/>
+    <rect x="18" y="88" width="126" height="28" rx="8" fill="rgba(22,163,74,.42)" stroke="rgba(74,222,128,.92)" stroke-width="1.8"/>
+    <text x="81" y="107" text-anchor="middle" fill="#86efac" font-size="14" font-weight="800" font-family="Space Grotesk,monospace">−38% cost</text>
   </svg>
 </div>
-<!-- Cloud 3 — medium, lower-centre floating above scroll -->
-<div class="money-cloud hidden lg:block" style="left:48%;top:70%;animation-delay:3.2s;animation-duration:9s;opacity:.60" aria-hidden="true">
-  <svg width="158" height="120" viewBox="0 0 158 120" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <ellipse cx="55" cy="60" rx="28" ry="22" fill="rgba(124,58,237,.14)"/>
-    <ellipse cx="84" cy="52" rx="38" ry="30" fill="rgba(124,58,237,.18)"/>
-    <ellipse cx="114" cy="62" rx="26" ry="21" fill="rgba(124,58,237,.13)"/>
-    <rect x="27" y="62" width="104" height="26" rx="6" fill="rgba(124,58,237,.12)"/>
-    <path d="M27 68a28 28 0 0028-28 38 38 0 0038 0 26 26 0 0121 28v20a6 6 0 01-6 6H33a6 6 0 01-6-6z" fill="rgba(124,58,237,.10)" stroke="rgba(192,132,252,.38)" stroke-width="1.4"/>
-    <line x1="79" y1="90" x2="79" y2="104" stroke="rgba(255,255,255,.30)" stroke-width="1.5" stroke-dasharray="3 2"/>
-    <rect x="48" y="104" width="62" height="26" rx="6" fill="rgba(22,163,74,.26)" stroke="rgba(74,222,128,.65)" stroke-width="1.5"/>
-    <text x="79" y="121" text-anchor="middle" fill="#86efac" font-size="12" font-weight="800" font-family="Space Grotesk,monospace">$8.4K/mo</text>
+<!-- Cloud 3 — medium purple, upper-right -->
+<div class="money-cloud hidden lg:block" style="right:3%;top:7%;animation-delay:3.2s;animation-duration:8s;opacity:.86" aria-hidden="true">
+  <svg width="152" height="108" viewBox="0 0 152 108" overflow="visible" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <defs><filter id="cloud-f3" x="-10%" y="-20%" width="120%" height="140%"><feGaussianBlur stdDeviation="1.5"/></filter></defs>
+    <g opacity="0.32" filter="url(#cloud-f3)">
+      <circle cx="28" cy="50" r="18" fill="#C084FC"/>
+      <circle cx="58" cy="34" r="26" fill="#C084FC"/>
+      <circle cx="96" cy="38" r="22" fill="#C084FC"/>
+      <circle cx="124" cy="50" r="17" fill="#C084FC"/>
+      <rect x="11" y="50" width="130" height="18" fill="#C084FC"/>
+    </g>
+    <line x1="76" y1="70" x2="76" y2="86" stroke="rgba(192,132,252,.58)" stroke-width="1.8" stroke-dasharray="3 2"/>
+    <rect x="15" y="86" width="122" height="28" rx="8" fill="rgba(22,163,74,.40)" stroke="rgba(74,222,128,.90)" stroke-width="1.8"/>
+    <text x="76" y="105" text-anchor="middle" fill="#86efac" font-size="14" font-weight="800" font-family="Space Grotesk,monospace">$8.4K/mo</text>
   </svg>
 </div>
-<!-- Cloud 4 — small accent, far right -->
-<div class="money-cloud alt hidden lg:block" style="right:1%;top:36%;animation-delay:5s;animation-duration:12s;opacity:.50" aria-hidden="true">
-  <svg width="118" height="92" viewBox="0 0 118 92" fill="none" xmlns="http://www.w3.org/2000/svg">
-    <ellipse cx="42" cy="46" rx="22" ry="18" fill="rgba(255,255,255,.10)"/>
-    <ellipse cx="64" cy="40" rx="28" ry="22" fill="rgba(255,255,255,.12)"/>
-    <ellipse cx="86" cy="48" rx="20" ry="16" fill="rgba(255,255,255,.09)"/>
-    <rect x="20" y="48" width="78" height="20" rx="5" fill="rgba(255,255,255,.09)"/>
-    <path d="M20 52a22 22 0 0022-22 28 28 0 0028 0 20 20 0 0116 20v16a5 5 0 01-5 5H25a5 5 0 01-5-5z" fill="rgba(255,255,255,.08)" stroke="rgba(255,255,255,.25)" stroke-width="1.2"/>
-    <line x1="59" y1="72" x2="59" y2="82" stroke="rgba(255,255,255,.28)" stroke-width="1.4" stroke-dasharray="2 2"/>
-    <rect x="34" y="82" width="50" height="22" rx="5" fill="rgba(22,163,74,.25)" stroke="rgba(74,222,128,.60)" stroke-width="1.4"/>
-    <text x="59" y="97" text-anchor="middle" fill="#86efac" font-size="11" font-weight="800" font-family="Space Grotesk,monospace">FinOps ✓</text>
+<!-- Cloud 4 — small white, lower-right -->
+<div class="money-cloud alt hidden lg:block" style="right:3%;top:60%;animation-delay:5s;animation-duration:12s;opacity:.82" aria-hidden="true">
+  <svg width="132" height="98" viewBox="0 0 132 98" overflow="visible" fill="none" xmlns="http://www.w3.org/2000/svg">
+    <defs><filter id="cloud-f4" x="-10%" y="-20%" width="120%" height="140%"><feGaussianBlur stdDeviation="1.5"/></filter></defs>
+    <g opacity="0.28" filter="url(#cloud-f4)">
+      <circle cx="24" cy="44" r="16" fill="white"/>
+      <circle cx="50" cy="30" r="22" fill="white"/>
+      <circle cx="84" cy="33" r="19" fill="white"/>
+      <circle cx="110" cy="44" r="15" fill="white"/>
+      <rect x="9" y="44" width="114" height="16" fill="white"/>
+    </g>
+    <line x1="66" y1="60" x2="66" y2="74" stroke="rgba(255,255,255,.48)" stroke-width="1.5" stroke-dasharray="3 2"/>
+    <rect x="12" y="74" width="108" height="26" rx="7" fill="rgba(22,163,74,.38)" stroke="rgba(74,222,128,.85)" stroke-width="1.6"/>
+    <text x="66" y="92" text-anchor="middle" fill="#86efac" font-size="13" font-weight="800" font-family="Space Grotesk,monospace">FinOps ✓</text>
   </svg>
 </div>
 
@@ -412,7 +421,11 @@
 
   <!-- Hero metrics card -->
   <div class="hidden lg:flex justify-center">
-    <div class="glass premium-glow tilt-card rounded-2xl p-7 w-full max-w-md text-white">
+    <div id="infra-card" class="glass premium-glow tilt-card rounded-2xl p-7 w-full max-w-md text-white select-none" style="cursor:grab;position:relative;z-index:15;will-change:transform" title="Drag to move">
+      <!-- Drag handle hint -->
+      <div style="position:absolute;top:10px;right:12px;opacity:.28;pointer-events:none;line-height:1" aria-hidden="true">
+        <svg width="14" height="14" viewBox="0 0 20 20" fill="currentColor"><circle cx="7" cy="5" r="1.5"/><circle cx="13" cy="5" r="1.5"/><circle cx="7" cy="10" r="1.5"/><circle cx="13" cy="10" r="1.5"/><circle cx="7" cy="15" r="1.5"/><circle cx="13" cy="15" r="1.5"/></svg>
+      </div>
       <div class="flex items-center justify-between mb-5">
         <div>
           <p class="font-heading font-600 text-[.92rem]">Infrastructure Health</p>
@@ -1205,7 +1218,7 @@
           </div>
           <div class="cert-badge">
             <div class="w-8 h-8 rounded-lg flex items-center justify-center shrink-0" style="background:#FFF8EE">
-              <img src="https://cdn.simpleicons.org/amazonaws/FF9900" width="18" height="18" alt="AWS" loading="lazy" />
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="#FF9900" aria-label="AWS"><path d="M6.763 10.036c0 .296.032.535.088.71.064.176.144.368.256.576a.51.51 0 01.056.184c0 .08-.048.16-.152.24l-.504.336a.38.38 0 01-.208.072c-.08 0-.16-.04-.24-.112a2.47 2.47 0 01-.288-.376 6.18 6.18 0 01-.248-.472c-.624.736-1.408 1.104-2.352 1.104-.672 0-1.208-.192-1.6-.576-.392-.384-.6-.896-.6-1.536 0-.68.24-1.232.728-1.648.488-.416 1.136-.624 1.96-.624.272 0 .552.024.848.064.296.04.6.104.92.176v-.584c0-.608-.128-1.032-.384-1.28-.264-.248-.72-.368-1.368-.368-.296 0-.6.04-.912.112a6.7 6.7 0 00-.912.296 2.43 2.43 0 01-.296.112.48.48 0 01-.128.024c-.112 0-.168-.08-.168-.248v-.392c0-.128.016-.224.056-.28.04-.056.112-.112.216-.168.296-.152.656-.28 1.08-.384A5.1 5.1 0 015.2 5.648c1.176 0 2.048.268 2.624.808.568.536.856 1.352.856 2.44l-.008 3.14zm-2.272.568c.264 0 .536-.048.824-.144.288-.096.544-.272.76-.512.128-.152.224-.32.272-.512.048-.192.08-.424.08-.696v-.336a6.7 6.7 0 00-.736-.136 6 6 0 00-.752-.048c-.536 0-.928.104-1.192.32-.264.216-.392.52-.392.92 0 .376.096.656.296.848.192.184.472.296.84.296zm6.44.88c-.144 0-.24-.024-.304-.08-.064-.048-.12-.16-.168-.312L9.344 6.396a1.4 1.4 0 01-.072-.32c0-.128.064-.2.192-.2h.784c.152 0 .256.024.312.08.064.048.112.16.16.312l1.364 5.376 1.272-5.376c.04-.16.088-.264.152-.312.064-.048.176-.08.32-.08h.64c.152 0 .256.024.32.08.064.048.12.16.152.312l1.288 5.448 1.408-5.448c.048-.16.104-.264.16-.312.064-.048.168-.08.312-.08h.744c.128 0 .2.064.2.2 0 .04-.008.08-.016.128a1.14 1.14 0 01-.056.2l-1.96 5.048c-.048.16-.104.264-.168.312-.064.048-.168.08-.304.08h-.688c-.152 0-.256-.024-.32-.08-.064-.056-.12-.16-.152-.32l-1.272-5.256-1.264 5.248c-.04.16-.088.264-.152.32-.064.056-.176.08-.32.08H11.31zm10.43.226a5.39 5.39 0 01-1.248-.144 1.99 1.99 0 01-.896-.4c-.136-.128-.232-.28-.328-.44-.048-.08-.032-.16-.048-.256 0-.176.064-.264.184-.264.048 0 .128.016.216.048.136.048.272.096.424.128.392.088.808.136 1.2.136.68 0 1.192-.128 1.52-.384.336-.256.512-.608.512-1.064 0-.312-.096-.568-.296-.768-.2-.208-.576-.4-1.12-.56l-1.616-.512c-.816-.256-1.416-.64-1.784-1.152-.368-.512-.552-1.064-.552-1.64 0-.472.104-.896.312-1.264.208-.376.488-.696.84-.952.352-.264.76-.456 1.224-.584.464-.128.944-.192 1.456-.192.256 0 .52.016.776.048.264.04.512.088.752.152.232.056.448.128.656.208.208.08.352.16.44.24.144.096.256.192.32.304.064.104.096.232.096.392v.368c0 .176-.064.264-.184.264-.064 0-.168-.032-.312-.096-.528-.24-1.12-.36-1.784-.36-.616 0-1.096.104-1.432.32-.336.208-.504.528-.504.96 0 .312.104.576.32.784.216.208.6.408 1.176.584l1.584.504c.8.256 1.384.616 1.744 1.08.36.464.536 1 .536 1.6 0 .488-.104.928-.304 1.32-.208.392-.488.728-.848 1-.36.28-.784.488-1.272.632-.512.152-1.064.228-1.64.228z"/></svg>
             </div>
             <div>
               <p class="text-xs font-600 text-navy">AWS Cloud Practitioner</p>
@@ -1214,7 +1227,7 @@
           </div>
           <div class="cert-badge">
             <div class="w-8 h-8 rounded-lg flex items-center justify-center shrink-0" style="background:#EFF6FF">
-              <img src="https://cdn.simpleicons.org/microsoftazure/0078D4" width="18" height="18" alt="Microsoft Azure" loading="lazy" />
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="#0078D4" aria-label="Microsoft Azure"><path d="M22.379 23.343a1.62 1.62 0 001.362-2.432L13.33.657A1.62 1.62 0 0011.97 0H8.026a1.62 1.62 0 00-1.36 2.505l2.847 4.28-6.76 11.715a1.62 1.62 0 001.408 2.428h4.316a1.62 1.62 0 001.44-.883l.85-1.718H9.2l5.382-9.33 4.965 8.553a1.62 1.62 0 001.408.883z"/></svg>
             </div>
             <div>
               <p class="text-xs font-600 text-navy">Azure Fundamentals AZ-900</p>
@@ -1750,7 +1763,7 @@
             <span class="text-[.7rem] text-white/80">GCP Professional Architect ×2</span>
           </div>
           <div class="glass rounded-lg px-3 py-2 flex items-center gap-2 border border-white/[.07]">
-            <img src="https://cdn.simpleicons.org/amazonaws/ffffff" width="13" height="13" alt="AWS" loading="lazy" style="opacity:.8" />
+            <svg width="13" height="13" viewBox="0 0 24 24" fill="white" aria-label="AWS" style="opacity:.8"><path d="M6.763 10.036c0 .296.032.535.088.71.064.176.144.368.256.576a.51.51 0 01.056.184c0 .08-.048.16-.152.24l-.504.336a.38.38 0 01-.208.072c-.08 0-.16-.04-.24-.112a2.47 2.47 0 01-.288-.376 6.18 6.18 0 01-.248-.472c-.624.736-1.408 1.104-2.352 1.104-.672 0-1.208-.192-1.6-.576-.392-.384-.6-.896-.6-1.536 0-.68.24-1.232.728-1.648.488-.416 1.136-.624 1.96-.624.272 0 .552.024.848.064.296.04.6.104.92.176v-.584c0-.608-.128-1.032-.384-1.28-.264-.248-.72-.368-1.368-.368-.296 0-.6.04-.912.112a6.7 6.7 0 00-.912.296 2.43 2.43 0 01-.296.112.48.48 0 01-.128.024c-.112 0-.168-.08-.168-.248v-.392c0-.128.016-.224.056-.28.04-.056.112-.112.216-.168.296-.152.656-.28 1.08-.384A5.1 5.1 0 015.2 5.648c1.176 0 2.048.268 2.624.808.568.536.856 1.352.856 2.44l-.008 3.14zm-2.272.568c.264 0 .536-.048.824-.144.288-.096.544-.272.76-.512.128-.152.224-.32.272-.512.048-.192.08-.424.08-.696v-.336a6.7 6.7 0 00-.736-.136 6 6 0 00-.752-.048c-.536 0-.928.104-1.192.32-.264.216-.392.52-.392.92 0 .376.096.656.296.848.192.184.472.296.84.296zm6.44.88c-.144 0-.24-.024-.304-.08-.064-.048-.12-.16-.168-.312L9.344 6.396a1.4 1.4 0 01-.072-.32c0-.128.064-.2.192-.2h.784c.152 0 .256.024.312.08.064.048.112.16.16.312l1.364 5.376 1.272-5.376c.04-.16.088-.264.152-.312.064-.048.176-.08.32-.08h.64c.152 0 .256.024.32.08.064.048.12.16.152.312l1.288 5.448 1.408-5.448c.048-.16.104-.264.16-.312.064-.048.168-.08.312-.08h.744c.128 0 .2.064.2.2 0 .04-.008.08-.016.128a1.14 1.14 0 01-.056.2l-1.96 5.048c-.048.16-.104.264-.168.312-.064.048-.168.08-.304.08h-.688c-.152 0-.256-.024-.32-.08-.064-.056-.12-.16-.152-.32l-1.272-5.256-1.264 5.248c-.04.16-.088.264-.152.32-.064.056-.176.08-.32.08H11.31zm10.43.226a5.39 5.39 0 01-1.248-.144 1.99 1.99 0 01-.896-.4c-.136-.128-.232-.28-.328-.44-.048-.08-.032-.16-.048-.256 0-.176.064-.264.184-.264.048 0 .128.016.216.048.136.048.272.096.424.128.392.088.808.136 1.2.136.68 0 1.192-.128 1.52-.384.336-.256.512-.608.512-1.064 0-.312-.096-.568-.296-.768-.2-.208-.576-.4-1.12-.56l-1.616-.512c-.816-.256-1.416-.64-1.784-1.152-.368-.512-.552-1.064-.552-1.64 0-.472.104-.896.312-1.264.208-.376.488-.696.84-.952.352-.264.76-.456 1.224-.584.464-.128.944-.192 1.456-.192.256 0 .52.016.776.048.264.04.512.088.752.152.232.056.448.128.656.208.208.08.352.16.44.24.144.096.256.192.32.304.064.104.096.232.096.392v.368c0 .176-.064.264-.184.264-.064 0-.168-.032-.312-.096-.528-.24-1.12-.36-1.784-.36-.616 0-1.096.104-1.432.32-.336.208-.504.528-.504.96 0 .312.104.576.32.784.216.208.6.408 1.176.584l1.584.504c.8.256 1.384.616 1.744 1.08.36.464.536 1 .536 1.6 0 .488-.104.928-.304 1.32-.208.392-.488.728-.848 1-.36.28-.784.488-1.272.632-.512.152-1.064.228-1.64.228z"/></svg>
             <span class="text-[.7rem] text-white/80">AWS Cloud Practitioner</span>
           </div>
           <div class="glass rounded-lg px-3 py-2 flex items-center gap-2 border border-white/[.07]">
@@ -2870,6 +2883,35 @@ TONE: Be helpful, concise, and professional. Keep answers to 2-4 sentences unles
         svg.style.transform = '';
       }
     });
+  })();
+
+  // Draggable infra-card
+  (function(){
+    var card=document.getElementById('infra-card');
+    if(!card)return;
+    var dragging=false,startX=0,startY=0,tx=0,ty=0;
+    card.addEventListener('mousedown',function(e){
+      dragging=true;startX=e.clientX-tx;startY=e.clientY-ty;
+      card.style.cursor='grabbing';card.style.transition='none';e.preventDefault();
+    });
+    document.addEventListener('mousemove',function(e){
+      if(!dragging)return;
+      tx=e.clientX-startX;ty=e.clientY-startY;
+      card.style.transform='translate('+tx+'px,'+ty+'px)';
+    });
+    document.addEventListener('mouseup',function(){
+      if(!dragging)return;dragging=false;card.style.cursor='grab';
+      card.style.transition='transform .15s ease';
+    });
+    card.addEventListener('touchstart',function(e){
+      var t=e.touches[0];dragging=true;startX=t.clientX-tx;startY=t.clientY-ty;
+      card.style.transition='none';e.preventDefault();
+    },{passive:false});
+    document.addEventListener('touchmove',function(e){
+      if(!dragging)return;var t=e.touches[0];tx=t.clientX-startX;ty=t.clientY-startY;
+      card.style.transform='translate('+tx+'px,'+ty+'px)';
+    },{passive:false});
+    document.addEventListener('touchend',function(){dragging=false;});
   })();
 </script>
 </body>
