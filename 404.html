@@ -11,13 +11,16 @@
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=DM+Sans:wght@300;400;500;700&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet" />
   <style>
     *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-    html,body{height:100%;overflow:hidden;overscroll-behavior:none}
+    html{overscroll-behavior:none}
     body{
       font-family:'DM Sans',sans-serif;
       background:#020617;
       color:#fff;
+      min-height:100vh;
       display:flex;flex-direction:column;align-items:center;justify-content:center;
       position:relative;
+      overflow-x:hidden;
+      padding:5rem 0 2rem;
     }
     h1,h2,h3{font-family:'Space Grotesk',sans-serif}
     canvas{position:fixed;inset:0;pointer-events:none;z-index:0}
@@ -277,13 +280,24 @@
   document.getElementById('path-display').textContent = p;
   document.querySelectorAll('.t-path, .t-path-2').forEach(el => el.textContent = p);
 
+  /* ── Smart redirect: known paths get trailing-slash redirect first ── */
+  (function() {
+    const path = window.location.pathname.replace(/\/+$/, '');
+    const known = ['/blog', '/about', '/privacy'];
+    const isBlogArticle = path.startsWith('/blog/');
+    if (known.includes(path) || isBlogArticle) {
+      window.location.replace(path + '/');
+      return;
+    }
+  })();
+
   /* ── Countdown redirect ── */
   let t = 10;
   const cd = document.getElementById('countdown');
   const timer = setInterval(() => {
     t--;
     if (cd) cd.textContent = t;
-    if (t <= 0) { clearInterval(timer); window.location.href = 'https://up2cloud.github.io/'; }
+    if (t <= 0) { clearInterval(timer); window.location.href = '/'; }
   }, 1000);
 
   /* ── Particle canvas ── */
