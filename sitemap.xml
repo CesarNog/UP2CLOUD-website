@@ -2,23 +2,23 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
         xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">
   <url>
-    <loc>https://up2cloud.github.io/</loc>
+    <loc>https://up2cloud.tech/</loc>
     <lastmod>2026-05-06</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
     <image:image>
-      <image:loc>https://up2cloud.github.io/assets/og-image.jpg</image:loc>
+      <image:loc>https://up2cloud.tech/assets/og-image.jpg</image:loc>
       <image:title>UP2CLOUD — IT Consulting, Cloud & AI Solutions</image:title>
     </image:image>
   </url>
   <url>
-    <loc>https://up2cloud.github.io/about/</loc>
+    <loc>https://up2cloud.tech/about/</loc>
     <lastmod>2026-05-06</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
-    <loc>https://up2cloud.github.io/privacy/</loc>
+    <loc>https://up2cloud.tech/privacy/</loc>
     <lastmod>2026-05-06</lastmod>
     <changefreq>quarterly</changefreq>
     <priority>0.5</priority>

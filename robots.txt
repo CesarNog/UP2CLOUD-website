@@ -1,3 +1,15 @@
+User-agent: facebookexternalhit
+Allow: /
+
+User-agent: Twitterbot
+Allow: /
+
+User-agent: LinkedInBot
+Allow: /
+
+User-agent: WhatsApp
+Allow: /
+
 User-agent: *
 Allow: /
 Disallow: /admin/
@@ -5,8 +17,6 @@ Disallow: /.env*
 Disallow: /node_modules/
 Disallow: /serve.js
 Disallow: /serve.py
-
-Sitemap: https://up2cloud.github.io/sitemap.xml
-
-# Crawl-delay for respectful crawling
 Crawl-delay: 1
+
+Sitemap: https://up2cloud.tech/sitemap.xml
