@@ -8,13 +8,16 @@
   Strict-Transport-Security: max-age=31536000; includeSubDomains; preload
 
 /index.html
-  Cache-Control: public, max-age=3600, stale-while-revalidate=86400
+  Cache-Control: no-cache, must-revalidate
+
+/*.html
+  Cache-Control: no-cache, must-revalidate
+
+/about
+  Cache-Control: no-cache, must-revalidate
+
+/privacy
+  Cache-Control: no-cache, must-revalidate
 
 /assets/*
   Cache-Control: public, max-age=31536000, immutable
-
-/about
-  Cache-Control: public, max-age=3600, stale-while-revalidate=86400
-
-/privacy
-  Cache-Control: public, max-age=3600, stale-while-revalidate=86400
