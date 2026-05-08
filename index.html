@@ -2925,6 +2925,69 @@ TONE: Be helpful, concise, and professional. Keep answers to 2-4 sentences unles
   })();
 </script>
 
+<!-- ── Newsletter Floating Button ───────────────────────────────────────── -->
+<div id="nl-fab-wrap" style="position:fixed;bottom:1.75rem;left:1.75rem;z-index:9998;display:flex;flex-direction:column;align-items:flex-start;gap:.5rem">
+
+  <!-- Tooltip bubble (shows on hover / after dismiss) -->
+  <div id="nl-fab-tooltip"
+    style="background:#0F172A;border:1px solid rgba(14,165,233,.3);color:rgba(255,255,255,.85);
+           font-family:'DM Sans',sans-serif;font-size:.78rem;line-height:1.4;
+           padding:.55rem .9rem;border-radius:10px;max-width:180px;pointer-events:none;
+           box-shadow:0 8px 24px rgba(0,0,0,.4);
+           opacity:0;transform:translateY(4px);
+           transition:opacity .25s ease,transform .25s ease;white-space:nowrap">
+    ☁️ Get cloud insights weekly
+    <div style="position:absolute;bottom:-5px;left:18px;width:10px;height:10px;
+                background:#0F172A;border-right:1px solid rgba(14,165,233,.3);
+                border-bottom:1px solid rgba(14,165,233,.3);
+                transform:rotate(45deg)"></div>
+  </div>
+
+  <!-- The pill button -->
+  <button id="nl-fab" aria-label="Subscribe to UP2CLOUD newsletter"
+    style="display:flex;align-items:center;gap:.6rem;
+           background:linear-gradient(135deg,#0C4A6E,#0369A1);
+           border:1px solid rgba(14,165,233,.35);
+           color:#fff;font-family:'Space Grotesk',sans-serif;font-weight:600;
+           font-size:.82rem;padding:.65rem 1.1rem .65rem .85rem;
+           border-radius:999px;cursor:pointer;
+           box-shadow:0 4px 20px rgba(3,105,161,.4),0 0 0 0 rgba(14,165,233,.4);
+           transition:transform .2s ease,box-shadow .2s ease;
+           animation:nlPulse 3s ease-in-out infinite">
+
+    <!-- Cloud + envelope icon -->
+    <span style="position:relative;display:flex;align-items:center;justify-content:center;
+                 width:28px;height:28px;border-radius:50%;
+                 background:rgba(14,165,233,.18);flex-shrink:0">
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#38BDF8" stroke-width="2.2" aria-hidden="true">
+        <path d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </span>
+
+    <span id="nl-fab-label">Newsletter</span>
+
+    <!-- Unread dot — hidden once subscribed -->
+    <span id="nl-fab-dot"
+      style="width:7px;height:7px;border-radius:50%;background:#38BDF8;
+             box-shadow:0 0 6px rgba(56,189,248,.8);flex-shrink:0;
+             animation:nlDotPop .4s ease both"></span>
+  </button>
+</div>
+
+<style>
+@keyframes nlPulse{
+  0%,100%{box-shadow:0 4px 20px rgba(3,105,161,.4),0 0 0 0 rgba(14,165,233,.35)}
+  50%{box-shadow:0 4px 28px rgba(3,105,161,.55),0 0 0 8px rgba(14,165,233,.0)}
+}
+@keyframes nlDotPop{from{transform:scale(0)}to{transform:scale(1)}}
+#nl-fab:hover{transform:translateY(-2px) scale(1.03);box-shadow:0 8px 30px rgba(3,105,161,.55),0 0 0 0 rgba(14,165,233,.0)!important;animation:none}
+#nl-fab:active{transform:scale(.97)}
+@media(max-width:480px){
+  #nl-fab-wrap{bottom:1.25rem;left:1.25rem}
+  #nl-fab-tooltip{display:none}
+}
+</style>
+
 <!-- ── Newsletter Popup ──────────────────────────────────────────────── -->
 <div id="nl-overlay" role="dialog" aria-modal="true" aria-labelledby="nl-title" aria-describedby="nl-desc"
   style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(2,6,23,.75);backdrop-filter:blur(6px);
@@ -3070,6 +3133,7 @@ TONE: Be helpful, concise, and professional. Keep answers to 2-4 sentences unles
       localStorage.setItem(LS_KEY, 'subscribed');
       statusEl.textContent = '✓ You\'re in! Watch your inbox for cloud insights.';
       statusEl.style.color = '#4ADE80';
+      updateFab();
       setTimeout(hide, 2800);
     } catch(err) {
       statusEl.textContent = err.message || 'Something went wrong. Please try again.';
@@ -3078,6 +3142,55 @@ TONE: Be helpful, concise, and professional. Keep answers to 2-4 sentences unles
       btn.textContent = 'Subscribe';
     }
   });
+
+  // ── Floating button ──────────────────────────────────────────────────────
+  var fab      = document.getElementById('nl-fab');
+  var fabDot   = document.getElementById('nl-fab-dot');
+  var fabLabel = document.getElementById('nl-fab-label');
+  var fabTip   = document.getElementById('nl-fab-tooltip');
+
+  function updateFab() {
+    var subscribed = localStorage.getItem(LS_KEY) === 'subscribed';
+    if (subscribed) {
+      fabDot.style.display   = 'none';
+      fabLabel.textContent   = 'Subscribed ✓';
+      fab.style.background   = 'linear-gradient(135deg,#064E3B,#059669)';
+      fab.style.borderColor  = 'rgba(52,211,153,.35)';
+      fab.style.animation    = 'none';
+      fabTip.textContent     = '✓ You\'re on the list!';
+    }
+  }
+  updateFab();
+
+  // Open popup when FAB is clicked (always, even if subscribed — so they can re-enter email)
+  fab.addEventListener('click', function() {
+    overlay.style.display = 'flex';
+    document.getElementById('nl-email').focus();
+    document.body.style.overflow = 'hidden';
+  });
+
+  // Tooltip hover
+  fab.addEventListener('mouseenter', function() {
+    fabTip.style.opacity   = '1';
+    fabTip.style.transform = 'translateY(0)';
+  });
+  fab.addEventListener('mouseleave', function() {
+    fabTip.style.opacity   = '0';
+    fabTip.style.transform = 'translateY(4px)';
+  });
+
+  // Show tooltip automatically after 8s if popup was dismissed without subscribing
+  setTimeout(function() {
+    if (localStorage.getItem(LS_KEY) !== 'subscribed') {
+      fabTip.style.opacity   = '1';
+      fabTip.style.transform = 'translateY(0)';
+      setTimeout(function() {
+        fabTip.style.opacity   = '0';
+        fabTip.style.transform = 'translateY(4px)';
+      }, 3500);
+    }
+  }, 8000);
+
 })();
 </script>
 </body>
