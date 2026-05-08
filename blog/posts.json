@@ -1,0 +1,56 @@
+[
+  {
+    "slug": "finops-cloud-cost-reduction",
+    "title": "FinOps in Practice: How We Reduced Cloud Costs by 42% for a Global Retailer",
+    "excerpt": "How UP2CLOUD's FinOps audit methodology — tagging strategy, rightsizing, reserved instances, and spot fleets — delivered $4,200/month in cloud savings for a global retailer.",
+    "date": "2025-04-08",
+    "category": "FinOps",
+    "badgeClass": "badge-green",
+    "featured": true
+  },
+  {
+    "slug": "terraform-iac-best-practices",
+    "title": "Terraform at Scale: IaC Best Practices for Multi-Cloud Teams",
+    "excerpt": "Module structure, remote state management, workspace strategy, policy as code with Sentinel/OPA, and CI/CD integration for teams managing hundreds of resources.",
+    "date": "2025-04-22",
+    "category": "DevOps",
+    "badgeClass": "badge-sky",
+    "featured": false
+  },
+  {
+    "slug": "ai-incident-response-automation",
+    "title": "AI-Powered Incident Response: From Alert to Resolution in Under 60 Seconds",
+    "excerpt": "How AI agents detect, correlate, and resolve production incidents in under 60 seconds — reducing MTTR by 10× and eliminating 3am wake-up calls for on-call engineers.",
+    "date": "2025-05-05",
+    "category": "AI",
+    "badgeClass": "badge-purple",
+    "featured": false
+  },
+  {
+    "slug": "kubernetes-security-checklist",
+    "title": "Kubernetes Security Hardening: A Production Checklist for 2025",
+    "excerpt": "A practical Kubernetes security checklist for 2025: RBAC, Pod Security Standards, network policies, secrets management, supply-chain controls, and runtime threat detection.",
+    "date": "2025-05-12",
+    "category": "Security",
+    "badgeClass": "badge-orange",
+    "featured": false
+  },
+  {
+    "slug": "platform-engineering-vs-devops",
+    "title": "Platform Engineering vs DevOps: What's the Difference and Why It Matters in 2025",
+    "excerpt": "Platform Engineering is redefining how teams build and ship software. Learn how Internal Developer Platforms, golden paths, and self-service tooling differ from traditional DevOps practices.",
+    "date": "2025-05-19",
+    "category": "DevOps",
+    "badgeClass": "badge-sky",
+    "featured": false
+  },
+  {
+    "slug": "devsecops-business-case",
+    "title": "The Business Case for DevSecOps: Ship Faster Without Sacrificing Security",
+    "excerpt": "Late-stage vulnerabilities cost 30× more to fix than shift-left catches. Here's the ROI case for integrating SAST, DAST, IaC scanning, and compliance as code into your CI/CD pipeline.",
+    "date": "2025-05-26",
+    "category": "Security",
+    "badgeClass": "badge-orange",
+    "featured": false
+  }
+]

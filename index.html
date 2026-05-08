@@ -2924,5 +2924,161 @@ TONE: Be helpful, concise, and professional. Keep answers to 2-4 sentences unles
     document.addEventListener('touchend',function(){dragging=false;});
   })();
 </script>
+
+<!-- ── Newsletter Popup ──────────────────────────────────────────────── -->
+<div id="nl-overlay" role="dialog" aria-modal="true" aria-labelledby="nl-title" aria-describedby="nl-desc"
+  style="display:none;position:fixed;inset:0;z-index:9999;background:rgba(2,6,23,.75);backdrop-filter:blur(6px);
+         padding:1rem;overflow-y:auto;align-items:center;justify-content:center">
+  <div id="nl-modal"
+    style="position:relative;max-width:480px;width:100%;margin:auto;
+           background:linear-gradient(155deg,#0F172A 0%,#0C1A2E 100%);
+           border:1px solid rgba(14,165,233,.25);border-radius:20px;
+           padding:2.5rem 2rem 2rem;box-shadow:0 32px 80px rgba(0,0,0,.6),0 0 0 1px rgba(14,165,233,.08) inset">
+    <!-- Close button -->
+    <button id="nl-close" aria-label="Close newsletter popup"
+      style="position:absolute;top:1rem;right:1rem;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);
+             color:rgba(255,255,255,.6);border-radius:8px;width:32px;height:32px;cursor:pointer;
+             display:flex;align-items:center;justify-content:center;font-size:1rem;
+             transition:background .2s,color .2s;line-height:1">✕</button>
+
+    <!-- Icon -->
+    <div style="width:52px;height:52px;border-radius:14px;background:linear-gradient(135deg,#0369A1,#0EA5E9);
+                display:flex;align-items:center;justify-content:center;margin-bottom:1.25rem">
+      <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" aria-hidden="true">
+        <path d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" stroke-linecap="round" stroke-linejoin="round"/>
+      </svg>
+    </div>
+
+    <h2 id="nl-title" style="font-family:'Space Grotesk',sans-serif;font-size:1.4rem;font-weight:700;color:#fff;margin:0 0 .6rem">
+      Cloud insights, straight to your inbox ☁️
+    </h2>
+    <p id="nl-desc" style="color:rgba(255,255,255,.6);font-size:.9rem;line-height:1.6;margin:0 0 1.5rem">
+      Join engineers and CTOs getting weekly tips on <strong style="color:rgba(255,255,255,.85)">FinOps</strong>,
+      <strong style="color:rgba(255,255,255,.85)">cloud cost reduction</strong>,
+      <strong style="color:rgba(255,255,255,.85)">DevSecOps</strong>, and
+      <strong style="color:rgba(255,255,255,.85)">AI automation</strong>.
+      No spam, unsubscribe anytime.
+    </p>
+
+    <form id="nl-form" novalidate style="display:flex;flex-direction:column;gap:.75rem">
+      <!-- Honeypot -->
+      <input type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true"
+        style="position:absolute;left:-9999px;opacity:0;height:0;width:0">
+
+      <div style="display:flex;gap:.625rem;flex-wrap:wrap">
+        <input id="nl-email" type="email" name="email" placeholder="your@email.com" required
+          autocomplete="email" aria-label="Email address"
+          style="flex:1;min-width:0;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.15);
+                 border-radius:10px;padding:.75rem 1rem;color:#fff;font-family:'DM Sans',sans-serif;
+                 font-size:.9rem;outline:none;transition:border-color .2s,box-shadow .2s">
+        <button id="nl-btn" type="submit"
+          style="background:linear-gradient(135deg,#0369A1,#0EA5E9);color:#fff;border:none;border-radius:10px;
+                 padding:.75rem 1.4rem;font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:.9rem;
+                 cursor:pointer;white-space:nowrap;transition:opacity .2s,transform .15s">
+          Subscribe
+        </button>
+      </div>
+      <p id="nl-status" role="status" aria-live="assertive" style="font-size:.8rem;margin:0;min-height:1.2em"></p>
+      <p style="color:rgba(255,255,255,.3);font-size:.72rem;line-height:1.5;margin:0">
+        By subscribing you agree to receive UP2CLOUD updates. Your email is never shared.
+        <a href="/privacy" style="color:rgba(14,165,233,.7);text-decoration:none">Privacy policy</a>.
+      </p>
+    </form>
+  </div>
+</div>
+
+<script>
+(function(){
+  var LS_KEY = 'up2cloud-newsletter';
+  var DELAY  = 5000; // ms before popup appears
+  var SCROLL = 40;   // % scroll depth triggers popup
+
+  function dismissed() { return !!localStorage.getItem(LS_KEY); }
+  function dismiss()   { localStorage.setItem(LS_KEY,'dismissed'); hide(); }
+
+  var overlay = document.getElementById('nl-overlay');
+  function show() {
+    if (dismissed()) return;
+    overlay.style.display = 'flex';
+    document.getElementById('nl-email').focus();
+    document.body.style.overflow = 'hidden';
+  }
+  function hide() {
+    overlay.style.display = 'none';
+    document.body.style.overflow = '';
+  }
+
+  // Trigger: delay OR scroll depth (whichever comes first)
+  var triggered = false;
+  function trigger() {
+    if (triggered || dismissed()) return;
+    triggered = true;
+    show();
+  }
+  var timer = setTimeout(trigger, DELAY);
+  function onScroll() {
+    var pct = (window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100;
+    if (pct >= SCROLL) { clearTimeout(timer); trigger(); window.removeEventListener('scroll', onScroll); }
+  }
+  window.addEventListener('scroll', onScroll, { passive: true });
+
+  // Close handlers
+  document.getElementById('nl-close').addEventListener('click', dismiss);
+  overlay.addEventListener('click', function(e) { if (e.target === overlay) dismiss(); });
+  document.addEventListener('keydown', function(e) { if (e.key === 'Escape') dismiss(); });
+
+  // Style focus ring on email input
+  var emailInput = document.getElementById('nl-email');
+  emailInput.addEventListener('focus', function() {
+    this.style.borderColor = 'rgba(14,165,233,.6)';
+    this.style.boxShadow   = '0 0 0 3px rgba(14,165,233,.12)';
+  });
+  emailInput.addEventListener('blur', function() {
+    this.style.borderColor = 'rgba(255,255,255,.15)';
+    this.style.boxShadow   = '';
+  });
+
+  // Form submit
+  document.getElementById('nl-form').addEventListener('submit', async function(e) {
+    e.preventDefault();
+    var email    = emailInput.value.trim();
+    var honeypot = this.querySelector('[name="website"]').value;
+    var statusEl = document.getElementById('nl-status');
+    var btn      = document.getElementById('nl-btn');
+
+    // Honeypot
+    if (honeypot) { hide(); return; }
+
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      statusEl.textContent = 'Please enter a valid email address.';
+      statusEl.style.color = '#F87171';
+      return;
+    }
+
+    btn.disabled = true;
+    btn.textContent = 'Subscribing…';
+    statusEl.textContent = '';
+
+    try {
+      var r = await fetch('/api/newsletter', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ email: email.toLowerCase() }),
+      });
+      var d = await r.json();
+      if (!r.ok) throw new Error(d.error || 'Subscription failed');
+      localStorage.setItem(LS_KEY, 'subscribed');
+      statusEl.textContent = '✓ You\'re in! Watch your inbox for cloud insights.';
+      statusEl.style.color = '#4ADE80';
+      setTimeout(hide, 2800);
+    } catch(err) {
+      statusEl.textContent = err.message || 'Something went wrong. Please try again.';
+      statusEl.style.color = '#F87171';
+      btn.disabled = false;
+      btn.textContent = 'Subscribe';
+    }
+  });
+})();
+</script>
 </body>
 </html>

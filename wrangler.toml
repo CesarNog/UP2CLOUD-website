@@ -1,0 +1,26 @@
+name = "up2cloud-website"
+compatibility_date = "2024-09-23"
+pages_build_output_dir = "."
+
+# ── KV Namespace Bindings (local dev stubs) ──────────────────────────────────
+# For production, create real namespaces in the Cloudflare dashboard:
+#   Workers & Pages → KV → Create namespace
+# Then bind them in: Pages → up2cloud-tech → Settings → Functions → KV namespace bindings
+#
+# Binding name must match exactly what the functions use (env.UP2CLOUD_COMMENTS etc.)
+
+[[kv_namespaces]]
+binding = "UP2CLOUD_COMMENTS"
+id      = "REPLACE_WITH_REAL_KV_NAMESPACE_ID"
+preview_id = "REPLACE_WITH_PREVIEW_KV_NAMESPACE_ID"
+
+[[kv_namespaces]]
+binding = "UP2CLOUD_LIKES"
+id      = "REPLACE_WITH_REAL_KV_NAMESPACE_ID_2"
+preview_id = "REPLACE_WITH_PREVIEW_KV_NAMESPACE_ID_2"
+
+# ── Local dev env vars ────────────────────────────────────────────────────────
+# Copy to .dev.vars (gitignored) and fill in real values for local testing:
+#   BREVO_API_KEY=your_key_here
+#   BREVO_LIST_ID=2
+#   GROQ_API_KEY=your_key_here

@@ -1,0 +1,159 @@
+name: Newsletter — Notify subscribers on new blog post
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'blog/posts.json'
+
+jobs:
+  notify:
+    name: Send newsletter summary via Brevo
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 2   # need HEAD and HEAD~1
+
+      - name: Detect new blog posts
+        id: detect
+        run: |
+          # Guard: skip on first commit (no HEAD~1)
+          if ! git rev-parse HEAD~1 >/dev/null 2>&1; then
+            echo "First commit – skipping newsletter"
+            echo "new_posts=[]" >> "$GITHUB_OUTPUT"
+            echo "has_new=false"  >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          # Extract slugs added in this commit
+          PREV=$(git show HEAD~1:blog/posts.json 2>/dev/null || echo '[]')
+          CURR=$(cat blog/posts.json)
+
+          # Python: find slugs in CURR that aren't in PREV
+          python3 - "$PREV" "$CURR" <<'PY'
+          import sys, json, os
+
+          prev_slugs = {p['slug'] for p in json.loads(sys.argv[1])}
+          curr_posts = json.loads(sys.argv[2])
+
+          new_posts = [p for p in curr_posts if p['slug'] not in prev_slugs]
+
+          with open(os.environ['GITHUB_OUTPUT'], 'a') as fh:
+              fh.write(f"new_posts={json.dumps(new_posts)}\n")
+              fh.write(f"has_new={'true' if new_posts else 'false'}\n")
+          PY
+
+      - name: Send newsletter via Brevo Transactional API
+        if: steps.detect.outputs.has_new == 'true'
+        env:
+          BREVO_API_KEY:    ${{ secrets.BREVO_API_KEY }}
+          BREVO_LIST_ID:    ${{ secrets.BREVO_LIST_ID }}
+          BREVO_SENDER_EMAIL: ${{ secrets.BREVO_SENDER_EMAIL }}
+          BREVO_SENDER_NAME:  ${{ vars.BREVO_SENDER_NAME || 'Cesar @ UP2CLOUD' }}
+          NEW_POSTS:        ${{ steps.detect.outputs.new_posts }}
+        run: |
+          python3 - <<'PY'
+          import json, os, urllib.request, urllib.error, sys
+
+          api_key       = os.environ['BREVO_API_KEY']
+          list_id       = int(os.environ['BREVO_LIST_ID'])
+          sender_email  = os.environ['BREVO_SENDER_EMAIL']
+          sender_name   = os.environ['BREVO_SENDER_NAME']
+          new_posts     = json.loads(os.environ['NEW_POSTS'])
+          base_url      = 'https://up2cloud.tech'
+
+          if not new_posts:
+              print('No new posts – skipping send')
+              sys.exit(0)
+
+          # Build HTML email body
+          posts_html = ''
+          for p in new_posts:
+              url       = f"{base_url}/blog/{p['slug']}/"
+              date_fmt  = p.get('date', '')
+              cat       = p.get('category', '')
+              excerpt   = p.get('excerpt', '')
+              title     = p.get('title', '')
+              posts_html += f'''
+              <tr>
+                <td style="padding:0 0 32px">
+                  <p style="margin:0 0 6px;font-size:12px;color:#64748B;text-transform:uppercase;letter-spacing:.06em">{cat} &middot; {date_fmt}</p>
+                  <h2 style="margin:0 0 10px;font-size:20px;font-weight:700;color:#0F172A;line-height:1.3">{title}</h2>
+                  <p style="margin:0 0 14px;font-size:15px;color:#475569;line-height:1.6">{excerpt}</p>
+                  <a href="{url}" style="display:inline-block;background:#0369A1;color:#fff;text-decoration:none;font-size:14px;font-weight:600;padding:10px 22px;border-radius:8px">Read article &rarr;</a>
+                </td>
+              </tr>'''
+
+          html_body = f'''<!DOCTYPE html>
+          <html><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1"></head>
+          <body style="margin:0;padding:0;background:#F8FAFC;font-family:system-ui,-apple-system,sans-serif">
+          <table width="100%" cellpadding="0" cellspacing="0"><tr><td align="center" style="padding:40px 16px">
+          <table width="600" cellpadding="0" cellspacing="0" style="max-width:600px;width:100%">
+            <tr><td style="background:linear-gradient(135deg,#0F172A,#0369A1);border-radius:16px 16px 0 0;padding:32px 40px">
+              <span style="font-size:22px;font-weight:800;color:#fff">UP<span style="color:#F97316">2</span><span style="color:#38BDF8">CLOUD</span></span>
+              <p style="margin:8px 0 0;color:rgba(255,255,255,.65);font-size:13px">Cloud Engineering &middot; FinOps &middot; DevSecOps &middot; AI</p>
+            </td></tr>
+            <tr><td style="background:#fff;padding:40px;border-left:1px solid #E2E8F0;border-right:1px solid #E2E8F0">
+              <p style="margin:0 0 28px;font-size:16px;color:#334155">New {'article' if len(new_posts)==1 else 'articles'} just published on the UP2CLOUD blog:</p>
+              <table width="100%" cellpadding="0" cellspacing="0"><tbody>{posts_html}</tbody></table>
+              <hr style="border:none;border-top:1px solid #E2E8F0;margin:8px 0 24px">
+              <p style="margin:0;font-size:13px;color:#94A3B8">Want a free cloud cost audit? <a href="{base_url}/#contact" style="color:#0369A1">Book 45 minutes &rarr;</a></p>
+            </td></tr>
+            <tr><td style="background:#F1F5F9;border-radius:0 0 16px 16px;padding:20px 40px;border:1px solid #E2E8F0;border-top:none">
+              <p style="margin:0;font-size:12px;color:#94A3B8;line-height:1.6">
+                You received this because you subscribed at <a href="{base_url}" style="color:#64748B">{base_url}</a>.<br>
+                <a href="{{{{ unsubscribe }}}}" style="color:#64748B">Unsubscribe</a>
+              </p>
+            </td></tr>
+          </table>
+          </td></tr></table>
+          </body></html>'''
+
+          subject = f"New on UP2CLOUD: {new_posts[0]['title']}" if len(new_posts) == 1 \
+                    else f"{len(new_posts)} new articles on UP2CLOUD Blog"
+
+          payload = {
+              'sender': {'name': sender_name, 'email': sender_email},
+              'subject': subject,
+              'htmlContent': html_body,
+              'listIds': [list_id],
+          }
+
+          req = urllib.request.Request(
+              'https://api.brevo.com/v3/emailCampaigns',
+              data=json.dumps(payload).encode(),
+              headers={
+                  'api-key': api_key,
+                  'Content-Type': 'application/json',
+                  'Accept': 'application/json',
+              },
+              method='POST',
+          )
+
+          try:
+              with urllib.request.urlopen(req) as resp:
+                  body = json.loads(resp.read())
+                  campaign_id = body.get('id')
+                  print(f'Campaign created: id={campaign_id}')
+
+              # Send the campaign immediately
+              send_req = urllib.request.Request(
+                  f'https://api.brevo.com/v3/emailCampaigns/{campaign_id}/sendNow',
+                  data=b'{}',
+                  headers={
+                      'api-key': api_key,
+                      'Content-Type': 'application/json',
+                  },
+                  method='POST',
+              )
+              with urllib.request.urlopen(send_req):
+                  print(f'Campaign {campaign_id} sent successfully')
+
+          except urllib.error.HTTPError as e:
+              err = e.read().decode()
+              print(f'Brevo API error {e.code}: {err}', file=sys.stderr)
+              sys.exit(1)
+          PY

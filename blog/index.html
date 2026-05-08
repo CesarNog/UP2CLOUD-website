@@ -286,6 +286,37 @@
   </div>
 </section>
 
+<!-- NEWSLETTER SUBSCRIBE SECTION -->
+<section style="background:linear-gradient(135deg,rgba(3,105,161,.12),rgba(124,58,237,.1));border-top:1px solid rgba(14,165,233,.12);border-bottom:1px solid rgba(14,165,233,.12)" class="py-16">
+  <div class="max-w-2xl mx-auto px-6 text-center reveal">
+    <div class="inline-flex items-center justify-center w-12 h-12 rounded-xl mb-5" style="background:linear-gradient(135deg,#0369A1,#0EA5E9)">
+      <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" aria-hidden="true"><path d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" stroke-linecap="round" stroke-linejoin="round"/></svg>
+    </div>
+    <h2 class="font-heading font-bold text-3xl text-white mb-3">Get new articles in your inbox</h2>
+    <p class="text-white/55 mb-8 leading-relaxed">
+      Weekly cloud engineering insights — FinOps, DevSecOps, Kubernetes, AI automation. No spam, unsubscribe anytime.
+    </p>
+    <form id="blog-nl-form" novalidate class="flex flex-col items-center gap-3 max-w-md mx-auto">
+      <!-- Honeypot -->
+      <input type="text" name="website" tabindex="-1" autocomplete="off" aria-hidden="true"
+        style="position:absolute;left:-9999px;opacity:0;height:0;width:0">
+      <div class="flex w-full gap-3 flex-wrap sm:flex-nowrap">
+        <input id="blog-nl-email" type="email" placeholder="your@email.com" required autocomplete="email"
+          aria-label="Email address"
+          class="flex-1 min-w-0 rounded-xl px-4 py-3 text-sm text-white outline-none transition-all"
+          style="background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.15);font-family:'DM Sans',sans-serif">
+        <button id="blog-nl-btn" type="submit"
+          class="font-heading font-semibold text-white text-sm px-6 py-3 rounded-xl whitespace-nowrap transition-all hover:opacity-90"
+          style="background:linear-gradient(135deg,#0369A1,#0EA5E9);border:none;cursor:pointer">
+          Subscribe
+        </button>
+      </div>
+      <p id="blog-nl-status" role="status" aria-live="assertive" class="text-sm min-h-[1.2em]"></p>
+      <p class="text-white/30 text-xs">By subscribing you agree to receive UP2CLOUD updates. No spam. <a href="/privacy" class="hover:text-white/60 transition-colors">Privacy policy</a>.</p>
+    </form>
+  </div>
+</section>
+
 <!-- FOOTER -->
 <footer style="background:#020617;border-top:1px solid rgba(255,255,255,.07)" class="py-12 mt-16">
   <div class="max-w-6xl mx-auto px-6 flex flex-col sm:flex-row justify-between items-center gap-6 text-sm text-white/40">
@@ -370,6 +401,79 @@
   window.toggleBlogLang = toggleBlogLang;
   const saved = localStorage.getItem('up2cloud-lang') || 'en';
   loadLang('en').then(() => setBlogLang(saved));
+})();
+</script>
+<script>
+/* Blog index newsletter form */
+(function(){
+  const IS_PRIMARY = location.hostname === 'up2cloud.tech' ||
+    location.hostname === 'up2cloud-tech.pages.dev' ||
+    location.hostname === 'localhost' || location.hostname === '127.0.0.1';
+
+  const form     = document.getElementById('blog-nl-form');
+  const emailEl  = document.getElementById('blog-nl-email');
+  const statusEl = document.getElementById('blog-nl-status');
+  const btn      = document.getElementById('blog-nl-btn');
+  if (!form) return;
+
+  // Restore already-subscribed state
+  if (localStorage.getItem('up2cloud-newsletter') === 'subscribed') {
+    statusEl.textContent = '✓ You\'re already subscribed!';
+    statusEl.style.color = '#4ADE80';
+  }
+
+  emailEl.addEventListener('focus', function(){
+    this.style.borderColor='rgba(14,165,233,.6)';
+    this.style.boxShadow='0 0 0 3px rgba(14,165,233,.12)';
+  });
+  emailEl.addEventListener('blur', function(){
+    this.style.borderColor='rgba(255,255,255,.15)';
+    this.style.boxShadow='';
+  });
+
+  form.addEventListener('submit', async function(e){
+    e.preventDefault();
+    const email    = emailEl.value.trim();
+    const honeypot = this.querySelector('[name="website"]').value;
+    if (honeypot) return;
+
+    if (!IS_PRIMARY) {
+      statusEl.textContent = 'Subscription unavailable on this mirror. Visit up2cloud.tech.';
+      statusEl.style.color = '#FB923C';
+      return;
+    }
+
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+      statusEl.textContent = 'Please enter a valid email address.';
+      statusEl.style.color = '#F87171';
+      return;
+    }
+
+    btn.disabled = true;
+    btn.textContent = 'Subscribing…';
+    statusEl.textContent = '';
+
+    try {
+      const r = await fetch('/api/newsletter', {
+        method: 'POST',
+        headers: {'Content-Type':'application/json'},
+        body: JSON.stringify({email: email.toLowerCase()}),
+      });
+      const d = await r.json();
+      if (!r.ok) throw new Error(d.error || 'Subscription failed');
+      localStorage.setItem('up2cloud-newsletter', 'subscribed');
+      statusEl.textContent = d.alreadySubscribed
+        ? '✓ You\'re already subscribed!'
+        : '✓ Subscribed! New articles will land in your inbox.';
+      statusEl.style.color = '#4ADE80';
+      btn.textContent = 'Subscribed ✓';
+    } catch(err) {
+      statusEl.textContent = err.message || 'Something went wrong. Please try again.';
+      statusEl.style.color = '#F87171';
+      btn.disabled = false;
+      btn.textContent = 'Subscribe';
+    }
+  });
 })();
 </script>
 </body>
