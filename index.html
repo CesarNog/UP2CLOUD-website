@@ -3112,11 +3112,17 @@ TONE: Be helpful, concise, and professional. Keep answers to 2-4 sentences unles
     // Honeypot
     if (honeypot) { hide(); return; }
 
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-      statusEl.textContent = 'Please enter a valid email address.';
+    var emailRx = /^[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}$/;
+    if (!email || !emailRx.test(email)) {
+      statusEl.textContent = 'Please enter a valid email address (e.g. you@company.com).';
       statusEl.style.color = '#F87171';
+      emailInput.style.borderColor = 'rgba(248,113,113,.6)';
+      emailInput.style.boxShadow   = '0 0 0 3px rgba(248,113,113,.12)';
+      emailInput.focus();
       return;
     }
+    emailInput.style.borderColor = 'rgba(255,255,255,.15)';
+    emailInput.style.boxShadow   = '';
 
     btn.disabled = true;
     btn.textContent = 'Subscribing…';
