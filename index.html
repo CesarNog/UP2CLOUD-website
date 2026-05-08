@@ -51,11 +51,8 @@
   <script>
     const FORMSPREE_ENDPOINT = 'https://formspree.io/f/REPLACE_WITH_YOUR_ID';
 
-    // ── Groq AI Chatbot ──────────────────────────────────────────────────────
-    // Free tier: 14,400 req/day · Get your key at https://console.groq.com
-    // Injected at build time by GitHub Actions from repository secret GROQ_API_KEY
-    const GROQ_API_KEY = 'REPLACE_WITH_GROQ_KEY';
-    // ────────────────────────────────────────────────────────────────────────
+    // ── Groq AI Chatbot — proxied via /api/chat (key is server-side only) ───
+    const GROQ_API_KEY = 'proxied';
   </script>
   <!-- All custom CSS is now compiled into assets/css/tailwind.min.css via src/input.css -->
   <style>
@@ -2173,22 +2170,12 @@ TONE: Be helpful, concise, and professional. Keep answers to 2-4 sentences unles
     showTyping();
 
     // Check if key is configured
-    if (!GROQ_API_KEY || GROQ_API_KEY.startsWith('REPLACE_WITH')) {
-      hideTyping();
-      setInputState(false);
-      appendMsg('Hi! Ask me anything about UP2CLOUD services, cloud costs, AI automation, or offshore teams. I\'ll connect you with Cesar if needed — <a href="mailto:hello@up2cloud.io" style="color:#0369A1">hello@up2cloud.io</a>', 'bot');
-      return;
-    }
-
     try {
       // Race fetch against a min-delay so the typing indicator shows for at least 0.8–1.5 s
       const minDelay = new Promise(r => setTimeout(r, 800 + Math.random() * 700));
-      const res = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+      const res = await fetch('/api/chat', {
         method: 'POST',
-        headers: {
-          'Authorization': `Bearer ${GROQ_API_KEY}`,
-          'Content-Type': 'application/json'
-        },
+        headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           model: 'llama-3.1-8b-instant',
           messages: [
@@ -2665,7 +2652,7 @@ TONE: Be helpful, concise, and professional. Keep answers to 2-4 sentences unles
     const badge  = document.getElementById('tf-ai-badge');
     if (!term || !tabBar) return;
 
-    const HAS_KEY = GROQ_API_KEY && !GROQ_API_KEY.startsWith('REPLACE_WITH');
+    const HAS_KEY = true;
     if (badge) {
       badge.textContent = HAS_KEY ? '● AI Live' : '● Demo mode';
       badge.style.color  = HAS_KEY ? '#4ADE80' : 'rgba(255,255,255,.25)';
@@ -2811,10 +2798,10 @@ TONE: Be helpful, concise, and professional. Keep answers to 2-4 sentences unles
 
       if (HAS_KEY) {
         try {
-          const resp = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+          const resp = await fetch('/api/chat', {
             method: 'POST',
             signal: abort.signal,
-            headers: { 'Authorization': `Bearer ${GROQ_API_KEY}`, 'Content-Type': 'application/json' },
+            headers: { 'Content-Type': 'application/json' },
             body: JSON.stringify({
               model: 'llama-3.1-8b-instant',
               messages: [
