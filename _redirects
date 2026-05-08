@@ -1,0 +1,5 @@
+# www → apex
+https://www.up2cloud.tech/* https://up2cloud.tech/:splat 301
+
+# 404 fallback
+/* /404.html 404
