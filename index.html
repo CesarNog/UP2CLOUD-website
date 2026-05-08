@@ -1710,13 +1710,15 @@
   </div>
 
   <!-- Map — full width below the contact grid -->
-  <div class="mt-10 reveal" style="transition-delay:.2s">
-    <p class="font-heading font-600 text-sm text-navy uppercase tracking-wider mb-3 flex items-center gap-2">
-      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#0369A1" stroke-width="2" aria-hidden="true"><path d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
-      Our Location
-    </p>
-    <div id="contact-map" class="rounded-2xl overflow-hidden border border-slate-200" style="height:280px;box-shadow:0 4px 20px rgba(3,105,161,.12)"></div>
-    <p class="text-xs text-slate-400 mt-2 text-center">🇵🇹 Vila Real &nbsp;·&nbsp; 🇧🇷 São Paulo &nbsp;·&nbsp; 🇪🇸 Madrid (soon) &nbsp;·&nbsp; Remote Worldwide</p>
+  <div class="mt-14 reveal" style="transition-delay:.2s">
+    <div class="max-w-7xl mx-auto px-6 mb-4 flex items-center justify-between flex-wrap gap-3">
+      <p class="font-heading font-600 text-sm text-navy uppercase tracking-wider flex items-center gap-2">
+        <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="#0369A1" stroke-width="2" aria-hidden="true"><path d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+        Our Locations
+      </p>
+      <p class="text-xs text-slate-400">🇵🇹 Vila Real &nbsp;·&nbsp; 🇧🇷 São Paulo &nbsp;·&nbsp; 🇪🇸 Madrid (soon) &nbsp;·&nbsp; Remote Worldwide</p>
+    </div>
+    <div id="contact-map" style="height:420px;box-shadow:0 -2px 24px rgba(3,105,161,.08),0 8px 32px rgba(3,105,161,.1);border-top:1px solid #E2E8F0;border-bottom:1px solid #E2E8F0;"></div>
   </div>
 </section>
 
@@ -1836,9 +1838,9 @@
   @keyframes floatShape { 0%,100%{transform:translateY(0) rotate(0deg)} 50%{transform:translateY(-20px) rotate(8deg)} }
 
   /* Chatbot */
-  #chatbot-btn { position: fixed; bottom: 1.5rem; right: 1.5rem; z-index: 100; width: 60px; height: 60px; border-radius: 50%; background: radial-gradient(circle at 30% 25%,#38BDF8,#0369A1 55%,#7C3AED); color: #fff; border: 1px solid rgba(255,255,255,.2); cursor: pointer; box-shadow: 0 10px 28px rgba(3,105,161,.45),0 0 0 8px rgba(14,165,233,.08); display: flex; align-items: center; justify-content: center; transition: transform .2s, box-shadow .2s; }
+  #chatbot-btn { position: fixed; bottom: 1.5rem; right: 1.5rem; z-index: 10001; width: 60px; height: 60px; border-radius: 50%; background: radial-gradient(circle at 30% 25%,#38BDF8,#0369A1 55%,#7C3AED); color: #fff; border: 1px solid rgba(255,255,255,.2); cursor: pointer; box-shadow: 0 10px 28px rgba(3,105,161,.45),0 0 0 8px rgba(14,165,233,.08); display: flex; align-items: center; justify-content: center; transition: transform .2s, box-shadow .2s; }
   #chatbot-btn:hover { transform: scale(1.1); box-shadow: 0 12px 32px rgba(3,105,161,.5); }
-  #chatbot-panel { position: fixed; bottom: 5.5rem; right: 1.5rem; z-index: 100; width: 360px; max-width: calc(100vw - 3rem); background: #fff; border-radius: 20px; box-shadow: 0 24px 60px rgba(0,0,0,.18); border: 1px solid #E2E8F0; overflow: hidden; display: none; flex-direction: column; max-height: 520px; }
+  #chatbot-panel { position: fixed; bottom: 5.5rem; right: 1.5rem; z-index: 10001; width: 360px; max-width: calc(100vw - 3rem); background: #fff; border-radius: 20px; box-shadow: 0 24px 60px rgba(0,0,0,.18); border: 1px solid #E2E8F0; overflow: hidden; display: none; flex-direction: column; max-height: 520px; }
   #chatbot-panel.open { display: flex; animation: chatOpen .25s ease; }
   @keyframes chatOpen { from{opacity:0;transform:scale(.9) translateY(20px)}to{opacity:1;transform:scale(1) translateY(0)} }
   #chat-messages { flex: 1; overflow-y: auto; padding: 1.25rem; display: flex; flex-direction: column; gap: .75rem; scroll-behavior: smooth; }

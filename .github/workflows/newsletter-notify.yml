@@ -58,9 +58,16 @@ jobs:
           python3 - <<'PY'
           import json, os, urllib.request, urllib.error, sys
 
-          api_key       = os.environ['BREVO_API_KEY']
-          list_id       = int(os.environ['BREVO_LIST_ID'])
-          sender_email  = os.environ['BREVO_SENDER_EMAIL']
+          api_key       = os.environ.get('BREVO_API_KEY', '').strip()
+          list_id_raw   = os.environ.get('BREVO_LIST_ID', '').strip()
+          sender_email  = os.environ.get('BREVO_SENDER_EMAIL', '').strip()
+
+          missing = [k for k, v in [('BREVO_API_KEY', api_key), ('BREVO_LIST_ID', list_id_raw), ('BREVO_SENDER_EMAIL', sender_email)] if not v]
+          if missing:
+              print(f'ERROR: missing GitHub secrets: {", ".join(missing)}', file=sys.stderr)
+              sys.exit(1)
+
+          list_id = int(list_id_raw)
           sender_name   = os.environ['BREVO_SENDER_NAME']
           new_posts     = json.loads(os.environ['NEW_POSTS'])
           base_url      = 'https://up2cloud.tech'
