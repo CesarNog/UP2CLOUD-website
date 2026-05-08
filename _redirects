@@ -1,5 +1,17 @@
 # www → apex
 https://www.up2cloud.tech/* https://up2cloud.tech/:splat 301
 
+# Block sensitive files
+/package.json /404.html 404
+/package-lock.json /404.html 404
+/build.sh /404.html 404
+/serve.js /404.html 404
+/serve.py /404.html 404
+/tailwind.config.js /404.html 404
+/.env* /404.html 404
+/src/* /404.html 404
+/scripts/* /404.html 404
+/node_modules/* /404.html 404
+
 # 404 fallback
 /* /404.html 404
