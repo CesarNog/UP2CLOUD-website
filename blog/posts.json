@@ -1,5 +1,14 @@
 [
   {
+    "slug": "cloud-cost-anomaly-detection-ai",
+    "title": "How AI Anomaly Detection Catches Cloud Cost Spikes Before They Hurt",
+    "excerpt": "Most cloud bills spike silently for days before anyone notices. Here's how AI-powered anomaly detection catches cost explosions in minutes — not weeks — and the architecture we use at UP2CLOUD to do it.",
+    "date": "2026-05-08",
+    "category": "FinOps",
+    "badgeClass": "badge-green",
+    "featured": false
+  },
+  {
     "slug": "finops-cloud-cost-reduction",
     "title": "FinOps in Practice: How We Reduced Cloud Costs by 42% for a Global Retailer",
     "excerpt": "How UP2CLOUD's FinOps audit methodology — tagging strategy, rightsizing, reserved instances, and spot fleets — delivered $4,200/month in cloud savings for a global retailer.",
