@@ -3,9 +3,9 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>About Cesar A. Nogueira | UP2CLOUD Cloud & DevOps Expert</title>
-  <meta name="description" content="Learn about Cesar A. Nogueira, Cloud & DevOps expert and founder of UP2CLOUD. 10+ years experience in GCP, AWS, Azure, and cloud cost optimization." />
-  <meta property="og:title" content="About Cesar A. Nogueira | UP2CLOUD" />
+  <title>About Cesar Nogueira | UP2CLOUD Founder & Cloud Consultant</title>
+  <meta name="description" content="Meet Cesar Nogueira, founder of UP2CLOUD. Helping engineering teams design secure, automated, and cost-efficient cloud platforms across AWS, Azure, and GCP." />
+  <meta property="og:title" content="About Cesar Nogueira | UP2CLOUD" />
   <meta property="og:type" content="profile" />
   <meta property="og:url" content="https://up2cloud.tech/about/" />
   <link rel="canonical" href="https://up2cloud.tech/about/" />
@@ -15,18 +15,19 @@
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet" />
   <script src="https://cdn.tailwindcss.com"></script>
 
-  <!-- Structured Data (Schema.org) -->
+  <!-- Structured Data -->
   <script type="application/ld+json">
   {
     "@context": "https://schema.org",
     "@type": "Person",
     "name": "Cesar A. Nogueira",
-    "jobTitle": "Senior Cloud DevOps & FinOps Consultant",
+    "jobTitle": "Founder & Lead Cloud Consultant",
+    "description": "Helping companies build secure, automated, and cost-efficient cloud platforms.",
     "url": "https://up2cloud.tech/about/",
     "image": "https://up2cloud.tech/assets/img/cesar.webp",
     "sameAs": [
       "https://www.linkedin.com/in/cesarnog/",
-      "https://github.com/UP2CLOUD"
+      "https://github.com/CesarNog"
     ],
     "worksFor": {
       "@type": "Organization",
@@ -34,611 +35,106 @@
     }
   }
   </script>
-  <script>
-    tailwind.config = {
-      theme: { extend: {
-        fontFamily: { heading: ['Space Grotesk','sans-serif'], body: ['DM Sans','sans-serif'] },
-        colors: {
-          navy:  { DEFAULT:'#0F172A', 700:'#1E293B' },
-          sky:   { brand:'#0369A1', light:'#0EA5E9' },
-        }
-      }}
-    };
-  </script>
   <style>
-    *,*::before,*::after { box-sizing:border-box }
-    html { scroll-behavior:smooth; overscroll-behavior:none }
-    body { font-family:'DM Sans',sans-serif; background:#0F172A; color:#fff; margin:0 }
-    h1,h2,h3,h4 { font-family:'Space Grotesk',sans-serif }
-    .hero-bg { background:radial-gradient(circle at 15% 20%,rgba(14,165,233,.22),transparent 30%),radial-gradient(circle at 85% 10%,rgba(124,58,237,.2),transparent 28%),linear-gradient(135deg,#020617 0%,#0F172A 40%,#0C4A6E 75%,#0369A1 100%) }
-    .glass { background:rgba(255,255,255,.07); backdrop-filter:blur(14px); border:1px solid rgba(255,255,255,.12) }
-    .gradient-text { background:linear-gradient(90deg,#0EA5E9,#38BDF8,#7DD3FC); -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text }
-    .timeline-line { border-left:2px solid rgba(14,165,233,.25); padding-left:1.5rem; margin-left:.75rem }
-    .timeline-dot { width:14px; height:14px; border-radius:50%; background:linear-gradient(135deg,#0369A1,#0EA5E9); margin-left:-1.65rem; margin-top:.35rem; flex-shrink:0; box-shadow:0 0 0 3px rgba(14,165,233,.15) }
-    .reveal { opacity:0; transform:translateY(24px); transition:opacity .6s ease,transform .6s ease }
+    body { background:#0F172A; color:#fff; font-family:'DM Sans',sans-serif }
+    h1,h2,h3 { font-family:'Space Grotesk',sans-serif }
+    .glass { background:rgba(255,255,255,.05); backdrop-filter:blur(12px); border:1px solid rgba(255,255,255,.1) }
+    .gradient-text { background:linear-gradient(90deg,#0EA5E9,#38BDF8); -webkit-background-clip:text; -webkit-text-fill-color:transparent }
+    .reveal { opacity:0; transform:translateY(20px); transition:opacity .5s,transform .5s }
     .reveal.visible { opacity:1; transform:none }
-    .stat-card { background:rgba(255,255,255,.05); border:1px solid rgba(14,165,233,.18); border-radius:16px; padding:1.5rem; text-align:center }
-    .badge { background:rgba(3,105,161,.15); color:#38BDF8; font-size:.72rem; font-weight:600; padding:.25rem .75rem; border-radius:999px; letter-spacing:.05em; text-transform:uppercase }
-    .cert-chip { background:rgba(255,255,255,.06); border:1px solid rgba(255,255,255,.1); border-radius:10px; padding:.6rem 1rem; display:flex; align-items:center; gap:.6rem; font-size:.8rem }
-    @keyframes float { 0%,100%{transform:translateY(0)}50%{transform:translateY(-10px)} }
-    .float-anim { animation:float 6s ease-in-out infinite }
-    @keyframes shimmer { 0%{background-position:200% 0}100%{background-position:-200% 0} }
-    .shimmer-text { background:linear-gradient(90deg,#fff 0%,#0EA5E9 30%,#7C3AED 60%,#fff 100%); background-size:200% auto; -webkit-background-clip:text; -webkit-text-fill-color:transparent; background-clip:text; animation:shimmer 5s linear infinite }
-    .photo-ring { box-shadow:0 0 0 3px #0EA5E9, 0 0 0 6px rgba(14,165,233,.2), 0 16px 40px rgba(3,105,161,.4) }
-    @media(prefers-reduced-motion:reduce){.float-anim,.reveal,.shimmer-text{animation:none;transition:none}}
   </style>
 </head>
 <body>
 
-<!-- ── NAV ── -->
-<nav class="fixed top-0 left-0 right-0 z-50 transition-all duration-300" style="background:rgba(15,23,42,.92);backdrop-filter:blur(12px);border-bottom:1px solid rgba(255,255,255,.07)">
+<nav class="fixed top-0 left-0 right-0 z-50 bg-slate-950/80 backdrop-blur-md border-b border-white/10">
   <div class="max-w-7xl mx-auto px-6 py-4 flex items-center justify-between">
-    <a href="/" class="flex items-center gap-3 focus-visible:outline-2 focus-visible:outline-white rounded" aria-label="UP2CLOUD Home">
-      <div class="w-9 h-9 rounded-lg flex items-center justify-center" style="background:linear-gradient(135deg,#0369A1,#0EA5E9)">
-        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z" stroke="white" stroke-width="2" stroke-linejoin="round"/></svg>
+    <a href="/" class="flex items-center gap-3 font-heading font-700 text-xl tracking-tight">
+      <div class="w-8 h-8 rounded-lg flex items-center justify-center bg-sky-600">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2"><path d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z"/></svg>
       </div>
-      <span class="font-heading font-700 text-xl text-white tracking-tight">UP<span style="color:#F97316">2</span><span style="color:#0EA5E9">CLOUD</span></span>
+      UP2CLOUD
     </a>
-    <div class="flex items-center gap-4">
-      <div class="relative" id="about-lang-picker">
-        <button id="about-lang-btn" onclick="toggleAboutLang(event)" class="flex items-center gap-1.5 text-white/60 hover:text-white text-xs font-medium border border-white/20 rounded-lg px-2.5 py-1.5 transition-colors hover:border-white/40 cursor-pointer" aria-haspopup="true" aria-expanded="false">
-          <span id="about-lang-flag" class="text-sm leading-none">🇺🇸</span>
-          <span id="about-lang-code" class="font-semibold tracking-wide">EN</span>
-          <svg width="8" height="8" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" aria-hidden="true"><path d="M6 9l6 6 6-6" stroke-linecap="round" stroke-linejoin="round"/></svg>
-        </button>
-        <div id="about-lang-menu" class="hidden absolute right-0 top-full mt-2 rounded-xl overflow-hidden shadow-2xl border border-white/10 z-50 min-w-[140px]" style="background:rgba(15,23,42,.97);backdrop-filter:blur(16px)">
-          <button onclick="setAboutLang('en')" data-lang="en" class="about-lang-opt w-full flex items-center gap-2 px-3 py-2 text-white/80 hover:text-white hover:bg-white/10 transition-colors text-xs text-left"><span>🇺🇸</span><span>English</span></button>
-          <button onclick="setAboutLang('pt')" data-lang="pt" class="about-lang-opt w-full flex items-center gap-2 px-3 py-2 text-white/80 hover:text-white hover:bg-white/10 transition-colors text-xs text-left"><span>🇧🇷</span><span>Português</span></button>
-          <button onclick="setAboutLang('es')" data-lang="es" class="about-lang-opt w-full flex items-center gap-2 px-3 py-2 text-white/80 hover:text-white hover:bg-white/10 transition-colors text-xs text-left"><span>🇪🇸</span><span>Español</span></button>
-          <button onclick="setAboutLang('fr')" data-lang="fr" class="about-lang-opt w-full flex items-center gap-2 px-3 py-2 text-white/80 hover:text-white hover:bg-white/10 transition-colors text-xs text-left"><span>🇫🇷</span><span>Français</span></button>
-        </div>
-      </div>
-      <a href="/" class="text-white/70 hover:text-white text-sm transition-colors" data-i18n="about_back">← Back to site</a>
-      <a href="#contact" class="text-xs font-semibold text-white px-4 py-2 rounded-lg transition-all hover:opacity-90" style="background:linear-gradient(135deg,#0369A1,#0EA5E9)" data-i18n="about_cta_nav">Get a Free Audit</a>
+    <div class="flex items-center gap-6">
+      <a href="/" class="text-white/70 hover:text-white text-sm">Home</a>
+      <a href="/#contact" class="text-sm font-semibold bg-sky-600 text-white px-5 py-2.5 rounded-lg hover:bg-sky-700 transition">Get a Free Audit</a>
     </div>
   </div>
 </nav>
 
-<!-- ── HERO ── -->
-<section class="hero-bg min-h-[100svh] flex items-center pt-20 pb-16 relative overflow-hidden">
-  <!-- Background orbs -->
-  <div class="absolute w-96 h-96 rounded-full opacity-20 pointer-events-none" style="background:radial-gradient(circle,#0EA5E9,transparent);top:-5%;right:-5%;filter:blur(60px)"></div>
-  <div class="absolute w-72 h-72 rounded-full opacity-15 pointer-events-none" style="background:radial-gradient(circle,#7C3AED,transparent);bottom:5%;left:5%;filter:blur(50px)"></div>
-
-  <div class="max-w-6xl mx-auto px-6 grid lg:grid-cols-2 gap-8 lg:gap-16 items-center w-full">
-
-    <!-- Left: Text -->
-    <div>
-      <span class="badge mb-5 inline-block" data-i18n="about_badge">Founder & Lead Consultant</span>
-      <h1 class="font-heading font-700 text-5xl sm:text-6xl leading-tight mb-4">
-        <span class="shimmer-text">Cesar A.<br/>Nogueira</span>
-      </h1>
-      <p class="text-sky-light font-semibold text-lg mb-6">Platform Engineer · DevOps & FinOps</p>
-      <p class="text-white/65 text-lg leading-relaxed mb-8 max-w-lg">
-        10+ years building and scaling cloud infrastructure across three continents — from automotive 3D configurators at ZeroLight to enterprise FinOps platforms for H&M, SAP, Revelo, and Epic Games.
-      </p>
-
-      <!-- Badges -->
-      <div class="flex flex-wrap gap-3 mb-10">
-        <span class="cert-chip"><span class="text-sky-light font-semibold">🇵🇹</span> Vila Real, Portugal</span>
-        <span class="cert-chip"><span class="text-green-400 font-semibold">🇧🇷</span> São Paulo, Brasil</span>
-        <span class="cert-chip"><span class="text-orange-400 font-semibold">🌍</span> Remote Worldwide</span>
+<main class="pt-32 pb-20">
+  <!-- Hero Section -->
+  <section class="max-w-6xl mx-auto px-6 mb-24">
+    <div class="grid lg:grid-cols-2 gap-12 items-center">
+      <div class="reveal">
+        <span class="text-sky-400 text-sm font-semibold uppercase tracking-widest block mb-4">Founder & Lead Consultant</span>
+        <h1 class="text-5xl lg:text-6xl font-heading font-700 leading-tight mb-6">Cesar Nogueira</h1>
+        <p class="text-xl text-white/70 mb-8 leading-relaxed">
+          Helping companies build secure, automated, and cost-efficient cloud platforms across <strong>AWS, Azure, and Google Cloud</strong>. UP2CLOUD combines platform engineering, DevOps automation, and FinOps to turn infrastructure into a scalable business capability.
+        </p>
+        <div class="flex flex-wrap gap-4 mb-8">
+          <div class="glass px-4 py-2 rounded-lg text-sm">10+ Years Cloud Exp</div>
+          <div class="glass px-4 py-2 rounded-lg text-sm">Multi-Cloud Certified</div>
+          <div class="glass px-4 py-2 rounded-lg text-sm">FinOps Specialist</div>
+        </div>
+        <div class="flex gap-4">
+           <a href="https://www.linkedin.com/in/cesarnog/" class="text-white/60 hover:text-white"><svg width="24" height="24" fill="currentColor" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg></a>
+           <a href="https://github.com/CesarNog/" class="text-white/60 hover:text-white"><svg width="24" height="24" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0112 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/></svg></a>
+        </div>
       </div>
-
-      <!-- Social links -->
-      <div class="flex flex-wrap gap-3">
-        <a href="https://www.linkedin.com/in/cesarnog/" target="_blank" rel="noopener noreferrer"
-           class="flex items-center gap-2 text-sm font-medium text-white/80 hover:text-white px-4 py-2.5 rounded-xl transition-all glass">
-          <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/></svg>
-          LinkedIn
-        </a>
-        <a href="https://cesarnogueira.tech" target="_blank" rel="noopener noreferrer"
-           class="flex items-center gap-2 text-sm font-medium text-white/80 hover:text-white px-4 py-2.5 rounded-xl transition-all glass">
-          <svg width="16" height="16" fill="none" stroke="currentColor" stroke-width="2" viewBox="0 0 24 24"><circle cx="12" cy="12" r="10"/><path d="M2 12h20M12 2a15.3 15.3 0 010 20M12 2a15.3 15.3 0 000 20"/></svg>
-          cesarnogueira.tech
-        </a>
-        <a href="https://github.com/UP2CLOUD" target="_blank" rel="noopener noreferrer"
-           class="flex items-center gap-2 text-sm font-medium text-white/80 hover:text-white px-4 py-2.5 rounded-xl transition-all glass">
-          <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0112 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/></svg>
-          GitHub
-        </a>
-        <a href="https://www.instagram.com/up2cloud.tech/" target="_blank" rel="noopener noreferrer"
-           class="flex items-center gap-2 text-sm font-medium text-white/80 hover:text-white px-4 py-2.5 rounded-xl transition-all glass">
-          <svg width="16" height="16" fill="currentColor" viewBox="0 0 24 24"><path d="M12 2.163c3.204 0 3.584.012 4.85.07 3.252.148 4.771 1.691 4.919 4.919.058 1.265.069 1.645.069 4.849 0 3.205-.012 3.584-.069 4.849-.149 3.225-1.664 4.771-4.919 4.919-1.266.058-1.644.07-4.85.07-3.204 0-3.584-.012-4.849-.07-3.26-.149-4.771-1.699-4.919-4.92-.058-1.265-.07-1.644-.07-4.849 0-3.204.013-3.583.07-4.849.149-3.227 1.664-4.771 4.919-4.919 1.266-.057 1.645-.069 4.849-.069zm0-2.163c-3.259 0-3.667.014-4.947.072-4.358.2-6.78 2.618-6.98 6.98C0 6.333 0 6.742 0 10c0 3.259.014 3.668.072 4.948.2 4.358 2.618 6.78 6.98 6.98C8.333 23.986 8.742 24 12 24c3.259 0 3.668-.014 4.948-.072 4.354-.2 6.782-2.618 6.979-6.98.059-1.28.073-1.689.073-4.948 0-3.259-.014-3.667-.072-4.947-.196-4.354-2.617-6.78-6.979-6.98C15.668.014 15.259 0 12 0zm0 5.838a6.162 6.162 0 100 12.324 6.162 6.162 0 000-12.324zM12 16a4 4 0 110-8 4 4 0 010 8zm6.406-11.845a1.44 1.44 0 100 2.881 1.44 1.44 0 000-2.881z"/></svg>
-          Instagram
-        </a>
+      <div class="reveal lg:block hidden">
+        <img src="../assets/img/cesar.webp" alt="Cesar Nogueira" class="rounded-3xl shadow-2xl w-full max-w-sm mx-auto" width="400" height="400" />
       </div>
     </div>
+  </section>
 
-    <!-- Right: Photo -->
-    <div class="flex justify-center">
-      <div class="relative float-anim">
-        <div class="w-72 h-72 sm:w-80 sm:h-80 rounded-3xl overflow-hidden photo-ring">
-          <img src="../assets/img/cesar.webp" alt="Cesar A. Nogueira" width="400" height="400" loading="lazy" class="w-full h-full object-cover" style="object-position:64% 62%;transform:scale(1.35);transform-origin:center"
-               onerror="this.parentElement.innerHTML='<div class=\'w-full h-full flex items-center justify-center text-white font-heading font-700 text-6xl\' style=\'background:linear-gradient(135deg,#0369A1,#0EA5E9)\'>CN</div>'" />
-        </div>
-        <!-- Floating stat bubbles -->
-        <div class="absolute -top-4 -right-4 glass rounded-2xl px-4 py-2 text-center" style="backdrop-filter:blur(12px)">
-          <p class="font-heading font-700 text-sky-light text-xl">10+</p>
-          <p class="text-white/50 text-xs">yrs exp</p>
-        </div>
-        <div class="absolute -bottom-4 -left-4 glass rounded-2xl px-4 py-2 text-center" style="backdrop-filter:blur(12px)">
-          <p class="font-heading font-700 text-green-400 text-xl">−42%</p>
-          <p class="text-white/50 text-xs">avg cloud cost</p>
-        </div>
+  <!-- Services -->
+  <section class="max-w-6xl mx-auto px-6 mb-24">
+    <h2 class="text-3xl font-heading font-700 mb-12">What I Help Solve</h2>
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <div class="glass p-8 rounded-2xl reveal">
+        <h3 class="text-xl font-heading font-700 mb-3 text-sky-400">Platform Modernization</h3>
+        <p class="text-white/60 text-sm leading-relaxed">Designing scalable Internal Developer Platforms (IDP) that reduce cognitive load and accelerate deployment cycles.</p>
+      </div>
+      <div class="glass p-8 rounded-2xl reveal" style="transition-delay:0.1s">
+        <h3 class="text-xl font-heading font-700 mb-3 text-sky-400">Infrastructure Automation</h3>
+        <p class="text-white/60 text-sm leading-relaxed">Automating entire environments with Terraform and GitOps. Stop manual toil and ensure consistent, reproducible infrastructure.</p>
+      </div>
+      <div class="glass p-8 rounded-2xl reveal" style="transition-delay:0.2s">
+        <h3 class="text-xl font-heading font-700 mb-3 text-sky-400">Cloud Cost Optimization</h3>
+        <p class="text-white/60 text-sm leading-relaxed">FinOps-driven analysis to identify waste, rightsize resources, and implement guardrails, typically saving 30-50% on bills.</p>
       </div>
     </div>
+  </section>
 
-  </div>
-</section>
-
-<!-- ── STATS ── -->
-<section class="py-16 bg-slate-950">
-  <div class="max-w-6xl mx-auto px-6">
-    <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-      <div class="stat-card reveal">
-        <p class="font-heading font-700 text-4xl text-sky-light mb-1">15+</p>
-        <p class="text-white/50 text-sm" data-i18n="stats_projects">Successful Projects</p>
-      </div>
-      <div class="stat-card reveal" style="transition-delay:.08s">
-        <p class="font-heading font-700 text-4xl text-orange-400 mb-1">−42%</p>
-        <p class="text-white/50 text-sm" data-i18n="about_stat2_label">Cloud Cost Reduction</p>
-      </div>
-      <div class="stat-card reveal" style="transition-delay:.16s">
-        <p class="font-heading font-700 text-4xl text-purple-300 mb-1">10×</p>
-        <p class="text-white/50 text-sm" data-i18n="about_stat3_label">Faster AI Ops</p>
-      </div>
-      <div class="stat-card reveal" style="transition-delay:.24s">
-        <p class="font-heading font-700 text-4xl text-green-400 mb-1">4</p>
-        <p class="text-white/50 text-sm" data-i18n="about_stat4_label">Cloud Certifications</p>
-      </div>
+  <!-- How I work -->
+  <section class="max-w-6xl mx-auto px-6 mb-24">
+    <h2 class="text-3xl font-heading font-700 mb-12 text-center">How UP2CLOUD Works</h2>
+    <div class="grid md:grid-cols-4 gap-6">
+      <div class="text-center reveal"><div class="text-4xl mb-4">🔍</div><h4 class="font-bold mb-2">Assess</h4><p class="text-xs text-white/50">Maturity audit</p></div>
+      <div class="text-center reveal"><div class="text-4xl mb-4">🏗️</div><h4 class="font-bold mb-2">Design</h4><p class="text-xs text-white/50">Target architecture</p></div>
+      <div class="text-center reveal"><div class="text-4xl mb-4">🚀</div><h4 class="font-bold mb-2">Automate</h4><p class="text-xs text-white/50">IaC & Pipelines</p></div>
+      <div class="text-center reveal"><div class="text-4xl mb-4">📈</div><h4 class="font-bold mb-2">Govern</h4><p class="text-xs text-white/50">Continuous FinOps</p></div>
     </div>
-  </div>
-</section>
+  </section>
 
-<!-- ── UP2CLOUD STORY ── -->
-<section class="py-20 bg-slate-900">
-  <div class="max-w-6xl mx-auto px-6">
-    <div class="text-center mb-16 reveal">
-      <span class="badge mb-4 inline-block" data-i18n="about_story_badge">Our Story</span>
-      <h2 class="font-heading font-700 text-4xl sm:text-5xl mb-5" data-i18n="about_story_title">The UP2CLOUD Story</h2>
-      <p class="text-white/55 text-lg max-w-2xl mx-auto leading-relaxed">
-        Born from years in the trenches of enterprise cloud — UP2CLOUD exists to give every company access to senior-level cloud expertise without the enterprise price tag.
-      </p>
+  <!-- Final CTA -->
+  <section class="max-w-4xl mx-auto px-6 text-center">
+    <div class="glass p-12 rounded-3xl reveal">
+      <h2 class="text-3xl font-heading font-700 mb-6">Need a senior cloud partner?</h2>
+      <p class="text-white/70 mb-10 text-lg max-w-xl mx-auto">From infrastructure roadmaps to cost governance — turn your cloud environment into a competitive advantage.</p>
+      <a href="/#contact" class="inline-block bg-white text-slate-900 font-bold px-8 py-4 rounded-xl hover:bg-white/90 transition">Book a Free Audit</a>
     </div>
-
-    <div class="grid lg:grid-cols-2 gap-12 items-start">
-
-      <!-- Story text -->
-      <div class="space-y-6 reveal">
-        <div class="glass rounded-2xl p-7">
-          <div class="flex items-center gap-3 mb-4">
-            <div class="w-10 h-10 rounded-xl flex items-center justify-center text-lg" style="background:linear-gradient(135deg,#0369A1,#0EA5E9)">🌱</div>
-            <div>
-              <p class="font-heading font-600 text-white">Founded 2016</p>
-              <p class="text-white/40 text-xs">Vila Real, Portugal</p>
-            </div>
-          </div>
-          <p class="text-white/65 text-sm leading-relaxed">
-            UP2CLOUD was founded by Cesar A. Nogueira after years building cloud infrastructure for companies like CI&T, everis (NTT Data), Accenture, and ZeroLight. The core idea was simple: enterprise-grade cloud expertise, delivered as a lean, agile consultancy — without the bureaucracy.
-          </p>
-        </div>
-
-        <div class="glass rounded-2xl p-7">
-          <div class="flex items-center gap-3 mb-4">
-            <div class="w-10 h-10 rounded-xl flex items-center justify-center text-lg" style="background:linear-gradient(135deg,#7C3AED,#A855F7)">🤖</div>
-            <div>
-              <p class="font-heading font-600 text-white">AI-First since 2022</p>
-              <p class="text-white/40 text-xs">Embracing LLMs before the hype</p>
-            </div>
-          </div>
-          <p class="text-white/65 text-sm leading-relaxed">
-            When AI tools became production-ready, UP2CLOUD pivoted to an AI-first delivery model — embedding AI agents into incident response, cost governance, and pipeline automation. Clients saw 10× faster resolution times and 30–50% cloud cost reductions within the first quarter.
-          </p>
-        </div>
-
-        <div class="glass rounded-2xl p-7">
-          <div class="flex items-center gap-3 mb-4">
-            <div class="w-10 h-10 rounded-xl flex items-center justify-center text-lg" style="background:linear-gradient(135deg,#059669,#10B981)">🌍</div>
-            <div>
-              <p class="font-heading font-600 text-white">Going Global</p>
-              <p class="text-white/40 text-xs">3 continents, remote-first</p>
-            </div>
-          </div>
-          <p class="text-white/65 text-sm leading-relaxed">
-            With offices in Portugal and Brazil and Madrid on the horizon, UP2CLOUD now serves clients across Europe, LATAM, and North America. The APAC Offshore Team service was launched in 2024 to give European companies access to senior engineers at a fraction of the local cost.
-          </p>
-        </div>
-      </div>
-
-      <!-- Timeline -->
-      <div class="reveal" style="transition-delay:.1s">
-        <p class="font-heading font-600 text-white/40 text-xs uppercase tracking-widest mb-6" data-i18n="about_exp_heading">Career Timeline</p>
-        <div class="space-y-0">
-
-          <div class="flex gap-4">
-            <div class="flex flex-col items-center">
-              <div class="timeline-dot mt-1"></div>
-              <div class="w-0.5 flex-1 mt-2" style="background:rgba(14,165,233,.2)"></div>
-            </div>
-            <div class="pb-7">
-              <div class="flex flex-wrap items-center gap-2 mb-1">
-                <p class="font-heading font-600 text-white">Platform Engineer · DevOps & FinOps</p>
-                <span class="badge text-xs" style="background:#DCFCE7;color:#166534;font-size:.65rem">Current</span>
-              </div>
-              <p class="text-sky-light text-sm mb-1 font-medium">UP2CLOUD</p>
-              <p class="text-white/35 text-xs mb-2">Feb 2022 – Present · Portugal & Global</p>
-              <p class="text-white/55 text-sm leading-relaxed">International consulting delivering FinOps automation and cloud infrastructure for global clients including H&M, SAP, Revelo, and Epic Games. Clients include Repsol, AgileTV, and Universidad Europea.</p>
-            </div>
-          </div>
-
-          <div class="flex gap-4">
-            <div class="flex flex-col items-center">
-              <div class="timeline-dot mt-1"></div>
-              <div class="w-0.5 flex-1 mt-2" style="background:rgba(14,165,233,.2)"></div>
-            </div>
-            <div class="pb-7">
-              <p class="font-heading font-600 text-white mb-1">DevOps Engineer</p>
-              <p class="text-sky-light text-sm mb-1 font-medium">ZeroLight LLC</p>
-              <p class="text-white/35 text-xs mb-2">Aug 2021 – Feb 2022 · UK (Remote)</p>
-              <p class="text-white/55 text-sm leading-relaxed">Built AWS & GCP infrastructure for real-time 3D automotive configurators serving millions of users globally. Optimised Kubernetes clusters for sub-100ms render latency.</p>
-            </div>
-          </div>
-
-          <div class="flex gap-4">
-            <div class="flex flex-col items-center">
-              <div class="timeline-dot mt-1"></div>
-              <div class="w-0.5 flex-1 mt-2" style="background:rgba(14,165,233,.2)"></div>
-            </div>
-            <div class="pb-7">
-              <p class="font-heading font-600 text-white mb-1">Technology Architecture Manager</p>
-              <p class="text-sky-light text-sm mb-1 font-medium">Accenture Interactive Brazil</p>
-              <p class="text-white/35 text-xs mb-2">Aug 2020 – Aug 2021 · São Paulo, Brasil</p>
-              <p class="text-white/55 text-sm leading-relaxed">Led Kubernetes administration, Jenkins/Spinnaker automation, and cloud enablement teams across large-scale digital transformation programmes.</p>
-            </div>
-          </div>
-
-          <div class="flex gap-4">
-            <div class="flex flex-col items-center">
-              <div class="timeline-dot mt-1"></div>
-              <div class="w-0.5 flex-1 mt-2" style="background:rgba(14,165,233,.2)"></div>
-            </div>
-            <div class="pb-7">
-              <p class="font-heading font-600 text-white mb-1">Cloud Architect</p>
-              <p class="text-sky-light text-sm mb-1 font-medium">everis Brazil (NTT Data)</p>
-              <p class="text-white/35 text-xs mb-2">Feb 2019 – Aug 2020 · São Paulo, Brasil</p>
-              <p class="text-white/55 text-sm leading-relaxed">Designed multi-cloud solutions across GCP, AWS, Azure, and Oracle Cloud. Implemented comprehensive monitoring, security frameworks, and IaC automation.</p>
-            </div>
-          </div>
-
-          <div class="flex gap-4">
-            <div class="flex flex-col items-center">
-              <div class="timeline-dot mt-1"></div>
-            </div>
-            <div class="pb-2">
-              <p class="font-heading font-600 text-white mb-1">Software Engineer</p>
-              <p class="text-sky-light text-sm mb-1 font-medium">CI&T</p>
-              <p class="text-white/35 text-xs mb-2">Dec 2017 – Feb 2019 · São Paulo, Brasil</p>
-              <p class="text-white/55 text-sm leading-relaxed">Full-stack development with Java, Node.js, and React on Google Cloud — built a Big Data Analytics platform for a major mass media corporation.</p>
-            </div>
-          </div>
-
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ── CERTIFICATIONS ── -->
-<section class="py-16" style="background:#020617">
-  <div class="max-w-6xl mx-auto px-6">
-    <div class="text-center mb-12 reveal">
-      <span class="badge mb-4 inline-block">Credentials</span>
-      <h2 class="font-heading font-700 text-3xl sm:text-4xl" data-i18n="about_certs_heading">Certifications & Skills</h2>
-    </div>
-    <div class="grid sm:grid-cols-2 lg:grid-cols-4 gap-4 mb-12 reveal">
-      <div class="glass rounded-2xl p-5 text-center">
-        <div class="w-12 h-12 rounded-xl mx-auto mb-3 flex items-center justify-center" style="background:rgba(66,133,244,.15)">
-          <img src="https://cdn.simpleicons.org/googlecloud/4285F4" width="28" height="28" alt="Google Cloud" loading="lazy" />
-        </div>
-        <p class="font-heading font-600 text-white text-sm">GCP Professional Architect</p>
-        <p class="text-white/40 text-xs mt-1">Google Cloud · ×2</p>
-      </div>
-      <div class="glass rounded-2xl p-5 text-center">
-        <div class="w-12 h-12 rounded-xl mx-auto mb-3 flex items-center justify-center" style="background:rgba(66,133,244,.15)">
-          <img src="https://cdn.simpleicons.org/googlecloud/4285F4" width="28" height="28" alt="Google Cloud" loading="lazy" />
-        </div>
-        <p class="font-heading font-600 text-white text-sm">GCP Associate Engineer</p>
-        <p class="text-white/40 text-xs mt-1">Google Cloud</p>
-      </div>
-      <div class="glass rounded-2xl p-5 text-center">
-        <div class="w-12 h-12 rounded-xl mx-auto mb-3 flex items-center justify-center" style="background:rgba(255,153,0,.15)">
-          <svg width="28" height="28" viewBox="0 0 24 24" fill="#FF9900" aria-label="AWS"><path d="M6.763 10.036c0 .296.032.535.088.71.064.176.144.368.256.576a.51.51 0 01.056.184c0 .08-.048.16-.152.24l-.504.336a.38.38 0 01-.208.072c-.08 0-.16-.04-.24-.112a2.47 2.47 0 01-.288-.376 6.18 6.18 0 01-.248-.472c-.624.736-1.408 1.104-2.352 1.104-.672 0-1.208-.192-1.6-.576-.392-.384-.6-.896-.6-1.536 0-.68.24-1.232.728-1.648.488-.416 1.136-.624 1.96-.624.272 0 .552.024.848.064.296.04.6.104.92.176v-.584c0-.608-.128-1.032-.384-1.28-.264-.248-.72-.368-1.368-.368-.296 0-.6.04-.912.112a6.7 6.7 0 00-.912.296 2.43 2.43 0 01-.296.112.48.48 0 01-.128.024c-.112 0-.168-.08-.168-.248v-.392c0-.128.016-.224.056-.28.04-.056.112-.112.216-.168.296-.152.656-.28 1.08-.384A5.1 5.1 0 015.2 5.648c1.176 0 2.048.268 2.624.808.568.536.856 1.352.856 2.44l-.008 3.14zm-2.272.568c.264 0 .536-.048.824-.144.288-.096.544-.272.76-.512.128-.152.224-.32.272-.512.048-.192.08-.424.08-.696v-.336a6.7 6.7 0 00-.736-.136 6 6 0 00-.752-.048c-.536 0-.928.104-1.192.32-.264.216-.392.52-.392.92 0 .376.096.656.296.848.192.184.472.296.84.296zm6.44.88c-.144 0-.24-.024-.304-.08-.064-.048-.12-.16-.168-.312L9.344 6.396a1.4 1.4 0 01-.072-.32c0-.128.064-.2.192-.2h.784c.152 0 .256.024.312.08.064.048.112.16.16.312l1.364 5.376 1.272-5.376c.04-.16.088-.264.152-.312.064-.048.176-.08.32-.08h.64c.152 0 .256.024.32.08.064.048.12.16.152.312l1.288 5.448 1.408-5.448c.048-.16.104-.264.16-.312.064-.048.168-.08.312-.08h.744c.128 0 .2.064.2.2 0 .04-.008.08-.016.128a1.14 1.14 0 01-.056.2l-1.96 5.048c-.048.16-.104.264-.168.312-.064.048-.168.08-.304.08h-.688c-.152 0-.256-.024-.32-.08-.064-.056-.12-.16-.152-.32l-1.272-5.256-1.264 5.248c-.04.16-.088.264-.152.32-.064.056-.176.08-.32.08H11.31zm10.43.226a5.39 5.39 0 01-1.248-.144 1.99 1.99 0 01-.896-.4c-.136-.128-.232-.28-.328-.44-.048-.08-.032-.16-.048-.256 0-.176.064-.264.184-.264.048 0 .128.016.216.048.136.048.272.096.424.128.392.088.808.136 1.2.136.68 0 1.192-.128 1.52-.384.336-.256.512-.608.512-1.064 0-.312-.096-.568-.296-.768-.2-.208-.576-.4-1.12-.56l-1.616-.512c-.816-.256-1.416-.64-1.784-1.152-.368-.512-.552-1.064-.552-1.64 0-.472.104-.896.312-1.264.208-.376.488-.696.84-.952.352-.264.76-.456 1.224-.584.464-.128.944-.192 1.456-.192.256 0 .52.016.776.048.264.04.512.088.752.152.232.056.448.128.656.208.208.08.352.16.44.24.144.096.256.192.32.304.064.104.096.232.096.392v.368c0 .176-.064.264-.184.264-.064 0-.168-.032-.312-.096-.528-.24-1.12-.36-1.784-.36-.616 0-1.096.104-1.432.32-.336.208-.504.528-.504.96 0 .312.104.576.32.784.216.208.6.408 1.176.584l1.584.504c.8.256 1.384.616 1.744 1.08.36.464.536 1 .536 1.6 0 .488-.104.928-.304 1.32-.208.392-.488.728-.848 1-.36.28-.784.488-1.272.632-.512.152-1.064.228-1.64.228z"/></svg>
-        </div>
-        <p class="font-heading font-600 text-white text-sm">AWS Cloud Practitioner</p>
-        <p class="text-white/40 text-xs mt-1">Amazon Web Services</p>
-      </div>
-      <div class="glass rounded-2xl p-5 text-center">
-        <div class="w-12 h-12 rounded-xl mx-auto mb-3 flex items-center justify-center" style="background:rgba(0,120,212,.15)">
-          <svg width="28" height="28" viewBox="0 0 24 24" fill="#0078D4" aria-label="Microsoft Azure"><path d="M22.379 23.343a1.62 1.62 0 001.362-2.432L13.33.657A1.62 1.62 0 0011.97 0H8.026a1.62 1.62 0 00-1.36 2.505l2.847 4.28-6.76 11.715a1.62 1.62 0 001.408 2.428h4.316a1.62 1.62 0 001.44-.883l.85-1.718H9.2l5.382-9.33 4.965 8.553a1.62 1.62 0 001.408.883z"/></svg>
-        </div>
-        <p class="font-heading font-600 text-white text-sm">Azure AZ-900</p>
-        <p class="text-white/40 text-xs mt-1">Microsoft Azure</p>
-      </div>
-    </div>
-
-    <!-- Tech stack tags -->
-    <div class="flex flex-wrap justify-center gap-2 reveal" style="transition-delay:.1s">
-      <span class="text-xs font-semibold px-3 py-1.5 rounded-lg text-white/70" style="background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1)">GCP</span>
-      <span class="text-xs font-semibold px-3 py-1.5 rounded-lg text-white/70" style="background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1)">AWS</span>
-      <span class="text-xs font-semibold px-3 py-1.5 rounded-lg text-white/70" style="background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1)">Azure</span>
-      <span class="text-xs font-semibold px-3 py-1.5 rounded-lg text-white/70" style="background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1)">Oracle Cloud</span>
-      <span class="text-xs font-semibold px-3 py-1.5 rounded-lg text-white/70" style="background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1)">Terraform</span>
-      <span class="text-xs font-semibold px-3 py-1.5 rounded-lg text-white/70" style="background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1)">Kubernetes</span>
-      <span class="text-xs font-semibold px-3 py-1.5 rounded-lg text-white/70" style="background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1)">Docker</span>
-      <span class="text-xs font-semibold px-3 py-1.5 rounded-lg text-white/70" style="background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1)">Jenkins</span>
-      <span class="text-xs font-semibold px-3 py-1.5 rounded-lg text-white/70" style="background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1)">GitHub Actions</span>
-      <span class="text-xs font-semibold px-3 py-1.5 rounded-lg text-white/70" style="background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1)">Python</span>
-      <span class="text-xs font-semibold px-3 py-1.5 rounded-lg text-white/70" style="background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1)">BigQuery</span>
-      <span class="text-xs font-semibold px-3 py-1.5 rounded-lg text-white/70" style="background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1)">FinOps</span>
-      <span class="text-xs font-semibold px-3 py-1.5 rounded-lg text-white/70" style="background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1)">OpenClaw</span>
-      <span class="text-xs font-semibold px-3 py-1.5 rounded-lg text-white/70" style="background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1)">Datadog</span>
-      <span class="text-xs font-semibold px-3 py-1.5 rounded-lg text-white/70" style="background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.1)">Splunk</span>
-    </div>
-  </div>
-</section>
-
-<!-- ── CTA ── -->
-<section class="py-20 bg-slate-900">
-  <div class="max-w-3xl mx-auto px-6 text-center reveal">
-    <div class="rounded-2xl p-12 relative overflow-hidden" style="background:linear-gradient(135deg,#0F172A,#1e0533,#0C4A6E)">
-      <h2 class="font-heading font-700 text-3xl text-white mb-4" data-i18n="about_cta_title">Ready to Work Together?</h2>
-      <p class="text-white/60 mb-8 leading-relaxed" data-i18n="about_cta_sub">Book a free 45-minute infrastructure audit and walk away with a prioritised action plan — no strings attached.</p>
-      <div class="flex flex-wrap justify-center gap-4">
-        <a href="#contact" class="inline-flex items-center gap-2 font-semibold text-white px-6 py-3 rounded-xl transition-all hover:opacity-90"
-           style="background:linear-gradient(135deg,#F97316,#EA6500)">
-          <svg width="16" height="16" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2"><path d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          <span data-i18n="about_cta_btn">Book Free Audit</span>
-        </a>
-        <a href="https://wa.me/351937471554" target="_blank" rel="noopener noreferrer"
-           class="inline-flex items-center gap-2 font-semibold text-white px-6 py-3 rounded-xl transition-all hover:opacity-90"
-           style="background:#25D366">
-          <svg width="16" height="16" fill="white" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-          <span data-i18n="about_cta_chat">Chat on WhatsApp</span>
-        </a>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ── CONTACT FORM ── -->
-<section id="contact" class="py-24" style="background:#0F172A">
-  <div class="max-w-6xl mx-auto px-6 grid lg:grid-cols-2 gap-8 lg:gap-16 items-start">
-
-    <!-- Left info -->
-    <div class="reveal">
-      <span class="badge mb-5 inline-block" data-i18n="about_contact_badge">Get In Touch</span>
-      <h2 class="font-heading font-700 text-4xl sm:text-5xl text-white mb-5" data-i18n="about_contact_title">Let's Talk About Your Goals</h2>
-      <p class="text-white/55 text-lg leading-relaxed mb-10" data-i18n="about_contact_sub">Cloud migration, AI automation, or just a question — we reply within 1 business day.</p>
-      <div class="space-y-5">
-        <div class="flex items-center gap-4">
-          <div class="w-11 h-11 rounded-xl flex items-center justify-center shrink-0" style="background:rgba(14,165,233,.15)">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#0EA5E9" stroke-width="2"><path d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
-          </div>
-          <div>
-            <p class="text-white/40 text-xs font-medium uppercase tracking-wider mb-0.5">Email</p>
-            <a href="mailto:hello@up2cloud.io" class="text-white font-medium hover:text-sky-light transition-colors">hello@up2cloud.io</a>
-          </div>
-        </div>
-        <div class="flex items-center gap-4">
-          <div class="w-11 h-11 rounded-xl flex items-center justify-center shrink-0" style="background:rgba(37,211,102,.12)">
-            <svg width="18" height="18" fill="#25D366" viewBox="0 0 24 24"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
-          </div>
-          <div>
-            <p class="text-white/40 text-xs font-medium uppercase tracking-wider mb-0.5">WhatsApp</p>
-            <a href="https://wa.me/351937471554?text=Hi%20Cesar%2C%20I%27d%20like%20to%20know%20more%20about%20UP2CLOUD." target="_blank" rel="noopener noreferrer" class="text-white font-medium hover:text-green-400 transition-colors">+351 937 471 554</a>
-          </div>
-        </div>
-        <div class="flex items-center gap-4">
-          <div class="w-11 h-11 rounded-xl flex items-center justify-center shrink-0" style="background:rgba(14,165,233,.15)">
-            <svg width="18" height="18" fill="none" stroke="#0EA5E9" stroke-width="2" viewBox="0 0 24 24"><path d="M17.657 16.657L13.414 20.9a2 2 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/><path d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
-          </div>
-          <div>
-            <p class="text-white/40 text-xs font-medium uppercase tracking-wider mb-0.5">Location</p>
-            <p class="text-white font-medium">🇵🇹 Vila Real · 🇧🇷 São Paulo · Remote</p>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Right: form -->
-    <div class="reveal" style="transition-delay:.1s">
-      <form id="about-contact-form" class="rounded-2xl p-8 border border-white/10" style="background:rgba(255,255,255,.05);backdrop-filter:blur(12px)" novalidate>
-        <div id="about-form-error" class="hidden mb-4 p-4 rounded-xl" style="background:rgba(239,68,68,.1);border:1px solid rgba(239,68,68,.3)" role="alert">
-          <p class="text-red-400 text-sm font-medium" id="about-form-error-msg">Something went wrong. Please try again.</p>
-        </div>
-        <div class="grid sm:grid-cols-2 gap-5 mb-5">
-          <div>
-            <label for="about-name" class="block text-sm font-medium text-white/70 mb-2" data-i18n="form_name_label">Full Name <span class="text-red-400">*</span></label>
-            <input type="text" id="about-name" name="name" required autocomplete="name" placeholder="Your name" data-i18n-ph="form_name_ph"
-              class="w-full rounded-xl px-4 py-3 text-sm text-white placeholder-white/30 transition-colors"
-              style="background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.15);height:44px;outline:none"
-              onfocus="this.style.borderColor='#0EA5E9'" onblur="this.style.borderColor='rgba(255,255,255,.15)'" />
-          </div>
-          <div>
-            <label for="about-email" class="block text-sm font-medium text-white/70 mb-2" data-i18n="form_email_label">Work Email <span class="text-red-400">*</span></label>
-            <input type="email" id="about-email" name="email" required autocomplete="email" placeholder="you@company.com" data-i18n-ph="form_email_ph"
-              class="w-full rounded-xl px-4 py-3 text-sm text-white placeholder-white/30 transition-colors"
-              style="background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.15);height:44px;outline:none"
-              onfocus="this.style.borderColor='#0EA5E9'" onblur="this.style.borderColor='rgba(255,255,255,.15)'" />
-          </div>
-        </div>
-        <div class="mb-5">
-          <label for="about-company" class="block text-sm font-medium text-white/70 mb-2" data-i18n="form_company_label">Company</label>
-          <input type="text" id="about-company" name="company" autocomplete="organization" placeholder="Your Company Ltd." data-i18n-ph="form_company_ph"
-            class="w-full rounded-xl px-4 py-3 text-sm text-white placeholder-white/30 transition-colors"
-            style="background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.15);height:44px;outline:none"
-            onfocus="this.style.borderColor='#0EA5E9'" onblur="this.style.borderColor='rgba(255,255,255,.15)'" />
-        </div>
-        <div class="mb-5">
-          <label for="about-service" class="block text-sm font-medium text-white/70 mb-2" data-i18n="form_service_label">Service of Interest</label>
-          <select id="about-service" name="service"
-            class="w-full rounded-xl px-4 py-3 text-sm text-white/70 transition-colors"
-            style="background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.15);height:44px;outline:none"
-            onfocus="this.style.borderColor='#0EA5E9'" onblur="this.style.borderColor='rgba(255,255,255,.15)'">
-            <option value="" style="background:#1E293B">Select a service…</option>
-            <option value="cloud" style="background:#1E293B">Cloud Migration</option>
-            <option value="finops" style="background:#1E293B">FinOps & Cost Optimisation</option>
-            <option value="devops" style="background:#1E293B">DevOps & DevSecOps</option>
-            <option value="aiagents" style="background:#1E293B">AI Agent Team Deployment</option>
-            <option value="openclaw" style="background:#1E293B">OpenClaw Installation</option>
-            <option value="offshore" style="background:#1E293B">APAC Offshore Team</option>
-            <option value="security" style="background:#1E293B">Cybersecurity</option>
-            <option value="strategy" style="background:#1E293B">IT Strategy & Advisory</option>
-          </select>
-        </div>
-        <div class="mb-6">
-          <label for="about-message" class="block text-sm font-medium text-white/70 mb-2" data-i18n="form_message_label">Message <span class="text-red-400">*</span></label>
-          <textarea id="about-message" name="message" required rows="4" placeholder="Tell us about your project or challenge…" data-i18n-ph="form_message_ph"
-            class="w-full rounded-xl px-4 py-3 text-sm text-white placeholder-white/30 resize-y transition-colors"
-            style="background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.15);min-height:120px;line-height:1.6;outline:none"
-            onfocus="this.style.borderColor='#0EA5E9'" onblur="this.style.borderColor='rgba(255,255,255,.15)'"></textarea>
-        </div>
-        <button type="submit" id="about-submit-btn"
-          class="w-full flex justify-center items-center gap-2 font-semibold text-white py-3.5 rounded-xl transition-all hover:opacity-90 cursor-pointer"
-          style="background:linear-gradient(135deg,#F97316,#EA6500);font-family:'Space Grotesk',sans-serif;border:none;min-height:44px">
-          <svg id="about-submit-icon" width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
-          <span id="about-submit-text" data-i18n="form_submit">Send Message</span>
-        </button>
-        <p class="text-white/30 text-xs text-center mt-4" data-i18n="form_footer">We reply within 1 business day. No spam, ever.</p>
-        <div id="about-form-success" class="hidden mt-4 p-4 rounded-xl text-center" style="background:rgba(34,197,94,.1);border:1px solid rgba(34,197,94,.25)" role="alert">
-          <p class="text-green-400 font-medium text-sm">Message sent! We'll be in touch within 24 hours.</p>
-        </div>
-      </form>
-    </div>
-
-  </div>
-</section>
-
-<!-- ── FOOTER ── -->
-<footer class="py-8 border-t border-white/8 text-center text-white/30 text-sm" style="background:#020617;border-top:1px solid rgba(255,255,255,.07)">
-  <p><span data-i18n="footer_copyright">© 2026 UP2CLOUD · Cesar A. Nogueira. All rights reserved.</span> · <a href="https://up2cloud.tech/privacy/" class="hover:text-white/60 transition-colors">Privacy Policy</a></p>
-</footer>
+  </section>
+</main>
 
 <script>
-  // Scroll reveal
-  const ro = new IntersectionObserver(entries => {
-    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); ro.unobserve(e.target); }});
-  }, { threshold: 0.1 });
-  document.querySelectorAll('.reveal').forEach(el => ro.observe(el));
-
-  // Contact form — FormSubmit
-  const ENDPOINT = 'https://formsubmit.co/ajax/cesarnogueira1210@gmail.com';
-  document.getElementById('about-contact-form').addEventListener('submit', async function(e) {
-    e.preventDefault();
-    const btn  = document.getElementById('about-submit-btn');
-    const txt  = document.getElementById('about-submit-text');
-    const icon = document.getElementById('about-submit-icon');
-    const err  = document.getElementById('about-form-error');
-    const errMsg = document.getElementById('about-form-error-msg');
-    const ok   = document.getElementById('about-form-success');
-
-    const name    = this.name.value.trim();
-    const email   = this.email.value.trim();
-    const message = this.message.value.trim();
-    if (!name || !email || !message) {
-      errMsg.textContent = 'Please fill in all required fields.';
-      err.classList.remove('hidden'); return;
-    }
-
-    btn.disabled = true;
-    txt.textContent = 'Sending…';
-    icon.innerHTML = '<circle cx="12" cy="12" r="10" stroke="currentColor" stroke-width="2" fill="none" stroke-dasharray="31.4" stroke-dashoffset="10" style="animation:spin 1s linear infinite"/>';
-    err.classList.add('hidden'); ok.classList.add('hidden');
-
-    try {
-      const res = await fetch(ENDPOINT, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json', 'Accept': 'application/json' },
-        body: JSON.stringify({ name, email, company: this.company?.value, service: this.service?.value, message, _subject: 'New UP2CLOUD Lead (About page)' })
-      });
-      if (res.ok) { ok.classList.remove('hidden'); this.reset(); }
-      else throw new Error('submit failed');
-    } catch {
-      errMsg.textContent = 'Submission failed. Email us at hello@up2cloud.io';
-      err.classList.remove('hidden');
-    } finally {
-      btn.disabled = false;
-      txt.textContent = 'Send Message';
-      icon.innerHTML = '<path d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>';
-    }
-  });
+  const obs = new IntersectionObserver(es => es.forEach(e => e.isIntersecting && e.target.classList.add('visible')), { threshold: 0.1 });
+  document.querySelectorAll('.reveal').forEach(el => obs.observe(el));
 </script>
-<style>
-  @keyframes spin { to { transform: rotate(360deg); transform-origin: center; } }
-</style>
-
+<footer class="text-center py-8 text-white/20 text-sm">© <span id="year"></span> UP2CLOUD.</footer>
 <script>
-(function(){
-  const LANG_META = {
-    en:{flag:'🇺🇸',code:'EN'}, pt:{flag:'🇧🇷',code:'PT'},
-    es:{flag:'🇪🇸',code:'ES'}, fr:{flag:'🇫🇷',code:'FR'}
-  };
-  const cache = {};
-  async function loadLang(lang) {
-    if (cache[lang]) return cache[lang];
-    try {
-      const r = await fetch('/assets/i18n/' + lang + '.json');
-      if (!r.ok) throw 0;
-      cache[lang] = await r.json();
-    } catch(e) {
-      cache[lang] = cache['en'] || {};
-    }
-    return cache[lang];
-  }
-  function applyLang(t) {
-    document.querySelectorAll('[data-i18n]').forEach(el => {
-      if (t[el.dataset.i18n] !== undefined) el.textContent = t[el.dataset.i18n];
-    });
-    document.querySelectorAll('[data-i18n-html]').forEach(el => {
-      if (t[el.dataset.i18nHtml] !== undefined) el.innerHTML = t[el.dataset.i18nHtml];
-    });
-    document.querySelectorAll('[data-i18n-ph]').forEach(el => {
-      if (t[el.dataset.i18nPh] !== undefined) el.placeholder = t[el.dataset.i18nPh];
-    });
-  }
-  async function setAboutLang(lang) {
-    document.getElementById('about-lang-menu')?.classList.add('hidden');
-    document.getElementById('about-lang-btn')?.setAttribute('aria-expanded','false');
-    const meta = LANG_META[lang];
-    if (!meta) return;
-    localStorage.setItem('up2cloud-lang', lang);
-    document.getElementById('about-lang-flag').textContent = meta.flag;
-    document.getElementById('about-lang-code').textContent = meta.code;
-    document.querySelectorAll('.about-lang-opt').forEach(b => {
-      b.style.background = b.dataset.lang === lang ? 'rgba(14,165,233,.15)':'';
-      b.style.color = b.dataset.lang === lang ? '#fff':'';
-    });
-    const t = await loadLang(lang);
-    applyLang(t);
-    document.documentElement.lang = lang === 'pt' ? 'pt-BR' : lang;
-  }
-  function toggleAboutLang(e) {
-    e && e.stopPropagation();
-    const m = document.getElementById('about-lang-menu');
-    const open = m.classList.toggle('hidden');
-    document.getElementById('about-lang-btn').setAttribute('aria-expanded', String(!open));
-  }
-  document.addEventListener('click', e => {
-    const p = document.getElementById('about-lang-picker');
-    if (p && !p.contains(e.target)) document.getElementById('about-lang-menu')?.classList.add('hidden');
-  });
-  window.setAboutLang = setAboutLang;
-  window.toggleAboutLang = toggleAboutLang;
-  // Init with saved lang
-  const saved = localStorage.getItem('up2cloud-lang') || 'en';
-  loadLang('en').then(() => setAboutLang(saved));
-})();
+  const yearEl = document.getElementById("year");
+  if (yearEl) yearEl.textContent = new Date().getFullYear();
 </script>
-<script>document.getElementById("year")?.textContent = new Date().getFullYear();</script></body>
+</body>
 </html>
