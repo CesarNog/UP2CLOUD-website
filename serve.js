@@ -55,6 +55,34 @@ http.createServer((req, res) => {
   // Default to index.html
   if (pathname === '/' || pathname === '') pathname = '/index.html';
 
+  // ── AI Chat Proxy Simulation ──────────────────────────────────
+  if (req.method === 'POST' && pathname === '/api/chat') {
+    let body = '';
+    req.on('data', chunk => { body += chunk; });
+    req.on('end', async () => {
+      if (!ENV.GROQ_API_KEY) {
+        res.writeHead(500, { 'Content-Type': 'application/json' });
+        return res.end(JSON.stringify({ error: 'GROQ_API_KEY not found in .env' }));
+      }
+      try {
+        const groqRes = await fetch('https://api.groq.com/openai/v1/chat/completions', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+            'Authorization': `Bearer ${ENV.GROQ_API_KEY}`
+          },
+          body: body
+        });
+        const data = await groqRes.json();
+        res.writeHead(groqRes.status, { 'Content-Type': 'application/json' });
+        res.end(JSON.stringify(data));
+      } catch (e) {
+        res.writeHead(500); res.end(JSON.stringify({ error: e.message }));
+      }
+    });
+    return;
+  }
+
   // Resolve & guard against path traversal
   const filePath = path.resolve(ROOT, '.' + pathname);
   if (!filePath.startsWith(ROOT)) {
@@ -78,15 +106,7 @@ http.createServer((req, res) => {
       res.writeHead(500); return res.end('Server error');
     }
 
-    // Inject GROQ_API_KEY into index.html — same as GitHub Actions sed command
-    let body = raw;
-    if (filePath.endsWith('index.html') && ENV.GROQ_API_KEY) {
-      body = Buffer.from(
-        raw.toString('utf8').replace(/REPLACE_WITH_GROQ_KEY/g, ENV.GROQ_API_KEY),
-        'utf8'
-      );
-    }
-
+    const body = raw;
     res.writeHead(200, {
       'Content-Type':   contentType,
       'Content-Length': body.length,

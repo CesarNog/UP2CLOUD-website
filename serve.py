@@ -38,14 +38,11 @@ class Handler(http.server.SimpleHTTPRequestHandler):
         if path in ('/', ''):
             path = '/index.html'
 
-        # Serve index.html with key injected
+        # Serve index.html
         if path == '/index.html':
             try:
                 with open('index.html', 'rb') as f:
-                    content = f.read().decode('utf-8')
-                if ENV.get('GROQ_API_KEY'):
-                    content = content.replace('REPLACE_WITH_GROQ_KEY', ENV['GROQ_API_KEY'])
-                encoded = content.encode('utf-8')
+                    encoded = f.read()
                 self.send_response(200)
                 self.send_header('Content-Type', 'text/html; charset=utf-8')
                 self.send_header('Content-Length', str(len(encoded)))
