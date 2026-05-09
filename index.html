@@ -3123,19 +3123,28 @@ TONE: Be helpful, concise, and professional. Keep answers to 2-4 sentences unles
 </div>
 
 <script>
+<script>
 (function(){
   var LS_KEY = 'up2cloud-newsletter';
   var DELAY  = 5000;
   var SCROLL = 40;
 
+  var overlay = document.getElementById('nl-overlay');
+  var fab      = document.getElementById('nl-fab');
+  var fabDot   = document.getElementById('nl-fab-dot');
+  var fabLabel = document.getElementById('nl-fab-label');
+  var fabTip   = document.getElementById('nl-fab-tooltip');
+  var fabWrap  = document.getElementById('nl-fab-wrap');
+  var emailInput = document.getElementById('nl-email');
+  var nlForm = document.getElementById('nl-form');
+
   function dismissed() { return !!localStorage.getItem(LS_KEY); }
   function dismiss()   { localStorage.setItem(LS_KEY,'dismissed'); hide(); }
 
-  var overlay = document.getElementById('nl-overlay');
   function show() {
     if (dismissed()) return;
     overlay.style.display = 'flex';
-    document.getElementById('nl-email').focus();
+    emailInput.focus();
     document.body.style.overflow = 'hidden';
   }
   function hide() {
@@ -3143,34 +3152,22 @@ TONE: Be helpful, concise, and professional. Keep answers to 2-4 sentences unles
     document.body.style.overflow = '';
   }
 
-  var triggered = false;
-  function trigger() {
-    if (triggered || dismissed()) return;
-    triggered = true;
-    show();
+  // Newsletter Logic
+  if (fab) {
+    fab.addEventListener('click', () => { 
+        overlay.style.display = 'flex'; 
+        emailInput.focus(); 
+        document.body.style.overflow = 'hidden'; 
+    });
+    fab.addEventListener('mouseenter', () => { fabTip.style.opacity = '1'; fabTip.style.transform = 'translateY(0)'; });
+    fab.addEventListener('mouseleave', () => { fabTip.style.opacity = '0'; fabTip.style.transform = 'translateY(4px)'; });
   }
-  var timer = setTimeout(trigger, DELAY);
-  function onScroll() {
-    var pct = (window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100;
-    if (pct >= SCROLL) { clearTimeout(timer); trigger(); window.removeEventListener('scroll', onScroll); }
-  }
-  window.addEventListener('scroll', onScroll, { passive: true });
 
   document.getElementById('nl-close').addEventListener('click', dismiss);
   overlay.addEventListener('click', function(e) { if (e.target === overlay) dismiss(); });
   document.addEventListener('keydown', function(e) { if (e.key === 'Escape') dismiss(); });
 
-  var emailInput = document.getElementById('nl-email');
-  emailInput.addEventListener('focus', function() {
-    this.style.borderColor = 'rgba(14,165,233,.6)';
-    this.style.boxShadow   = '0 0 0 3px rgba(14,165,233,.12)';
-  });
-  emailInput.addEventListener('blur', function() {
-    this.style.borderColor = 'rgba(255,255,255,.15)';
-    this.style.boxShadow   = '';
-  });
-
-  document.getElementById('nl-form').addEventListener('submit', async function(e) {
+  nlForm.addEventListener('submit', async function(e) {
     e.preventDefault();
     var email    = emailInput.value.trim();
     var honeypot = this.querySelector('[name="website"]').value;
@@ -3207,14 +3204,9 @@ TONE: Be helpful, concise, and professional. Keep answers to 2-4 sentences unles
     }
   });
 
-  var fab      = document.getElementById('nl-fab');
-  var fabDot   = document.getElementById('nl-fab-dot');
-  var fabLabel = document.getElementById('nl-fab-label');
-  var fabTip   = document.getElementById('nl-fab-tooltip');
-
   function updateFab() {
     var subscribed = localStorage.getItem(LS_KEY) === 'subscribed';
-    if (subscribed) {
+    if (subscribed && fab) {
       fabDot.style.display   = 'none';
       fabLabel.textContent   = 'Subscribed ✓';
       fab.style.background   = 'linear-gradient(135deg,#064E3B,#059669)';
@@ -3223,29 +3215,27 @@ TONE: Be helpful, concise, and professional. Keep answers to 2-4 sentences unles
   }
   updateFab();
 
-  fab.addEventListener('click', () => { overlay.style.display = 'flex'; document.getElementById('nl-email').focus(); document.body.style.overflow = 'hidden'; });
-  fab.addEventListener('mouseenter', () => { fabTip.style.opacity = '1'; fabTip.style.transform = 'translateY(0)'; });
-  fab.addEventListener('mouseleave', () => { fabTip.style.opacity = '0'; fabTip.style.transform = 'translateY(4px)'; });
-
-})();
-
-// Scroll Observer for FAB and Reveal
-window.addEventListener('scroll', () => {
-  const fabWrap = document.getElementById('nl-fab-wrap');
-  if (fabWrap) {
-    const scrollPercentage = window.scrollY / (document.body.offsetHeight - window.innerHeight);
-    if (scrollPercentage > 0.3) {
-      fabWrap.classList.add('hidden');
-    } else {
-      fabWrap.classList.remove('hidden');
+  // Scroll Trigger
+  var triggered = false;
+  function trigger() { if (triggered || dismissed()) return; triggered = true; show(); }
+  var timer = setTimeout(trigger, DELAY);
+  window.addEventListener('scroll', () => {
+    // FAB Hide Logic
+    if (fabWrap) {
+        const pct = window.scrollY / (document.body.offsetHeight - window.innerHeight);
+        if (pct > 0.3) fabWrap.classList.add('hidden');
+        else fabWrap.classList.remove('hidden');
     }
-  }
-});
+    // Popup Trigger
+    var p = (window.scrollY / (document.body.scrollHeight - window.innerHeight)) * 100;
+    if (p >= SCROLL) { clearTimeout(timer); trigger(); }
+  }, { passive: true });
 
-const revealObserver = new IntersectionObserver(entries => {
-  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); revealObserver.unobserve(e.target); }});
-}, { threshold: 0.1 });
-document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+  const revealObserver = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); revealObserver.unobserve(e.target); }});
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
 
-document.getElementById("year").textContent = new Date().getFullYear();
+  document.getElementById("year").textContent = new Date().getFullYear();
+})();
 </script>
