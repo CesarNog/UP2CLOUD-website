@@ -3235,6 +3235,6 @@ TONE: Be helpful, concise, and professional. Keep answers to 2-4 sentences unles
   }, { threshold: 0.1 });
   document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
 
-  document.getElementById("year").textContent = new Date().getFullYear();
+  document.getElementById("year")?.textContent = new Date().getFullYear();
 })();
 </script>
