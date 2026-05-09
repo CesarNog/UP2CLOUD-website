@@ -5,12 +5,13 @@
   "scripts": {
     "build:css": "tailwindcss -i src/input.css -o assets/css/tailwind.min.css --minify",
     "watch:css": "tailwindcss -i src/input.css -o assets/css/tailwind.min.css --watch",
-    "start":     "npm run build:css && node serve.js",
-    "dev":       "node serve.js",
-    "test":      "htmlhint index.html || true"
+    "start": "npm run build:css && node serve.js",
+    "dev": "node serve.js",
+    "test": "htmlhint index.html || true"
   },
   "devDependencies": {
     "htmlhint": "^1.1.4",
+    "sharp": "^0.34.5",
     "tailwindcss": "^3.4.19"
   }
 }
