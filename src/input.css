@@ -25,7 +25,7 @@ h1,h2,h3,h4{font-family:'Space Grotesk',sans-serif}
 @keyframes borderSpin{to{--angle:360deg}}
 @property --angle{syntax:'<angle>';initial-value:0deg;inherits:false}
 @keyframes tickerScroll{from{transform:translateX(0)}to{transform:translateX(-50%)}}
-@keyframes cloudDrift{0%,100%{transform:translateX(0px) translateY(0px)}25%{transform:translateX(22px) translateY(-12px)}50%{transform:translateX(10px) translateY(-22px)}75%{transform:translateX(-14px) translateY(-8px)}}
+@keyframes cloudDrift{0%,100%{transform:translateX(0px) translateY(0px)}20%{transform:translateX(40px) translateY(-25px)}40%{transform:translateX(60px) translateY(-5px)}60%{transform:translateX(30px) translateY(15px)}80%{transform:translateX(-10px) translateY(5px)}}
 @keyframes chatOpen{from{opacity:0;transform:scale(.9) translateY(20px)}to{opacity:1;transform:scale(1) translateY(0)}}
 @keyframes typingDot{0%,60%,100%{transform:translateY(0);opacity:.4}30%{transform:translateY(-6px);opacity:1}}
 @keyframes gradShimmer{0%{background-position:0% 50%}100%{background-position:200% 50%}}
