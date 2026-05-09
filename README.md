@@ -1,6 +1,6 @@
 # UP2CLOUD — IT Consulting, Cloud & AI Solutions
 
-> **Live site → [up2cloud.github.io](https://up2cloud.github.io)**
+> **Live site → [up2cloud.tech](https://up2cloud.tech)**
 
 Landing page for UP2CLOUD, led by **Cesar A. Nogueira** — Senior Cloud DevOps & FinOps Consultant with 10+ years scaling infrastructure across GCP, AWS, Azure, and Oracle Cloud.
 
@@ -133,7 +133,7 @@ up2cloud.github.io/
 
 | | |
 |---|---|
-| 🌐 Website | [up2cloud.github.io](https://up2cloud.github.io) |
+| 🌐 Website | [up2cloud.tech](https://up2cloud.tech) |
 | 📧 Email | [hello@up2cloud.io](mailto:hello@up2cloud.io) |
 | 📱 WhatsApp | [+351 937 471 554](https://wa.me/351937471554) |
 | 💼 LinkedIn | [linkedin.com/in/cesarnog](https://www.linkedin.com/in/cesarnog/) |
@@ -142,4 +142,4 @@ up2cloud.github.io/
 
 ---
 
-© 2026 UP2CLOUD · Cesar A. Nogueira · [Privacy Policy](https://up2cloud.github.io/privacy)
+© 2026 UP2CLOUD · Cesar A. Nogueira · [Privacy Policy](https://up2cloud.tech/privacy/)

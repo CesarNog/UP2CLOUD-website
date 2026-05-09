@@ -34,54 +34,47 @@ All pages include:
 - ✅ `<meta name="robots" content="index, follow">` — Crawl directive
 - ✅ `<meta property="og:*">` — Open Graph (social shares)
 - ✅ `<meta name="twitter:card">` — Twitter cards
-- ⚠️ **TODO:** Add `og:image` (high-res hero image URL)
-- ⚠️ **TODO:** Add canonical URLs to about/ and privacy/
+- ✅ `og:image` (high-res hero image URL) added to all pages
+- ✅ Canonical URLs added to all pages (about, privacy, blog posts)
 
 ## Structured Data (Schema.org)
 
-**Next phase improvements:**
-- [ ] Add `Organization` schema (name, logo, contact, social profiles)
-- [ ] Add `LocalBusiness` schema (address, phone, hours)
-- [ ] Add `Service` schema for each service offering
-- [ ] Add `Person` schema for Cesar's profile (about page)
+**Completed:**
+- ✅ `Organization` schema (name, logo, contact, social profiles)
+- ✅ `LocalBusiness` schema (Vila Real HQ, GPS coordinates)
+- ✅ `Person` schema (Cesar A. Nogueira, job title, social profiles)
+- ✅ `WebSite` schema (site search potential)
+- ✅ `BlogPosting` schema (active for all 8 blog posts)
 
-**Example:**
-```json
-{
-  "@context": "https://schema.org",
-  "@type": "Organization",
-  "name": "UP2CLOUD",
-  "url": "https://up2cloud.github.io",
-  "logo": "https://up2cloud.github.io/assets/logo.svg",
-  "contactPoint": {
-    "@type": "ContactPoint",
-    "email": "hello@up2cloud.io",
-    "contactType": "Sales"
-  },
-  "sameAs": [
-    "https://www.linkedin.com/in/cesarnog/",
-    "https://github.com/UP2CLOUD"
-  ]
-}
-```
+**Next phase improvements:**
+- [ ] Add `Service` schema for each service offering
+- [ ] Add `Review` schema once client testimonials are expanded
 
 ## Performance & Core Web Vitals
 
-Google prioritizes fast, mobile-friendly sites. Phase 2 includes:
-- [ ] Critical CSS extraction (reduce render-blocking)
-- [ ] Lazy-load images (Intersection Observer)
-- [ ] Defer non-critical JavaScript
-- [ ] Image optimization (WebP fallbacks)
-- [ ] Minify HTML/CSS/JS
+- ✅ Lazy-load images (`loading="lazy"`)
+- ✅ Image dimensions (`width/height`) added to prevent layout shift
+- ✅ Semantic HTML landmarks (nav, main, article, footer)
+- [ ] Minify HTML/CSS/JS (Partially done via build.sh)
 
 Test with: [PageSpeed Insights](https://pagespeed.web.dev/)
 
-## Monitoring
+## Target Keywords (2026 Strategy)
 
-- **Google Search Console:** Track indexing, clicks, impressions
-- **Bing Webmaster:** Track crawl errors, site health
-- **Lighthouse CI:** Automated performance/SEO audits on every PR
+| Category | Primary Keywords |
+|---|---|
+| **Brand** | UP2CLOUD, UP2CLOUD consulting |
+| **Service** | Cloud Consulting, DevOps Consulting, FinOps Consulting |
+| **Local** | Cloud DevOps consultant Portugal, DevOps expert Vila Real |
+| **Tech** | AWS consultant, GCP DevOps, Azure Kubernetes expert, Terraform consulting |
+| **Strategic** | Platform Engineering, Cloud Cost Optimization, AI-Powered DevOps |
+
+## Google Search Console (Manual Steps)
+
+1. **Verify Ownership:** Ensure the `up2cloud.tech` property is verified in Google Search Console.
+2. **Submit Sitemap:** Submit `https://up2cloud.tech/sitemap.xml`.
+3. **Request Indexing:** For new blog posts, manually request indexing.
 
 ---
 
-**Last Updated:** May 6, 2026
+**Last Updated:** May 9, 2026

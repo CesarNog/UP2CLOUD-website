@@ -12,22 +12,23 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>UP2CLOUD — Enterprise Cloud Platform Engineering & DevSecOps</title>
-  <meta name="description" content="UP2CLOUD architects production-grade cloud platforms — Kubernetes, Terraform, multi-cloud, DevSecOps, and FinOps — for enterprises operating at scale. AWS, GCP, Azure certified." />
+  <title>UP2CLOUD — Cloud & DevOps Consulting Portugal | AWS GCP Azure Experts</title>
+  <meta name="description" content="UP2CLOUD provides enterprise Cloud consulting, DevOps, and FinOps in Portugal and internationally. Expert Kubernetes, Terraform, and AI automation. AWS, GCP, Azure certified." />
   <meta name="author" content="Cesar A. Nogueira" />
   <meta name="robots" content="index, follow" />
-  <meta property="og:title" content="UP2CLOUD — Enterprise Cloud Platform Engineering & DevSecOps" />
-  <meta property="og:description" content="Production-grade cloud platform engineering: Kubernetes, Terraform, multi-cloud architecture, DevSecOps, and FinOps. AWS · GCP · Azure certified. Led by Cesar A. Nogueira." />
+  <meta property="og:title" content="UP2CLOUD — Enterprise Cloud & DevOps Consulting Portugal" />
+  <meta property="og:description" content="Production-grade cloud & DevOps consulting: Kubernetes, Terraform, multi-cloud architecture, and FinOps. AWS · GCP · Azure certified. Serving clients in Portugal and worldwide." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://up2cloud.tech/" />
+  <link rel="canonical" href="https://up2cloud.tech/" />
   <meta property="og:image" content="https://up2cloud.tech/assets/img/og-image.png" />
   <meta property="og:image:width" content="1200" />
   <meta property="og:image:height" content="630" />
-  <meta property="og:image:alt" content="UP2CLOUD — Enterprise Platform Engineering & Cloud Transformation" />
+  <meta property="og:image:alt" content="UP2CLOUD — Enterprise Cloud & DevOps Consulting" />
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:image" content="https://up2cloud.tech/assets/img/og-image.png" />
-  <meta name="twitter:title" content="UP2CLOUD — Enterprise Cloud Platform Engineering & DevSecOps" />
-  <meta name="twitter:description" content="Production-grade cloud platform engineering: Kubernetes, Terraform, multi-cloud architecture, DevSecOps, and FinOps. AWS · GCP · Azure certified." />
+  <meta name="twitter:title" content="UP2CLOUD — Cloud & DevOps Consulting Portugal" />
+  <meta name="twitter:description" content="Enterprise Cloud & DevOps consulting: Kubernetes, Terraform, multi-cloud, and FinOps. AWS · GCP · Azure certified." />
   <!-- Hotjar — production only (HTTPS) -->
   <script>
     if (location.protocol === 'https:') {
@@ -48,12 +49,68 @@
   <!-- UP2CLOUD favicon — cloud SVG inline data URL -->
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='5' fill='%230F172A'/%3E%3Cpath d='M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z' stroke='%230EA5E9' stroke-width='2' stroke-linejoin='round' fill='none'/%3E%3C/svg%3E" />
   <link rel="stylesheet" href="assets/css/tailwind.min.css" />
-  <script>
+
+  <!-- Structured Data (Schema.org) -->
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "WebSite",
+    "name": "UP2CLOUD",
+    "url": "https://up2cloud.tech",
+    "potentialAction": {
+      "@type": "SearchAction",
+      "target": "https://up2cloud.tech/blog/?s={search_term_string}",
+      "query-input": "required name=search_term_string"
+    }
+  }
+  </script>
+  <script type="application/ld+json">
+  {
+    "@context": "https://schema.org",
+    "@type": "Organization",
+    "name": "UP2CLOUD",
+    "url": "https://up2cloud.tech",
+    "logo": "https://up2cloud.tech/assets/img/og-image.png",
+    "contactPoint": {
+      "@type": "ContactPoint",
+      "email": "hello@up2cloud.io",
+      "contactType": "Sales",
+      "telephone": "+351 937 471 554"
+    },
+    "sameAs": [
+      "https://www.linkedin.com/in/cesarnog/",
+      "https://github.com/UP2CLOUD"
+    ]
+  }
+  </script>      <script type="application/ld+json">
+      {
+      "@context": "https://schema.org",
+      "@type": "LocalBusiness",
+      "name": "UP2CLOUD",
+      "image": "https://up2cloud.tech/assets/img/og-image.png",
+      "telephone": "+351 937 471 554",
+      "email": "hello@up2cloud.io",
+      "address": {
+      "@type": "PostalAddress",
+      "addressLocality": "Vila Real",
+      "addressCountry": "PT"
+      },
+      "geo": {
+      "@type": "GeoCoordinates",
+      "latitude": 41.3006,
+      "longitude": -7.7441
+      },
+      "url": "https://up2cloud.tech"
+      }
+      </script>
+</head>
+<script>
     const FORMSPREE_ENDPOINT = 'https://formspree.io/f/REPLACE_WITH_YOUR_ID';
 
     // ── Groq AI Chatbot — proxied via /api/chat (key is server-side only) ───
     const GROQ_API_KEY = 'proxied';
   </script>
+</head>
   <!-- All custom CSS is now compiled into assets/css/tailwind.min.css via src/input.css -->
   <style>
     /* legacy overrides only — kept for specificity safety */
@@ -1180,7 +1237,7 @@
           <div class="flex items-center gap-4 mb-5">
             <div class="relative profile-photo-wrap">
               <div class="w-20 h-20 rounded-2xl overflow-hidden profile-avatar-ring" style="box-shadow:0 0 0 3px #0EA5E9,0 0 0 6px rgba(14,165,233,.18),0 8px 24px rgba(3,105,161,.3)">
-                <img id="profile-photo" src="assets/img/cesar.webp" alt="Cesar A. Nogueira" class="w-full h-full object-cover" style="object-position:64% 62%;transform:scale(1.45);transform-origin:center" loading="lazy" onerror="this.remove();document.getElementById('profile-initials').style.display='flex';" />
+                <img id="profile-photo" src="assets/img/cesar.webp" alt="Cesar A. Nogueira" width="400" height="400" class="w-full h-full object-cover" style="object-position:64% 62%;transform:scale(1.45);transform-origin:center" loading="lazy" onerror="this.remove();document.getElementById('profile-initials').style.display='flex';" />
                 <div id="profile-initials" class="w-full h-full items-center justify-content-center text-white font-heading font-700 text-2xl" style="display:none;background:linear-gradient(135deg,#0369A1,#0EA5E9);align-items:center;justify-content:center">CN</div>
               </div>
               <span class="absolute -bottom-1 -right-1 w-5 h-5 bg-green-400 rounded-full border-2 border-white" title="Available for projects" style="animation:pulse 2s ease-in-out infinite"></span>

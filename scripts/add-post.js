@@ -45,6 +45,7 @@ function postTemplate({ slug, title, excerpt, date, category, badgeClass, badgeC
   <meta property="og:title" content="${title} — UP2CLOUD" />
   <meta property="og:type" content="article" />
   <meta property="og:url" content="https://up2cloud.tech/blog/${slug}/" />
+  <link rel="canonical" href="https://up2cloud.tech/blog/${slug}/" />
   <meta property="og:image" content="https://up2cloud.tech/assets/img/og-image.png" />
   <meta property="article:published_time" content="${date}" />
   <meta name="twitter:card" content="summary_large_image" />

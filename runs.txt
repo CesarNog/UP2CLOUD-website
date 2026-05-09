@@ -1,0 +1,30 @@
+completed	success	Fix: Update Brevo API call for sending campaigns	CI/CD - Test and Deploy UP2CLOUD Website	main	push	25601880156	58s	2026-05-09T13:06:51Z
+completed	success	pages build and deployment	pages-build-deployment	main	dynamic	25601879925	25s	2026-05-09T13:06:50Z
+completed	success	Add assets	CI/CD - Test and Deploy UP2CLOUD Website	main	push	25601584575	1m9s	2026-05-09T12:51:27Z
+completed	success	pages build and deployment	pages-build-deployment	main	dynamic	25601584302	27s	2026-05-09T12:51:26Z
+completed	success	pages build and deployment	pages-build-deployment	main	dynamic	25596946553	32s	2026-05-09T08:50:00Z
+completed	success	Updated flow newsletter modify	CI/CD - Test and Deploy UP2CLOUD Website	main	push	25568813865	1m15s	2026-05-08T17:08:33Z
+completed	success	pages build and deployment	pages-build-deployment	main	dynamic	25568812460	35s	2026-05-08T17:08:32Z
+completed	success	feat(blog): add 'Platform Engineering + FinOps in 2026: How Elite Clo…	CI/CD - Test and Deploy UP2CLOUD Website	main	push	25567252490	1m8s	2026-05-08T16:34:25Z
+completed	success	pages build and deployment	pages-build-deployment	main	dynamic	25567251552	58s	2026-05-08T16:34:24Z
+completed	success	fix: chatbot z-index, map design, and newsletter workflow robustness	CI/CD - Test and Deploy UP2CLOUD Website	main	push	25559775921	1m15s	2026-05-08T14:00:13Z
+completed	success	pages build and deployment	pages-build-deployment	main	dynamic	25559774133	36s	2026-05-08T14:00:11Z
+completed	success	feat(blog): add post — AI anomaly detection for cloud cost spikes	CI/CD - Test and Deploy UP2CLOUD Website	main	push	25559313096	1m7s	2026-05-08T13:50:44Z
+completed	failure	feat(blog): add post — AI anomaly detection for cloud cost spikes	Newsletter — Notify subscribers on new blog post	main	push	25559313080	10s	2026-05-08T13:50:44Z
+completed	success	pages build and deployment	pages-build-deployment	main	dynamic	25559311828	40s	2026-05-08T13:50:42Z
+completed	success	fix: add Hotjar WebSocket/content domains to CSP connect-src	CI/CD - Test and Deploy UP2CLOUD Website	main	push	25559168546	1m9s	2026-05-08T13:47:47Z
+completed	success	pages build and deployment	pages-build-deployment	main	dynamic	25559167388	37s	2026-05-08T13:47:45Z
+completed	success	feat: add floating newsletter button (FAB) to homepage	CI/CD - Test and Deploy UP2CLOUD Website	main	push	25559054694	1m9s	2026-05-08T13:45:24Z
+completed	success	pages build and deployment	pages-build-deployment	main	dynamic	25559053690	34s	2026-05-08T13:45:23Z
+completed	success	fix: set real KV namespace IDs in wrangler.toml for local dev	CI/CD - Test and Deploy UP2CLOUD Website	main	push	25558680331	1m13s	2026-05-08T13:37:39Z
+completed	success	pages build and deployment	pages-build-deployment	main	dynamic	25558679384	43s	2026-05-08T13:37:38Z
+completed	failure	feat: blog comments, likes, newsletter popup + auto-newsletter workflow	Newsletter — Notify subscribers on new blog post	main	push	25556424001	9s	2026-05-08T12:48:37Z
+completed	success	feat: blog comments, likes, newsletter popup + auto-newsletter workflow	CI/CD - Test and Deploy UP2CLOUD Website	main	push	25556423999	1m3s	2026-05-08T12:48:37Z
+completed	success	pages build and deployment	pages-build-deployment	main	dynamic	25556423082	35s	2026-05-08T12:48:36Z
+completed	success	fix: update 404 page buttons to point to up2cloud.tech	CI/CD - Test and Deploy UP2CLOUD Website	main	push	25554858968	1m49s	2026-05-08T12:11:49Z
+completed	success	pages build and deployment	pages-build-deployment	main	dynamic	25554858528	34s	2026-05-08T12:11:48Z
+completed	success	fix: restore 404 page dark navy background corrupted by replace_all	CI/CD - Test and Deploy UP2CLOUD Website	main	push	25554844114	1m17s	2026-05-08T12:11:27Z
+completed	cancelled	pages build and deployment	pages-build-deployment	main	dynamic	25554843310	26s	2026-05-08T12:11:25Z
+completed	success	fix: set 404 redirect countdown to 15s	CI/CD - Test and Deploy UP2CLOUD Website	main	push	25554427292	1m17s	2026-05-08T12:01:03Z
+completed	success	pages build and deployment	pages-build-deployment	main	dynamic	25554426491	32s	2026-05-08T12:01:02Z
+completed	success	fix: increase 404 redirect countdown from 10s to 20s	CI/CD - Test and Deploy UP2CLOUD Website	main	push	25554304836	1m3s	2026-05-08T11:58:03Z
