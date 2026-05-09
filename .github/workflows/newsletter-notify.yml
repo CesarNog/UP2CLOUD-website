@@ -203,7 +203,7 @@ jobs:
                       'Content-Type': 'application/json',
                       'Accept': 'application/json',
                   },
-                  method='POST',
+                  method='PUT',
               )
 
               with urllib.request.urlopen(send_req):
