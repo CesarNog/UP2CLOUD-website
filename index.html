@@ -2998,10 +2998,10 @@ TONE: Be helpful, concise, and professional. Keep answers to 2-4 sentences unles
   });
 
   // Scroll reveal
-  const ro = new IntersectionObserver(entries => {
-    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); ro.unobserve(e.target); }});
+  const revealObserver = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); revealObserver.unobserve(e.target); }});
   }, { threshold: 0.1 });
-  document.querySelectorAll('.reveal').forEach(el => ro.observe(el));
+  document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
 </script>
 
 <!-- ── Newsletter Floating Button ───────────────────────────────────────── -->
@@ -3299,10 +3299,10 @@ TONE: Be helpful, concise, and professional. Keep answers to 2-4 sentences unles
   });
 
   // Scroll reveal
-  const ro = new IntersectionObserver(entries => {
-    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); ro.unobserve(e.target); }});
+  const revealObserver = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); revealObserver.unobserve(e.target); }});
   }, { threshold: 0.1 });
-  document.querySelectorAll('.reveal').forEach(el => ro.observe(el));
+  document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
 </script>
 <script>document.getElementById("year").textContent = new Date().getFullYear();</script></body>
 </html>
