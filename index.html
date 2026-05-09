@@ -614,6 +614,618 @@
 }
 </style>
 
+
+  <style>
+    /* ─────────────────────────────────────────────
+       UP2CLOUD hero layout + ambient cloud animation
+       Clean split: logo/content left, Infrastructure right
+       ───────────────────────────────────────────── */
+
+    #hero {
+      isolation: isolate;
+    }
+
+    #hero .up2cloud-hero-grid {
+      display: grid;
+      grid-template-columns: minmax(0, 1.02fr) minmax(430px, 0.88fr);
+      align-items: center;
+      gap: clamp(2.5rem, 6vw, 6rem);
+      min-height: calc(100svh - 8rem);
+    }
+
+    #hero .up2cloud-hero-brand {
+      max-width: 45rem;
+      justify-self: center;
+      position: relative;
+      z-index: 5;
+    }
+
+    #hero .hero-visual-column {
+      justify-self: end;
+      align-self: center;
+      min-height: 620px;
+      width: min(100%, 34rem);
+      position: relative;
+      z-index: 6;
+      transform-style: preserve-3d;
+    }
+
+    #hero #infra-card {
+      width: min(100%, 30rem);
+      max-width: 30rem;
+      margin-left: auto;
+      background:
+        linear-gradient(135deg, rgba(15,23,42,.86), rgba(30,41,59,.58) 46%, rgba(88,28,135,.32)) !important;
+      border: 1px solid rgba(96,165,250,.30) !important;
+      box-shadow:
+        0 28px 90px rgba(2,6,23,.48),
+        0 0 0 1px rgba(255,255,255,.07),
+        inset 0 1px 0 rgba(255,255,255,.14);
+      backdrop-filter: blur(22px);
+      -webkit-backdrop-filter: blur(22px);
+    }
+
+    #hero #infra-card.is-floating {
+      position: absolute !important;
+      width: min(30rem, calc(100vw - 2rem));
+      max-width: 30rem;
+      z-index: 70 !important;
+    }
+
+    /* Decorative elements stay behind real UI */
+    #particle-canvas,
+    #hero .blob,
+    #hero .orb-ring,
+    #hero .hero-network-wave,
+    #hero .ambient-cloud-layer {
+      z-index: 1;
+    }
+
+    #hero .command-chip,
+    #hero .money-cloud {
+      z-index: 2 !important;
+      opacity: .28 !important;
+    }
+
+    /* Hide old random money/cloud items on the left; keep hero clean */
+    #hero .money-cloud {
+      pointer-events: none;
+      mix-blend-mode: screen;
+    }
+
+    .ambient-cloud-layer {
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      overflow: hidden;
+      z-index: 2;
+    }
+
+    .ambient-cloud {
+      position: absolute;
+      width: var(--cloud-size, 96px);
+      height: auto;
+      color: #0EA5E9;
+      opacity: 0;
+      filter:
+        drop-shadow(0 0 8px rgba(14,165,233,.28))
+        drop-shadow(0 0 18px rgba(14,165,233,.16));
+      transform: translate3d(0, 0, 0) scale(.86);
+      animation: ambientCloudOpen var(--cloud-duration, 9s) ease-in-out infinite;
+      animation-delay: var(--cloud-delay, 0s);
+      will-change: opacity, transform, filter;
+    }
+
+    .ambient-cloud svg {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    .ambient-cloud path {
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 2.2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    @keyframes ambientCloudOpen {
+      0%, 100% {
+        opacity: 0;
+        transform: translateY(10px) scale(.78);
+        filter: drop-shadow(0 0 0 rgba(14,165,233,0));
+      }
+      18% {
+        opacity: .14;
+      }
+      42% {
+        opacity: .28;
+        transform: translateY(-4px) scale(1);
+        filter:
+          drop-shadow(0 0 8px rgba(14,165,233,.30))
+          drop-shadow(0 0 18px rgba(14,165,233,.18));
+      }
+      72% {
+        opacity: .11;
+        transform: translateY(-14px) scale(.94);
+      }
+    }
+
+    /* Keep ambient clouds out of text/panel zones by design */
+    .ambient-cloud.zone-left   { left: 5%;  top: 24%; }
+    .ambient-cloud.zone-mid    { left: 45%; top: 18%; }
+    .ambient-cloud.zone-right  { right: 5%; top: 72%; }
+    .ambient-cloud.zone-low    { left: 35%; bottom: 11%; }
+
+    @media (max-width: 1180px) {
+      #hero .up2cloud-hero-grid {
+        grid-template-columns: minmax(0, 1fr) minmax(390px, .86fr);
+        gap: 3rem;
+      }
+
+      #hero .hero-visual-column {
+        width: min(100%, 30rem);
+      }
+    }
+
+    @media (max-width: 1023px) {
+      #hero .up2cloud-hero-grid {
+        grid-template-columns: 1fr;
+        min-height: auto;
+      }
+
+      #hero .up2cloud-hero-brand {
+        justify-self: start;
+        max-width: 46rem;
+      }
+
+      #hero .hero-visual-column {
+        display: flex !important;
+        width: 100%;
+        min-height: auto;
+        margin-top: 2rem;
+      }
+
+      #hero #infra-card {
+        margin-inline: auto;
+        width: min(100%, 32rem);
+      }
+
+      #hero .ambient-cloud {
+        width: calc(var(--cloud-size, 96px) * .72);
+        opacity: .18;
+      }
+
+      .ambient-cloud.zone-mid,
+      .ambient-cloud.zone-low {
+        display: none;
+      }
+    }
+
+    @media (max-width: 640px) {
+      #hero .up2cloud-hero-brand {
+        text-align: left;
+      }
+
+      #hero .ambient-cloud {
+        opacity: .10;
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      .ambient-cloud {
+        animation: none;
+        opacity: .10;
+      }
+    }
+  </style>
+
+
+  <style>
+    /* ─────────────────────────────────────────────
+       UP2CLOUD Hero vNext — cloud zones + premium 3D panel
+       ───────────────────────────────────────────── */
+
+    #hero {
+      isolation: isolate;
+    }
+
+    #hero > canvas,
+    #hero .blob,
+    #hero .orb-ring,
+    #hero .hero-network-wave,
+    #hero .ambient-cloud-layer {
+      z-index: 0 !important;
+      pointer-events: none;
+    }
+
+    #hero #main-content {
+      position: relative;
+      z-index: 10;
+    }
+
+    #hero .command-chip,
+    #hero .money-cloud,
+    #hero .hero-3d-orbit {
+      z-index: 1 !important;
+      opacity: .24 !important;
+      pointer-events: none;
+    }
+
+    #hero .ambient-cloud-layer {
+      position: absolute;
+      inset: 0;
+      overflow: hidden;
+    }
+
+    #hero .cloud-zone {
+      position: absolute;
+      top: 5rem;
+      bottom: 4rem;
+      pointer-events: none;
+      overflow: hidden;
+      z-index: 0;
+      mask-image: radial-gradient(circle at center, #000 0 58%, transparent 82%);
+    }
+
+    #hero .left-zone {
+      left: 0;
+      width: 31%;
+    }
+
+    #hero .center-zone {
+      left: 31%;
+      width: 30%;
+      top: 6.5rem;
+      bottom: 9rem;
+      opacity: .8;
+    }
+
+    #hero .right-zone {
+      right: 0;
+      width: 32%;
+      top: 8rem;
+      bottom: 6rem;
+    }
+
+    #hero .ambient-cloud {
+      position: absolute;
+      left: var(--cloud-left);
+      top: var(--cloud-top);
+      width: var(--cloud-size);
+      color: rgba(14, 165, 233, .76);
+      opacity: 0;
+      transform: translate3d(0, 0, 0) scale(.82);
+      filter:
+        drop-shadow(0 0 8px rgba(14, 165, 233, .22))
+        drop-shadow(0 0 18px rgba(14, 165, 233, .12));
+      animation: up2cloudAmbientCloud var(--cloud-duration) cubic-bezier(.22, 1, .36, 1) infinite;
+      animation-delay: var(--cloud-delay);
+      will-change: opacity, transform, filter;
+    }
+
+    #hero .ambient-cloud svg {
+      width: 100%;
+      height: auto;
+      display: block;
+    }
+
+    #hero .ambient-cloud path {
+      fill: none;
+      stroke: currentColor;
+      stroke-width: 2.2;
+      stroke-linecap: round;
+      stroke-linejoin: round;
+    }
+
+    @keyframes up2cloudAmbientCloud {
+      0%, 100% {
+        opacity: 0;
+        transform: translate3d(0, 12px, 0) scale(.78);
+        filter: drop-shadow(0 0 0 rgba(14,165,233,0));
+      }
+      18% {
+        opacity: calc(var(--cloud-opacity) * .56);
+      }
+      42% {
+        opacity: var(--cloud-opacity);
+        transform: translate3d(var(--cloud-drift), -4px, 0) scale(1);
+        filter:
+          drop-shadow(0 0 8px rgba(14, 165, 233, .26))
+          drop-shadow(0 0 18px rgba(14, 165, 233, .15));
+      }
+      72% {
+        opacity: calc(var(--cloud-opacity) * .42);
+        transform: translate3d(calc(var(--cloud-drift) * -0.6), -16px, 0) scale(.94);
+      }
+    }
+
+    #hero .hero-visual-column {
+      justify-self: end;
+      width: min(100%, 34rem);
+      min-height: 620px;
+      position: relative;
+      z-index: 12;
+      perspective: 1200px;
+      transform-style: preserve-3d;
+    }
+
+    #hero #infra-card.infra-3d-panel {
+      position: relative;
+      width: min(100%, 30rem);
+      max-width: 30rem;
+      margin-left: auto;
+      transform: translateZ(0);
+      transform-style: preserve-3d;
+      transition:
+        transform .42s cubic-bezier(.16, 1, .3, 1),
+        box-shadow .42s cubic-bezier(.16, 1, .3, 1),
+        border-color .42s cubic-bezier(.16, 1, .3, 1);
+      background:
+        linear-gradient(135deg, rgba(15, 23, 42, .88), rgba(30, 41, 59, .60) 48%, rgba(88, 28, 135, .30)) !important;
+      border: 1px solid rgba(96, 165, 250, .34) !important;
+      backdrop-filter: blur(22px) saturate(135%);
+      -webkit-backdrop-filter: blur(22px) saturate(135%);
+      box-shadow:
+        0 42px 100px rgba(2, 6, 23, .58),
+        0 18px 44px rgba(14, 165, 233, .14),
+        0 0 0 1px rgba(14, 165, 233, .20),
+        inset 0 1px 0 rgba(255, 255, 255, .16),
+        inset 1px 0 0 rgba(255, 255, 255, .10);
+    }
+
+    #hero #infra-card.infra-3d-panel::before {
+      content: "";
+      position: absolute;
+      inset: 0;
+      pointer-events: none;
+      border-radius: inherit;
+      background:
+        linear-gradient(135deg, rgba(255,255,255,.15), transparent 22%),
+        radial-gradient(circle at 22% 0%, rgba(14,165,233,.20), transparent 34%);
+      opacity: .72;
+      mix-blend-mode: screen;
+    }
+
+    #hero #infra-card.infra-3d-panel:hover {
+      transform: translateY(-4px) translateZ(18px);
+      border-color: rgba(56, 189, 248, .48) !important;
+      box-shadow:
+        0 52px 120px rgba(2, 6, 23, .66),
+        0 24px 58px rgba(14, 165, 233, .22),
+        0 0 0 1px rgba(56, 189, 248, .35),
+        inset 0 1px 0 rgba(255, 255, 255, .20),
+        inset 1px 0 0 rgba(255, 255, 255, .13);
+    }
+
+    #hero #infra-card.is-floating {
+      position: absolute !important;
+      z-index: 70 !important;
+    }
+
+    @media (max-width: 1023px) {
+      #hero .cloud-zone {
+        top: 5rem;
+        bottom: 2rem;
+      }
+
+      #hero .center-zone {
+        display: none;
+      }
+
+      #hero .left-zone {
+        width: 48%;
+      }
+
+      #hero .right-zone {
+        width: 48%;
+      }
+
+      #hero .hero-visual-column {
+        display: flex !important;
+        width: 100%;
+        min-height: auto;
+        margin-top: 2rem;
+      }
+
+      #hero #infra-card.infra-3d-panel {
+        margin-inline: auto;
+        width: min(100%, 32rem);
+      }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      #hero .ambient-cloud,
+      #hero #infra-card.infra-3d-panel {
+        animation: none;
+        transition: none;
+      }
+    }
+  </style>
+
+
+  <style>
+    
+
+
+<style>
+/* ─────────────────────────────────────────────
+   UP2CLOUD Hero Ambient Cloud System v2
+   Restores cloud chips without overlapping UI
+   ───────────────────────────────────────────── */
+
+#hero{
+  isolation:isolate;
+}
+
+/* UI always above */
+#hero #main-content,
+#hero .up2cloud-hero-brand,
+#hero .hero-visual-column,
+#hero #infra-card{
+  position:relative;
+  z-index:20;
+}
+
+/* Background layers */
+#hero .hero-network-wave,
+#hero .blob,
+#hero .orb-ring,
+#particle-canvas{
+  z-index:0 !important;
+  pointer-events:none;
+}
+
+/* Pull hero text slightly down */
+#hero #main-content{
+  transform:translateY(clamp(1.2rem,3vh,3rem));
+}
+
+/* Cloud zones */
+.hero-cloud-zones{
+  position:absolute;
+  inset:0;
+  z-index:4;
+  pointer-events:none;
+  overflow:hidden;
+}
+
+.hero-cloud-zone{
+  position:absolute;
+  top:0;
+  bottom:0;
+  overflow:hidden;
+}
+
+.hero-cloud-zone.left{
+  left:0;
+  width:28%;
+}
+
+.hero-cloud-zone.center{
+  left:31%;
+  width:24%;
+}
+
+.hero-cloud-zone.right{
+  right:0;
+  width:28%;
+}
+
+/* Floating cloud chips */
+.hero-cloud-chip{
+  position:absolute;
+  display:flex;
+  align-items:center;
+  gap:.55rem;
+  padding:.7rem 1rem;
+  border-radius:999px;
+  background:rgba(8,15,35,.48);
+  border:1px solid rgba(56,189,248,.18);
+  backdrop-filter:blur(14px);
+  -webkit-backdrop-filter:blur(14px);
+  box-shadow:
+    0 10px 30px rgba(2,6,23,.32),
+    inset 0 1px 0 rgba(255,255,255,.06);
+  color:rgba(255,255,255,.72);
+  font-size:.78rem;
+  font-weight:600;
+  letter-spacing:.01em;
+  opacity:0;
+  transform:translateY(20px) scale(.92);
+  animation:cloudChipFloat var(--dur) ease-in-out infinite;
+  animation-delay:var(--delay);
+  white-space:nowrap;
+}
+
+.hero-cloud-chip svg{
+  width:18px;
+  height:18px;
+  color:#38BDF8;
+  flex-shrink:0;
+  filter:drop-shadow(0 0 10px rgba(56,189,248,.35));
+}
+
+.hero-cloud-chip.green svg{
+  color:#22C55E;
+}
+
+.hero-cloud-chip.purple svg{
+  color:#A855F7;
+}
+
+.hero-cloud-chip.orange svg{
+  color:#F97316;
+}
+
+.hero-cloud-chip::before{
+  content:"";
+  position:absolute;
+  inset:0;
+  border-radius:inherit;
+  background:
+    linear-gradient(135deg,rgba(255,255,255,.08),transparent 30%);
+  opacity:.5;
+  pointer-events:none;
+}
+
+@keyframes cloudChipFloat{
+  0%,100%{
+    opacity:0;
+    transform:translateY(18px) scale(.9);
+  }
+  15%{
+    opacity:.16;
+  }
+  35%{
+    opacity:.32;
+    transform:translateY(0) scale(1);
+  }
+  70%{
+    opacity:.22;
+    transform:translateY(-10px) scale(.985);
+  }
+}
+
+/* Better panel depth */
+#hero #infra-card{
+  box-shadow:
+    0 48px 120px rgba(2,6,23,.62),
+    0 24px 60px rgba(14,165,233,.16),
+    0 0 0 1px rgba(56,189,248,.18),
+    inset 0 1px 0 rgba(255,255,255,.14) !important;
+}
+
+/* Mobile */
+@media(max-width:1023px){
+  .hero-cloud-zone.center{
+    display:none;
+  }
+
+  .hero-cloud-zone.left,
+  .hero-cloud-zone.right{
+    width:45%;
+  }
+
+  .hero-cloud-chip{
+    transform:scale(.9);
+  }
+}
+
+@media(max-width:640px){
+  #hero #main-content{
+    transform:translateY(.8rem);
+  }
+
+  .hero-cloud-chip{
+    opacity:.12 !important;
+    font-size:.68rem;
+    padding:.55rem .8rem;
+  }
+}
+</style>
+
 </head>
 <body style="overscroll-behavior-y:none">
 
@@ -805,9 +1417,9 @@
 })();
 </script>
 
- <div id="main-content" class="relative z-10 max-w-7xl mx-auto px-6 py-10 lg:py-24 w-full">
-  <div class="grid lg:grid-cols-[minmax(0,1.05fr)_minmax(420px,.95fr)] gap-10 xl:gap-16 items-center">
-  <div class="max-w-2xl">
+ <div id="main-content" class="relative z-20 max-w-[92rem] mx-auto px-6 sm:px-8 lg:px-10 py-10 lg:py-20 w-full">
+  <div class="grid grid-cols-1 lg:grid-cols-12 gap-10 xl:gap-16 items-center min-h-[calc(100svh-8rem)]">
+  <div class="lg:col-span-7 xl:col-span-7 max-w-[45rem] justify-self-center lg:justify-self-start">
     <div class="flex flex-wrap gap-2 mb-5">
       <span class="badge" style="background:rgba(14,165,233,.18);color:#38BDF8;border:1px solid rgba(14,165,233,.24)">
         <svg width="11" height="11" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="inline mr-1" aria-hidden="true"><rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/><rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/></svg>
@@ -866,8 +1478,8 @@
   </div>
 
   <!-- Hero metrics card -->
-  <div class="hidden lg:flex justify-center lg:justify-end items-start">
-    <div id="infra-card" data-draggable-card="true" class="hero-draggable-card glass premium-glow tilt-card rounded-2xl p-7 w-full max-w-[28rem] text-white select-none" style="cursor:grab;position:relative;z-index:35;will-change:left,top,transform;touch-action:none" title="Drag and drop this panel anywhere in the hero area">
+  <aside class="lg:col-span-5 xl:col-span-5 hidden lg:flex flex-col items-end justify-center hero-visual-column" aria-label="Infrastructure metrics">
+    <div id="infra-card" data-draggable-card="true" class="hero-draggable-card glass premium-glow tilt-card rounded-2xl p-7 w-full max-w-[28rem] text-white select-none infra-3d-panel" style="cursor:grab;position:relative;z-index:35;will-change:left,top,transform;touch-action:none" title="Drag and drop this panel anywhere in the hero area">
       <!-- Drag handle hint -->
       <div style="position:absolute;top:10px;right:12px;opacity:.28;pointer-events:none;line-height:1" aria-hidden="true">
         <svg width="14" height="14" viewBox="0 0 20 20" fill="currentColor"><circle cx="7" cy="5" r="1.5"/><circle cx="13" cy="5" r="1.5"/><circle cx="7" cy="10" r="1.5"/><circle cx="13" cy="10" r="1.5"/><circle cx="7" cy="15" r="1.5"/><circle cx="13" cy="15" r="1.5"/></svg>
@@ -915,13 +1527,15 @@
         <span class="stack-pill" style="font-size:.66rem">GitOps</span>
       </div>
     </div>
-  </div>
+  </aside>
 </div>
 </div>
 <a href="#tech-stack" aria-label="Scroll to services" onclick="event.preventDefault();document.getElementById('tech-stack').scrollIntoView({behavior:'smooth'})" class="absolute bottom-6 left-1/2 -translate-x-1/2 text-white/30 hover:text-white/60 text-xs flex flex-col items-center gap-1.5 transition-colors duration-200 cursor-pointer select-none">
   <span data-i18n="hero_scroll">Scroll</span>
   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" class="animate-bounce" aria-hidden="true"><path d="M19 9l-7 7-7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
 </a>
+
+
 </section>
 
 
@@ -2046,7 +2660,7 @@
 
 <!-- ══════════════════════════ CONTACT ══════════════════════════ -->
 <section id="contact" aria-label="Contact" class="py-20 lg:py-28 bg-slate-50">
-  <div class="max-w-7xl mx-auto px-6 grid lg:grid-cols-2 gap-8 lg:gap-16 items-start">
+  <div class="max-w-7xl mx-auto px-6 grid lg:grid-cols-[1fr,minmax(auto,450px)] gap-16 items-start w-full">
     <div class="reveal">
       <span class="badge" data-i18n="contact_badge">Get In Touch</span>
       <h2 class="font-heading font-700 text-4xl sm:text-5xl lg:text-6xl text-navy mt-4 mb-5" data-i18n="contact_title">Let's Talk About Your IT Goals</h2>
@@ -3510,7 +4124,7 @@ TONE: Be helpful, concise, and professional. Keep answers to 2-4 sentences unles
     var holder = card ? card.parentElement : null;
     if(!card || !hero) return;
 
-    var STORAGE_KEY = 'up2cloud.infraCard.position.v4';
+    var STORAGE_KEY = 'up2cloud.infraCard.position.v5';
     var dragging = false;
     var pointerId = null;
     var offsetX = 0;
