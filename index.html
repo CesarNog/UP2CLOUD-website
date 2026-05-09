@@ -12,12 +12,12 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>UP2CLOUD — Cloud & DevOps Consulting Portugal | AWS GCP Azure Experts</title>
-  <meta name="description" content="UP2CLOUD provides enterprise Cloud consulting, DevOps, and FinOps in Portugal and internationally. Expert Kubernetes, Terraform, and AI automation. AWS, GCP, Azure certified." />
+  <title>UP2CLOUD — Enterprise Platform Engineering & FinOps Consultancy</title>
+  <meta name="description" content="Specialized Platform Engineering, FinOps, and DevOps consultancy for AWS, Azure, and Google Cloud. We build immutable infrastructure and automated governance for global engineering teams." />
   <meta name="author" content="Cesar A. Nogueira" />
   <meta name="robots" content="index, follow" />
-  <meta property="og:title" content="UP2CLOUD — Enterprise Cloud & DevOps Consulting Portugal" />
-  <meta property="og:description" content="Production-grade cloud & DevOps consulting: Kubernetes, Terraform, multi-cloud architecture, and FinOps. AWS · GCP · Azure certified. Serving clients in Portugal and worldwide." />
+  <meta property="og:title" content="UP2CLOUD — Enterprise Platform Engineering" />
+  <meta property="og:description" content="Build cloud platforms that scale, ship, and pay for themselves. Expert Platform Engineering and FinOps for AWS, Azure, and Google Cloud." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://up2cloud.tech/" />
   <link rel="canonical" href="https://up2cloud.tech/" />
@@ -27,8 +27,8 @@
   <meta property="og:image:alt" content="UP2CLOUD — Enterprise Cloud & DevOps Consulting" />
   <meta name="twitter:card" content="summary_large_image" />
   <meta name="twitter:image" content="https://up2cloud.tech/assets/img/og-image.png" />
-  <meta name="twitter:title" content="UP2CLOUD — Cloud & DevOps Consulting Portugal" />
-  <meta name="twitter:description" content="Enterprise Cloud & DevOps consulting: Kubernetes, Terraform, multi-cloud, and FinOps. AWS · GCP · Azure certified." />
+  <meta name="twitter:title" content="UP2CLOUD — Platform Engineering, FinOps & DevOps Consulting" />
+  <meta name="twitter:description" content="Build cloud platforms that scale, ship, and pay for themselves. Expert Platform Engineering, FinOps, and AI-driven DevOps for AWS, Azure, and Google Cloud." />
   <!-- Hotjar — production only (HTTPS) -->
   <script>
     if (location.protocol === 'https:') {
@@ -108,7 +108,7 @@
     const FORMSPREE_ENDPOINT = 'https://formspree.io/f/REPLACE_WITH_YOUR_ID';
 
     // ── Groq AI Chatbot — proxied via /api/chat (key is server-side only) ───
-    const GROQ_API_KEY = 'proxied';
+    const GROQ_API_KEY = 'REPLACE_WITH_GROQ_KEY';
   </script>
 </head>
   <!-- All custom CSS is now compiled into assets/css/tailwind.min.css via src/input.css -->
@@ -470,16 +470,29 @@
         <span data-i18n="hero_badge_ai">AI-Augmented Delivery</span>
       </span>
     </div>
-    <h1 class="font-heading font-700 text-[2.6rem] sm:text-5xl lg:text-[3.7rem] xl:text-[4.2rem] text-white leading-[1.05] tracking-tight mb-6">
-      <span class="hero-line" style="animation-delay:.15s" data-i18n="hero_title">Enterprise</span>
-      <span class="hero-line gradient-text" style="animation-delay:.75s" data-i18n="hero_title2">Platform Engineering</span>
-      <span class="hero-line text-white/65" style="font-size:.78em;font-weight:600;animation-delay:1.35s" data-i18n="hero_title2_accent">&amp; Cloud Transformation</span>
+    <h1 class="font-heading font-700 text-[2.8rem] sm:text-6xl lg:text-[4rem] xl:text-[4.6rem] text-white leading-[1.02] tracking-tight mb-8 reveal" style="transition-delay:0s">
+      <span class="hero-line" style="animation-delay:.15s">Cloud platforms that</span>
+      <span class="hero-line gradient-text" style="animation-delay:.75s">scale, ship, and self-fund.</span>
     </h1>
-    <p class="text-white/65 text-[1.05rem] sm:text-lg leading-relaxed mb-8 max-w-[32rem]" data-i18n="hero_sub">
-      We architect, automate, and operate production-grade cloud platforms — Kubernetes, Terraform, multi-cloud, and AI-enabled DevSecOps — for engineering teams that ship fast without breaking things.
+    <p class="text-white/60 text-[1.1rem] sm:text-xl leading-relaxed mb-10 max-w-[36rem] reveal" style="transition-delay:1.5s">
+      We design, automate, and govern cloud infrastructure for enterprise teams — merging Platform Engineering, DevOps, and FinOps into a single, high-velocity delivery model.
     </p>
-    <div class="flex flex-col sm:flex-row flex-wrap gap-3 sm:gap-4">
-      <a href="#contact" class="btn-primary text-base shine glow-pulse w-full sm:w-auto justify-center">
+    <div class="flex flex-wrap gap-4 mb-10 reveal" style="transition-delay:1.8s">
+      <span class="badge" style="background:rgba(14,165,233,.1);color:#38BDF8;border:1px solid rgba(14,165,233,.2);padding:.4rem 1rem">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="inline mr-2" aria-hidden="true"><path d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z" stroke-linejoin="round"/></svg>
+        Multi-cloud delivery
+      </span>
+      <span class="badge" style="background:rgba(249,115,22,.1);color:#F97316;border:1px solid rgba(249,115,22,.2);padding:.4rem 1rem">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="inline mr-2" aria-hidden="true"><path d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        IaC-First Automation
+      </span>
+      <span class="badge" style="background:rgba(5,150,105,.1);color:#34D399;border:1px solid rgba(5,150,105,.2);padding:.4rem 1rem">
+        <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" class="inline mr-2" aria-hidden="true"><path d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        FinOps Optimization
+      </span>
+    </div>
+    <div class="flex flex-col sm:flex-row flex-wrap gap-3 sm:gap-4 reveal" style="transition-delay:2s">
+      <a href="#contact" class="btn-primary text-base shine glow-pulse w-full sm:w-auto justify-center" data-i18n="hero_cta_primary">
         <svg width="17" height="17" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
         <span data-i18n="hero_cta_primary">Book a Free Infrastructure Audit</span>
       </a>
@@ -487,19 +500,19 @@
         <svg width="17" height="17" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
         <span data-i18n="hero_cta_secondary">Explore Services</span>
       </a>
+      <a href="/blog" class="btn-outline text-base w-full sm:w-auto justify-center" style="border-color:rgba(255,255,255,.22);color:rgba(255,255,255,.78)">
+        <svg width="17" height="17" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M19 21H5a2 2 0 01-2-2V5a2 2 0 012-2h11l5 5v11a2 2 0 01-2 2z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><path d="M17 21v-8H7v8M7 3v4h4" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        <span>Read Cloud Insights</span>
+      </a>
     </div>
-    <div class="flex flex-wrap items-center gap-5 mt-6">
+    <div class="flex flex-wrap items-center gap-5 mt-6 reveal" style="transition-delay:2.2s">
       <div class="flex items-center gap-2 text-white/50 text-sm">
         <svg width="14" height="14" fill="#22C55E" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
         <span data-i18n="hero_trust_cert">AWS · GCP · Azure Certified</span>
       </div>
       <div class="flex items-center gap-2 text-white/50 text-sm">
         <svg width="14" height="14" fill="#22C55E" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-        <span data-i18n="hero_trust_k8s">Kubernetes · Terraform · GitOps</span>
-      </div>
-      <div class="flex items-center gap-2 text-white/50 text-sm">
-        <svg width="14" height="14" fill="#22C55E" viewBox="0 0 24 24" aria-hidden="true"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
-        <span data-i18n="hero_trust_exp">10+ Years Production Experience</span>
+        <span data-i18n="hero_trust_k8s">10+ Years Production Experience</span>
       </div>
     </div>
   </div>
@@ -1883,7 +1896,7 @@
     </div>
 
     <div class="border-t border-white/[.08] pt-5 flex flex-col sm:flex-row justify-between items-center gap-3 text-xs text-white/30">
-      <p data-i18n="footer_copyright">&copy; 2026 UP2CLOUD · Cesar A. Nogueira. All rights reserved.copy; <span id="year"></span> UP2CLOUD. All rights reserved.</p>
+      <p data-i18n="footer_copyright">&copy; <span id="year"></span> UP2CLOUD · Cesar A. Nogueira. All rights reserved.</p>
       <div class="flex gap-5 flex-wrap justify-center">
         <a href="/blog" class="hover:text-white/55 transition-colors">Blog</a>
         <a href="/about" class="hover:text-white/55 transition-colors">About</a>
@@ -2159,6 +2172,10 @@
   const msgs      = document.getElementById('chat-messages');
 
   // Conversation history for multi-turn context
+  // Initialize chat history with the system prompt to ensure it's always present
+  // and the AI understands its role from the start.
+  // This also helps in maintaining the persona across multiple turns.
+  // The system prompt is defined below.
   const chatHistory = [];
 
   // System prompt — full UP2CLOUD context
@@ -2258,7 +2275,7 @@ TONE: Be helpful, concise, and professional. Keep answers to 2-4 sentences unles
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
-          model: 'llama-3.1-8b-instant',
+          model: 'llama-3.1-8b-instant', // Ensure this model is available and performant
           messages: [
             { role: 'system', content: SYSTEM_PROMPT },
             ...chatHistory
@@ -2277,7 +2294,7 @@ TONE: Be helpful, concise, and professional. Keep answers to 2-4 sentences unles
       if (!res.ok) throw new Error(`HTTP ${res.status}`);
       const data = await res.json();
       const reply = data.choices?.[0]?.message?.content?.trim() || 'Sorry, I couldn\'t get a response. Please try again.';
-
+      
       chatHistory.push({ role: 'assistant', content: reply });
       hideTyping();
       // Sanitise and render
@@ -2287,7 +2304,7 @@ TONE: Be helpful, concise, and professional. Keep answers to 2-4 sentences unles
     } catch (err) {
       hideTyping();
       const msg = err.message === 'INVALID_KEY'
-        ? '🔑 API key was invalid or expired — it has been cleared. Click a question below to set a new key.'
+        ? '🔑 API key was invalid or expired. Please check your configuration.'
         : '⚠️ Couldn\'t reach the AI right now. Email us at <a href="mailto:hello@up2cloud.io">hello@up2cloud.io</a> — we reply within 24h!';
       appendMsg(msg, 'bot');
     } finally {
@@ -2488,6 +2505,219 @@ TONE: Be helpful, concise, and professional. Keep answers to 2-4 sentences unles
       });
     }, { threshold: 0.3 });
     obs.observe(logoBar);
+  })();
+
+  /* ══════════════════════════════════════════════
+     CLOUD AUDIT SIMULATOR
+  ══════════════════════════════════════════════ */
+  (function() {
+    const challenges = {
+      costs: {
+        title: "Cloud costs are increasing",
+        causes: [
+          "Oversized compute instances (CPU/RAM waste)",
+          "Idle resources (unattached volumes, old snapshots)",
+          "Weak or inconsistent tagging strategy",
+          "Lack of clear ownership model for resources",
+          "Inefficient data transfer patterns"
+        ],
+        focus: [
+          "Rightsizing compute and storage resources",
+          "Commitment coverage (Reserved Instances, Savings Plans)",
+          "Storage lifecycle management & tiering",
+          "Cost allocation and chargeback/showback models",
+          "Network egress optimization"
+        ],
+        outcomes: [
+          "Clearer cost accountability and ownership",
+          "Prioritized savings backlog with estimated ROI",
+          "Sustained 30-50% cloud cost reduction",
+          "Predictable cloud spend and budgeting"
+        ]
+      },
+      deployments: {
+        title: "Deployments are slow or manual",
+        causes: [
+          "Manual steps in CI/CD pipelines",
+          "Lack of automated testing and quality gates",
+          "Inconsistent deployment environments",
+          "Monolithic application architecture",
+          "Slow build times and artifact management"
+        ],
+        focus: [
+          "Automated CI/CD pipeline design (GitOps)",
+          "Containerization strategy (Docker, Kubernetes)",
+          "Infrastructure as Code for environment consistency",
+          "Automated testing integration (unit, integration, E2E)",
+          "Blue/Green or Canary deployment strategies"
+        ],
+        outcomes: [
+          "10x faster deployment frequency",
+          "Reduced human error and deployment failures",
+          "Consistent and reproducible environments",
+          "Faster time-to-market for new features"
+        ]
+      },
+      kubernetes: {
+        title: "Kubernetes is hard to operate",
+        causes: [
+          "Cluster complexity and management overhead",
+          "Scaling issues and resource contention",
+          "Security misconfigurations and vulnerabilities",
+          "Lack of in-house Kubernetes expertise",
+          "Fragmented monitoring and logging"
+        ],
+        focus: [
+          "Kubernetes cluster design and optimization (GKE, EKS, AKS)",
+          "GitOps for Kubernetes configuration management",
+          "Security hardening (RBAC, Pod Security Standards)",
+          "Observability stack integration (Prometheus, Grafana, Datadog)",
+          "Cost optimization for Kubernetes workloads"
+        ],
+        outcomes: [
+          "Stable, high-performing Kubernetes clusters",
+          "Reduced operational overhead and complexity",
+          "Enhanced security posture for containerized apps",
+          "Improved resource utilization and cost efficiency"
+        ]
+      },
+      terraform: {
+        title: "Terraform is inconsistent",
+        causes: [
+          "Manual changes outside Terraform (drift)",
+          "Poorly structured or undocumented Terraform modules",
+          "Lack of state management best practices",
+          "Security vulnerabilities in IaC templates",
+          "No policy-as-code enforcement"
+        ],
+        focus: [
+          "Terraform module standardization and best practices",
+          "Remote state management and locking",
+          "Automated drift detection and remediation",
+          "Policy-as-Code implementation (OPA, Sentinel)",
+          "IaC security scanning (Checkov, Terrascan)"
+        ],
+        outcomes: [
+          "Immutable infrastructure and consistent environments",
+          "Reduced configuration errors and security risks",
+          "Faster infrastructure provisioning",
+          "Enhanced compliance and auditability"
+        ]
+      },
+      monitoring: {
+        title: "Monitoring is fragmented",
+        causes: [
+          "Multiple disparate monitoring tools",
+          "Alert fatigue and false positives",
+          "Lack of end-to-end visibility across services",
+          "Slow incident detection and root cause analysis",
+          "Undefined Service Level Objectives (SLOs)"
+        ],
+        focus: [
+          "Consolidated observability stack (Prometheus, Grafana, Datadog, Splunk)",
+          "SLO/SLA definition and error budget management",
+          "Automated alert correlation and incident runbooks",
+          "Distributed tracing and log aggregation",
+          "Performance baseline establishment"
+        ],
+        outcomes: [
+          "Proactive incident detection and prevention",
+          "Reduced mean time to resolution (MTTR)",
+          "Clearer system health visibility",
+          "Improved reliability and operational efficiency"
+        ]
+      },
+      governance: {
+        title: "Cloud governance is unclear",
+        causes: [
+          "Lack of centralized policy enforcement",
+          "Compliance risks and audit failures",
+          "Over-privileged IAM roles and access",
+          "Shadow IT and unmanaged resources",
+          "No clear cost ownership or budgeting"
+        ],
+        focus: [
+          "Policy-as-Code implementation (OPA, Azure Policy, AWS Config)",
+          "Least privilege IAM role design",
+          "Automated compliance checks and reporting",
+          "Resource tagging and inventory management",
+          "FinOps framework for cost governance"
+        ],
+        outcomes: [
+          "Continuous compliance with industry standards (ISO 27001, GDPR)",
+          "Reduced security risks and attack surface",
+          "Automated enforcement of cloud policies",
+          "Clearer resource management and accountability"
+        ]
+      }
+    };
+
+    document.querySelectorAll('.audit-challenge-btn').forEach(button => {
+      button.addEventListener('click', function() {
+        const challengeKey = this.dataset.challenge;
+        const data = challenges[challengeKey];
+
+        document.getElementById('audit-challenge-title').textContent = data.title;
+
+        const renderList = (id, items) => {
+          const ul = document.getElementById(id);
+          ul.innerHTML = '';
+          items.forEach(item => {
+            const li = document.createElement('li');
+            li.className = 'flex items-start gap-2';
+            li.innerHTML = `<svg width="16" height="16" fill="none" stroke="#38BDF8" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" viewBox="0 0 24 24"><path d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/></svg><span>${item}</span>`;
+            ul.appendChild(li);
+          });
+        };
+
+        renderList('audit-causes', data.causes);
+        renderList('audit-focus', data.focus);
+        renderList('audit-outcomes', data.outcomes);
+
+        document.getElementById('audit-results').classList.remove('hidden');
+        document.getElementById('audit-results').scrollIntoView({ behavior: 'smooth', block: 'start' });
+
+        // Highlight active button
+        document.querySelectorAll('.audit-challenge-btn').forEach(btn => btn.classList.remove('active-challenge'));
+        this.classList.add('active-challenge');
+      });
+    });
+  })();
+
+  /* ══════════════════════════════════════════════
+     LATEST CLOUD INSIGHTS (Blog Posts)
+  ══════════════════════════════════════════════ */
+  (function() {
+    const container = document.getElementById('blog-posts-container');
+    if (!container) return;
+
+    fetch('blog/posts.json')
+      .then(response => response.json())
+      .then(posts => {
+        // Sort posts by date in descending order
+        posts.sort((a, b) => new Date(b.date) - new Date(a.date));
+        // Take the latest 3 posts
+        const latestPosts = posts.slice(0, 3);
+
+        latestPosts.forEach((post, index) => {
+          const article = document.createElement('article');
+          article.className = `service-card bg-white rounded-2xl p-7 sm:p-8 shadow-sm border border-slate-100/80 reveal cursor-pointer`;
+          article.style.transitionDelay = `${index * 0.05}s`;
+          article.innerHTML = `
+            <a href="/blog/${post.slug}" class="block">
+              <span class="badge badge-${post.badgeClass}" style="margin-bottom: 1rem; display: inline-block;">${post.category}</span>
+              <h3 class="font-heading font-700 text-[1.1rem] text-navy mb-2">${post.title}</h3>
+              <p class="text-slate-500 text-sm leading-relaxed mb-4">${post.excerpt}</p>
+              <p class="text-sky-brand text-sm font-medium">Read article &rarr;</p>
+            </a>
+          `;
+          container.appendChild(article);
+        });
+
+        // Re-observe new elements for scroll reveal
+        document.querySelectorAll('#blog-posts-container .reveal').forEach(el => revealObserver.observe(el));
+      })
+      .catch(error => console.error('Error fetching blog posts:', error));
   })();
 
   /* ══════════════════════════════════════════════
