@@ -1,5 +1,14 @@
 [
   {
+    "slug": "seo-automation-up2cloud-2026",
+    "title": "How We Automated SEO and Structured Data for UP2CLOUD in 2026",
+    "excerpt": "A technical deep dive into how we implemented automated JSON-LD schemas, canonical URL mapping, and sitemap synchronization to boost search visibility.",
+    "date": "2026-05-09",
+    "category": "DevOps",
+    "badgeClass": "badge-sky",
+    "featured": false
+  },
+  {
     "slug": "platform-engineering-finops-2026",
     "title": "Platform Engineering + FinOps in 2026: How Elite Cloud Teams Reduce Costs Without Slowing Developers",
     "excerpt": "Modern cloud teams are no longer choosing between developer velocity and cost optimization. In this article, we explore how Platform Engineering and FinOps are converging in 2026 to create scalable, self-service cloud platforms with built-in governance, automation, and real-time cost intelligence.",
@@ -11,7 +20,7 @@
   {
     "slug": "cloud-cost-anomaly-detection-ai",
     "title": "How AI Anomaly Detection Catches Cloud Cost Spikes Before They Hurt",
-    "excerpt": "Most cloud bills spike silently for days before anyone notices. Here's how AI-powered anomaly detection catches cost explosions in minutes — not weeks — and the architecture we use at UP2CLOUD to do it.",
+    "excerpt": "Most cloud bills spike silently for days before anyone notices. Here's how AI-powered anomaly detection catches cost explosions in minutes \u2014 not weeks \u2014 and the architecture we use at UP2CLOUD to do it.",
     "date": "2026-05-08",
     "category": "FinOps",
     "badgeClass": "badge-green",
@@ -20,7 +29,7 @@
   {
     "slug": "finops-cloud-cost-reduction",
     "title": "FinOps in Practice: How We Reduced Cloud Costs by 42% for a Global Retailer",
-    "excerpt": "How UP2CLOUD's FinOps audit methodology — tagging strategy, rightsizing, reserved instances, and spot fleets — delivered $4,200/month in cloud savings for a global retailer.",
+    "excerpt": "How UP2CLOUD's FinOps audit methodology \u2014 tagging strategy, rightsizing, reserved instances, and spot fleets \u2014 delivered $4,200/month in cloud savings for a global retailer.",
     "date": "2025-04-08",
     "category": "FinOps",
     "badgeClass": "badge-green",
@@ -38,7 +47,7 @@
   {
     "slug": "ai-incident-response-automation",
     "title": "AI-Powered Incident Response: From Alert to Resolution in Under 60 Seconds",
-    "excerpt": "How AI agents detect, correlate, and resolve production incidents in under 60 seconds — reducing MTTR by 10× and eliminating 3am wake-up calls for on-call engineers.",
+    "excerpt": "How AI agents detect, correlate, and resolve production incidents in under 60 seconds \u2014 reducing MTTR by 10\u00d7 and eliminating 3am wake-up calls for on-call engineers.",
     "date": "2025-05-05",
     "category": "AI",
     "badgeClass": "badge-purple",
@@ -65,7 +74,7 @@
   {
     "slug": "devsecops-business-case",
     "title": "The Business Case for DevSecOps: Ship Faster Without Sacrificing Security",
-    "excerpt": "Late-stage vulnerabilities cost 30× more to fix than shift-left catches. Here's the ROI case for integrating SAST, DAST, IaC scanning, and compliance as code into your CI/CD pipeline.",
+    "excerpt": "Late-stage vulnerabilities cost 30\u00d7 more to fix than shift-left catches. Here's the ROI case for integrating SAST, DAST, IaC scanning, and compliance as code into your CI/CD pipeline.",
     "date": "2025-05-26",
     "category": "Security",
     "badgeClass": "badge-orange",
