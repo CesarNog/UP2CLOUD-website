@@ -1,0 +1,63 @@
+name: Instagram Auto-Post
+on:
+  push:
+    branches: [main]
+    paths: ['blog/posts.json']
+
+jobs:
+  post:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          fetch-depth: 2
+      
+      - name: Detect new blog post
+        id: detect
+        run: |
+          PREV=$(git show HEAD~1:blog/posts.json 2>/dev/null || echo '[]')
+          CURR=$(cat blog/posts.json)
+          python3 - "$PREV" "$CURR" <<'PY'
+          import sys, json, os
+          prev_slugs = {p['slug'] for p in json.loads(sys.argv[1])}
+          curr_posts = json.loads(sys.argv[2])
+          new_posts = [p for p in curr_posts if p['slug'] not in prev_slugs]
+          with open(os.environ['GITHUB_OUTPUT'], 'a') as fh:
+              fh.write(f"new_posts={json.dumps(new_posts)}\n")
+              fh.write(f"has_new={'true' if new_posts else 'false'}\n")
+          PY
+
+      - name: Publish to Instagram
+        if: steps.detect.outputs.has_new == 'true'
+        env:
+          ACCESS_TOKEN: ${{ secrets.INSTAGRAM_ACCESS_TOKEN }}
+          USER_ID: ${{ secrets.INSTAGRAM_USER_ID }}
+          NEW_POSTS: ${{ steps.detect.outputs.new_posts }}
+        run: |
+          python3 - <<'PY'
+          import json, os, urllib.request, urllib.error, sys, time
+
+          access_token = os.environ.get('ACCESS_TOKEN')
+          user_id = os.environ.get('USER_ID')
+          post = json.loads(os.environ.get('NEW_POSTS', '[]'))[0]
+          
+          # Use site OG image
+          img_url = "https://up2cloud.tech/assets/img/og-image.png"
+          caption = f"{post['title']}\n\n{post['excerpt']}\n\nLeia mais no link da bio: https://up2cloud.tech/blog/{post['slug']}/ #DevOps #Cloud #FinOps #PlatformEngineering"
+
+          def call_api(url, data=None, method='POST'):
+              req = urllib.request.Request(url, data=data, headers={'Content-Type': 'application/json'}, method=method)
+              with urllib.request.urlopen(req) as resp:
+                  return json.loads(resp.read())
+
+          # 1. Create Media Container
+          container_url = f"https://graph.facebook.com/v20.0/{user_id}/media?image_url={img_url}&caption={urllib.parse.quote(caption)}&access_token={access_token}"
+          container = call_api(container_url)
+          container_id = container['id']
+          
+          # 2. Publish Container
+          time.sleep(5) # Wait for processing
+          publish_url = f"https://graph.facebook.com/v20.0/{user_id}/media_publish?creation_id={container_id}&access_token={access_token}"
+          call_api(publish_url)
+          print('Posted successfully')
+          PY
