@@ -3139,10 +3139,11 @@ TONE: Be helpful, concise, and professional. Keep answers to 2-4 sentences unles
 </div>
 
 <script>
+<script>
 (function(){
   var LS_KEY = 'up2cloud-newsletter';
-  var DELAY  = 5000; // ms before popup appears
-  var SCROLL = 40;   // % scroll depth triggers popup
+  var DELAY  = 5000;
+  var SCROLL = 40;
 
   function dismissed() { return !!localStorage.getItem(LS_KEY); }
   function dismiss()   { localStorage.setItem(LS_KEY,'dismissed'); hide(); }
@@ -3159,7 +3160,6 @@ TONE: Be helpful, concise, and professional. Keep answers to 2-4 sentences unles
     document.body.style.overflow = '';
   }
 
-  // Trigger: delay OR scroll depth (whichever comes first)
   var triggered = false;
   function trigger() {
     if (triggered || dismissed()) return;
@@ -3173,12 +3173,10 @@ TONE: Be helpful, concise, and professional. Keep answers to 2-4 sentences unles
   }
   window.addEventListener('scroll', onScroll, { passive: true });
 
-  // Close handlers
   document.getElementById('nl-close').addEventListener('click', dismiss);
   overlay.addEventListener('click', function(e) { if (e.target === overlay) dismiss(); });
   document.addEventListener('keydown', function(e) { if (e.key === 'Escape') dismiss(); });
 
-  // Style focus ring on email input
   var emailInput = document.getElementById('nl-email');
   emailInput.addEventListener('focus', function() {
     this.style.borderColor = 'rgba(14,165,233,.6)';
@@ -3189,55 +3187,43 @@ TONE: Be helpful, concise, and professional. Keep answers to 2-4 sentences unles
     this.style.boxShadow   = '';
   });
 
-  // Form submit
   document.getElementById('nl-form').addEventListener('submit', async function(e) {
     e.preventDefault();
     var email    = emailInput.value.trim();
     var honeypot = this.querySelector('[name="website"]').value;
     var statusEl = document.getElementById('nl-status');
     var btn      = document.getElementById('nl-btn');
-
-    // Honeypot
     if (honeypot) { hide(); return; }
 
     var emailRx = /^[a-zA-Z0-9._%+\-]+@[a-zA-Z0-9.\-]+\.[a-zA-Z]{2,}$/;
     if (!email || !emailRx.test(email)) {
-      statusEl.textContent = 'Please enter a valid email address (e.g. you@company.com).';
+      statusEl.textContent = 'Please enter a valid email address.';
       statusEl.style.color = '#F87171';
-      emailInput.style.borderColor = 'rgba(248,113,113,.6)';
-      emailInput.style.boxShadow   = '0 0 0 3px rgba(248,113,113,.12)';
-      emailInput.focus();
       return;
     }
-    emailInput.style.borderColor = 'rgba(255,255,255,.15)';
-    emailInput.style.boxShadow   = '';
 
     btn.disabled = true;
     btn.textContent = 'Subscribing…';
-    statusEl.textContent = '';
-
     try {
       var r = await fetch('/api/newsletter', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ email: email.toLowerCase() }),
       });
-      var d = await r.json();
-      if (!r.ok) throw new Error(d.error || 'Subscription failed');
+      if (!r.ok) throw new Error('Subscription failed');
       localStorage.setItem(LS_KEY, 'subscribed');
-      statusEl.textContent = '✓ You\'re in! Watch your inbox for cloud insights.';
+      statusEl.textContent = '✓ You\'re in!';
       statusEl.style.color = '#4ADE80';
       updateFab();
-      setTimeout(hide, 2800);
+      setTimeout(hide, 2000);
     } catch(err) {
-      statusEl.textContent = err.message || 'Something went wrong. Please try again.';
+      statusEl.textContent = 'Something went wrong.';
       statusEl.style.color = '#F87171';
       btn.disabled = false;
       btn.textContent = 'Subscribe';
     }
   });
 
-  // ── Floating button ──────────────────────────────────────────────────────
   var fab      = document.getElementById('nl-fab');
   var fabDot   = document.getElementById('nl-fab-dot');
   var fabLabel = document.getElementById('nl-fab-label');
@@ -3249,60 +3235,34 @@ TONE: Be helpful, concise, and professional. Keep answers to 2-4 sentences unles
       fabDot.style.display   = 'none';
       fabLabel.textContent   = 'Subscribed ✓';
       fab.style.background   = 'linear-gradient(135deg,#064E3B,#059669)';
-      fab.style.borderColor  = 'rgba(52,211,153,.35)';
-      fab.style.animation    = 'none';
       fabTip.textContent     = '✓ You\'re on the list!';
     }
   }
   updateFab();
 
-  // Open popup when FAB is clicked (always, even if subscribed — so they can re-enter email)
-  fab.addEventListener('click', function() {
-    overlay.style.display = 'flex';
-    document.getElementById('nl-email').focus();
-    document.body.style.overflow = 'hidden';
-  });
-
-  // Tooltip hover
-  fab.addEventListener('mouseenter', function() {
-    fabTip.style.opacity   = '1';
-    fabTip.style.transform = 'translateY(0)';
-  });
-  fab.addEventListener('mouseleave', function() {
-    fabTip.style.opacity   = '0';
-    fabTip.style.transform = 'translateY(4px)';
-  });
-
-  // Show tooltip automatically after 8s if popup was dismissed without subscribing
-  setTimeout(function() {
-    if (localStorage.getItem(LS_KEY) !== 'subscribed') {
-      fabTip.style.opacity   = '1';
-      fabTip.style.transform = 'translateY(0)';
-      setTimeout(function() {
-        fabTip.style.opacity   = '0';
-        fabTip.style.transform = 'translateY(4px)';
-      }, 3500);
-    }
-  }, 8000);
+  fab.addEventListener('click', () => { overlay.style.display = 'flex'; document.getElementById('nl-email').focus(); document.body.style.overflow = 'hidden'; });
+  fab.addEventListener('mouseenter', () => { fabTip.style.opacity = '1'; fabTip.style.transform = 'translateY(0)'; });
+  fab.addEventListener('mouseleave', () => { fabTip.style.opacity = '0'; fabTip.style.transform = 'translateY(4px)'; });
 
 })();
 
-  // Newsletter Scroll Observer
+// Scroll Observer for FAB and Reveal
+window.addEventListener('scroll', () => {
   const fabWrap = document.getElementById('nl-fab-wrap');
-  window.addEventListener('scroll', () => {
+  if (fabWrap) {
     const scrollPercentage = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight));
     if (scrollPercentage > 0.3) {
       fabWrap.classList.add('hidden');
     } else {
       fabWrap.classList.remove('hidden');
     }
-  });
+  }
+});
 
-  // Scroll reveal
-  const revealObserver = new IntersectionObserver(entries => {
-    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); revealObserver.unobserve(e.target); }});
-  }, { threshold: 0.1 });
-  document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+const revealObserver = new IntersectionObserver(entries => {
+  entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); revealObserver.unobserve(e.target); }});
+}, { threshold: 0.1 });
+document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
+
+document.getElementById("year").textContent = new Date().getFullYear();
 </script>
-<script>document.getElementById("year").textContent = new Date().getFullYear();</script></body>
-</html>
