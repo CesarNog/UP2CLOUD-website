@@ -2985,6 +2985,23 @@ TONE: Be helpful, concise, and professional. Keep answers to 2-4 sentences unles
     },{passive:false});
     document.addEventListener('touchend',function(){dragging=false;});
   })();
+
+  // Newsletter Scroll Observer
+  const fabWrap = document.getElementById('nl-fab-wrap');
+  window.addEventListener('scroll', () => {
+    const scrollPercentage = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight));
+    if (scrollPercentage > 0.3) {
+      fabWrap.classList.add('hidden');
+    } else {
+      fabWrap.classList.remove('hidden');
+    }
+  });
+
+  // Scroll reveal
+  const ro = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); ro.unobserve(e.target); }});
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.reveal').forEach(el => ro.observe(el));
 </script>
 
 <!-- ── Newsletter Floating Button ───────────────────────────────────────── -->
@@ -3044,6 +3061,15 @@ TONE: Be helpful, concise, and professional. Keep answers to 2-4 sentences unles
 @keyframes nlDotPop{from{transform:scale(0)}to{transform:scale(1)}}
 #nl-fab:hover{transform:translateY(-2px) scale(1.03);box-shadow:0 8px 30px rgba(3,105,161,.55),0 0 0 0 rgba(14,165,233,.0)!important;animation:none}
 #nl-fab:active{transform:scale(.97)}
+#nl-fab-wrap {
+  transition: opacity 0.4s ease, transform 0.4s ease;
+  pointer-events: auto;
+}
+#nl-fab-wrap.hidden {
+  opacity: 0;
+  transform: translateY(20px);
+  pointer-events: none;
+}
 @media(max-width:480px){
   #nl-fab-wrap{bottom:1.25rem;left:1.25rem}
   #nl-fab-tooltip{display:none}
@@ -3260,6 +3286,23 @@ TONE: Be helpful, concise, and professional. Keep answers to 2-4 sentences unles
   }, 8000);
 
 })();
+
+  // Newsletter Scroll Observer
+  const fabWrap = document.getElementById('nl-fab-wrap');
+  window.addEventListener('scroll', () => {
+    const scrollPercentage = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight));
+    if (scrollPercentage > 0.3) {
+      fabWrap.classList.add('hidden');
+    } else {
+      fabWrap.classList.remove('hidden');
+    }
+  });
+
+  // Scroll reveal
+  const ro = new IntersectionObserver(entries => {
+    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); ro.unobserve(e.target); }});
+  }, { threshold: 0.1 });
+  document.querySelectorAll('.reveal').forEach(el => ro.observe(el));
 </script>
 </body>
 </html>
