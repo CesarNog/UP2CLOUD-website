@@ -2987,23 +2987,6 @@ TONE: Be helpful, concise, and professional. Keep answers to 2-4 sentences unles
   })();
 
   // Newsletter Scroll Observer
-  const fabWrap = document.getElementById('nl-fab-wrap');
-  window.addEventListener('scroll', () => {
-    const scrollPercentage = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight));
-    if (scrollPercentage > 0.3) {
-      fabWrap.classList.add('hidden');
-    } else {
-      fabWrap.classList.remove('hidden');
-    }
-  });
-
-  // Scroll reveal
-  const revealObserver = new IntersectionObserver(entries => {
-    entries.forEach(e => { if (e.isIntersecting) { e.target.classList.add('visible'); revealObserver.unobserve(e.target); }});
-  }, { threshold: 0.1 });
-  document.querySelectorAll('.reveal').forEach(el => revealObserver.observe(el));
-</script>
-
 <!-- ── Newsletter Floating Button ───────────────────────────────────────── -->
 <div id="nl-fab-wrap" style="position:fixed;bottom:1.75rem;left:1.75rem;z-index:9998;display:flex;flex-direction:column;align-items:flex-start;gap:.5rem">
 
@@ -3250,7 +3233,7 @@ TONE: Be helpful, concise, and professional. Keep answers to 2-4 sentences unles
 window.addEventListener('scroll', () => {
   const fabWrap = document.getElementById('nl-fab-wrap');
   if (fabWrap) {
-    const scrollPercentage = (window.scrollY / (document.documentElement.scrollHeight - window.innerHeight));
+    const scrollPercentage = window.scrollY / (document.body.offsetHeight - window.innerHeight);
     if (scrollPercentage > 0.3) {
       fabWrap.classList.add('hidden');
     } else {
