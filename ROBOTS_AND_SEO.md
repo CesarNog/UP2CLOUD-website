@@ -78,3 +78,5 @@ Test with: [PageSpeed Insights](https://pagespeed.web.dev/)
 ---
 
 **Last Updated:** May 9, 2026
+### Security Header Note: GitHub Pages
+GitHub Pages does not allow custom response headers (e.g., CSP, HSTS). To implement these, it is recommended to place the site behind a CDN like Cloudflare, Netlify, or Vercel, which can inject headers automatically.
