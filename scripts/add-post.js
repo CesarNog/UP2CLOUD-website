@@ -238,16 +238,35 @@ async function main() {
   });
   fs.writeFileSync(POSTS_JSON, JSON.stringify(posts, null, 2) + '\n');
 
+  // Update blog/index.html — add entry to grid
+  const indexHtmlPath = path.join(BLOG_DIR, 'index.html');
+  let indexHtml = fs.readFileSync(indexHtmlPath, 'utf8');
+
+  const newPostCard = `
+      <!-- Article: ${title} -->
+      <a href="/blog/${slug}/" class="block group card-hover reveal">
+        <div class="glass rounded-2xl p-6 h-full flex flex-col">
+          <div class="flex items-center gap-2 mb-4">
+            <span class="badge ${badge.cls}" style="font-size:.72rem;background:${badge.bg};color:${badge.color}">${category}</span>
+          </div>
+          <h3 class="font-heading font-bold text-xl text-white mb-3 group-hover:text-sky-300 transition-colors leading-tight">${title}</h3>
+          <p class="text-white/50 text-sm leading-relaxed mb-6 flex-grow">${excerpt.length > 100 ? excerpt.slice(0, 100) + '...' : excerpt}</p>
+          <div class="flex items-center justify-between pt-4 border-t border-white/5">
+            <span class="text-white/30 text-xs">${dateIn}</span>
+            <span class="text-sky-light text-xs font-semibold group-hover:underline">Read post &rarr;</span>
+          </div>
+        </div>
+      </a>
+`;
+
+  // Insert at the beginning of the grid
+  indexHtml = indexHtml.replace('<div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">', `<div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">${newPostCard}`);
+  fs.writeFileSync(indexHtmlPath, indexHtml);
+
   console.log(`
 ✓ Post created:  blog/${slug}/index.html
 ✓ posts.json updated (${posts.length} total posts)
-
-Next steps:
-  1. Edit blog/${slug}/index.html to add your article content
-  2. Optionally add the post card to blog/index.html
-  3. git add blog/${slug}/ blog/posts.json
-  4. git commit -m "feat(blog): add '${title}'"
-  5. git push — GitHub Actions will send the newsletter automatically
+✓ blog/index.html updated (grid entry added)
 `);
 }
 
