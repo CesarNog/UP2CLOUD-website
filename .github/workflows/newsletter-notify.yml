@@ -197,13 +197,13 @@ jobs:
 
               send_req = urllib.request.Request(
                   f'https://api.brevo.com/v3/emailCampaigns/{campaign_id}/sendNow',
-                  data=b'{}',
+                  data=b'',
                   headers={
                       'api-key': api_key,
                       'Content-Type': 'application/json',
                       'Accept': 'application/json',
                   },
-                  method='PUT',
+                  method='POST',
               )
 
               with urllib.request.urlopen(send_req):
