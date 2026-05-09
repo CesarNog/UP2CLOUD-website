@@ -1864,7 +1864,7 @@
     </div>
 
     <div class="border-t border-white/[.08] pt-5 flex flex-col sm:flex-row justify-between items-center gap-3 text-xs text-white/30">
-      <p data-i18n="footer_copyright">&copy; 2026 UP2CLOUD · Cesar A. Nogueira. All rights reserved.</p>
+      <p data-i18n="footer_copyright">&copy; 2026 UP2CLOUD · Cesar A. Nogueira. All rights reserved.copy; <span id="year"></span> UP2CLOUD. All rights reserved.</p>
       <div class="flex gap-5 flex-wrap justify-center">
         <a href="/blog" class="hover:text-white/55 transition-colors">Blog</a>
         <a href="/about" class="hover:text-white/55 transition-colors">About</a>
@@ -3304,5 +3304,5 @@ TONE: Be helpful, concise, and professional. Keep answers to 2-4 sentences unles
   }, { threshold: 0.1 });
   document.querySelectorAll('.reveal').forEach(el => ro.observe(el));
 </script>
-</body>
+<script>document.getElementById("year").textContent = new Date().getFullYear();</script></body>
 </html>
