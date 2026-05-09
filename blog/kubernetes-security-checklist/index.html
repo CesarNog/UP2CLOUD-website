@@ -296,5 +296,5 @@ spec:
   loadLang('en').then(() => setArticleLang(saved));
 })();
 </script>
-<script>document.getElementById("year")?.textContent = new Date().getFullYear();</script></body>
+<script>const yearEl = document.getElementById("year"); if (yearEl) yearEl.textContent = new Date().getFullYear();</script></body>
 </html>

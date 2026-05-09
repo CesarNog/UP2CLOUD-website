@@ -1226,6 +1226,854 @@
 }
 </style>
 
+
+
+<style>
+/* ─────────────────────────────────────────────
+   Mobile hero containment fix
+   Prevents the Infrastructure Health panel from floating over the hero copy
+   and keeps vertical scrolling available when touching the panel.
+   ───────────────────────────────────────────── */
+@media (max-width: 1023px) {
+  #hero {
+    min-height: auto !important;
+    overflow: visible !important;
+    padding-top: 8.5rem !important;
+    padding-bottom: 4rem !important;
+    align-items: flex-start !important;
+  }
+
+  #hero #main-content {
+    transform: none !important;
+    padding-top: 1.25rem !important;
+    padding-bottom: 2rem !important;
+  }
+
+  #hero #main-content > .grid {
+    min-height: auto !important;
+    display: block !important;
+  }
+
+  #hero .hero-visual-column {
+    display: flex !important;
+    position: relative !important;
+    width: 100% !important;
+    min-height: auto !important;
+    margin-top: 2rem !important;
+    z-index: 15 !important;
+  }
+
+  #hero #infra-card,
+  #hero #infra-card.is-floating,
+  #hero #infra-card.infra-3d-panel {
+    position: relative !important;
+    left: auto !important;
+    top: auto !important;
+    right: auto !important;
+    bottom: auto !important;
+    width: 100% !important;
+    max-width: 32rem !important;
+    margin: 0 auto !important;
+    cursor: default !important;
+    touch-action: pan-y !important;
+    transform: none !important;
+    z-index: 15 !important;
+  }
+
+  #hero #infra-card.is-dragging {
+    transform: none !important;
+  }
+
+  #hero .hero-draggable-card::after,
+  #hero #infra-card [aria-hidden="true"]:first-child {
+    display: none !important;
+  }
+
+  #hero h1 {
+    font-size: clamp(3.15rem, 13vw, 4.75rem) !important;
+    line-height: .98 !important;
+    margin-bottom: 1.5rem !important;
+  }
+
+  #hero .badge {
+    max-width: 100%;
+    white-space: normal;
+  }
+}
+
+@media (max-width: 640px) {
+  #hero {
+    padding-top: 8rem !important;
+  }
+
+  #hero #main-content {
+    padding-left: 1.25rem !important;
+    padding-right: 1.25rem !important;
+  }
+
+  #hero .flex.flex-wrap.gap-2.mb-5 {
+    gap: .65rem !important;
+  }
+
+  #hero .badge {
+    width: fit-content;
+    max-width: calc(100vw - 2.5rem);
+    font-size: .72rem !important;
+    letter-spacing: .06em !important;
+    padding: .55rem .85rem !important;
+  }
+
+  #hero #infra-card {
+    padding: 1.35rem !important;
+    border-radius: 1.25rem !important;
+  }
+
+  #hero #infra-card .stack-pill {
+    font-size: .62rem !important;
+  }
+}
+</style>
+
+
+<style>
+/* Desktop hero KPI cloud balance: decorative metrics distributed, readable, and non-blocking. */
+@media (min-width: 1024px) {
+  #hero .command-chip {
+    opacity: .78 !important;
+    color: rgba(255,255,255,.88) !important;
+    background: rgba(15,23,42,.82) !important;
+    border-color: rgba(148,163,184,.38) !important;
+    box-shadow: 0 18px 45px rgba(2,6,23,.34), 0 0 22px rgba(14,165,233,.10) !important;
+  }
+
+  #hero .command-chip span:not(.font-mono):not(.font-heading):not(.rounded-full) {
+    color: rgba(255,255,255,.88) !important;
+  }
+
+  #hero .money-cloud {
+    z-index: 3 !important;
+    pointer-events: none !important;
+    mix-blend-mode: screen;
+    max-width: min(15vw, 190px);
+    transition: opacity .35s ease, transform .35s ease;
+  }
+
+  #hero #cloud-1,
+  #hero #cloud-2 {
+    filter: drop-shadow(0 0 24px rgba(14,165,233,.18));
+  }
+
+  #hero #cloud-3,
+  #hero #cloud-4 {
+    filter: drop-shadow(0 0 24px rgba(124,58,237,.16));
+  }
+}
+</style>
+
+
+
+<style>
+/* ─────────────────────────────────────────────
+   UP2CLOUD fixes — ticker seam + services spacing
+   ───────────────────────────────────────────── */
+#tech-stack{
+  border-top:0!important;
+  border-bottom:1px solid rgba(30,41,59,.95)!important;
+  box-shadow:none!important;
+  scroll-margin-top:4rem!important;
+}
+
+#tech-stack::before,
+#tech-stack::after{
+  content:none!important;
+  display:none!important;
+}
+
+.section-divider{
+  display:none!important;
+  height:0!important;
+  margin:0!important;
+  background:none!important;
+}
+
+#services{
+  padding-top:clamp(2.75rem,5vw,4.5rem)!important;
+}
+
+#services .text-center.mb-16{
+  margin-bottom:clamp(2rem,4vw,3.25rem)!important;
+}
+
+#services h2{
+  margin-top:.85rem!important;
+  margin-bottom:1rem!important;
+}
+
+@media(max-width:640px){
+  #tech-stack{scroll-margin-top:4.25rem!important;}
+  #services{padding-top:2.25rem!important;}
+  #services .text-center.mb-16{margin-bottom:2rem!important;}
+}
+</style>
+
+<style>
+
+/* ─────────────────────────────────────────────
+   UP2CLOUD Map vNext — brighter daytime map + satellite layer control
+   ───────────────────────────────────────────── */
+#map,
+#locations-map,
+.leaflet-container {
+  background: #eaf6ff !important;
+}
+
+#map .leaflet-tile,
+#locations-map .leaflet-tile,
+.leaflet-container .leaflet-tile {
+  filter: brightness(1.18) contrast(.96) saturate(1.08) !important;
+}
+
+.leaflet-control-layers {
+  border: 1px solid rgba(3,105,161,.18) !important;
+  border-radius: 12px !important;
+  box-shadow: 0 10px 28px rgba(15,23,42,.16) !important;
+  overflow: hidden;
+}
+
+.leaflet-control-layers-expanded {
+  padding: .75rem .9rem !important;
+  background: rgba(255,255,255,.94) !important;
+  color: #0F172A !important;
+  font-family: 'DM Sans', sans-serif !important;
+  font-size: .82rem !important;
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}
+
+.leaflet-control-layers-toggle {
+  background-color: rgba(255,255,255,.95) !important;
+}
+
+.leaflet-control-zoom a {
+  color: #0F172A !important;
+  background: rgba(255,255,255,.94) !important;
+}
+
+.leaflet-control-attribution {
+  background: rgba(255,255,255,.72) !important;
+  color: #334155 !important;
+}
+
+</style>
+
+<style>
+/* ─────────────────────────────────────────────
+   Creative section transitions + tighter layout
+   ───────────────────────────────────────────── */
+
+section{
+  position:relative;
+  margin:0 !important;
+}
+
+.section-divider{
+  display:none !important;
+}
+
+/* Remove giant vertical whitespace */
+.py-32,
+.pt-32,
+.pb-32{
+  padding-top:5rem !important;
+  padding-bottom:5rem !important;
+}
+
+.py-28,
+.pt-28,
+.pb-28{
+  padding-top:4.5rem !important;
+  padding-bottom:4.5rem !important;
+}
+
+.py-24,
+.pt-24,
+.pb-24{
+  padding-top:4rem !important;
+  padding-bottom:4rem !important;
+}
+
+/* HOW WE DELIVER SECTION */
+#delivery,
+#how-we-work{
+  background:
+    radial-gradient(circle at top left, rgba(14,165,233,.12), transparent 30%),
+    radial-gradient(circle at bottom right, rgba(249,115,22,.08), transparent 28%),
+    linear-gradient(180deg,#F4F9FF 0%, #EEF6FF 100%) !important;
+  border-top:1px solid rgba(14,165,233,.08);
+  border-bottom:1px solid rgba(14,165,233,.08);
+}
+
+/* Add subtle glass strip behind timeline */
+#delivery .timeline-line,
+#how-we-work .timeline-line{
+  backdrop-filter:blur(12px);
+  -webkit-backdrop-filter:blur(12px);
+}
+
+/* Next section after How We Deliver */
+#delivery + section,
+#how-we-work + section{
+  background:
+    radial-gradient(circle at 20% 20%, rgba(124,58,237,.12), transparent 26%),
+    radial-gradient(circle at 80% 80%, rgba(14,165,233,.10), transparent 24%),
+    linear-gradient(135deg,#FFFFFF 0%, #F8FAFF 100%) !important;
+}
+
+/* Soft wave transition */
+#delivery::after,
+#how-we-work::after{
+  content:"";
+  position:absolute;
+  left:0;
+  right:0;
+  bottom:-1px;
+  height:90px;
+  background:
+    radial-gradient(circle at 20% 0%, rgba(14,165,233,.08), transparent 30%),
+    linear-gradient(to bottom, transparent 0%, rgba(255,255,255,.95) 100%);
+  pointer-events:none;
+}
+
+/* Cards */
+.service-card,
+.tilt-card{
+  transition:
+    transform .25s ease,
+    box-shadow .25s ease,
+    border-color .25s ease !important;
+}
+
+.service-card:hover,
+.tilt-card:hover{
+  transform:translateY(-6px);
+  box-shadow:
+    0 18px 40px rgba(14,165,233,.10),
+    0 8px 24px rgba(15,23,42,.08) !important;
+}
+
+/* More premium CTA area */
+#delivery .btn-primary,
+#how-we-work .btn-primary{
+  box-shadow:
+    0 12px 34px rgba(249,115,22,.28);
+}
+
+/* Mobile spacing */
+@media(max-width:768px){
+  .py-32,
+  .pt-32,
+  .pb-32{
+    padding-top:3.5rem !important;
+    padding-bottom:3.5rem !important;
+  }
+
+  .py-28,
+  .pt-28,
+  .pb-28{
+    padding-top:3rem !important;
+    padding-bottom:3rem !important;
+  }
+
+  .py-24,
+  .pt-24,
+  .pb-24{
+    padding-top:2.5rem !important;
+    padding-bottom:2.5rem !important;
+  }
+}
+</style>
+
+
+<style>
+/* ─────────────────────────────────────────────
+   Mobile language selector visibility fix
+   ───────────────────────────────────────────── */
+
+@media (max-width: 768px){
+
+  /* Ensure navbar layout has enough room */
+  nav .max-w-7xl{
+    gap:.75rem;
+  }
+
+  /* Force language selector visible */
+  #language-switcher,
+  .language-switcher,
+  .lang-switcher,
+  [data-lang-switcher],
+  select[id*="lang"],
+  button[id*="lang"]{
+    display:flex !important;
+    visibility:visible !important;
+    opacity:1 !important;
+    position:relative !important;
+    z-index:120 !important;
+    flex-shrink:0 !important;
+  }
+
+  /* Reduce logo footprint slightly on mobile */
+  nav .font-heading{
+    font-size:1.5rem !important;
+  }
+
+  /* Keep navbar actions aligned */
+  nav .flex.items-center.gap-3,
+  nav .flex.items-center.gap-4{
+    gap:.45rem !important;
+  }
+
+  /* Compact translation dropdown */
+  #language-switcher,
+  .language-switcher,
+  .lang-switcher{
+    min-width:auto !important;
+    padding:.45rem .65rem !important;
+    border-radius:12px !important;
+    background:rgba(15,23,42,.88) !important;
+    border:1px solid rgba(255,255,255,.12) !important;
+    backdrop-filter:blur(12px);
+    -webkit-backdrop-filter:blur(12px);
+  }
+
+  /* Prevent menu button from pushing it away */
+  #menu-btn{
+    margin-left:0 !important;
+    flex-shrink:0 !important;
+  }
+}
+</style>
+
+
+<style>
+/* ─────────────────────────────────────────────
+   Definitive mobile navbar fix:
+   keep UP2CLOUD logo + language selector + burger visible
+   ───────────────────────────────────────────── */
+@media (max-width: 768px) {
+  #navbar {
+    overflow: visible !important;
+  }
+
+  #navbar > div:first-child {
+    display: grid !important;
+    grid-template-columns: minmax(0, 1fr) auto !important;
+    align-items: center !important;
+    gap: .5rem !important;
+    padding-left: .9rem !important;
+    padding-right: .9rem !important;
+    overflow: visible !important;
+  }
+
+  #navbar a[aria-label="UP2CLOUD Home"] {
+    min-width: 0 !important;
+    gap: .55rem !important;
+    overflow: hidden !important;
+  }
+
+  #navbar a[aria-label="UP2CLOUD Home"] > div {
+    width: 2.35rem !important;
+    height: 2.35rem !important;
+    min-width: 2.35rem !important;
+    border-radius: .75rem !important;
+  }
+
+  #navbar a[aria-label="UP2CLOUD Home"] .font-heading {
+    font-size: 1.32rem !important;
+    line-height: 1 !important;
+    white-space: nowrap !important;
+    letter-spacing: -.04em !important;
+  }
+
+  #navbar > div:first-child > .flex.items-center.gap-3 {
+    display: flex !important;
+    align-items: center !important;
+    justify-content: flex-end !important;
+    gap: .4rem !important;
+    min-width: max-content !important;
+    overflow: visible !important;
+    z-index: 100 !important;
+  }
+
+  #lang-picker {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    position: relative !important;
+    z-index: 140 !important;
+    flex: 0 0 auto !important;
+  }
+
+  #lang-btn {
+    display: inline-flex !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    align-items: center !important;
+    gap: .35rem !important;
+    padding: .58rem .62rem !important;
+    min-height: 2.35rem !important;
+    min-width: 4.35rem !important;
+    border-radius: .75rem !important;
+    font-size: .72rem !important;
+    color: rgba(255,255,255,.9) !important;
+    background: rgba(15,23,42,.72) !important;
+    border: 1px solid rgba(255,255,255,.22) !important;
+    backdrop-filter: blur(14px) !important;
+    -webkit-backdrop-filter: blur(14px) !important;
+  }
+
+  #lang-flag {
+    font-size: 1rem !important;
+  }
+
+  #lang-code {
+    display: inline !important;
+    font-size: .75rem !important;
+  }
+
+  #lang-btn svg {
+    width: .7rem !important;
+    height: .7rem !important;
+  }
+
+  #lang-menu {
+    right: 0 !important;
+    left: auto !important;
+    z-index: 9999 !important;
+  }
+
+  #menu-btn {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    flex: 0 0 auto !important;
+    width: 2.35rem !important;
+    height: 2.35rem !important;
+    padding: .45rem !important;
+    margin: 0 !important;
+    position: relative !important;
+    z-index: 130 !important;
+  }
+
+  .burger-wrap {
+    width: 1.35rem !important;
+    gap: .28rem !important;
+  }
+}
+
+@media (max-width: 390px) {
+  #navbar a[aria-label="UP2CLOUD Home"] .font-heading {
+    font-size: 1.12rem !important;
+  }
+
+  #navbar a[aria-label="UP2CLOUD Home"] > div {
+    width: 2.15rem !important;
+    height: 2.15rem !important;
+    min-width: 2.15rem !important;
+  }
+
+  #lang-btn {
+    min-width: 3.55rem !important;
+    padding-left: .48rem !important;
+    padding-right: .48rem !important;
+  }
+
+  #lang-code {
+    font-size: .68rem !important;
+  }
+}
+</style>
+
+
+<style>
+/* ─────────────────────────────────────────────
+   Emergency mobile viewport + navbar correction
+   Fixes horizontal overflow and restores language picker
+   ───────────────────────────────────────────── */
+
+html,
+body {
+  max-width: 100%;
+  overflow-x: hidden !important;
+}
+
+@media (max-width: 768px) {
+  body {
+    width: 100% !important;
+  }
+
+  #navbar {
+    width: 100vw !important;
+    max-width: 100vw !important;
+    left: 0 !important;
+    right: 0 !important;
+    overflow: visible !important;
+  }
+
+  #navbar > .max-w-7xl {
+    max-width: 100vw !important;
+    width: 100vw !important;
+    margin: 0 !important;
+    padding: .85rem 1rem !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: space-between !important;
+    gap: .5rem !important;
+    box-sizing: border-box !important;
+  }
+
+  #navbar a[aria-label="UP2CLOUD Home"] {
+    flex: 1 1 auto !important;
+    min-width: 0 !important;
+    max-width: calc(100vw - 8.4rem) !important;
+    overflow: hidden !important;
+    display: flex !important;
+    align-items: center !important;
+  }
+
+  #navbar a[aria-label="UP2CLOUD Home"] > div {
+    width: 2.25rem !important;
+    height: 2.25rem !important;
+    min-width: 2.25rem !important;
+  }
+
+  #navbar a[aria-label="UP2CLOUD Home"] .font-heading {
+    display: inline-block !important;
+    max-width: 7.6rem !important;
+    overflow: hidden !important;
+    text-overflow: clip !important;
+    white-space: nowrap !important;
+    font-size: 1.18rem !important;
+    line-height: 1 !important;
+  }
+
+  #navbar > .max-w-7xl > .flex.items-center.gap-3 {
+    flex: 0 0 auto !important;
+    display: flex !important;
+    align-items: center !important;
+    justify-content: flex-end !important;
+    gap: .35rem !important;
+    min-width: auto !important;
+    max-width: 7.9rem !important;
+    margin-left: auto !important;
+    overflow: visible !important;
+  }
+
+  #lang-picker {
+    display: block !important;
+    flex: 0 0 auto !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    position: relative !important;
+    z-index: 9999 !important;
+  }
+
+  #lang-btn {
+    display: inline-flex !important;
+    align-items: center !important;
+    justify-content: center !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+    min-width: 3.95rem !important;
+    height: 2.25rem !important;
+    padding: 0 .52rem !important;
+    gap: .24rem !important;
+    border-radius: .72rem !important;
+    background: rgba(15,23,42,.78) !important;
+    border: 1px solid rgba(255,255,255,.24) !important;
+  }
+
+  #lang-flag {
+    font-size: .95rem !important;
+  }
+
+  #lang-code {
+    display: inline-block !important;
+    font-size: .68rem !important;
+    line-height: 1 !important;
+  }
+
+  #lang-btn svg {
+    width: .58rem !important;
+    height: .58rem !important;
+  }
+
+  #menu-btn {
+    display: inline-flex !important;
+    flex: 0 0 auto !important;
+    width: 2.25rem !important;
+    height: 2.25rem !important;
+    padding: .44rem !important;
+    margin: 0 !important;
+  }
+
+  .burger-wrap {
+    width: 1.28rem !important;
+  }
+
+  /* Stop hero content from creating a hidden horizontal canvas */
+  #hero,
+  #main-content,
+  #hero .up2cloud-hero-grid,
+  #hero .up2cloud-hero-brand,
+  #hero .hero-visual-column {
+    max-width: 100vw !important;
+    overflow-x: clip !important;
+    box-sizing: border-box !important;
+  }
+
+  #hero .up2cloud-hero-grid {
+    display: block !important;
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
+  }
+
+  #hero .up2cloud-hero-brand {
+    width: 100% !important;
+    max-width: 100% !important;
+    justify-self: auto !important;
+  }
+
+  #hero h1 {
+    max-width: 100% !important;
+    font-size: clamp(3.15rem, 14vw, 4.85rem) !important;
+    line-height: .98 !important;
+    letter-spacing: -.055em !important;
+    overflow-wrap: normal !important;
+  }
+
+  #hero .hero-line,
+  #hero .gradient-text {
+    max-width: 100% !important;
+    overflow-wrap: normal !important;
+  }
+
+  /* Badges should wrap naturally instead of forcing page width */
+  #hero .flex.flex-wrap {
+    max-width: 100% !important;
+  }
+
+  #hero .badge,
+  #hero .stack-pill {
+    max-width: 100% !important;
+  }
+
+  #hero .hero-visual-column,
+  #hero #infra-card {
+    width: 100% !important;
+    max-width: 100% !important;
+    margin-left: 0 !important;
+    margin-right: 0 !important;
+  }
+}
+
+@media (max-width: 390px) {
+  #navbar a[aria-label="UP2CLOUD Home"] .font-heading {
+    max-width: 6.5rem !important;
+    font-size: 1.05rem !important;
+  }
+
+  #lang-btn {
+    min-width: 3.55rem !important;
+    padding: 0 .42rem !important;
+  }
+
+  #lang-code {
+    font-size: .62rem !important;
+  }
+}
+</style>
+
+
+<style>
+/* ─────────────────────────────────────────────
+   Mobile navbar alignment correction
+   Force UP2CLOUD logo fully left-aligned
+   ───────────────────────────────────────────── */
+@media (max-width: 768px){
+
+  #navbar > .max-w-7xl{
+    display:flex !important;
+    justify-content:space-between !important;
+    align-items:center !important;
+    padding-left:1rem !important;
+    padding-right:1rem !important;
+  }
+
+  #navbar a[aria-label="UP2CLOUD Home"]{
+    margin-left:0 !important;
+    padding-left:0 !important;
+    justify-content:flex-start !important;
+    align-self:center !important;
+    flex:1 1 auto !important;
+  }
+
+  #navbar a[aria-label="UP2CLOUD Home"] .font-heading{
+    text-align:left !important;
+  }
+
+  #navbar > .max-w-7xl > .flex.items-center.gap-3{
+    margin-left:auto !important;
+    justify-content:flex-end !important;
+  }
+}
+</style>
+
+
+<style>
+/* FINAL mobile navbar positioning fix */
+@media (max-width: 768px){
+
+  #navbar > .max-w-7xl{
+    position: relative !important;
+    display:flex !important;
+    align-items:center !important;
+    justify-content:flex-start !important;
+    width:100% !important;
+    max-width:100% !important;
+  }
+
+  /* Force brand hard-left */
+  #navbar a[aria-label="UP2CLOUD Home"]{
+    position:absolute !important;
+    left:1rem !important;
+    top:50% !important;
+    transform:translateY(-50%) !important;
+    margin:0 !important;
+    padding:0 !important;
+    width:auto !important;
+    max-width:none !important;
+    flex:none !important;
+    z-index:20 !important;
+  }
+
+  /* Actions hard-right */
+  #navbar > .max-w-7xl > .flex.items-center.gap-3{
+    position:absolute !important;
+    right:1rem !important;
+    top:50% !important;
+    transform:translateY(-50%) !important;
+    margin:0 !important;
+    width:auto !important;
+    z-index:30 !important;
+  }
+
+  /* Add spacing below absolute navbar content */
+  #navbar > .max-w-7xl{
+    min-height:72px !important;
+  }
+}
+</style>
+
 </head>
 <body style="overscroll-behavior-y:none">
 
@@ -1406,13 +2254,50 @@
 
 <script>
 (function() {
-  const clouds = document.querySelectorAll('.money-cloud');
-  clouds.forEach(cloud => {
-    cloud.style.top = Math.random() * 80 + 5 + '%';
-    cloud.style.left = (Math.random() * 16 + 78) + '%';
-    cloud.style.animationDelay = Math.random() * 6 + 's';
-    cloud.style.animationDuration = Math.random() * 8 + 7 + 's';
-    cloud.style.transform = `scale(${0.8 + Math.random() * 0.4})`;
+  const clouds = Array.from(document.querySelectorAll('.money-cloud'));
+  if (!clouds.length) return;
+
+  // Dynamic KPI-cloud composition on every refresh:
+  // random visible count, random side-balanced slots, random timing.
+  const desktopCloudSlots = [
+    { top: 16, left: 5,  scale: .70, opacity: .30 },
+    { top: 37, left: 8,  scale: .62, opacity: .24 },
+    { top: 67, left: 6,  scale: .78, opacity: .26 },
+    { top: 18, left: 82, scale: .82, opacity: .28 },
+    { top: 42, left: 86, scale: .64, opacity: .23 },
+    { top: 64, left: 81, scale: .86, opacity: .25 }
+  ];
+
+  const shuffle = (items) => items
+    .map(value => ({ value, sort: Math.random() }))
+    .sort((a, b) => a.sort - b.sort)
+    .map(({ value }) => value);
+
+  const visibleCount = Math.min(clouds.length, 2 + Math.floor(Math.random() * clouds.length)); // 2–4 with current markup
+  const selectedClouds = new Set(shuffle(clouds).slice(0, visibleCount));
+  const selectedSlots = shuffle(desktopCloudSlots).slice(0, visibleCount);
+
+  let slotIndex = 0;
+
+  clouds.forEach((cloud) => {
+    if (!selectedClouds.has(cloud)) {
+      cloud.style.display = 'none';
+      return;
+    }
+
+    const slot = selectedSlots[slotIndex++];
+    const duration = 12 + Math.random() * 6;
+    const delay = Math.random() * 3.5;
+    const driftX = (Math.random() * 10 - 5).toFixed(1);
+
+    cloud.style.display = '';
+    cloud.style.top = slot.top + '%';
+    cloud.style.left = slot.left + '%';
+    cloud.style.right = 'auto';
+    cloud.style.opacity = slot.opacity.toFixed(2);
+    cloud.style.animationDelay = delay.toFixed(2) + 's';
+    cloud.style.animationDuration = duration.toFixed(2) + 's';
+    cloud.style.transform = `translateX(${driftX}px) scale(${slot.scale})`;
   });
 })();
 </script>
@@ -3675,7 +4560,7 @@ TONE: Be helpful, concise, and professional. Keep answers to 2-4 sentences unles
     if (!mapEl || typeof L === 'undefined') return;
 
     // Centre on Vila Real, Portugal — other pins still visible at zoom 5
-    const map = L.map('contact-map', { zoomControl: true, scrollWheelZoom: false }).setView([41.3006, -7.7453], 5);
+    const map = L.map('contact-map', { zoomControl: true, scrollWheelZoom: false }).setView([41.35, -7.75], 6.4);
 
     // Force correct size after possible layout shift
     setTimeout(() => map.invalidateSize(), 200);
@@ -4181,7 +5066,30 @@ function floatCardAt(leftPx, topPx, persist){
       }
     }
 
+    function resetMobilePosition(){
+      card.classList.remove('is-floating','is-dragging');
+      card.style.left = '';
+      card.style.top = '';
+      card.style.right = '';
+      card.style.bottom = '';
+      card.style.cursor = '';
+      card.style.touchAction = 'pan-y';
+      if(holder && card.parentElement !== holder){
+        holder.appendChild(card);
+      }
+      if(holder){
+        holder.style.minHeight = '';
+      }
+    }
+
     function restorePosition(){
+      if(window.innerWidth < 1024){
+        resetMobilePosition();
+        return;
+      }
+
+      card.style.touchAction = 'none';
+
       try{
         var saved = JSON.parse(localStorage.getItem(STORAGE_KEY) || 'null');
         if(!saved){ placeDefaultRight(); return; }
@@ -4193,6 +5101,7 @@ function floatCardAt(leftPx, topPx, persist){
         floatCardAt(left, top, false);
       }catch(e){
         localStorage.removeItem(STORAGE_KEY);
+        placeDefaultRight();
       }
     }
 
@@ -4209,6 +5118,7 @@ function floatCardAt(leftPx, topPx, persist){
 
     function onPointerDown(e){
       if(window.innerWidth < 1024) return;
+      if(e.pointerType === 'touch') return;
       if(e.button !== undefined && e.button !== 0) return;
 
       var pos = currentPositionFromLayout(e.clientX, e.clientY);
@@ -4498,5 +5408,91 @@ function floatCardAt(leftPx, topPx, persist){
   if (yearEl) yearEl.textContent = new Date().getFullYear();
 })();
 </script>
+
+<script>
+(function upgradeUp2CloudMap() {
+  function waitForLeaflet(attempts) {
+    if (typeof L === "undefined") {
+      if (attempts > 0) setTimeout(function(){ waitForLeaflet(attempts - 1); }, 180);
+      return;
+    }
+
+    var mapEl = document.getElementById("map") || document.getElementById("locations-map") || document.querySelector(".leaflet-container");
+    if (!mapEl) {
+      if (attempts > 0) setTimeout(function(){ waitForLeaflet(attempts - 1); }, 180);
+      return;
+    }
+
+    var map = null;
+    for (var key in window) {
+      try {
+        if (window[key] && typeof window[key].setView === "function" && typeof window[key].addLayer === "function" && window[key]._container === mapEl) {
+          map = window[key];
+          break;
+        }
+      } catch (e) {}
+    }
+
+    if (!map && mapEl._leaflet_id && L.DomUtil && L.DomUtil.get) {
+      // Existing map object is not publicly exposed; create no duplicate map.
+      // Instead rely on the original map and only update visible tile styling via CSS.
+    }
+
+    // Expose/initialize a clean map only when no Leaflet map exists yet.
+    if (!map && !mapEl._leaflet_id) {
+      map = L.map(mapEl, { scrollWheelZoom: false, tap: true }).setView([41.45, -7.75], 6.4);
+      window.up2cloudMap = map;
+    }
+
+    if (!map) {
+      if (attempts > 0) setTimeout(function(){ waitForLeaflet(attempts - 1); }, 180);
+      return;
+    }
+
+    // Remove existing base tile layers to replace dark theme with daytime options.
+    map.eachLayer(function(layer) {
+      if (layer instanceof L.TileLayer) {
+        map.removeLayer(layer);
+      }
+    });
+
+    var daytime = L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+      maxZoom: 19,
+      attribution: "&copy; OpenStreetMap contributors"
+    });
+
+    var satellite = L.tileLayer("https://server.arcgisonline.com/ArcGIS/rest/services/World_Imagery/MapServer/tile/{z}/{y}/{x}", {
+      maxZoom: 19,
+      attribution: "Tiles &copy; Esri"
+    });
+
+    daytime.addTo(map);
+
+    var baseLayers = {
+      "Day map": daytime,
+      "Satellite": satellite
+    };
+
+    if (!window.up2cloudMapLayerControlAdded) {
+      L.control.layers(baseLayers, null, { position: "topright", collapsed: false }).addTo(map);
+      window.up2cloudMapLayerControlAdded = true;
+    }
+
+    // Zoom in toward Portugal/Iberia while keeping São Paulo context listed in copy.
+    map.setView([41.35, -7.75], 6.4, { animate: false });
+
+    setTimeout(function() {
+      try { map.invalidateSize(); } catch (e) {}
+    }, 250);
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", function(){ waitForLeaflet(50); });
+  } else {
+    waitForLeaflet(50);
+  }
+})();
+</script>
+
 </body>
 </html>
