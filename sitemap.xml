@@ -15,7 +15,7 @@
   <url>
     <loc>https://up2cloud.tech/about/</loc>
     <lastmod>2026-05-09</lastmod>
-    <changefreq>monthly</changefreq>
+    <changefreq>yearly</changefreq>
     <priority>0.8</priority>
   </url>
   <url>
@@ -72,7 +72,6 @@
     <changefreq>monthly</changefreq>
     <priority>0.7</priority>
   </url>
-  <url>
   <url>
     <loc>https://up2cloud.tech/blog/openclaw-autonomous-infra-ops/</loc>
     <lastmod>2026-05-09</lastmod>
