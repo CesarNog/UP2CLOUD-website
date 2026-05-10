@@ -2074,8 +2074,285 @@ body {
 }
 </style>
 
+
+<style>
+/* ─────────────────────────────────────────────
+   Mobile first-screen scroll unlock
+   Prevents hero overlays/draggable panel from capturing touch scroll.
+   ───────────────────────────────────────────── */
+@media (max-width: 1023px) {
+  html,
+  body {
+    overflow-x: hidden !important;
+    touch-action: pan-y !important;
+    -webkit-overflow-scrolling: touch !important;
+    overscroll-behavior-y: auto !important;
+  }
+
+  #hero {
+    touch-action: pan-y !important;
+    pointer-events: auto !important;
+    overflow: visible !important;
+  }
+
+  #hero #main-content,
+  #hero .up2cloud-hero-grid,
+  #hero .up2cloud-hero-brand,
+  #hero .hero-visual-column {
+    touch-action: pan-y !important;
+    pointer-events: auto !important;
+  }
+
+  /* Decorative layers must never steal mobile scroll gestures */
+  #particle-canvas,
+  #hero canvas,
+  #hero::before,
+  #hero::after,
+  #hero .blob,
+  #hero .orb-ring,
+  #hero .hero-network-wave,
+  #hero .ambient-cloud-layer,
+  #hero .hero-cloud-zones,
+  #hero .hero-cloud-zone,
+  #hero .hero-cloud-chip,
+  #hero .money-cloud,
+  #hero .command-chip,
+  #hero .hero-3d-orbit,
+  #hero .cloud-cube,
+  #hero .cube-orbit-ring,
+  #hero .hero-cloud-cubes {
+    pointer-events: none !important;
+    touch-action: none !important;
+  }
+
+  /* Infrastructure panel must scroll the page on touch, not drag/capture */
+  #hero #infra-card,
+  #hero #infra-card *,
+  #hero .hero-draggable-card,
+  #hero .hero-draggable-card * {
+    touch-action: pan-y !important;
+    -webkit-user-drag: none !important;
+  }
+
+  #hero #infra-card,
+  #hero .hero-draggable-card {
+    cursor: default !important;
+    user-select: auto !important;
+  }
+
+  #hero #infra-card.is-floating,
+  #hero #infra-card.is-dragging,
+  #hero .hero-draggable-card.is-floating,
+  #hero .hero-draggable-card.is-dragging {
+    position: relative !important;
+    left: auto !important;
+    top: auto !important;
+    right: auto !important;
+    bottom: auto !important;
+    transform: none !important;
+  }
+
+  /* Keep real controls interactive */
+  #navbar,
+  #navbar *,
+  #mobile-menu,
+  #mobile-menu *,
+  #lang-picker,
+  #lang-picker *,
+  #hero a,
+  #hero button,
+  #hero .btn-primary,
+  #hero .btn-outline {
+    pointer-events: auto !important;
+    touch-action: manipulation !important;
+  }
+
+  /* Floating widgets should not block the first hero CTA area */
+  #nl-fab-wrap {
+    bottom: .9rem !important;
+    left: .9rem !important;
+    transform: scale(.86) !important;
+    transform-origin: bottom left !important;
+    z-index: 80 !important;
+  }
+
+  #chatbot-btn {
+    bottom: .9rem !important;
+    right: .9rem !important;
+    width: 52px !important;
+    height: 52px !important;
+    z-index: 80 !important;
+  }
+
+  #chatbot-panel.open,
+  #nl-modal.open {
+    z-index: 10050 !important;
+  }
+}
+</style>
+
+
+<style>
+/* ─────────────────────────────────────────────
+   UP2CLOUD Scroll Stability Patch
+   Fixes random scroll blocking caused by animated/decorative layers,
+   draggable hero panel behavior, and mobile touch-action conflicts.
+   ───────────────────────────────────────────── */
+
+html,
+body {
+  overflow-x: clip !important;
+  overscroll-behavior-y: auto !important;
+  touch-action: auto !important;
+  -webkit-overflow-scrolling: touch !important;
+}
+
+/* Keep the document naturally scrollable */
+body {
+  min-height: 100%;
+}
+
+/* Decorative/animated layers must never capture mouse, touch, or scroll */
+#particle-canvas,
+canvas#particle-canvas,
+.hero-bg::before,
+.hero-bg::after,
+#hero::before,
+#hero::after,
+#hero .blob,
+#hero .orb-ring,
+#hero .hero-network-wave,
+#hero .ambient-cloud-layer,
+#hero .ambient-cloud,
+#hero .hero-cloud-zones,
+#hero .hero-cloud-zone,
+#hero .hero-cloud-chip,
+#hero .money-cloud,
+#hero .command-chip,
+#hero .hero-3d-orbit,
+#hero .hero-cloud-cubes,
+#hero .cloud-cube,
+#hero .cube-face,
+#hero .cube-orbit-ring,
+.float-shape,
+.shine::after,
+.shine-card::after,
+.premium-glow::before,
+.circuit-bg::after,
+.service-card::after {
+  pointer-events: none !important;
+  touch-action: none !important;
+}
+
+/* Only real UI remains interactive */
+a,
+button,
+input,
+textarea,
+select,
+label,
+#navbar,
+#navbar *,
+#mobile-menu,
+#mobile-menu *,
+#lang-picker,
+#lang-picker *,
+#chatbot-btn,
+#chatbot-panel,
+#chatbot-panel *,
+#nl-fab-wrap,
+#nl-fab-wrap *,
+#nl-modal,
+#nl-modal *,
+.leaflet-container,
+.leaflet-container * {
+  pointer-events: auto;
+}
+
+/* Hero and panel should allow vertical scrolling, not hijack gestures */
+#hero,
+#hero #main-content,
+#hero .up2cloud-hero-grid,
+#hero .up2cloud-hero-brand,
+#hero .hero-visual-column,
+#hero #infra-card,
+#hero #infra-card *,
+.hero-draggable-card,
+.hero-draggable-card * {
+  touch-action: pan-y !important;
+}
+
+/* Stop drag states from creating overlay-like blocking layers on touch devices */
+@media (hover: none), (pointer: coarse), (max-width: 1023px) {
+  #hero #infra-card,
+  #hero #infra-card.is-floating,
+  #hero #infra-card.is-dragging,
+  .hero-draggable-card,
+  .hero-draggable-card.is-floating,
+  .hero-draggable-card.is-dragging {
+    position: relative !important;
+    left: auto !important;
+    top: auto !important;
+    right: auto !important;
+    bottom: auto !important;
+    transform: none !important;
+    cursor: default !important;
+    user-select: auto !important;
+    -webkit-user-drag: none !important;
+    touch-action: pan-y !important;
+  }
+
+  #hero .hero-draggable-card::after {
+    display: none !important;
+  }
+
+  #hero {
+    overflow: visible !important;
+    min-height: auto !important;
+  }
+
+  #hero #main-content {
+    transform: none !important;
+  }
+}
+
+/* Prevent fixed widgets from accidentally creating a full-screen blocking layer */
+#chatbot-btn,
+#nl-fab-wrap {
+  isolation: isolate;
+}
+
+#chatbot-panel:not(.open) {
+  pointer-events: none !important;
+}
+
+#chatbot-panel.open {
+  pointer-events: auto !important;
+}
+
+/* Reduced motion users and mobile get a lighter animation footprint */
+@media (prefers-reduced-motion: reduce), (max-width: 768px) {
+  .blob,
+  .orb-ring,
+  .hero-network-wave,
+  .ambient-cloud,
+  .hero-cloud-chip,
+  .money-cloud,
+  .command-chip,
+  .cloud-cube,
+  .cube-orbit-ring,
+  .ticker-track,
+  .float-shape,
+  .shine::after,
+  .shine-card::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+</style>
+
 </head>
-<body style="overscroll-behavior-y:none">
+<body>
 
 <!-- ══ Pull-to-refresh indicator ══ -->
 <div id="ptr-indicator" aria-hidden="true" style="position:fixed;top:0;left:0;right:0;z-index:9998;display:flex;align-items:center;justify-content:center;height:64px;transform:translateY(-64px);transition:transform .22s ease;pointer-events:none">
@@ -5491,6 +5768,160 @@ function floatCardAt(leftPx, topPx, persist){
   } else {
     waitForLeaflet(50);
   }
+})();
+</script>
+
+
+<script>
+/* Mobile guard: infrastructure panel should never capture drag gestures on touch devices. */
+(function disableHeroPanelDragOnMobile(){
+  function isMobileTouch(){
+    return window.matchMedia("(max-width: 1023px)").matches || navigator.maxTouchPoints > 0;
+  }
+
+  function unlock(){
+    if (!isMobileTouch()) return;
+
+    var infra = document.getElementById("infra-card");
+    if (!infra) return;
+
+    infra.classList.remove("is-floating", "is-dragging");
+    infra.style.position = "relative";
+    infra.style.left = "auto";
+    infra.style.top = "auto";
+    infra.style.transform = "none";
+    infra.style.touchAction = "pan-y";
+    infra.style.cursor = "default";
+
+    ["pointerdown", "mousedown", "touchstart"].forEach(function(evt){
+      infra.addEventListener(evt, function(e){
+        if (e.target.closest("a,button,input,textarea,select")) return;
+        e.stopImmediatePropagation();
+      }, true);
+    });
+
+    ["pointermove", "mousemove", "touchmove"].forEach(function(evt){
+      infra.addEventListener(evt, function(e){
+        if (e.target.closest("a,button,input,textarea,select")) return;
+        e.stopImmediatePropagation();
+      }, true);
+    });
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", unlock);
+  } else {
+    unlock();
+  }
+
+  window.addEventListener("resize", unlock, { passive: true });
+})();
+</script>
+
+
+<script>
+/* UP2CLOUD Scroll Stability Runtime Patch */
+(function up2cloudScrollStabilityPatch() {
+  function isTouchViewport() {
+    return window.matchMedia("(max-width: 1023px)").matches || navigator.maxTouchPoints > 0;
+  }
+
+  function unlockHeroPanel() {
+    var infra = document.getElementById("infra-card");
+    if (!infra) return;
+
+    if (isTouchViewport()) {
+      infra.classList.remove("is-floating", "is-dragging");
+      infra.style.position = "relative";
+      infra.style.left = "auto";
+      infra.style.top = "auto";
+      infra.style.right = "auto";
+      infra.style.bottom = "auto";
+      infra.style.transform = "none";
+      infra.style.touchAction = "pan-y";
+      infra.style.cursor = "default";
+    }
+  }
+
+  function neutralizeDecorativePointerEvents() {
+    var selectors = [
+      "#particle-canvas",
+      "#hero .blob",
+      "#hero .orb-ring",
+      "#hero .hero-network-wave",
+      "#hero .ambient-cloud-layer",
+      "#hero .ambient-cloud",
+      "#hero .hero-cloud-zones",
+      "#hero .hero-cloud-zone",
+      "#hero .hero-cloud-chip",
+      "#hero .money-cloud",
+      "#hero .command-chip",
+      "#hero .hero-cloud-cubes",
+      "#hero .cloud-cube",
+      "#hero .cube-orbit-ring",
+      ".float-shape"
+    ];
+
+    selectors.forEach(function(selector) {
+      document.querySelectorAll(selector).forEach(function(el) {
+        el.style.pointerEvents = "none";
+        el.style.touchAction = "none";
+      });
+    });
+  }
+
+  function bindScrollGuard() {
+    var infra = document.getElementById("infra-card");
+    if (!infra || infra.dataset.scrollGuardBound === "true") return;
+    infra.dataset.scrollGuardBound = "true";
+
+    ["pointerdown", "touchstart", "mousedown"].forEach(function(eventName) {
+      infra.addEventListener(eventName, function(event) {
+        if (!isTouchViewport()) return;
+        if (event.target.closest("a,button,input,textarea,select,label")) return;
+
+        // Prevent legacy drag code from taking ownership of the gesture.
+        event.stopImmediatePropagation();
+      }, true);
+    });
+
+    ["pointermove", "touchmove", "mousemove"].forEach(function(eventName) {
+      infra.addEventListener(eventName, function(event) {
+        if (!isTouchViewport()) return;
+        if (event.target.closest("a,button,input,textarea,select,label")) return;
+
+        // Do not call preventDefault; vertical page scroll must remain native.
+        event.stopImmediatePropagation();
+      }, true);
+    });
+
+    ["pointerup", "touchend", "mouseup", "mouseleave", "touchcancel"].forEach(function(eventName) {
+      infra.addEventListener(eventName, function() {
+        if (!isTouchViewport()) return;
+        unlockHeroPanel();
+      }, true);
+    });
+  }
+
+  function applyPatch() {
+    document.documentElement.style.overflowX = "clip";
+    document.documentElement.style.overscrollBehaviorY = "auto";
+    document.body.style.overscrollBehaviorY = "auto";
+    document.body.style.touchAction = "auto";
+
+    neutralizeDecorativePointerEvents();
+    unlockHeroPanel();
+    bindScrollGuard();
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", applyPatch);
+  } else {
+    applyPatch();
+  }
+
+  window.addEventListener("resize", applyPatch, { passive: true });
+  window.addEventListener("orientationchange", applyPatch, { passive: true });
 })();
 </script>
 
