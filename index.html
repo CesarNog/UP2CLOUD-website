@@ -29,9 +29,12 @@
   <meta name="twitter:image" content="https://up2cloud.tech/assets/img/og-image.png" />
   <meta name="twitter:title" content="UP2CLOUD — Platform Engineering, FinOps & DevOps Consulting" />
   <meta name="twitter:description" content="Build cloud platforms that scale, ship, and pay for themselves. Expert Platform Engineering, FinOps, and AI-driven DevOps for AWS, Azure, and Google Cloud." />
-  <!-- Hotjar — production only (HTTPS) -->
-  <script>
-    if (location.protocol === 'https:') {
+  <!-- Hotjar delayed for mobile performance; loaded after idle/user interaction -->
+<script>
+  window.addEventListener('load', function () {
+    var loadHotjar = function () {
+      if (window.__up2cloudHotjarLoaded || location.protocol !== 'https:') return;
+      window.__up2cloudHotjarLoaded = true;
       (function(h,o,t,j,a,r){
         h.hj=h.hj||function(){(h.hj.q=h.hj.q||[]).push(arguments)};
         h._hjSettings={hjid:6705514,hjsv:6};
@@ -40,14 +43,34 @@
         r.src=t+h._hjSettings.hjid+j+h._hjSettings.hjsv;
         a.appendChild(r);
       })(window,document,'https://static.hotjar.com/c/hotjar-','.js?sv=');
+    };
+
+    ['pointerdown','keydown','scroll','touchstart'].forEach(function(eventName){
+      window.addEventListener(eventName, loadHotjar, { once:true, passive:true });
+    });
+
+    if ('requestIdleCallback' in window) {
+      requestIdleCallback(loadHotjar, { timeout: 6000 });
+    } else {
+      setTimeout(loadHotjar, 6000);
     }
-  </script>
+  });
+</script>
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet" />
+  <!-- Performance resource hints -->
+  <link rel="dns-prefetch" href="//cdn.simpleicons.org" />
+  <link rel="preconnect" href="https://cdn.simpleicons.org" crossorigin />
+  <link rel="dns-prefetch" href="//static.hotjar.com" />
+  <link rel="dns-prefetch" href="//script.hotjar.com" />
+
+  <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=DM+Sans:wght@300;400;500;700&display=swap" />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'" />
+  <noscript><link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet" /></noscript>
   <!-- UP2CLOUD favicon — cloud SVG inline data URL -->
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='5' fill='%230F172A'/%3E%3Cpath d='M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z' stroke='%230EA5E9' stroke-width='2' stroke-linejoin='round' fill='none'/%3E%3C/svg%3E" />
+  <link rel="preload" href="assets/css/tailwind.min.css" as="style" />
   <link rel="stylesheet" href="assets/css/tailwind.min.css" />
 
   <!-- Structured Data (Schema.org) -->
@@ -1226,8 +1249,6 @@
 }
 </style>
 
-
-
 <style>
 /* ─────────────────────────────────────────────
    Mobile hero containment fix
@@ -1369,8 +1390,6 @@
   }
 }
 </style>
-
-
 
 <style>
 /* ─────────────────────────────────────────────
@@ -2351,6 +2370,1113 @@ label,
 }
 </style>
 
+
+<style>
+/* ─────────────────────────────────────────────
+   UP2CLOUD Leaflet Map — light mode + Vila Real focus
+   ───────────────────────────────────────────── */
+#contact-map,
+.leaflet-container {
+  background: #eaf6ff !important;
+}
+
+#contact-map .leaflet-tile,
+.leaflet-container .leaflet-tile {
+  filter: brightness(1.08) contrast(.98) saturate(1.05) !important;
+}
+
+#contact-map .leaflet-control-zoom a,
+#contact-map .leaflet-control-attribution,
+#contact-map .leaflet-popup-content-wrapper {
+  background: rgba(255,255,255,.94) !important;
+  color: #0F172A !important;
+}
+
+#contact-map .leaflet-control-zoom a {
+  border-bottom-color: rgba(15,23,42,.12) !important;
+}
+
+#contact-map .leaflet-popup-content-wrapper {
+  border: 1px solid rgba(14,165,233,.18) !important;
+  box-shadow: 0 14px 36px rgba(15,23,42,.18) !important;
+}
+
+#contact-map .leaflet-popup-tip {
+  background: #fff !important;
+}
+</style>
+
+
+<style>
+/* ─────────────────────────────────────────────
+   Infrastructure Health Panel vNext — creative live UX
+   ───────────────────────────────────────────── */
+
+#infra-card {
+  position: relative;
+  isolation: isolate;
+  overflow: hidden !important;
+}
+
+#infra-card::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  pointer-events: none;
+  z-index: -1;
+  background:
+    radial-gradient(circle at 18% 8%, rgba(56,189,248,.34), transparent 26%),
+    radial-gradient(circle at 88% 12%, rgba(34,197,94,.20), transparent 20%),
+    radial-gradient(circle at 70% 90%, rgba(249,115,22,.18), transparent 26%),
+    linear-gradient(135deg, rgba(15,23,42,.96), rgba(15,23,42,.78) 52%, rgba(30,41,59,.92));
+  box-shadow:
+    0 28px 90px rgba(2,6,23,.52),
+    0 0 0 1px rgba(56,189,248,.22),
+    inset 0 1px 0 rgba(255,255,255,.16);
+}
+
+#infra-card::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  border-radius: inherit;
+  background:
+    linear-gradient(90deg, transparent, rgba(56,189,248,.10), transparent),
+    repeating-linear-gradient(
+      to bottom,
+      rgba(255,255,255,.035) 0px,
+      rgba(255,255,255,.035) 1px,
+      transparent 1px,
+      transparent 7px
+    );
+  transform: translateY(-105%);
+  animation: infraScan 7.5s ease-in-out infinite;
+  mix-blend-mode: screen;
+}
+
+@keyframes infraScan {
+  0%, 58% { transform: translateY(-105%); opacity: 0; }
+  66% { opacity: .75; }
+  100% { transform: translateY(105%); opacity: 0; }
+}
+
+.infra-live-badge {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+  gap: .45rem;
+  padding: .38rem .8rem;
+  border-radius: 999px;
+  color: #BBF7D0;
+  font-size: .72rem;
+  font-weight: 800;
+  letter-spacing: .08em;
+  text-transform: uppercase;
+  background:
+    radial-gradient(circle at 26% 50%, rgba(34,197,94,.35), transparent 24%),
+    rgba(22,163,74,.11);
+  border: 1px solid rgba(74,222,128,.38);
+  box-shadow:
+    0 0 0 1px rgba(34,197,94,.10),
+    0 0 22px rgba(34,197,94,.18),
+    inset 0 1px 0 rgba(255,255,255,.10);
+  overflow: visible;
+}
+
+.infra-live-badge::after {
+  content: "";
+  position: absolute;
+  inset: -5px;
+  border-radius: 999px;
+  border: 1px solid rgba(74,222,128,.22);
+  opacity: 0;
+  animation: liveHalo 1.65s ease-out infinite;
+}
+
+.infra-live-dot {
+  position: relative;
+  width: .55rem;
+  height: .55rem;
+  border-radius: 999px;
+  background: #22C55E;
+  box-shadow:
+    0 0 0 3px rgba(34,197,94,.18),
+    0 0 18px rgba(34,197,94,.85);
+  animation: liveBlink .95s ease-in-out infinite;
+}
+
+@keyframes liveBlink {
+  0%, 100% {
+    transform: scale(.86);
+    opacity: .55;
+    box-shadow: 0 0 0 2px rgba(34,197,94,.10), 0 0 8px rgba(34,197,94,.55);
+  }
+  50% {
+    transform: scale(1.22);
+    opacity: 1;
+    box-shadow: 0 0 0 5px rgba(34,197,94,.18), 0 0 22px rgba(34,197,94,.95);
+  }
+}
+
+@keyframes liveHalo {
+  0% {
+    transform: scale(.88);
+    opacity: .6;
+  }
+  100% {
+    transform: scale(1.24);
+    opacity: 0;
+  }
+}
+
+#infra-card .hero-bar,
+#infra-card .infra-scroll-bar {
+  position: relative;
+  min-width: 6%;
+  box-shadow:
+    0 0 16px rgba(56,189,248,.22),
+    inset 0 1px 0 rgba(255,255,255,.25);
+  transition: width .28s cubic-bezier(.22,1,.36,1), filter .28s ease;
+}
+
+#infra-card .infra-scroll-bar::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: inherit;
+  background: linear-gradient(90deg, transparent, rgba(255,255,255,.45), transparent);
+  transform: translateX(-120%);
+  animation: infraBarShine 2.4s ease-in-out infinite;
+}
+
+@keyframes infraBarShine {
+  0%, 42% { transform: translateX(-120%); opacity: 0; }
+  55% { opacity: .9; }
+  100% { transform: translateX(120%); opacity: 0; }
+}
+
+#infra-card .space-y-4 > div {
+  position: relative;
+  padding: .2rem 0;
+}
+
+#infra-card .space-y-4 > div:hover .infra-scroll-bar {
+  filter: brightness(1.2) saturate(1.2);
+}
+
+#infra-card .space-y-4 > div .bg-white\/10,
+#infra-card .space-y-4 > div .bg-white\/10,
+#infra-card .h-1\.5.bg-white\/10 {
+  background: rgba(255,255,255,.12) !important;
+}
+
+#scroll-progress {
+  height: 4px !important;
+  background: linear-gradient(90deg,#22C55E,#0EA5E9,#7C3AED,#F97316) !important;
+  box-shadow: 0 0 18px rgba(14,165,233,.45);
+  transition: width .08s linear !important;
+}
+
+@media (max-width: 1023px) {
+  #infra-card {
+    touch-action: pan-y !important;
+  }
+
+  #infra-card::after {
+    animation-duration: 10s;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #infra-card::after,
+  .infra-live-dot,
+  .infra-live-badge::after,
+  #infra-card .infra-scroll-bar::after {
+    animation: none !important;
+  }
+}
+</style>
+
+
+<style>
+/* ─────────────────────────────────────────────
+   Stable infra panel + draggable hero command chips
+   ───────────────────────────────────────────── */
+
+/* Remove scroll-coupled animation from infra panel bars */
+#infra-card .hero-bar {
+  transition: none !important;
+}
+
+#infra-card .hero-bar::after,
+#infra-card .infra-scroll-bar::after {
+  display: none !important;
+  animation: none !important;
+}
+
+/* Make Terraform/apply command chips draggable without blocking mobile scroll */
+#hero .command-chip {
+  pointer-events: auto !important;
+  touch-action: none !important;
+  cursor: grab !important;
+  user-select: none !important;
+  z-index: 42 !important;
+  will-change: transform, left, top !important;
+}
+
+#hero .command-chip:active,
+#hero .command-chip.is-dragging {
+  cursor: grabbing !important;
+}
+
+#hero .command-chip.is-chip-floating {
+  position: absolute !important;
+  z-index: 90 !important;
+  box-shadow:
+    0 30px 90px rgba(2,6,23,.42),
+    0 0 0 1px rgba(56,189,248,.38),
+    0 0 34px rgba(14,165,233,.18) !important;
+}
+
+@media (max-width: 1023px) {
+  /* On mobile, keep decorative command chips non-interactive so they never block scroll */
+  #hero .command-chip {
+    pointer-events: none !important;
+    touch-action: pan-y !important;
+    cursor: default !important;
+  }
+}
+</style>
+
+
+<style>
+/* ─────────────────────────────────────────────
+   Hero above-the-fold optimization
+   Bring content higher so CTA + scroll indicator
+   are visible on first load
+   ───────────────────────────────────────────── */
+
+/* Desktop */
+#hero {
+  min-height: 92vh !important;
+  padding-top: 5.25rem !important;
+  padding-bottom: 4rem !important;
+}
+
+#hero .up2cloud-hero-grid {
+  align-items: center !important;
+  padding-top: 0 !important;
+}
+
+#hero .up2cloud-hero-brand {
+  margin-top: -1rem !important;
+}
+
+/* Make scroll button always visible */
+#hero a[aria-label="Scroll to services"] {
+  bottom: 1rem !important;
+  opacity: .82 !important;
+  z-index: 60 !important;
+}
+
+/* Reduce giant top empty space */
+@media (min-width: 1024px) {
+  #hero h1 {
+    margin-top: .2rem !important;
+  }
+
+  #hero .hero-visual-column {
+    margin-top: -.5rem !important;
+  }
+}
+
+/* Mobile/tablet */
+@media (max-width: 1023px) {
+  #hero {
+    min-height: auto !important;
+    padding-top: 5rem !important;
+    padding-bottom: 6rem !important;
+  }
+
+  #hero .up2cloud-hero-grid {
+    gap: 1.6rem !important;
+  }
+
+  #hero .up2cloud-hero-brand {
+    margin-top: -.5rem !important;
+  }
+
+  #hero h1 {
+    margin-top: .4rem !important;
+  }
+
+  #hero a[aria-label="Scroll to services"] {
+    bottom: .65rem !important;
+    transform: translateX(-50%) scale(.92) !important;
+  }
+}
+
+/* Smaller laptops */
+@media (min-width: 1024px) and (max-height: 900px) {
+  #hero {
+    padding-top: 4.4rem !important;
+  }
+
+  #hero .up2cloud-hero-brand {
+    margin-top: -1.5rem !important;
+  }
+
+  #hero h1 {
+    font-size: clamp(4.2rem, 7vw, 6.6rem) !important;
+    line-height: .92 !important;
+  }
+}
+</style>
+
+
+<style>
+/* ─────────────────────────────────────────────
+   Hero first-viewport tightening v2
+   Ensures the scroll-down control is visible at open.
+   ───────────────────────────────────────────── */
+
+#hero {
+  min-height: 86vh !important;
+  padding-top: 3.9rem !important;
+  padding-bottom: 3.25rem !important;
+}
+
+#hero #main-content {
+  transform: none !important;
+}
+
+#hero .up2cloud-hero-grid {
+  min-height: calc(86vh - 5.5rem) !important;
+  gap: clamp(1.5rem, 3.6vw, 3.75rem) !important;
+  align-items: center !important;
+}
+
+#hero .up2cloud-hero-brand {
+  margin-top: -2.25rem !important;
+}
+
+#hero .flex.flex-wrap.gap-2.mb-5 {
+  margin-bottom: .9rem !important;
+}
+
+#hero h1 {
+  margin-top: 0 !important;
+  margin-bottom: 1.15rem !important;
+  line-height: .9 !important;
+}
+
+#hero p.text-lg,
+#hero p.md\:text-xl {
+  margin-bottom: 1.25rem !important;
+}
+
+#hero .hero-visual-column {
+  margin-top: -1.75rem !important;
+  min-height: 500px !important;
+}
+
+#hero #infra-card {
+  transform: scale(.94) !important;
+  transform-origin: center right !important;
+}
+
+#hero a[aria-label="Scroll to services"] {
+  bottom: .55rem !important;
+  opacity: .95 !important;
+  z-index: 80 !important;
+  color: rgba(255,255,255,.72) !important;
+}
+
+/* Compact desktop/laptop viewport */
+@media (min-width: 1024px) and (max-height: 900px) {
+  #hero {
+    min-height: 84vh !important;
+    padding-top: 3.45rem !important;
+    padding-bottom: 3rem !important;
+  }
+
+  #hero .up2cloud-hero-grid {
+    min-height: calc(84vh - 5rem) !important;
+  }
+
+  #hero .up2cloud-hero-brand {
+    margin-top: -2.75rem !important;
+  }
+
+  #hero h1 {
+    font-size: clamp(3.65rem, 6.25vw, 5.95rem) !important;
+    line-height: .88 !important;
+    margin-bottom: 1rem !important;
+  }
+
+  #hero .hero-visual-column {
+    min-height: 470px !important;
+    margin-top: -2.25rem !important;
+  }
+
+  #hero #infra-card {
+    transform: scale(.90) !important;
+  }
+}
+
+/* Large desktop keeps premium spacing, but still shows scroll */
+@media (min-width: 1440px) and (min-height: 901px) {
+  #hero {
+    min-height: 88vh !important;
+    padding-top: 4rem !important;
+  }
+
+  #hero .up2cloud-hero-brand {
+    margin-top: -1.5rem !important;
+  }
+}
+
+/* Mobile should also reveal scroll affordance sooner */
+@media (max-width: 1023px) {
+  #hero {
+    padding-top: 4.25rem !important;
+    padding-bottom: 5.5rem !important;
+  }
+
+  #hero .up2cloud-hero-grid {
+    min-height: auto !important;
+    gap: 1.1rem !important;
+  }
+
+  #hero .up2cloud-hero-brand {
+    margin-top: -1rem !important;
+  }
+
+  #hero h1 {
+    font-size: clamp(2.85rem, 11.6vw, 4.25rem) !important;
+    line-height: .93 !important;
+    margin-bottom: 1rem !important;
+  }
+
+  #hero a[aria-label="Scroll to services"] {
+    bottom: .45rem !important;
+    transform: translateX(-50%) scale(.88) !important;
+  }
+}
+</style>
+
+
+<style>
+/* ─────────────────────────────────────────────
+   Hero vertical compaction v3
+   Removes excessive empty space below navbar/logo
+   ───────────────────────────────────────────── */
+
+#hero {
+  padding-top: 2.15rem !important;
+}
+
+#hero .up2cloud-hero-grid {
+  padding-top: 0 !important;
+  align-items: start !important;
+}
+
+#hero .up2cloud-hero-brand {
+  margin-top: -4.4rem !important;
+  padding-top: 0 !important;
+}
+
+#hero .flex.items-center.justify-between {
+  margin-bottom: .35rem !important;
+}
+
+#hero h1 {
+  margin-top: -.35rem !important;
+}
+
+#hero .hero-visual-column {
+  margin-top: -3rem !important;
+}
+
+@media (min-width: 1024px) and (max-height: 950px) {
+  #hero {
+    padding-top: 1.35rem !important;
+  }
+
+  #hero .up2cloud-hero-brand {
+    margin-top: -5.1rem !important;
+  }
+
+  #hero .hero-visual-column {
+    margin-top: -3.6rem !important;
+  }
+}
+
+@media (min-width: 1400px) {
+  #hero .up2cloud-hero-brand {
+    margin-top: -3.8rem !important;
+  }
+}
+
+@media (max-width: 1023px) {
+  #hero {
+    padding-top: 2.8rem !important;
+  }
+
+  #hero .up2cloud-hero-brand {
+    margin-top: -2.2rem !important;
+  }
+
+  #hero h1 {
+    margin-top: -.2rem !important;
+  }
+}
+</style>
+
+
+<style>
+/* ─────────────────────────────────────────────
+   Hero fold + section gap fix v4
+   Ensure scroll button appears and remove large gap
+   before "Trusted by forward-thinking companies"
+   ───────────────────────────────────────────── */
+
+#hero {
+  min-height: 100vh !important;
+  height: 100vh !important;
+  padding-top: 1.25rem !important;
+  padding-bottom: 2.35rem !important;
+  overflow: hidden !important;
+}
+
+#hero #main-content {
+  height: calc(100vh - 3.25rem) !important;
+  display: flex !important;
+  align-items: center !important;
+  transform: translateY(-2.2rem) !important;
+}
+
+#hero .up2cloud-hero-grid {
+  min-height: auto !important;
+  width: 100% !important;
+  align-items: center !important;
+  gap: clamp(1.4rem, 3vw, 3rem) !important;
+}
+
+#hero .up2cloud-hero-brand {
+  margin-top: 0 !important;
+}
+
+#hero h1 {
+  font-size: clamp(3.7rem, 6.1vw, 5.9rem) !important;
+  line-height: .88 !important;
+  margin-bottom: .9rem !important;
+}
+
+#hero .hero-visual-column {
+  min-height: auto !important;
+  margin-top: 0 !important;
+}
+
+#hero #infra-card {
+  transform: scale(.88) !important;
+  transform-origin: center right !important;
+}
+
+/* Move secondary CTAs and certification row tighter */
+#hero .mt-6,
+#hero .mt-7,
+#hero .mt-8 {
+  margin-top: 1rem !important;
+}
+
+/* Force scroll button visible inside viewport */
+#hero a[aria-label="Scroll to services"] {
+  position: absolute !important;
+  bottom: .55rem !important;
+  left: 50% !important;
+  transform: translateX(-50%) !important;
+  display: flex !important;
+  opacity: 1 !important;
+  visibility: visible !important;
+  z-index: 120 !important;
+  color: rgba(255,255,255,.82) !important;
+  pointer-events: auto !important;
+}
+
+/* Reduce huge gap after hero before trusted-by section */
+#hero + section,
+section[aria-label="Trusted by"] {
+  margin-top: 0 !important;
+}
+
+section[aria-label="Trusted by"] {
+  padding-top: 2rem !important;
+  padding-bottom: 2.6rem !important;
+}
+
+/* Laptop/short screens: prioritize showing scroll affordance */
+@media (min-width: 1024px) and (max-height: 900px) {
+  #hero #main-content {
+    transform: translateY(-2.85rem) !important;
+  }
+
+  #hero h1 {
+    font-size: clamp(3.25rem, 5.55vw, 5.25rem) !important;
+    line-height: .87 !important;
+  }
+
+  #hero #infra-card {
+    transform: scale(.82) !important;
+  }
+
+  #hero p.text-lg,
+  #hero p.md\:text-xl {
+    margin-bottom: .85rem !important;
+  }
+
+  #hero .flex.flex-wrap.gap-2.mb-5 {
+    margin-bottom: .7rem !important;
+  }
+
+  section[aria-label="Trusted by"] {
+    padding-top: 1.6rem !important;
+  }
+}
+
+/* Mobile keeps natural scroll; avoid clipping content */
+@media (max-width: 1023px) {
+  #hero {
+    height: auto !important;
+    min-height: 100svh !important;
+    overflow: visible !important;
+    padding-top: 4.25rem !important;
+    padding-bottom: 4rem !important;
+  }
+
+  #hero #main-content {
+    height: auto !important;
+    display: block !important;
+    transform: none !important;
+  }
+
+  #hero #infra-card {
+    transform: none !important;
+  }
+
+  #hero a[aria-label="Scroll to services"] {
+    bottom: .45rem !important;
+    transform: translateX(-50%) scale(.88) !important;
+  }
+
+  section[aria-label="Trusted by"] {
+    padding-top: 1.75rem !important;
+  }
+}
+</style>
+
+
+<style>
+/* ─────────────────────────────────────────────
+   Premium scroll affordance v5
+   Moves the scroll button up and turns it into a clear,
+   animated UX cue without blocking hero interactions.
+   ───────────────────────────────────────────── */
+
+#hero a[aria-label="Scroll to services"] {
+  bottom: 2.15rem !important;
+  padding: .55rem .85rem !important;
+  min-width: 5.25rem !important;
+  border-radius: 999px !important;
+  color: rgba(255,255,255,.86) !important;
+  background:
+    radial-gradient(circle at 50% 0%, rgba(56,189,248,.18), transparent 45%),
+    rgba(15,23,42,.42) !important;
+  border: 1px solid rgba(56,189,248,.24) !important;
+  box-shadow:
+    0 12px 34px rgba(2,6,23,.34),
+    0 0 0 1px rgba(255,255,255,.06),
+    0 0 24px rgba(14,165,233,.14) !important;
+  backdrop-filter: blur(14px) !important;
+  -webkit-backdrop-filter: blur(14px) !important;
+  animation: scrollCueFloat 2.8s ease-in-out infinite !important;
+}
+
+#hero a[aria-label="Scroll to services"]::before {
+  content: "";
+  position: absolute;
+  inset: -6px;
+  border-radius: 999px;
+  border: 1px solid rgba(56,189,248,.22);
+  opacity: 0;
+  animation: scrollCuePulse 2.8s ease-out infinite;
+}
+
+#hero a[aria-label="Scroll to services"]::after {
+  content: "";
+  width: 5px;
+  height: 5px;
+  margin-top: 1px;
+  border-radius: 999px;
+  background: #38BDF8;
+  box-shadow: 0 0 14px rgba(56,189,248,.95);
+  animation: scrollCueDot 1.35s ease-in-out infinite;
+}
+
+#hero a[aria-label="Scroll to services"] span {
+  font-size: .68rem !important;
+  font-weight: 700 !important;
+  letter-spacing: .12em !important;
+  text-transform: uppercase !important;
+  color: rgba(255,255,255,.82) !important;
+}
+
+#hero a[aria-label="Scroll to services"] svg {
+  color: #38BDF8 !important;
+  animation: scrollArrowFlow 1.25s cubic-bezier(.22,1,.36,1) infinite !important;
+  filter: drop-shadow(0 0 8px rgba(56,189,248,.8));
+}
+
+#hero a[aria-label="Scroll to services"]:hover {
+  color: #fff !important;
+  border-color: rgba(56,189,248,.55) !important;
+  background:
+    radial-gradient(circle at 50% 0%, rgba(56,189,248,.26), transparent 45%),
+    rgba(15,23,42,.64) !important;
+  transform: translateX(-50%) translateY(-2px) scale(1.03) !important;
+}
+
+@keyframes scrollCueFloat {
+  0%, 100% {
+    transform: translateX(-50%) translateY(0);
+  }
+  50% {
+    transform: translateX(-50%) translateY(-7px);
+  }
+}
+
+@keyframes scrollCuePulse {
+  0% {
+    transform: scale(.88);
+    opacity: .52;
+  }
+  100% {
+    transform: scale(1.28);
+    opacity: 0;
+  }
+}
+
+@keyframes scrollArrowFlow {
+  0% {
+    transform: translateY(-3px);
+    opacity: .5;
+  }
+  45% {
+    transform: translateY(3px);
+    opacity: 1;
+  }
+  100% {
+    transform: translateY(7px);
+    opacity: 0;
+  }
+}
+
+@keyframes scrollCueDot {
+  0%, 100% {
+    transform: scale(.75);
+    opacity: .45;
+  }
+  50% {
+    transform: scale(1.15);
+    opacity: 1;
+  }
+}
+
+@media (min-width: 1024px) and (max-height: 900px) {
+  #hero a[aria-label="Scroll to services"] {
+    bottom: 1.75rem !important;
+  }
+}
+
+@media (max-width: 1023px) {
+  #hero a[aria-label="Scroll to services"] {
+    bottom: 1.35rem !important;
+    transform: translateX(-50%) scale(.92) !important;
+  }
+
+  #hero a[aria-label="Scroll to services"]:hover {
+    transform: translateX(-50%) scale(.94) !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  #hero a[aria-label="Scroll to services"],
+  #hero a[aria-label="Scroll to services"]::before,
+  #hero a[aria-label="Scroll to services"]::after,
+  #hero a[aria-label="Scroll to services"] svg {
+    animation: none !important;
+  }
+}
+</style>
+
+
+<style>
+/* ─────────────────────────────────────────────
+   Hero typography rebalance v6
+   Smaller hero title + slightly more top breathing room
+   ───────────────────────────────────────────── */
+
+#hero {
+  padding-top: 2.2rem !important;
+}
+
+#hero h1 {
+  font-size: clamp(3.15rem, 5.35vw, 5rem) !important;
+  line-height: .92 !important;
+  letter-spacing: -0.045em !important;
+  margin-top: .45rem !important;
+  margin-bottom: 1rem !important;
+}
+
+#hero .up2cloud-hero-brand {
+  margin-top: -1.8rem !important;
+}
+
+#hero .hero-visual-column {
+  margin-top: -1rem !important;
+}
+
+@media (min-width: 1024px) and (max-height: 900px) {
+  #hero {
+    padding-top: 1.9rem !important;
+  }
+
+  #hero h1 {
+    font-size: clamp(2.95rem, 4.95vw, 4.65rem) !important;
+    line-height: .91 !important;
+  }
+}
+
+@media (min-width: 1440px) {
+  #hero h1 {
+    font-size: clamp(3.4rem, 4.9vw, 5.25rem) !important;
+  }
+}
+
+@media (max-width: 1023px) {
+  #hero {
+    padding-top: 4.8rem !important;
+  }
+
+  #hero h1 {
+    font-size: clamp(2.55rem, 9.2vw, 4rem) !important;
+    line-height: .94 !important;
+    margin-top: .35rem !important;
+  }
+
+  #hero .up2cloud-hero-brand {
+    margin-top: -.8rem !important;
+  }
+}
+</style>
+
+
+<style>
+/* ─────────────────────────────────────────────
+   Section contrast + premium navigation motion v7
+   Differentiate How We Deliver / Built by sections and
+   make menu clicks land cleanly on section titles.
+   ───────────────────────────────────────────── */
+
+/* HOW WE DELIVER — crisp light blueprint background */
+#how-we-work,
+section#how-we-work {
+  background:
+    radial-gradient(circle at 12% 16%, rgba(14,165,233,.16), transparent 30%),
+    radial-gradient(circle at 86% 84%, rgba(249,115,22,.10), transparent 26%),
+    linear-gradient(180deg, #F2F9FF 0%, #EAF4FF 100%) !important;
+  border-top: 1px solid rgba(14,165,233,.10) !important;
+  border-bottom: 1px solid rgba(14,165,233,.12) !important;
+}
+
+/* BUILT BY / ABOUT — deeper executive gradient so it does not blend with delivery */
+#about,
+section#about,
+section:has([data-i18n="about_badge"]),
+section:has([data-i18n="about_title"]) {
+  background:
+    radial-gradient(circle at 16% 18%, rgba(14,165,233,.15), transparent 28%),
+    radial-gradient(circle at 88% 22%, rgba(124,58,237,.18), transparent 30%),
+    radial-gradient(circle at 56% 94%, rgba(249,115,22,.10), transparent 26%),
+    linear-gradient(135deg, #FDFEFF 0%, #F7FAFF 42%, #EEF2FF 100%) !important;
+  border-top: 1px solid rgba(124,58,237,.10) !important;
+}
+
+/* Fallback if :has() is unsupported: likely section immediately after how-we-work */
+#how-we-work + section {
+  background:
+    radial-gradient(circle at 16% 18%, rgba(124,58,237,.15), transparent 28%),
+    radial-gradient(circle at 90% 72%, rgba(14,165,233,.10), transparent 28%),
+    linear-gradient(135deg, #FFFFFF 0%, #F8FAFF 46%, #F1F5FF 100%) !important;
+}
+
+/* Premium nav click feedback */
+.nav-click-ripple {
+  position: fixed;
+  width: 16px;
+  height: 16px;
+  border-radius: 999px;
+  pointer-events: none;
+  z-index: 100000;
+  background:
+    radial-gradient(circle, rgba(56,189,248,.75) 0%, rgba(14,165,233,.28) 42%, transparent 72%);
+  transform: translate(-50%, -50%) scale(.4);
+  animation: navRippleOut .75s cubic-bezier(.22,1,.36,1) forwards;
+}
+
+@keyframes navRippleOut {
+  to {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(7.5);
+  }
+}
+
+#navbar a[href^="#"],
+#mobile-menu a[href^="#"] {
+  position: relative;
+}
+
+#navbar a[href^="#"]::after,
+#mobile-menu a[href^="#"]::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  right: 50%;
+  bottom: -.35rem;
+  height: 2px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #0EA5E9, #7C3AED, #F97316);
+  opacity: 0;
+  transition:
+    left .28s cubic-bezier(.22,1,.36,1),
+    right .28s cubic-bezier(.22,1,.36,1),
+    opacity .28s ease;
+}
+
+#navbar a[href^="#"]:hover::after,
+#navbar a[href^="#"].nav-targeting::after,
+#mobile-menu a[href^="#"]:hover::after,
+#mobile-menu a[href^="#"].nav-targeting::after {
+  left: 0;
+  right: 0;
+  opacity: 1;
+}
+
+/* Section target reveal when the user navigates */
+.section-nav-focus {
+  animation: sectionFocusLift .95s cubic-bezier(.22,1,.36,1) both;
+}
+
+@keyframes sectionFocusLift {
+  0% {
+    filter: saturate(1);
+  }
+  28% {
+    filter: saturate(1.18) brightness(1.025);
+  }
+  100% {
+    filter: saturate(1);
+  }
+}
+
+/* Pull section titles closer to the top after nav scroll */
+section[id] {
+  scroll-margin-top: 5.25rem !important;
+}
+
+@media (max-width: 768px) {
+  section[id] {
+    scroll-margin-top: 4.75rem !important;
+  }
+}
+</style>
+
+
+<style>
+/* ─────────────────────────────────────────────
+   Mobile PageSpeed Performance Patch
+   Reduces main-thread work, paint cost, CLS and animation pressure.
+   ───────────────────────────────────────────── */
+@media (max-width: 768px) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: .001ms !important;
+    animation-iteration-count: 1 !important;
+    scroll-behavior: auto !important;
+  }
+
+  .blob,
+  .orb-ring,
+  .hero-network-wave,
+  .ambient-cloud,
+  .ambient-cloud-layer,
+  .hero-cloud-chip,
+  .money-cloud,
+  .command-chip,
+  .hero-cloud-cubes,
+  .cloud-cube,
+  .cube-orbit-ring,
+  .float-shape,
+  .shine::after,
+  .shine-card::after,
+  .premium-glow::before,
+  #particle-canvas {
+    display: none !important;
+  }
+
+  .glass,
+  .command-chip,
+  #infra-card,
+  .hero-draggable-card,
+  #chatbot-panel {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+  }
+
+  #infra-card {
+    box-shadow: 0 16px 44px rgba(2,6,23,.28) !important;
+  }
+
+  section,
+  .service-card,
+  .ai-card,
+  .tilt-card {
+    content-visibility: auto;
+    contain-intrinsic-size: 1px 720px;
+  }
+
+  #hero,
+  #hero * {
+    content-visibility: visible !important;
+    contain-intrinsic-size: auto !important;
+  }
+
+  .ticker-track {
+    animation: none !important;
+    transform: none !important;
+  }
+}
+
+/* Lower cost defaults for non-critical below-the-fold sections */
+section:not(#hero) {
+  content-visibility: auto;
+  contain-intrinsic-size: 1px 860px;
+}
+</style>
+
 </head>
 <body>
 
@@ -2651,27 +3777,27 @@ label,
           <p class="font-heading font-600 text-[.92rem]" data-i18n="hero_card_title">Infrastructure Health</p>
           <p class="text-white/35 text-xs mt-0.5">Live production metrics</p>
         </div>
-        <span class="text-green-400 text-xs font-semibold flex items-center gap-1.5 bg-green-400/10 border border-green-400/20 rounded-full px-3 py-1">
-          <span class="w-1.5 h-1.5 bg-green-400 rounded-full" style="animation:pulse 2s ease-in-out infinite"></span>
+        <span class="infra-live-badge" aria-label="Live infrastructure status">
+          <span class="infra-live-dot" aria-hidden="true"></span>
           <span data-i18n="hero_card_live">Live</span>
         </span>
       </div>
       <div class="space-y-4">
         <div>
           <div class="flex justify-between text-sm mb-1.5"><span class="text-white/55">Platform Reliability</span><span class="font-600 text-green-400">99.97%</span></div>
-          <div class="h-1.5 bg-white/10 rounded-full overflow-hidden"><div class="h-1.5 bg-green-400 rounded-full hero-bar" style="width:0%" data-bar-width="99%"></div></div>
+          <div class="h-1.5 bg-white/10 rounded-full overflow-hidden"><div class="h-1.5 bg-green-400 rounded-full hero-bar" style="width:99%" data-bar-width="99%"></div></div>
         </div>
         <div>
           <div class="flex justify-between text-sm mb-1.5"><span class="text-white/55">Deploy Frequency</span><span class="font-600 text-sky-light">10× faster</span></div>
-          <div class="h-1.5 bg-white/10 rounded-full overflow-hidden"><div class="h-1.5 rounded-full hero-bar" style="width:0%;background:linear-gradient(90deg,#0EA5E9,#38BDF8)" data-bar-width="92%"></div></div>
+          <div class="h-1.5 bg-white/10 rounded-full overflow-hidden"><div class="h-1.5 rounded-full hero-bar" style="width:92%;background:linear-gradient(90deg,#0EA5E9,#38BDF8)" data-bar-width="92%"></div></div>
         </div>
         <div>
           <div class="flex justify-between text-sm mb-1.5"><span class="text-white/55">Security Posture</span><span class="font-600 text-purple-300">A+</span></div>
-          <div class="h-1.5 bg-white/10 rounded-full overflow-hidden"><div class="h-1.5 rounded-full hero-bar" style="width:0%;background:linear-gradient(90deg,#7C3AED,#C084FC)" data-bar-width="96%"></div></div>
+          <div class="h-1.5 bg-white/10 rounded-full overflow-hidden"><div class="h-1.5 rounded-full hero-bar" style="width:96%;background:linear-gradient(90deg,#7C3AED,#C084FC)" data-bar-width="96%"></div></div>
         </div>
         <div>
           <div class="flex justify-between text-sm mb-1.5"><span class="text-white/55">Cloud Cost Reduction</span><span class="font-600 text-orange-400">−42%</span></div>
-          <div class="h-1.5 bg-white/10 rounded-full overflow-hidden"><div class="h-1.5 rounded-full hero-bar" style="width:0%;background:#F97316" data-bar-width="42%"></div></div>
+          <div class="h-1.5 bg-white/10 rounded-full overflow-hidden"><div class="h-1.5 rounded-full hero-bar" style="width:42%;background:#F97316" data-bar-width="42%"></div></div>
         </div>
       </div>
       <div class="mt-5 pt-4 border-t border-white/10 grid grid-cols-3 gap-3 text-center">
@@ -2775,32 +3901,32 @@ label,
       <div class="flex items-center gap-10 px-10">
 
         <a href="https://www.terraform.io" target="_blank" rel="noopener noreferrer" class="flex items-center gap-3 group" style="white-space:nowrap;text-decoration:none">
-          <img src="https://cdn.simpleicons.org/terraform/7B42BC" width="28" height="28" alt="Terraform" loading="lazy" class="opacity-50 group-hover:opacity-100 transition-opacity" />
+          <img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==" data-src="https://cdn.simpleicons.org/terraform/7B42BC" width="28" height="28" alt="Terraform" loading="lazy" class="defer-icon opacity-50 group-hover:opacity-100 transition-opacity"  decoding="async"  fetchpriority="low" />
           <span class="text-sm font-semibold text-slate-400 group-hover:text-purple-400 transition-colors" style="font-family:'Space Grotesk',sans-serif">Terraform</span>
         </a>
 
         <a href="https://kubernetes.io" target="_blank" rel="noopener noreferrer" class="flex items-center gap-3 group" style="white-space:nowrap;text-decoration:none">
-          <img src="https://cdn.simpleicons.org/kubernetes/326CE5" width="28" height="28" alt="Kubernetes" loading="lazy" class="opacity-50 group-hover:opacity-100 transition-opacity" />
+          <img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==" data-src="https://cdn.simpleicons.org/kubernetes/326CE5" width="28" height="28" alt="Kubernetes" loading="lazy" class="defer-icon opacity-50 group-hover:opacity-100 transition-opacity"  decoding="async"  fetchpriority="low" />
           <span class="text-sm font-semibold text-slate-400 group-hover:text-sky-400 transition-colors" style="font-family:'Space Grotesk',sans-serif">Kubernetes</span>
         </a>
 
         <a href="https://www.docker.com" target="_blank" rel="noopener noreferrer" class="flex items-center gap-3 group" style="white-space:nowrap;text-decoration:none">
-          <img src="https://cdn.simpleicons.org/docker/2496ED" width="28" height="28" alt="Docker" loading="lazy" class="opacity-50 group-hover:opacity-100 transition-opacity" />
+          <img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==" data-src="https://cdn.simpleicons.org/docker/2496ED" width="28" height="28" alt="Docker" loading="lazy" class="defer-icon opacity-50 group-hover:opacity-100 transition-opacity"  decoding="async"  fetchpriority="low" />
           <span class="text-sm font-semibold text-slate-400 group-hover:text-blue-400 transition-colors" style="font-family:'Space Grotesk',sans-serif">Docker</span>
         </a>
 
         <a href="https://www.python.org" target="_blank" rel="noopener noreferrer" class="flex items-center gap-3 group" style="white-space:nowrap;text-decoration:none">
-          <img src="https://cdn.simpleicons.org/python/3776AB" width="28" height="28" alt="Python" loading="lazy" class="opacity-50 group-hover:opacity-100 transition-opacity" />
+          <img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==" data-src="https://cdn.simpleicons.org/python/3776AB" width="28" height="28" alt="Python" loading="lazy" class="defer-icon opacity-50 group-hover:opacity-100 transition-opacity"  decoding="async"  fetchpriority="low" />
           <span class="text-sm font-semibold text-slate-400 group-hover:text-yellow-400 transition-colors" style="font-family:'Space Grotesk',sans-serif">Python</span>
         </a>
 
         <a href="https://github.com/features/actions" target="_blank" rel="noopener noreferrer" class="flex items-center gap-3 group" style="white-space:nowrap;text-decoration:none">
-          <img src="https://cdn.simpleicons.org/githubactions/2088FF" width="28" height="28" alt="GitHub Actions" loading="lazy" class="opacity-50 group-hover:opacity-100 transition-opacity" />
+          <img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==" data-src="https://cdn.simpleicons.org/githubactions/2088FF" width="28" height="28" alt="GitHub Actions" loading="lazy" class="defer-icon opacity-50 group-hover:opacity-100 transition-opacity"  decoding="async"  fetchpriority="low" />
           <span class="text-sm font-semibold text-slate-400 group-hover:text-white transition-colors" style="font-family:'Space Grotesk',sans-serif">GitHub Actions</span>
         </a>
 
         <a href="https://cloud.google.com" target="_blank" rel="noopener noreferrer" class="flex items-center gap-3 group" style="white-space:nowrap;text-decoration:none">
-          <img src="https://cdn.simpleicons.org/googlecloud/4285F4" width="28" height="28" alt="GCP" loading="lazy" class="opacity-50 group-hover:opacity-100 transition-opacity" />
+          <img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==" data-src="https://cdn.simpleicons.org/googlecloud/4285F4" width="28" height="28" alt="GCP" loading="lazy" class="defer-icon opacity-50 group-hover:opacity-100 transition-opacity"  decoding="async"  fetchpriority="low" />
           <span class="text-sm font-semibold text-slate-400 group-hover:text-sky-400 transition-colors" style="font-family:'Space Grotesk',sans-serif">GCP</span>
         </a>
 
@@ -2820,22 +3946,22 @@ label,
         </a>
 
         <a href="https://www.datadoghq.com" target="_blank" rel="noopener noreferrer" class="flex items-center gap-3 group" style="white-space:nowrap;text-decoration:none">
-          <img src="https://cdn.simpleicons.org/datadog/632CA6" width="28" height="28" alt="Datadog" loading="lazy" class="opacity-50 group-hover:opacity-100 transition-opacity" />
+          <img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==" data-src="https://cdn.simpleicons.org/datadog/632CA6" width="28" height="28" alt="Datadog" loading="lazy" class="defer-icon opacity-50 group-hover:opacity-100 transition-opacity"  decoding="async"  fetchpriority="low" />
           <span class="text-sm font-semibold text-slate-400 group-hover:text-purple-400 transition-colors" style="font-family:'Space Grotesk',sans-serif">Datadog</span>
         </a>
 
         <a href="https://www.splunk.com" target="_blank" rel="noopener noreferrer" class="flex items-center gap-3 group" style="white-space:nowrap;text-decoration:none">
-          <img src="https://cdn.simpleicons.org/splunk/000000" width="28" height="28" alt="Splunk" loading="lazy" class="opacity-50 group-hover:opacity-100 transition-opacity" style="filter:invert(.7)" />
+          <img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==" data-src="https://cdn.simpleicons.org/splunk/000000" width="28" height="28" alt="Splunk" loading="lazy" class="defer-icon opacity-50 group-hover:opacity-100 transition-opacity" style="filter:invert(.7)"  decoding="async"  fetchpriority="low" />
           <span class="text-sm font-semibold text-slate-400 group-hover:text-green-400 transition-colors" style="font-family:'Space Grotesk',sans-serif">Splunk</span>
         </a>
 
         <a href="https://www.jenkins.io" target="_blank" rel="noopener noreferrer" class="flex items-center gap-3 group" style="white-space:nowrap;text-decoration:none">
-          <img src="https://cdn.simpleicons.org/jenkins/D24939" width="28" height="28" alt="Jenkins" loading="lazy" class="opacity-50 group-hover:opacity-100 transition-opacity" />
+          <img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==" data-src="https://cdn.simpleicons.org/jenkins/D24939" width="28" height="28" alt="Jenkins" loading="lazy" class="defer-icon opacity-50 group-hover:opacity-100 transition-opacity"  decoding="async"  fetchpriority="low" />
           <span class="text-sm font-semibold text-slate-400 group-hover:text-red-400 transition-colors" style="font-family:'Space Grotesk',sans-serif">Jenkins</span>
         </a>
 
         <a href="https://www.gnu.org/software/bash/" target="_blank" rel="noopener noreferrer" class="flex items-center gap-3 group" style="white-space:nowrap;text-decoration:none">
-          <img src="https://cdn.simpleicons.org/gnubash/4EAA25" width="28" height="28" alt="Shell Script" loading="lazy" class="opacity-50 group-hover:opacity-100 transition-opacity" />
+          <img src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==" data-src="https://cdn.simpleicons.org/gnubash/4EAA25" width="28" height="28" alt="Shell Script" loading="lazy" class="defer-icon opacity-50 group-hover:opacity-100 transition-opacity"  decoding="async"  fetchpriority="low" />
           <span class="text-sm font-semibold text-slate-400 group-hover:text-green-400 transition-colors" style="font-family:'Space Grotesk',sans-serif">Shell Script</span>
         </a>
 
@@ -2952,8 +4078,6 @@ label,
     </div>
   </div>
 </section>
-
-
 
 <div class="section-divider" aria-hidden="true"></div>
 <!-- ══════════════════════════ ENGINEERING STACK ══════════════════════════ -->
@@ -3389,7 +4513,7 @@ label,
           <div class="flex items-center gap-4 mb-5">
             <div class="relative profile-photo-wrap">
               <div class="w-20 h-20 rounded-2xl overflow-hidden profile-avatar-ring" style="box-shadow:0 0 0 3px #0EA5E9,0 0 0 6px rgba(14,165,233,.18),0 8px 24px rgba(3,105,161,.3)">
-                <img id="profile-photo" src="assets/img/cesar.webp" alt="Cesar A. Nogueira" width="400" height="400" class="w-full h-full object-cover" style="object-position:64% 62%;transform:scale(1.45);transform-origin:center" loading="lazy" onerror="this.remove();document.getElementById('profile-initials').style.display='flex';" />
+                <img id="profile-photo" src="assets/img/cesar.webp" alt="Cesar A. Nogueira" width="400" height="400" class="w-full h-full object-cover" style="object-position:64% 62%;transform:scale(1.45);transform-origin:center" loading="lazy" onerror="this.remove();document.getElementById('profile-initials').style.display='flex';"  decoding="async"  fetchpriority="low" />
                 <div id="profile-initials" class="w-full h-full items-center justify-content-center text-white font-heading font-700 text-2xl" style="display:none;background:linear-gradient(135deg,#0369A1,#0EA5E9);align-items:center;justify-content:center">CN</div>
               </div>
               <span class="absolute -bottom-1 -right-1 w-5 h-5 bg-green-400 rounded-full border-2 border-white" title="Available for projects" style="animation:pulse 2s ease-in-out infinite"></span>
@@ -3422,7 +4546,7 @@ label,
         <div class="space-y-3">
           <div class="cert-badge">
             <div class="w-8 h-8 rounded-lg flex items-center justify-center shrink-0" style="background:#F1F6FF">
-              <img src="https://cdn.simpleicons.org/googlecloud/4285F4" width="18" height="18" alt="Google Cloud" loading="lazy" />
+              <img class="defer-icon" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==" data-src="https://cdn.simpleicons.org/googlecloud/4285F4" width="18" height="18" alt="Google Cloud" loading="lazy"  decoding="async"  fetchpriority="low" />
             </div>
             <div>
               <p class="text-xs font-600 text-navy">GCP Professional Cloud Architect</p>
@@ -3431,7 +4555,7 @@ label,
           </div>
           <div class="cert-badge">
             <div class="w-8 h-8 rounded-lg flex items-center justify-center shrink-0" style="background:#F1F6FF">
-              <img src="https://cdn.simpleicons.org/googlecloud/4285F4" width="18" height="18" alt="Google Cloud" loading="lazy" />
+              <img class="defer-icon" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==" data-src="https://cdn.simpleicons.org/googlecloud/4285F4" width="18" height="18" alt="Google Cloud" loading="lazy"  decoding="async"  fetchpriority="low" />
             </div>
             <div>
               <p class="text-xs font-600 text-navy">GCP Associate Cloud Engineer</p>
@@ -3561,8 +4685,6 @@ label,
   </div>
 </section>
 
-
-
 <div class="section-divider" aria-hidden="true"></div>
 <!-- ══════════════════════════ GLOBAL DELIVERY ══════════════════════════ -->
 <section id="global-delivery" aria-label="Global delivery model" class="py-20 lg:py-24 hero-bg relative overflow-hidden">
@@ -3690,8 +4812,6 @@ label,
   </div>
 </section>
 
-
-
 <div class="section-divider" aria-hidden="true"></div>
 <!-- ══════════════════════════ TESTIMONIALS ══════════════════════════ -->
 <section id="testimonials" aria-label="Client testimonials" class="py-20 lg:py-28 bg-slate-50 circuit-bg">
@@ -3798,8 +4918,6 @@ label,
 
   </div>
 </section>
-
-
 
 <div class="section-divider" aria-hidden="true"></div>
 <!-- ══════════════════════════ CTA BANNER ══════════════════════════ -->
@@ -3992,7 +5110,7 @@ label,
         <p class="font-heading font-600 text-[.7rem] text-white/40 mb-4 uppercase tracking-[.16em]" data-i18n="footer_certs_heading">Certifications</p>
         <div class="space-y-2 mb-5">
           <div class="glass rounded-lg px-3 py-2 flex items-center gap-2 border border-white/[.07]">
-            <img src="https://cdn.simpleicons.org/googlecloud/ffffff" width="13" height="13" alt="GCP" loading="lazy" style="opacity:.8" />
+            <img class="defer-icon" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==" data-src="https://cdn.simpleicons.org/googlecloud/ffffff" width="13" height="13" alt="GCP" loading="lazy" style="opacity:.8"  decoding="async"  fetchpriority="low" />
             <span class="text-[.7rem] text-white/80">GCP Professional Architect ×2</span>
           </div>
           <div class="glass rounded-lg px-3 py-2 flex items-center gap-2 border border-white/[.07]">
@@ -4004,7 +5122,7 @@ label,
             <span class="text-[.7rem] text-white/80">Azure AZ-900 · ISO 27001 Aligned</span>
           </div>
           <div class="glass rounded-lg px-3 py-2 flex items-center gap-2 border border-white/[.07]">
-            <img src="https://cdn.simpleicons.org/googlecloud/ffffff" width="13" height="13" alt="GCP" loading="lazy" style="opacity:.8" />
+            <img class="defer-icon" src="data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///ywAAAAAAQABAAACAUwAOw==" data-src="https://cdn.simpleicons.org/googlecloud/ffffff" width="13" height="13" alt="GCP" loading="lazy" style="opacity:.8"  decoding="async"  fetchpriority="low" />
             <span class="text-[.7rem] text-white/80">GCP Associate Cloud Engineer</span>
           </div>
         </div>
@@ -4027,8 +5145,6 @@ label,
     </div>
   </div>
 </footer>
-
-
 
 
 <!-- ══════════════ CHATBOT FAQ WIDGET ══════════════ -->
@@ -4837,14 +5953,13 @@ TONE: Be helpful, concise, and professional. Keep answers to 2-4 sentences unles
     if (!mapEl || typeof L === 'undefined') return;
 
     // Centre on Vila Real, Portugal — other pins still visible at zoom 5
-    const map = L.map('contact-map', { zoomControl: true, scrollWheelZoom: false }).setView([41.35, -7.75], 6.4);
+    const map = L.map('contact-map', { zoomControl: true, scrollWheelZoom: false }).setView([41.3006, -7.7453], 12);
 
     // Force correct size after possible layout shift
     setTimeout(() => map.invalidateSize(), 200);
 
-    L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
-      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> &copy; <a href="https://carto.com/">CARTO</a>',
-      subdomains: 'abcd',
+    L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+      attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
       maxZoom: 19
     }).addTo(map);
 
@@ -5922,6 +7037,374 @@ function floatCardAt(leftPx, topPx, persist){
 
   window.addEventListener("resize", applyPatch, { passive: true });
   window.addEventListener("orientationchange", applyPatch, { passive: true });
+})();
+</script>
+
+
+<script>
+/* Leaflet runtime safety patch: enforce light tiles and Vila Real zoom. */
+(function up2cloudLeafletLightVilaRealPatch(){
+  function applyPatch(attempts){
+    if (typeof L === "undefined") {
+      if (attempts > 0) setTimeout(function(){ applyPatch(attempts - 1); }, 150);
+      return;
+    }
+
+    var mapEl = document.getElementById("contact-map");
+    if (!mapEl) return;
+
+    setTimeout(function(){
+      try {
+        var candidates = [];
+        for (var key in window) {
+          try {
+            if (window[key] && typeof window[key].setView === "function" && typeof window[key].eachLayer === "function") {
+              candidates.push(window[key]);
+            }
+          } catch(e) {}
+        }
+
+        candidates.forEach(function(map){
+          if (map && map._container === mapEl) {
+            map.eachLayer(function(layer){
+              if (layer instanceof L.TileLayer) map.removeLayer(layer);
+            });
+
+            L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
+              attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
+              maxZoom: 19
+            }).addTo(map);
+
+            map.setView([41.3006, -7.7453], 12, { animate: false });
+            map.invalidateSize();
+          }
+        });
+      } catch(e) {}
+    }, 450);
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", function(){ applyPatch(40); });
+  } else {
+    applyPatch(40);
+  }
+})();
+</script>
+
+
+<script>
+/* Draggable hero command chips — desktop only */
+(function up2cloudDraggableCommandChips(){
+  function isDesktopPointer(){
+    return window.matchMedia("(min-width: 1024px)").matches && !window.matchMedia("(pointer: coarse)").matches;
+  }
+
+  function init(){
+    if (!isDesktopPointer()) return;
+
+    var hero = document.getElementById("hero");
+    if (!hero) return;
+
+    var chips = hero.querySelectorAll(".command-chip");
+    chips.forEach(function(chip, index){
+      if (chip.dataset.commandChipDraggable === "true") return;
+      chip.dataset.commandChipDraggable = "true";
+      chip.setAttribute("draggable", "false");
+      chip.setAttribute("title", "Drag this command chip");
+
+      var state = {
+        dragging: false,
+        startX: 0,
+        startY: 0,
+        baseLeft: 0,
+        baseTop: 0
+      };
+
+      function ensureAbsolutePosition(){
+        if (chip.classList.contains("is-chip-floating")) return;
+
+        var chipRect = chip.getBoundingClientRect();
+        var heroRect = hero.getBoundingClientRect();
+
+        chip.classList.add("is-chip-floating");
+        chip.style.left = (chipRect.left - heroRect.left) + "px";
+        chip.style.top = (chipRect.top - heroRect.top) + "px";
+        chip.style.right = "auto";
+        chip.style.bottom = "auto";
+        chip.style.transform = "none";
+      }
+
+      function onPointerDown(event){
+        if (!isDesktopPointer()) return;
+        if (event.button !== undefined && event.button !== 0) return;
+
+        ensureAbsolutePosition();
+
+        state.dragging = true;
+        chip.classList.add("is-dragging");
+
+        var chipRect = chip.getBoundingClientRect();
+        var heroRect = hero.getBoundingClientRect();
+
+        state.startX = event.clientX;
+        state.startY = event.clientY;
+        state.baseLeft = chipRect.left - heroRect.left;
+        state.baseTop = chipRect.top - heroRect.top;
+
+        chip.setPointerCapture && chip.setPointerCapture(event.pointerId);
+        event.preventDefault();
+      }
+
+      function onPointerMove(event){
+        if (!state.dragging) return;
+
+        var heroRect = hero.getBoundingClientRect();
+        var chipRect = chip.getBoundingClientRect();
+
+        var nextLeft = state.baseLeft + (event.clientX - state.startX);
+        var nextTop = state.baseTop + (event.clientY - state.startY);
+
+        var maxLeft = Math.max(0, heroRect.width - chipRect.width);
+        var maxTop = Math.max(0, heroRect.height - chipRect.height);
+
+        nextLeft = Math.max(0, Math.min(maxLeft, nextLeft));
+        nextTop = Math.max(0, Math.min(maxTop, nextTop));
+
+        chip.style.left = nextLeft + "px";
+        chip.style.top = nextTop + "px";
+
+        event.preventDefault();
+      }
+
+      function onPointerUp(event){
+        if (!state.dragging) return;
+
+        state.dragging = false;
+        chip.classList.remove("is-dragging");
+
+        try {
+          chip.releasePointerCapture && chip.releasePointerCapture(event.pointerId);
+        } catch(e) {}
+      }
+
+      chip.addEventListener("pointerdown", onPointerDown);
+      chip.addEventListener("pointermove", onPointerMove);
+      chip.addEventListener("pointerup", onPointerUp);
+      chip.addEventListener("pointercancel", onPointerUp);
+      chip.addEventListener("lostpointercapture", onPointerUp);
+    });
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", init);
+  } else {
+    init();
+  }
+
+  window.addEventListener("resize", init, { passive: true });
+})();
+</script>
+
+
+<script>
+/* Auto-select site language from browser preference on first visit. */
+(function up2cloudAutoLanguageFromBrowser(){
+  var supported = ["en", "pt", "es", "fr"];
+  var aliases = {
+    "pt-br": "pt",
+    "pt-pt": "pt",
+    "es-es": "es",
+    "es-mx": "es",
+    "es-ar": "es",
+    "fr-fr": "fr",
+    "fr-ca": "fr",
+    "en-us": "en",
+    "en-gb": "en"
+  };
+
+  function normalizeLanguage(lang) {
+    if (!lang) return "en";
+    var lower = String(lang).toLowerCase();
+    if (aliases[lower]) return aliases[lower];
+    var base = lower.split("-")[0];
+    return supported.indexOf(base) >= 0 ? base : "en";
+  }
+
+  function getSavedLanguage() {
+    try {
+      return localStorage.getItem("up2cloud-lang") ||
+             localStorage.getItem("up2cloud_language") ||
+             localStorage.getItem("lang") ||
+             null;
+    } catch (e) {
+      return null;
+    }
+  }
+
+  function saveLanguage(lang) {
+    try {
+      localStorage.setItem("up2cloud-lang", lang);
+      localStorage.setItem("up2cloud_language", lang);
+    } catch (e) {}
+  }
+
+  function applyWhenReady(attempts) {
+    var saved = getSavedLanguage();
+    var browserLanguage = normalizeLanguage(
+      (navigator.languages && navigator.languages[0]) ||
+      navigator.language ||
+      navigator.userLanguage ||
+      "en"
+    );
+
+    var selected = supported.indexOf(saved) >= 0 ? saved : browserLanguage;
+
+    if (typeof window.setLang === "function") {
+      window.setLang(selected);
+      if (!saved) saveLanguage(selected);
+      document.documentElement.setAttribute("lang", selected);
+      return;
+    }
+
+    if (attempts > 0) {
+      setTimeout(function(){ applyWhenReady(attempts - 1); }, 100);
+    }
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", function(){ applyWhenReady(50); });
+  } else {
+    applyWhenReady(50);
+  }
+})();
+</script>
+
+
+<script>
+/* Premium menu navigation: animated click + scroll exactly to section title area */
+(function up2cloudPremiumAnchorNav(){
+  function getNavbarOffset() {
+    var navbar = document.getElementById("navbar");
+    var navHeight = navbar ? navbar.getBoundingClientRect().height : 76;
+    return navHeight + 18;
+  }
+
+  function getTitleAnchor(section) {
+    if (!section) return null;
+
+    return section.querySelector(
+      "h1, h2, [data-i18n$='_title'], [data-i18n='services_title'], [data-i18n='delivery_title'], [data-i18n='about_title'], [data-i18n='portfolio_title'], [data-i18n='contact_title']"
+    ) || section;
+  }
+
+  function createRipple(event) {
+    var ripple = document.createElement("span");
+    ripple.className = "nav-click-ripple";
+    ripple.style.left = event.clientX + "px";
+    ripple.style.top = event.clientY + "px";
+    document.body.appendChild(ripple);
+    window.setTimeout(function(){ ripple.remove(); }, 800);
+  }
+
+  function closeMobileMenuIfOpen() {
+    if (typeof window.closeMobileMenu === "function") {
+      window.closeMobileMenu();
+      return;
+    }
+
+    var mobileMenu = document.getElementById("mobile-menu");
+    var menuBtn = document.getElementById("menu-btn");
+    if (mobileMenu) mobileMenu.classList.add("hidden");
+    if (menuBtn) {
+      menuBtn.classList.remove("is-open");
+      menuBtn.setAttribute("aria-expanded", "false");
+    }
+  }
+
+  function bind() {
+    document.querySelectorAll('#navbar a[href^="#"], #mobile-menu a[href^="#"], a[data-premium-scroll="true"]').forEach(function(link) {
+      if (link.dataset.premiumNavBound === "true") return;
+      link.dataset.premiumNavBound = "true";
+
+      link.addEventListener("click", function(event) {
+        var href = link.getAttribute("href");
+        if (!href || href === "#" || href.length < 2) return;
+
+        var section = document.querySelector(href);
+        if (!section) return;
+
+        event.preventDefault();
+        createRipple(event);
+
+        link.classList.add("nav-targeting");
+        window.setTimeout(function(){ link.classList.remove("nav-targeting"); }, 950);
+
+        closeMobileMenuIfOpen();
+
+        var anchor = getTitleAnchor(section);
+        var y = anchor.getBoundingClientRect().top + window.pageYOffset - getNavbarOffset();
+
+        window.scrollTo({
+          top: Math.max(0, y),
+          behavior: "smooth"
+        });
+
+        section.classList.remove("section-nav-focus");
+        void section.offsetWidth;
+        section.classList.add("section-nav-focus");
+        window.setTimeout(function(){ section.classList.remove("section-nav-focus"); }, 1100);
+
+        if (history.pushState) {
+          history.pushState(null, "", href);
+        }
+      });
+    });
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", bind);
+  } else {
+    bind();
+  }
+})();
+</script>
+
+
+<script>
+/* Lazy-load third-party SVG icons after initial render */
+(function up2cloudLazyExternalIcons(){
+  function loadIcon(img) {
+    var src = img.getAttribute('data-src');
+    if (!src) return;
+    img.src = src;
+    img.removeAttribute('data-src');
+  }
+
+  function init() {
+    var icons = Array.prototype.slice.call(document.querySelectorAll('img.defer-icon[data-src]'));
+    if (!icons.length) return;
+
+    if ('IntersectionObserver' in window) {
+      var observer = new IntersectionObserver(function(entries){
+        entries.forEach(function(entry){
+          if (entry.isIntersecting) {
+            loadIcon(entry.target);
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { rootMargin: '300px 0px' });
+
+      icons.forEach(function(img){ observer.observe(img); });
+    } else {
+      icons.forEach(loadIcon);
+    }
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
 })();
 </script>
 
