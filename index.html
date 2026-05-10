@@ -59,6 +59,12 @@
 
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <!-- Mobile performance resource hints -->
+  <link rel="dns-prefetch" href="//cdn.simpleicons.org" />
+  <link rel="dns-prefetch" href="//logo.clearbit.com" />
+  <link rel="dns-prefetch" href="//static.hotjar.com" />
+  <link rel="dns-prefetch" href="//script.hotjar.com" />
+
   <!-- Performance resource hints -->
   <link rel="dns-prefetch" href="//cdn.simpleicons.org" />
   <link rel="preconnect" href="https://cdn.simpleicons.org" crossorigin />
@@ -67,7 +73,9 @@
 
   <link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=DM+Sans:wght@300;400;500;700&display=swap" />
   <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'" />
-  <noscript><link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet" /></noscript>
+  <noscript><link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=DM+Sans:wght@300;400;500;700&display=swap" />
+  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet" media="print" onload="this.media='all'" />
+  <noscript><link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;500;600;700&family=DM+Sans:wght@300;400;500;700&display=swap" rel="stylesheet" /></noscript></noscript>
   <!-- UP2CLOUD favicon — cloud SVG inline data URL -->
   <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='5' fill='%230F172A'/%3E%3Cpath d='M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z' stroke='%230EA5E9' stroke-width='2' stroke-linejoin='round' fill='none'/%3E%3C/svg%3E" />
   <link rel="preload" href="assets/css/tailwind.min.css" as="style" />
@@ -3477,6 +3485,262 @@ section:not(#hero) {
 }
 </style>
 
+
+<style>
+/* ─────────────────────────────────────────────
+   Leaflet animated location pins
+   Opens as global delivery map + bouncing pinpoints
+   ───────────────────────────────────────────── */
+#contact-map {
+  background: #eaf6ff !important;
+}
+
+#contact-map .leaflet-tile {
+  filter: brightness(1.04) contrast(.98) saturate(1.05) !important;
+}
+
+.up2cloud-map-pin {
+  width: 40px;
+  height: 40px;
+  position: relative;
+  transform-origin: 50% 100%;
+  animation: up2cloudPinBounce 1.55s cubic-bezier(.28,.84,.42,1) infinite;
+  will-change: transform;
+}
+
+.up2cloud-map-pin::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: -9px;
+  width: 20px;
+  height: 7px;
+  border-radius: 999px;
+  background: rgba(15,23,42,.24);
+  transform: translateX(-50%);
+  filter: blur(3px);
+  animation: up2cloudPinShadow 1.55s cubic-bezier(.28,.84,.42,1) infinite;
+}
+
+.up2cloud-map-pin-inner {
+  width: 40px;
+  height: 40px;
+  border-radius: 50% 50% 50% 0;
+  transform: rotate(-45deg);
+  box-shadow:
+    0 8px 22px rgba(15,23,42,.32),
+    0 0 0 4px rgba(255,255,255,.72),
+    0 0 24px rgba(14,165,233,.28);
+  border: 3px solid #fff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  position: relative;
+}
+
+.up2cloud-map-pin-inner::before {
+  content: "";
+  position: absolute;
+  inset: -8px;
+  border-radius: inherit;
+  border: 1px solid rgba(14,165,233,.28);
+  animation: up2cloudPinPulse 1.8s ease-out infinite;
+}
+
+.up2cloud-map-pin-icon {
+  transform: rotate(45deg);
+  color: #fff;
+  font-size: 16px;
+  line-height: 1;
+  filter: drop-shadow(0 1px 4px rgba(0,0,0,.35));
+}
+
+.up2cloud-map-pin.delayed {
+  animation-delay: .22s;
+}
+
+.up2cloud-map-pin.delayed::after,
+.up2cloud-map-pin.delayed .up2cloud-map-pin-inner::before {
+  animation-delay: .22s;
+}
+
+.up2cloud-map-pin.soon {
+  animation-delay: .44s;
+}
+
+.up2cloud-map-pin.soon::after,
+.up2cloud-map-pin.soon .up2cloud-map-pin-inner::before {
+  animation-delay: .44s;
+}
+
+@keyframes up2cloudPinBounce {
+  0%, 100% {
+    transform: translateY(0) scale(1);
+  }
+  42% {
+    transform: translateY(-15px) scale(1.035);
+  }
+  58% {
+    transform: translateY(0) scale(.98);
+  }
+  72% {
+    transform: translateY(-5px) scale(1.015);
+  }
+}
+
+@keyframes up2cloudPinShadow {
+  0%, 100% {
+    opacity: .28;
+    transform: translateX(-50%) scale(1);
+  }
+  42% {
+    opacity: .10;
+    transform: translateX(-50%) scale(.62);
+  }
+  58% {
+    opacity: .30;
+    transform: translateX(-50%) scale(1.08);
+  }
+}
+
+@keyframes up2cloudPinPulse {
+  0% {
+    transform: scale(.72);
+    opacity: .55;
+  }
+  100% {
+    transform: scale(1.45);
+    opacity: 0;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .up2cloud-map-pin,
+  .up2cloud-map-pin::after,
+  .up2cloud-map-pin-inner::before {
+    animation: none !important;
+  }
+}
+</style>
+
+
+<style>
+/* Extra top breathing room for anchored section navigation */
+section[id] {
+  scroll-margin-top: 8rem !important;
+}
+
+@media (max-width: 1023px) {
+  section[id] {
+    scroll-margin-top: 7rem !important;
+  }
+}
+</style>
+
+
+
+
+
+<style>
+/* ─────────────────────────────────────────────
+   Mobile PageSpeed Recovery Patch
+   Targets FCP/LCP/TBT/SI by reducing initial mobile work.
+   ───────────────────────────────────────────── */
+
+/* Below-the-fold rendering optimization */
+section:not(#hero),
+#tech-stack,
+#portfolio,
+#contact {
+  content-visibility: auto;
+  contain-intrinsic-size: 1px 860px;
+}
+
+/* Hero remains immediately visible */
+#hero,
+#hero * {
+  content-visibility: visible !important;
+}
+
+@media (max-width: 768px) {
+  html {
+    scroll-behavior: auto !important;
+  }
+
+  /* Kill expensive mobile animations/filters that hurt TBT and SI */
+  .blob,
+  .orb-ring,
+  .hero-network-wave,
+  .ambient-cloud,
+  .ambient-cloud-layer,
+  .hero-cloud-chip,
+  .money-cloud,
+  .command-chip,
+  .hero-cloud-cubes,
+  .cloud-cube,
+  .cube-orbit-ring,
+  .float-shape,
+  .shine::after,
+  .shine-card::after,
+  .premium-glow::before,
+  #particle-canvas {
+    display: none !important;
+    animation: none !important;
+    transition: none !important;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: .001ms !important;
+    animation-iteration-count: 1 !important;
+  }
+
+  .glass,
+  #infra-card,
+  .hero-draggable-card,
+  #chatbot-panel,
+  nav.scrolled {
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+  }
+
+  #infra-card {
+    box-shadow: 0 14px 38px rgba(2,6,23,.26) !important;
+  }
+
+  .ticker-track {
+    animation: none !important;
+    transform: none !important;
+  }
+
+  /* Avoid mobile LCP inflation from huge text block */
+  #hero h1 {
+    text-wrap: balance;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .blob,
+  .orb-ring,
+  .hero-network-wave,
+  .ambient-cloud,
+  .hero-cloud-chip,
+  .money-cloud,
+  .command-chip,
+  .ticker-track,
+  .float-shape {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+</style>
+
+
+<script>
+  window.UP2CLOUD_MOBILE_PERF_MODE = window.matchMedia && window.matchMedia('(max-width: 768px)').matches;
+</script>
+
 </head>
 <body>
 
@@ -3836,7 +4100,6 @@ section:not(#hero) {
       <!-- Randstad — orange circle + wordmark -->
       <div class="logo-item opacity-0" style="transform:translateY(14px)">
         <svg height="44" viewBox="0 0 260 72" xmlns="http://www.w3.org/2000/svg" aria-label="Randstad" role="img">
-          <!-- Human-figure mark simplified as orange pill -->
           <rect x="0" y="14" width="44" height="44" rx="22" fill="#EF7C00"/>
           <circle cx="22" cy="22" r="9" fill="white"/>
           <path d="M10 58 Q22 42 34 58" stroke="white" stroke-width="4" fill="none" stroke-linecap="round"/>
@@ -3844,7 +4107,7 @@ section:not(#hero) {
         </svg>
       </div>
 
-      <!-- Accenture — wordmark + purple chevron -->
+      <!-- Accenture -->
       <div class="logo-item opacity-0" style="transform:translateY(14px);transition-delay:.08s">
         <svg height="44" viewBox="0 0 280 72" xmlns="http://www.w3.org/2000/svg" aria-label="Accenture" role="img">
           <text x="0" y="52" font-family="'DM Sans',Arial,sans-serif" font-weight="300" font-size="38" fill="#1a1a1a" letter-spacing="-1">accenture</text>
@@ -3852,7 +4115,7 @@ section:not(#hero) {
         </svg>
       </div>
 
-      <!-- ZeroLight — bold wordmark with blue accent bar -->
+      <!-- ZeroLight -->
       <div class="logo-item opacity-0" style="transform:translateY(14px);transition-delay:.16s">
         <svg height="44" viewBox="0 0 230 72" xmlns="http://www.w3.org/2000/svg" aria-label="ZeroLight" role="img">
           <rect x="0" y="10" width="7" height="52" rx="3" fill="#0EA5E9"/>
@@ -3860,15 +4123,15 @@ section:not(#hero) {
         </svg>
       </div>
 
-      <!-- everis / NTT Data — stacked wordmarks -->
+      <!-- NTT DATA GROUP -->
       <div class="logo-item opacity-0" style="transform:translateY(14px);transition-delay:.24s">
-        <svg height="44" viewBox="0 0 200 72" xmlns="http://www.w3.org/2000/svg" aria-label="everis NTT Data" role="img">
-          <text x="0" y="46" font-family="'DM Sans',Arial,sans-serif" font-weight="800" font-size="38" fill="#004B87" letter-spacing="-1">everis</text>
-          <text x="2" y="64" font-family="'DM Sans',Arial,sans-serif" font-weight="400" font-size="14" fill="#6B7280" letter-spacing="1">NTT DATA GROUP</text>
+        <svg height="44" viewBox="0 0 220 72" xmlns="http://www.w3.org/2000/svg" aria-label="NTT Data" role="img">
+          <text x="0" y="46" font-family="'DM Sans',Arial,sans-serif" font-weight="800" font-size="32" fill="#004B87" letter-spacing="-1">NTT DATA</text>
+          <text x="2" y="64" font-family="'DM Sans',Arial,sans-serif" font-weight="400" font-size="14" fill="#6B7280" letter-spacing="1">GROUP</text>
         </svg>
       </div>
 
-      <!-- CI&T — green badge + bold type -->
+      <!-- CI&T -->
       <div class="logo-item opacity-0" style="transform:translateY(14px);transition-delay:.32s">
         <svg height="44" viewBox="0 0 150 72" xmlns="http://www.w3.org/2000/svg" aria-label="CI&amp;T" role="img">
           <rect x="0" y="8" width="56" height="56" rx="10" fill="#3DBE29"/>
@@ -3877,10 +4140,9 @@ section:not(#hero) {
         </svg>
       </div>
 
-      <!-- Mindera — triangle mark + wordmark -->
+      <!-- Mindera -->
       <div class="logo-item opacity-0" style="transform:translateY(14px);transition-delay:.40s">
         <svg height="44" viewBox="0 0 220 72" xmlns="http://www.w3.org/2000/svg" aria-label="Mindera" role="img">
-          <!-- Upward triangle -->
           <polygon points="28,10 52,54 4,54" fill="#00C896"/>
           <line x1="28" y1="10" x2="28" y2="54" stroke="white" stroke-width="2.5" opacity=".5"/>
           <line x1="4" y1="54" x2="52" y2="54" stroke="white" stroke-width="2.5" opacity=".5"/>
@@ -5953,7 +6215,7 @@ TONE: Be helpful, concise, and professional. Keep answers to 2-4 sentences unles
     if (!mapEl || typeof L === 'undefined') return;
 
     // Centre on Vila Real, Portugal — other pins still visible at zoom 5
-    const map = L.map('contact-map', { zoomControl: true, scrollWheelZoom: false }).setView([41.3006, -7.7453], 12);
+    const map = L.map('contact-map', { zoomControl: true, scrollWheelZoom: false }).setView([20, -20], 2);
 
     // Force correct size after possible layout shift
     setTimeout(() => map.invalidateSize(), 200);
@@ -5963,23 +6225,24 @@ TONE: Be helpful, concise, and professional. Keep answers to 2-4 sentences unles
       maxZoom: 19
     }).addTo(map);
 
-    function makeIcon(color1, color2) {
+    function makeIcon(color1, color2, variant) {
+      const className = variant ? 'up2cloud-map-pin ' + variant : 'up2cloud-map-pin';
       return L.divIcon({
         className: '',
-        html: '<div style="width:40px;height:40px;background:linear-gradient(135deg,' + color1 + ',' + color2 + ');border-radius:50% 50% 50% 0;transform:rotate(-45deg);box-shadow:0 4px 16px rgba(0,0,0,.4);border:3px solid #fff;display:flex;align-items:center;justify-content:center"><div style="transform:rotate(45deg);color:#fff;font-size:16px">&#9729;</div></div>',
-        iconSize: [40, 40],
-        iconAnchor: [20, 40],
-        popupAnchor: [0, -44]
+        html: '<div class="' + className + '"><div class="up2cloud-map-pin-inner" style="background:linear-gradient(135deg,' + color1 + ',' + color2 + ')"><div class="up2cloud-map-pin-icon">&#9729;</div></div></div>',
+        iconSize: [40, 48],
+        iconAnchor: [20, 44],
+        popupAnchor: [0, -48]
       });
     }
 
     // Vila Real, Portugal
-    L.marker([41.3006, -7.7453], { icon: makeIcon('#0369A1', '#0EA5E9') })
+    L.marker([41.3006, -7.7453], { icon: makeIcon('#0369A1', '#0EA5E9', '') })
       .addTo(map)
       .bindPopup('<div style="font-family:\'Space Grotesk\',sans-serif;padding:4px 2px;min-width:180px"><p style="font-weight:700;color:#0F172A;font-size:.9rem;margin:0 0 4px">UP2CLOUD 🇵🇹</p><p style="color:#64748B;font-size:.78rem;margin:0 0 6px">Vila Real, Portugal</p><span style="background:linear-gradient(90deg,#0369A1,#0EA5E9);color:#fff;font-size:.7rem;padding:2px 8px;border-radius:999px;font-weight:600">HQ · Europe</span></div>', { maxWidth: 220 });
 
     // São Paulo, Brasil
-    L.marker([-23.5505, -46.6333], { icon: makeIcon('#059669', '#10B981') })
+    L.marker([-23.5505, -46.6333], { icon: makeIcon('#059669', '#10B981', 'delayed') })
       .addTo(map)
       .bindPopup('<div style="font-family:\'Space Grotesk\',sans-serif;padding:4px 2px;min-width:180px"><p style="font-weight:700;color:#0F172A;font-size:.9rem;margin:0 0 4px">UP2CLOUD 🇧🇷</p><p style="color:#64748B;font-size:.78rem;margin:0 0 6px">São Paulo, Brasil</p><span style="background:linear-gradient(90deg,#059669,#10B981);color:#fff;font-size:.7rem;padding:2px 8px;border-radius:999px;font-weight:600">Office · LATAM</span></div>', { maxWidth: 220 });
 
@@ -7041,55 +7304,6 @@ function floatCardAt(leftPx, topPx, persist){
 </script>
 
 
-<script>
-/* Leaflet runtime safety patch: enforce light tiles and Vila Real zoom. */
-(function up2cloudLeafletLightVilaRealPatch(){
-  function applyPatch(attempts){
-    if (typeof L === "undefined") {
-      if (attempts > 0) setTimeout(function(){ applyPatch(attempts - 1); }, 150);
-      return;
-    }
-
-    var mapEl = document.getElementById("contact-map");
-    if (!mapEl) return;
-
-    setTimeout(function(){
-      try {
-        var candidates = [];
-        for (var key in window) {
-          try {
-            if (window[key] && typeof window[key].setView === "function" && typeof window[key].eachLayer === "function") {
-              candidates.push(window[key]);
-            }
-          } catch(e) {}
-        }
-
-        candidates.forEach(function(map){
-          if (map && map._container === mapEl) {
-            map.eachLayer(function(layer){
-              if (layer instanceof L.TileLayer) map.removeLayer(layer);
-            });
-
-            L.tileLayer("https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png", {
-              attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors',
-              maxZoom: 19
-            }).addTo(map);
-
-            map.setView([41.3006, -7.7453], 12, { animate: false });
-            map.invalidateSize();
-          }
-        });
-      } catch(e) {}
-    }, 450);
-  }
-
-  if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", function(){ applyPatch(40); });
-  } else {
-    applyPatch(40);
-  }
-})();
-</script>
 
 
 <script>
@@ -7286,7 +7500,7 @@ function floatCardAt(leftPx, topPx, persist){
   function getNavbarOffset() {
     var navbar = document.getElementById("navbar");
     var navHeight = navbar ? navbar.getBoundingClientRect().height : 76;
-    return navHeight + 18;
+    return navHeight + 56;
   }
 
   function getTitleAnchor(section) {
@@ -7405,6 +7619,75 @@ function floatCardAt(leftPx, topPx, persist){
   } else {
     init();
   }
+})();
+</script>
+
+
+<script>
+/* Enforce global delivery map opening view */
+(function up2cloudMapGlobalOpeningView(){
+  function apply(attempts){
+    if (typeof L === "undefined") {
+      if (attempts > 0) setTimeout(function(){ apply(attempts - 1); }, 150);
+      return;
+    }
+
+    setTimeout(function(){
+      var el = document.getElementById("contact-map");
+      if (!el) return;
+
+      for (var key in window) {
+        try {
+          var candidate = window[key];
+          if (candidate && typeof candidate.setView === "function" && candidate._container === el) {
+            candidate.setView([20, -20], 2, { animate: false });
+            candidate.invalidateSize();
+          }
+        } catch(e) {}
+      }
+    }, 500);
+  }
+
+  if (document.readyState === "loading") {
+    document.addEventListener("DOMContentLoaded", function(){ apply(40); });
+  } else {
+    apply(40);
+  }
+})();
+</script>
+
+
+<script>
+/* Lazy-load third-party logos/icons after initial render */
+(function up2cloudLazyThirdPartyImages(){
+  function load(img){
+    var src = img.getAttribute('data-src');
+    if (!src) return;
+    img.src = src;
+    img.removeAttribute('data-src');
+  }
+
+  function init(){
+    var imgs = Array.prototype.slice.call(document.querySelectorAll('img.defer-external-img[data-src]'));
+    if (!imgs.length) return;
+
+    if ('IntersectionObserver' in window) {
+      var io = new IntersectionObserver(function(entries){
+        entries.forEach(function(entry){
+          if (entry.isIntersecting) {
+            load(entry.target);
+            io.unobserve(entry.target);
+          }
+        });
+      }, { rootMargin: '350px 0px' });
+      imgs.forEach(function(img){ io.observe(img); });
+    } else {
+      imgs.forEach(load);
+    }
+  }
+
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
+  else init();
 })();
 </script>
 
