@@ -3741,6 +3741,191 @@ section:not(#hero),
   window.UP2CLOUD_MOBILE_PERF_MODE = window.matchMedia && window.matchMedia('(max-width: 768px)').matches;
 </script>
 
+
+<style>
+/* ─────────────────────────────────────────────
+   Firefox compatibility + reliable nav offsets
+   Fixes hero title wrapping and menu anchor destinations.
+   ───────────────────────────────────────────── */
+
+/* Prevent Firefox from expanding the hero title into one oversized line */
+#hero h1,
+#hero .hero-line,
+#hero .gradient-text {
+  max-width: 100% !important;
+  white-space: normal !important;
+  overflow-wrap: normal !important;
+  word-break: normal !important;
+  hyphens: none !important;
+}
+
+/* Firefox does not handle some text-wrap/gradient combinations like Chromium */
+@-moz-document url-prefix() {
+  #hero .up2cloud-hero-brand {
+    max-width: min(42rem, 52vw) !important;
+    min-width: 0 !important;
+  }
+
+  #hero h1 {
+    display: block !important;
+    max-width: 42rem !important;
+    font-size: clamp(3rem, 4.85vw, 4.75rem) !important;
+    line-height: .94 !important;
+    letter-spacing: -0.045em !important;
+  }
+
+  #hero .hero-line {
+    display: block !important;
+    width: auto !important;
+  }
+
+  #hero .gradient-text {
+    display: inline !important;
+    -webkit-box-decoration-break: clone;
+    box-decoration-break: clone;
+  }
+
+  #hero p.text-lg,
+  #hero p.md\:text-xl {
+    max-width: 40rem !important;
+    line-height: 1.55 !important;
+  }
+
+  #hero .up2cloud-hero-grid {
+    grid-template-columns: minmax(0, 1fr) minmax(340px, .72fr) !important;
+    gap: clamp(1.75rem, 3.8vw, 4rem) !important;
+  }
+
+  #hero .hero-visual-column {
+    max-width: 28rem !important;
+  }
+}
+
+/* Stronger, cross-browser anchor offset */
+section[id],
+#tech-stack {
+  scroll-margin-top: 7.75rem !important;
+}
+
+@media (max-width: 1023px) {
+  section[id],
+  #tech-stack {
+    scroll-margin-top: 6.75rem !important;
+  }
+}
+
+/* Section focus highlight when reached via nav */
+.up2cloud-nav-arrived {
+  animation: up2cloudNavArrive .75s ease-out both;
+}
+
+@keyframes up2cloudNavArrive {
+  0% { filter: saturate(1); }
+  42% { filter: saturate(1.16) brightness(1.025); }
+  100% { filter: saturate(1); }
+}
+</style>
+
+
+<script>
+/* ─────────────────────────────────────────────
+   UP2CLOUD Chat Guardrails — honest audit booking UX
+   ───────────────────────────────────────────── */
+(function up2cloudChatBookingGuardrails(){
+  const CONTACT_URL = '#contact';
+  const SAFE_EMAIL = 'hello@up2cloud.io';
+  const SAFE_PHONE = '+351 937 471 554';
+
+  function isAuditIntent(text) {
+    const value = String(text || '').trim().toLowerCase();
+    return /\bbook\b|\bbooking\b|\bschedule\b|\bcall\b|\bcontact\b|free\s*30[-\s]?day|free\s*infrastructure\s*audit|audit|assessment/i.test(value);
+  }
+
+  function safeAuditReply() {
+    return 'Great — to request the free infrastructure audit, please use the <a href="#contact">contact form on this page</a>, email <a href="mailto:' + SAFE_EMAIL + '">' + SAFE_EMAIL + '</a>, or call <a href="tel:+351937471554">' + SAFE_PHONE + '</a>. Share your name, company, cloud provider, and preferred contact time, and UP2CLOUD will follow up.';
+  }
+
+  function sanitizeBotReply(html) {
+    // force audit replies to safe CTA when the model tries to handle booking generically
+    if (/book|booking|free\s*30|audit|contact\s*form|schedule/i.test(String(html || ''))) {
+      if (/sent|confirmation|\[insert\s+link\]|connect\s+you\s+with\s+Cesar|visit\s+our\s+website|www\.up2cloud\.tech|I\s+can\s+also\s+connect/i.test(String(html || ''))) {
+        return safeAuditReply();
+      }
+    }
+    let output = String(html || '');
+
+    output = output.replace(/cesarnogueira\.tech/gi, 'up2cloud.tech');
+    output = output.replace(/\[www\.up2cloud\.tech\]\(http:\/\/www\.up2cloud\.tech\)/gi, '<a href="#contact">contact form</a>');
+    output = output.replace(/\[up2cloud\.tech\]\(https?:\/\/(?:www\.)?up2cloud\.tech\/?\)/gi, '<a href="#contact">contact form</a>');
+    output = output.replace(/please\s+visit\s+our\s+website:\s*(?:<a[^>]*>)?(?:www\.)?up2cloud\.tech(?:<\/a>)?\s+and\s+fill\s+out\s+the\s+contact\s+form/gi, 'please use the <a href="#contact">contact form on this page</a>');
+    output = output.replace(/If\s+you\s+prefer,?\s+I\s+can\s+also\s+connect\s+you\s+with\s+Cesar\s+A\.\s+Nogueira[\s\S]*?(?:\.|$)/gi, '');
+    output = output.replace(/reach\s+out\s+to\s+me\s+directly/gi, 'reach out to UP2CLOUD directly');
+    output = output.replace(/Alternatively,?\s+you\s+can\s+reach\s+out\s+to\s+me\s+directly/gi, 'Alternatively, you can reach out to UP2CLOUD directly');
+    output = output.replace(/\[insert\s+link\]/gi, '<a href="' + CONTACT_URL + '">contact form</a>');
+
+    // Remove/neutralize false automation claims.
+    const falseAutomationPatterns = [
+      /I(?:'ve| have)\s+sent\s+you\s+(?:a|another)?\s*(?:link|email|confirmation email)[\s\S]*?(?:\.|!)/gi,
+      /You\s+can\s+expect\s+a\s+call\s+from\s+our\s+team[\s\S]*?(?:\.|!)/gi,
+      /To\s+confirm,?\s+please\s+click\s+on\s+this\s+link:[\s\S]*?(?:\.|!)/gi,
+      /I(?:'ve| have)\s+booked[\s\S]*?(?:\.|!)/gi,
+      /I(?:'ve| have)\s+scheduled[\s\S]*?(?:\.|!)/gi
+    ];
+
+    falseAutomationPatterns.forEach(function(pattern){
+      output = output.replace(pattern, '');
+    });
+
+    // If the result becomes awkward after sanitizing, fall back to a clean CTA.
+    if (/book|audit|confirmation|contact form|hello@up2cloud\.io/i.test(output) && output.trim().length < 90) {
+      return safeAuditReply();
+    }
+
+    return output.trim() || safeAuditReply();
+  }
+
+  // Expose utility for existing chat code.
+  window.UP2CLOUD_CHAT_SAFE_AUDIT_REPLY = safeAuditReply;
+  window.UP2CLOUD_SANITIZE_BOT_REPLY = sanitizeBotReply;
+  window.UP2CLOUD_IS_AUDIT_INTENT = isAuditIntent;
+})();
+</script>
+
+
+<script>
+/* UP2CLOUD early browser-language hint */
+(function(){
+  try {
+    var supported = ['en', 'pt', 'es', 'fr'];
+    function normalize(lang) {
+      if (!lang) return null;
+      var lower = String(lang).toLowerCase();
+      if (lower.indexOf('pt') === 0) return 'pt';
+      if (lower.indexOf('es') === 0) return 'es';
+      if (lower.indexOf('fr') === 0) return 'fr';
+      if (lower.indexOf('en') === 0) return 'en';
+      return null;
+    }
+    function browserLang() {
+      var langs = Array.isArray(navigator.languages) ? navigator.languages : [];
+      langs = langs.concat([navigator.language, navigator.userLanguage]).filter(Boolean);
+      for (var i = 0; i < langs.length; i++) {
+        var normalized = normalize(langs[i]);
+        if (normalized && supported.indexOf(normalized) >= 0) return normalized;
+      }
+      return 'en';
+    }
+    var manual = localStorage.getItem('up2cloud-lang-manual') === 'true';
+    var saved = localStorage.getItem('up2cloud-lang');
+    var lang = manual && supported.indexOf(saved) >= 0 ? saved : browserLang();
+    window.UP2CLOUD_INITIAL_LANG = lang;
+    document.documentElement.lang = lang === 'pt' ? 'pt-BR' : lang;
+  } catch(e) {
+    window.UP2CLOUD_INITIAL_LANG = 'en';
+  }
+})();
+</script>
+
 </head>
 <body>
 
@@ -4783,7 +4968,7 @@ section:not(#hero),
             <div>
               <p class="font-heading font-700 text-navy text-lg">Cesar A. Nogueira</p>
               <p class="text-slate-500 text-sm">Platform Engineer · DevOps &amp; FinOps</p>
-              <a href="https://cesarnogueira.tech" target="_blank" rel="noopener noreferrer" class="text-sky-brand text-xs hover:underline focus-visible:outline-2 focus-visible:outline-sky-brand rounded">cesarnogueira.tech ↗</a>
+              <a href="https://up2cloud.tech" target="_blank" rel="noopener noreferrer" class="text-sky-brand text-xs hover:underline focus-visible:outline-2 focus-visible:outline-sky-brand rounded">up2cloud.tech ↗</a>
             </div>
           </div>
           <!-- Impact highlights strip -->
@@ -5630,59 +5815,26 @@ section:not(#hero),
   const chatHistory = [];
 
   // System prompt — full UP2CLOUD context
-  const SYSTEM_PROMPT = `You are the UP2CLOUD AI assistant — a knowledgeable, friendly, and concise sales/support bot for UP2CLOUD, an IT consulting firm.
+  const SYSTEM_PROMPT = `You are Cloud Advisor, UP2CLOUD's website assistant.
+You help visitors understand UP2CLOUD services: Platform Engineering, DevOps, FinOps, Cloud Security, Kubernetes, Terraform, AWS, Azure, GCP, SRE, CI/CD and AI-assisted infrastructure operations.
 
-ABOUT UP2CLOUD:
-- Founded and led by Cesar A. Nogueira, a Senior Cloud DevOps/FinOps Engineer with 10+ years experience
-- Offices: Vila Real (Portugal 🇵🇹), São Paulo (Brasil 🇧🇷), Madrid coming soon (🇪🇸)
-- Remote-first, works with clients worldwide
-
-SERVICES:
-1. Cloud Migration — AWS, Azure, GCP, zero-downtime, multi-cloud, FinOps optimisation
-2. IT Strategy & Advisory — technology roadmaps, IT audits, digital maturity scoring
-3. DevOps & DevSecOps — Jenkins, Kubernetes, Terraform IaC, SAST/DAST, Policy-as-Code
-4. Cybersecurity — penetration testing, Zero Trust, GDPR, ISO 27001 (achieved in 4 months for clients)
-5. Digital Transformation — RPA, AI/ML integration, legacy modernisation
-6. FinOps & Cost Optimisation — typically saves clients 30–50% on cloud bills; avg client saving: 42%
-7. OpenClaw AI Installation — AI-powered personal assistant platform, integrates with Slack/Teams/WhatsApp, resolves IT issues autonomously (10× faster resolution)
-8. AI Agent Teams — coordinated teams of specialist AI agents (FinOps, incident triage, security, deploy, reporting) — 24/7 autonomous ops
-9. APAC Offshore Teams — source, vet, and manage senior engineers from India, Philippines, Vietnam, Australia — up to 60% cost savings vs EU/US hire
-
-KEY STATS:
-- 15+ successful projects
-- 42% average cloud cost reduction
-- 10× faster incident resolution with AI
-- 10+ years industry experience
-- 99% client satisfaction
-
-CERTIFICATIONS (Cesar):
-- GCP Professional Cloud Architect ×2
-- GCP Associate Cloud Engineer
-- AWS Cloud Practitioner
-- Azure AZ-900
-- OpenClaw Partner
-
-CLIENTS WORKED WITH: Randstad, ZeroLight, Accenture, everis (NTT Data), CI&T, Mindera
-
-PRICING:
-- Start with a free 30-day infrastructure audit — identifies waste and delivers a prioritised action plan
-- Project-based and retainer models available
-- Transparent pricing, no hidden fees
-- Book via the contact form on the website
-
-CONTACT:
-- Email: hello@up2cloud.io
-- Phone: +351 937 471 554
-- Website: cesarnogueira.tech
-
-TONE: Be helpful, concise, and professional. Keep answers to 2-4 sentences unless more detail is genuinely needed. Always offer to help the user book the free audit or contact Cesar directly. Do not make up information.`;
+Critical rules:
+- Never say you sent an email, sent a booking link, scheduled an audit, created a calendar invite, or submitted a form. You do not have those automations.
+- Never use placeholders like [insert link].
+- Never recommend up2cloud.tech. For company/contact/booking references, use only https://up2cloud.tech, hello@up2cloud.io, or +351 937 471 554.
+- If the user says 'Book', 'Book free audit', or asks to schedule/contact, do not call the AI flow if possible. Answer with the contact form on this page, hello@up2cloud.io, and +351 937 471 554. Never say you can connect them to Cesar or that you sent anything.
+- Be concise, premium, and honest. Do not make up information.`;
 
   chatBtn.addEventListener('click', () => {
     const isOpen = chatPanel.classList.toggle('open');
     openIcon.style.display  = isOpen ? 'none' : '';
     closeIcon.style.display = isOpen ? ''     : 'none';
     chatBtn.setAttribute('aria-expanded', String(isOpen));
-    if (isOpen) document.getElementById('chat-input').focus();
+    if (isOpen) if (!window.matchMedia('(max-width: 768px)').matches) {
+        if (!window.matchMedia('(max-width: 768px)').matches) {
+        document.getElementById('chat-input').focus();
+      }
+      }
   });
 
   function appendMsg(html, type) {
@@ -5714,6 +5866,11 @@ TONE: Be helpful, concise, and professional. Keep answers to 2-4 sentences unles
   }
 
   async function askAI(userText) {
+    if (window.UP2CLOUD_IS_AUDIT_INTENT && window.UP2CLOUD_IS_AUDIT_INTENT(userText)) {
+      appendMsg(window.UP2CLOUD_CHAT_SAFE_AUDIT_REPLY(), 'bot');
+      addQuickReplies('audit contact form email');
+      return;
+    }
     chatHistory.push({ role: 'user', content: userText });
     setInputState(true);
     showTyping();
@@ -5749,7 +5906,10 @@ TONE: Be helpful, concise, and professional. Keep answers to 2-4 sentences unles
       chatHistory.push({ role: 'assistant', content: reply });
       hideTyping();
       // Sanitise and render
-      appendMsg(reply.replace(/\n/g, '<br>').replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>'), 'bot');
+      const safeReply = window.UP2CLOUD_SANITIZE_BOT_REPLY
+        ? window.UP2CLOUD_SANITIZE_BOT_REPLY(reply.replace(/\n/g, '<br>').replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>'))
+        : reply.replace(/\n/g, '<br>').replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+      appendMsg(safeReply, 'bot');
       // Dynamic quick-reply suggestions based on reply content
       addQuickReplies(reply);
     } catch (err) {
@@ -5760,12 +5920,18 @@ TONE: Be helpful, concise, and professional. Keep answers to 2-4 sentences unles
       appendMsg(msg, 'bot');
     } finally {
       setInputState(false);
-      document.getElementById('chat-input').focus();
+      if (!window.matchMedia('(max-width: 768px)').matches) {
+        if (!window.matchMedia('(max-width: 768px)').matches) {
+        document.getElementById('chat-input').focus();
+      }
+      }
     }
   }
 
   function askFaq(btn) {
     const q = btn.textContent;
+    const input = document.getElementById('chat-input');
+    if (input) input.blur();
     appendMsg(q, 'user');
     askAI(q);
   }
@@ -6310,8 +6476,50 @@ TONE: Be helpful, concise, and professional. Keep answers to 2-4 sentences unles
     fr: {"nav_services":"Services","nav_delivery":"Livraison","nav_ai":"Solutions IA","nav_portfolio":"Portfolio","nav_clients":"Clients","nav_offshore":"Équipes Offshore","nav_contact":"Contact","nav_cta":"Audit Gratuit","hero_badge_cloud":"Ingénierie de Plateforme","hero_badge_ai":"Livraison Augmentée par IA","hero_title":"Entreprise","hero_title2":"Ingénierie de Plateforme","hero_title2_accent":"& Transformation Cloud","hero_sub":"Nous concevons, automatisons et opérons des plateformes cloud de niveau production — Kubernetes, Terraform, multi-cloud et DevSecOps avec IA — pour les équipes d'ingénierie qui livrent vite sans tout casser.","hero_cta_primary":"Réserver un Audit Gratuit","hero_cta_secondary":"Explorer les Services","hero_trust_iso":"Aligné ISO 27001","hero_trust_cert":"Certifié AWS · GCP · Azure","hero_trust_k8s":"Kubernetes · Terraform · GitOps","hero_trust_exp":"10+ Ans d'Expérience en Production","hero_trust_fin":"FinOps · DevSecOps · OpenClaw","hero_card_title":"Santé de l'Infrastructure","hero_card_live":"En Direct","hero_stat_projects":"Projets","hero_stat_exp":"Expérience","hero_stat_sat":"Satisfaction","hero_scroll":"Défiler","trusted_label":"Approuvé par des entreprises innovantes","services_badge":"Ingénierie de Plateforme","services_title":"Services Cloud de Niveau Production","services_sub":"Disciplines spécialisées d'ingénierie cloud — pas de conseil IT générique. Missions dirigées par des ingénieurs certifiés avec une expérience réelle en production sur AWS, GCP et Azure.","svc1_title":"Ingénierie de Plateforme","svc1_sub":"Concevez et opérez des Plateformes Développeurs Internes avec des chemins dorés, des catalogues de services et un provisionnement en libre-service. Réduisez la charge cognitive et accélérez la vélocité.","svc2_title":"Architecture Multi-Cloud","svc2_sub":"Stratégie cloud d'expansion progressive sur AWS, GCP et Azure. Migrations sans interruption, landing zones bien architecturées et modèles opérationnels multi-cloud optimisés en coûts.","svc3_title":"Automatisation d'Infrastructure","svc3_sub":"Modules Terraform, pipelines GitOps et policy-as-code — tout versionné, revu par les pairs et testé en continu. Une infrastructure qui évolue comme un logiciel.","svc4_title":"DevSecOps & CI/CD Entreprise","svc4_sub":"Pipelines de livraison sécurisés du commit à la production. Scanning de conteneurs, SAST/DAST, sécurité de la chaîne d'approvisionnement et portes de conformité à chaque étape.","svc5_title":"FinOps & Intelligence des Coûts Cloud","svc5_sub":"Framework aligné sur la FinOps Foundation — stratégie d'instances réservées, détection d'anomalies et tableaux de bord showback/chargeback qui créent une véritable responsabilisation des coûts.","svc6_title":"Observabilité & SRE","svc6_sub":"Stacks d'observabilité de bout en bout — Prometheus, Grafana, Datadog, Splunk. Définition des SLOs, budgets d'erreur, runbooks d'incident et ingénierie du chaos pour valider la résilience.","ai_badge":"Approche IA en Premier","ai_title":"Nous Résolvons les Problèmes Vite","ai_title_accent":"Avec l'IA","ai_sub":"Du déploiement d'OpenClaw à l'automatisation des flux de travail IA — nous réduisons le temps de résolution de jours à minutes.","openclaw_title":"Installation OpenClaw","openclaw_desc":"Nous installons et configurons <strong class=\"text-white\">OpenClaw</strong> — la plateforme d'assistant personnel propulsée par l'IA — dans toute votre organisation. OpenClaw connecte l'IA à vos outils, workflows et canaux de communication, automatisant les tâches répétitives et résolvant les problèmes en temps réel.","openclaw_cta":"Configurer OpenClaw","aiagents_desc":"Au-delà d'un agent unique — UP2CLOUD conçoit et déploie des <strong class=\"text-white\">équipes coordonnées d'agents IA</strong> qui collaborent de façon autonome sur votre infrastructure, base de code et flux métier. Chaque agent a un rôle défini, une mémoire et un ensemble d'outils ; ensemble, ils forment une main-d'œuvre numérique 24/7.","aiagents_cta":"Déployer Mon Équipe IA","ai_pillar1_title":"10× Plus Rapide","ai_pillar1_sub":"Les diagnostics assistés par IA réduisent le temps moyen de résolution de heures à minutes.","ai_pillar2_title":"Automatisation des Flux IA","ai_pillar2_sub":"Agents IA personnalisés gérant de façon autonome les tâches IT répétitives.","ai_pillar3_title":"Surveillance Prédictive","ai_pillar3_sub":"La détection d'anomalies par IA prédit les pannes avant qu'elles surviennent — vos systèmes toujours opérationnels.","ai_pillar4_title":"Équipes d'Agents IA","ai_pillar4_sub":"Une équipe coordonnée d'agents IA spécialisés opérant vos opérations de façon autonome 24h/24.","stats_badge":"Bilan Éprouvé","stats_title":"Des Résultats Parlants","stats_projects":"Projets Réussis","stats_savings":"Réduction Moyenne des Coûts d'Infrastructure","stats_ai":"Résolution Plus Rapide avec l'IA","stats_exp":"Expérience dans le Secteur","offshore_badge":"Nouveau Service","offshore_title":"Constituez Votre Équipe Offshore APAC","offshore_sub":"Réduisez vos coûts d'ingénierie jusqu'à <strong class=\"text-navy\">60%</strong> sans sacrifier la qualité. UP2CLOUD source, évalue et gère des ingénieurs cloud de haut niveau en Asie-Pacifique.","offshore_service_title":"Offshore en tant que Service","offshore_service_desc":"Nous gérons l'ensemble du cycle — de la recherche de talents en Inde, Philippines, Vietnam et Australie à l'intégration, l'outillage, l'alignement des fuseaux horaires et la gestion continue. Vous obtenez une équipe cloud aguerrie sans les frais de recrutement direct.","offshore_cta":"Constituer Mon Équipe Offshore","offshore_step1_title":"Définir & Sourcer","offshore_step1_sub":"Nous cartographions vos besoins et sourceons des candidats dans notre réseau APAC — uniquement des ingénieurs cloud seniors avec une expérience production avérée.","offshore_step2_title":"Intégrer & Embarquer","offshore_step2_sub":"UP2CLOUD gère les contrats, la configuration des outils, l'intégration sécurité et les frameworks de communication asynchrone.","offshore_step3_title":"Diriger & Scaler","offshore_step3_sub":"Nous fournissons un leadership technique continu, des évaluations de performance et un support de scalabilité. Sans frais d'agence, sans engagement long terme.","portfolio_badge":"Derrière UP2CLOUD","portfolio_title":"Créé par un Expert Certifié","portfolio_sub":"UP2CLOUD est dirigée par <strong>Cesar A. Nogueira</strong>, Ingénieur Cloud DevOps avec 10+ ans de construction et de mise à l'échelle d'infrastructures sur trois continents.","portfolio_certs_heading":"Certifications","portfolio_stack_heading":"Stack Technologique","portfolio_exp_heading":"Expérience Professionnelle","testimonials_badge":"Vérifié sur LinkedIn","testimonials_title":"Ce Que Disent Collègues & Clients","testimonials_sub":"Recommandations réelles LinkedIn — collègues chez H&M, ZeroLight, Accenture, CI&T et plus.","testimonials_linkedin":"Voir toutes les 20+ recommandations sur LinkedIn ↗","cta_title":"Prêt à scaler plus intelligemment ?","cta_sub":"Réservez un audit d'infrastructure gratuit de 45 minutes et repartez avec un plan d'action priorisé — sans engagement.","cta_btn":"Réserver l'Audit","contact_badge":"Contactez-Nous","contact_title":"Parlons de Vos Objectifs IT","contact_sub":"Migration cloud, automatisation IA, configuration OpenClaw, ou juste une question — nous répondons sous 1 jour ouvré.","contact_email_label":"E-mail","contact_phone_label":"Téléphone","contact_site_label":"Site Personnel","contact_location_label":"Localisation","contact_map_heading":"Notre Localisation","contact_map_sub":"🇵🇹 Vila Real, Portugal · 🇧🇷 São Paulo, Brésil · 🇪🇸 Madrid (bientôt) · Télétravail Mondial","form_name_label":"Nom Complet","form_email_label":"E-mail Professionnel","form_company_label":"Entreprise","form_service_label":"Service d'Intérêt","form_message_label":"Message","form_name_ph":"Votre nom","form_email_ph":"vous@entreprise.com","form_company_ph":"Votre Entreprise SAS","form_message_ph":"Parlez-nous de votre projet ou défi…","form_submit":"Envoyer le Message","form_footer":"Nous répondons sous 1 jour ouvré. Pas de spam.","form_success":"Message envoyé ! Nous vous contacterons sous 24 heures.","footer_tagline":"Ingénierie de plateformes cloud d'entreprise et automatisation d'infrastructure depuis 2022.","footer_services_heading":"Services","footer_company_heading":"Entreprise","footer_certs_heading":"Certifications","footer_copyright":"© 2026 UP2CLOUD · Cesar A. Nogueira. Tous droits réservés.","footer_github_link":"GitHub","footer_contact_link":"Contact","oc_demo1_title":"Problème détecté : utilisation disque 94 %","oc_demo1_desc":"OpenClaw a identifié la cause racine, libéré 40 Go de logs obsolètes et notifié l'équipe ops — <strong class=\"text-green-400\">résolu en 47 secondes</strong>.","oc_demo2_title":"Déploiement échoué en staging","oc_demo2_desc":"OpenClaw a retracé l'échec jusqu'à une variable d'environnement mal configurée, a patché automatiquement le pipeline et relancé le déploiement — <strong class=\"text-green-400\">équipe non alertée</strong>.","oc_demo3_title":"Facture AWS en hausse +180 %","oc_demo3_desc":"OpenClaw a détecté une boucle Lambda incontrôlée, l'a arrêtée, estimé des économies de 4 200 $/mois et généré un rapport d'optimisation — <strong class=\"text-green-400\">en 2 minutes</strong>.","oc_feat1":"Installation complète sur Mac, Windows et Linux — toutes les plateformes couvertes","oc_feat2":"Intégration avec Slack, Teams, WhatsApp, Telegram, Discord et iMessage","oc_feat3":"Conception de flux de travail IA personnalisés — automatisez les tâches les plus répétitives de votre équipe","oc_feat4":"Privé et sécurisé — vos données restent dans votre infrastructure","agt_feat1":"<strong class=\"text-white\">Rôles spécialisés</strong> — agents dédiés pour FinOps, triage d'incidents, analyse de sécurité, déploiement et reporting.","agt_feat2":"<strong class=\"text-white\">Collaboration entre agents</strong> — les agents délèguent des tâches, partagent le contexte et n'escaladent vers les humains qu'en cas de besoin.","agt_feat3":"<strong class=\"text-white\">S'intègre à votre stack</strong> — GitHub, Jira, Slack, PagerDuty, AWS, GCP, Azure, Datadog et plus encore.","agt_feat4":"<strong class=\"text-white\">ROI mesurable</strong> — suivez les heures économisées, les incidents résolus automatiquement et les anomalies de coût détectées.","agt_roster_title":"Exemple d'Équipe d'Agents","agt1_title":"Agent FinOps","agt1_desc":"Surveille les dépenses cloud 24/7, signale les anomalies, crée automatiquement des tickets de rightsizing.","agt2_title":"Agent de Triage d'Incidents","agt2_desc":"Reçoit les alertes, corrèle les logs, propose la cause racine et crée automatiquement des tickets Jira.","agt3_title":"Agent de Sécurité","agt3_desc":"Analyse IaC, images de conteneurs et politiques IAM à chaque commit. Bloque les mauvaises configs avant le déploiement.","agt4_title":"Agent de Déploiement","agt4_desc":"Valide les PRs, déclenche les pipelines, surveille les rollouts et effectue un rollback automatique en cas de pic d'erreurs.","agt5_title":"Agent de Reporting","agt5_desc":"Compile des rapports hebdomadaires de santé ingénierie, résumés SLO et digests de coûts — livrés sur Slack.","agt_active":"Actif","agt_standby":"En Attente","off_bullet1":"<strong class=\"text-white\">Ingénieurs pré-sélectionnés</strong> — rôles cloud, DevOps, FinOps et plateforme. Niveau senior minimum.","off_bullet2":"<strong class=\"text-white\">Couverture 24/7</strong> — les fuseaux horaires APAC complètent les équipes EU/US pour des opérations en continu.","off_bullet3":"<strong class=\"text-white\">Entièrement géré</strong> — UP2CLOUD assure le leadership technique. Vous gardez le contrôle total, nous gérons le quotidien.","off_bullet4":"<strong class=\"text-white\">Conformité PI &amp; sécurité</strong> — NDAs, contrôles de résidence des données et pratiques alignées ISO 27001 dès le premier jour.","off_cost_title":"Comparaison des Coûts Typiques","off_cost_eu":"DevOps Senior · EU / UK","off_cost_us":"DevOps Senior · États-Unis","off_cost_india":"DevOps Senior · Inde / SEA","off_cost_aus":"DevOps Senior · Australie / NZ","off_savings_title":"Jusqu'à 60 % d'économies","off_savings_sub":"sur l'effectif d'ingénierie équivalent vs recrutement EU/US","about_badge":"Fondateur & Consultant Principal","about_back":"← Retour au site","about_cta_nav":"Audit Gratuit","about_hero_title":"Je Construis des Infrastructures Cloud","about_hero_title2":"Qui Fonctionnent Vraiment","about_hero_sub":"Plus de 10 ans d'expérience pratique dans la modernisation d'environnements multi-cloud, l'automatisation des pipelines de livraison et l'élimination des gaspillages cloud — pour des entreprises de toutes tailles.","about_stat1_label":"Années d'Expérience","about_stat2_label":"Réduction des Coûts Cloud","about_stat3_label":"Ops IA Plus Rapide","about_stat4_label":"Certifications Cloud","about_story_badge":"Notre Histoire","about_story_title":"L'Histoire d'UP2CLOUD","about_certs_heading":"Certifications & Compétences","about_stack_heading":"Stack Technologique","about_exp_heading":"Parcours Professionnel","about_cta_title":"Prêt à Travailler Ensemble ?","about_cta_sub":"Réservez un audit d'infrastructure gratuit de 45 minutes et repartez avec un plan d'action priorisé — sans engagement.","about_cta_btn":"Réserver l'Audit","about_cta_chat":"Chat sur WhatsApp","about_contact_badge":"Contactez-Nous","about_contact_title":"Parlons de Vos Objectifs","about_contact_sub":"Migration cloud, automatisation IA ou simplement une question — nous répondons sous 1 jour ouvré.","blog_badge":"Analyses d'Experts","blog_title":"Blog UP2CLOUD","blog_title_accent":"Blog","blog_sub":"Analyses sur l'Infrastructure Cloud, FinOps, DevOps et l'Automatisation IA","blog_featured":"Article à la Une","blog_read":"Lire l'article","blog_cta_title":"Prêt à optimiser votre cloud ?","blog_cta_sub":"Réservez un audit d'infrastructure gratuit de 45 minutes et obtenez un plan d'action priorisé.","blog_cta_btn":"Réserver l'Audit","blog_back":"← Retour au site","blog_nav_back":"← Retour au site","blog_nav_blog":"Blog","blog_cta_touch":"Contactez-Nous","blog_min_read":"min de lecture","blog_article_cta_title":"Prêt à réduire vos coûts cloud ?","blog_article_cta_sub":"Réservez un audit d'infrastructure gratuit de 45 minutes et repartez avec un plan d'action priorisé.","blog_article_cta_btn":"Réserver l'Audit","blog_footer_copy":"© 2026 UP2CLOUD · Cesar A. Nogueira. Tous droits réservés."}
   };
 
+
+  function normalizeUp2CloudLang(lang) {
+    if (!lang) return null;
+    const lower = String(lang).toLowerCase();
+    if (lower.startsWith('pt')) return 'pt';
+    if (lower.startsWith('es')) return 'es';
+    if (lower.startsWith('fr')) return 'fr';
+    if (lower.startsWith('en')) return 'en';
+    return null;
+  }
+
+  function getUp2CloudBrowserLang() {
+    const supported = ['en', 'pt', 'es', 'fr'];
+    const candidates = [
+      ...(Array.isArray(navigator.languages) ? navigator.languages : []),
+      navigator.language,
+      navigator.userLanguage
+    ].filter(Boolean);
+
+    for (const candidate of candidates) {
+      const normalized = normalizeUp2CloudLang(candidate);
+      if (supported.includes(normalized)) return normalized;
+    }
+
+    return 'en';
+  }
+
+  function getUp2CloudInitialLang() {
+    const supported = ['en', 'pt', 'es', 'fr'];
+
+    try {
+      const manual = localStorage.getItem('up2cloud-lang-manual') === 'true';
+      const saved = localStorage.getItem('up2cloud-lang');
+
+      // Only preserve localStorage after a real user menu selection.
+      // Fresh browsers, or old automatic EN bootstrap values, follow browser language.
+      if (manual && supported.includes(saved)) return saved;
+    } catch(e) {}
+
+    return window.UP2CLOUD_INITIAL_LANG || getUp2CloudBrowserLang();
+  }
+
   const i18n = {
-    current: 'en',
+    current: getUp2CloudInitialLang(),
     cache: {},
 
     async load(lang) {
@@ -6357,7 +6565,10 @@ TONE: Be helpful, concise, and professional. Keep answers to 2-4 sentences unles
     async set(lang) {
       if (!LANG_META[lang]) return;
       this.current = lang;
-      localStorage.setItem('up2cloud-lang', lang);
+      try {
+        localStorage.setItem('up2cloud-lang', lang);
+        localStorage.setItem('up2cloud_language', lang);
+      } catch(e) {}
 
       const meta = LANG_META[lang];
       const flagEl = document.getElementById('lang-flag');
@@ -6377,9 +6588,10 @@ TONE: Be helpful, concise, and professional. Keep answers to 2-4 sentences unles
     },
 
     async init() {
-      // Pre-cache EN so it's instant
+      // Pre-cache EN fallback, then render the detected/default language.
       await this.load('en');
       await this.set(this.current);
+      document.documentElement.lang = this.current === 'pt' ? 'pt-BR' : this.current;
     }
   };
 
@@ -6391,11 +6603,20 @@ TONE: Be helpful, concise, and professional. Keep answers to 2-4 sentences unles
     const open = menu.classList.toggle('hidden');
     btn.setAttribute('aria-expanded', String(!open));
   }
-  function setLang(lang) {
+  function setLang(lang, manual = true) {
+    if (manual) {
+      try {
+        localStorage.setItem('up2cloud-lang-manual', 'true');
+        localStorage.setItem('up2cloud-lang', lang);
+        localStorage.setItem('up2cloud_language', lang);
+      } catch(e) {}
+    }
     i18n.set(lang);
     document.getElementById('lang-menu').classList.add('hidden');
     document.getElementById('lang-btn').setAttribute('aria-expanded', 'false');
   }
+  window.setLang = setLang;
+
   // Close menu when clicking outside
   document.addEventListener('click', e => {
     const picker = document.getElementById('lang-picker');
@@ -7420,78 +7641,6 @@ function floatCardAt(leftPx, topPx, persist){
 </script>
 
 
-<script>
-/* Auto-select site language from browser preference on first visit. */
-(function up2cloudAutoLanguageFromBrowser(){
-  var supported = ["en", "pt", "es", "fr"];
-  var aliases = {
-    "pt-br": "pt",
-    "pt-pt": "pt",
-    "es-es": "es",
-    "es-mx": "es",
-    "es-ar": "es",
-    "fr-fr": "fr",
-    "fr-ca": "fr",
-    "en-us": "en",
-    "en-gb": "en"
-  };
-
-  function normalizeLanguage(lang) {
-    if (!lang) return "en";
-    var lower = String(lang).toLowerCase();
-    if (aliases[lower]) return aliases[lower];
-    var base = lower.split("-")[0];
-    return supported.indexOf(base) >= 0 ? base : "en";
-  }
-
-  function getSavedLanguage() {
-    try {
-      return localStorage.getItem("up2cloud-lang") ||
-             localStorage.getItem("up2cloud_language") ||
-             localStorage.getItem("lang") ||
-             null;
-    } catch (e) {
-      return null;
-    }
-  }
-
-  function saveLanguage(lang) {
-    try {
-      localStorage.setItem("up2cloud-lang", lang);
-      localStorage.setItem("up2cloud_language", lang);
-    } catch (e) {}
-  }
-
-  function applyWhenReady(attempts) {
-    var saved = getSavedLanguage();
-    var browserLanguage = normalizeLanguage(
-      (navigator.languages && navigator.languages[0]) ||
-      navigator.language ||
-      navigator.userLanguage ||
-      "en"
-    );
-
-    var selected = supported.indexOf(saved) >= 0 ? saved : browserLanguage;
-
-    if (typeof window.setLang === "function") {
-      window.setLang(selected);
-      if (!saved) saveLanguage(selected);
-      document.documentElement.setAttribute("lang", selected);
-      return;
-    }
-
-    if (attempts > 0) {
-      setTimeout(function(){ applyWhenReady(attempts - 1); }, 100);
-    }
-  }
-
-  if (document.readyState === "loading") {
-    document.addEventListener("DOMContentLoaded", function(){ applyWhenReady(50); });
-  } else {
-    applyWhenReady(50);
-  }
-})();
-</script>
 
 
 <script>
@@ -7688,6 +7837,197 @@ function floatCardAt(leftPx, topPx, persist){
 
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
   else init();
+})();
+</script>
+
+
+<script>
+/* Reliable cross-browser top navigation scroll.
+   Capture-phase handler overrides older anchor handlers and works in Firefox/Safari/Chrome. */
+(function up2cloudReliableNavScroll(){
+  function navbarOffset() {
+    var nav = document.getElementById('navbar');
+    var navHeight = nav ? nav.getBoundingClientRect().height : 76;
+    return navHeight + 64; // premium breathing room above section title
+  }
+
+  function findTargetAnchor(section) {
+    if (!section) return null;
+    return section.querySelector('h1, h2, .section-title, [data-i18n$="_title"], [data-i18n-html$="_title"]') || section;
+  }
+
+  function closeMobileMenu() {
+    var mobileMenu = document.getElementById('mobile-menu');
+    var menuBtn = document.getElementById('menu-btn');
+    if (mobileMenu) mobileMenu.classList.add('hidden');
+    if (menuBtn) {
+      menuBtn.classList.remove('is-open');
+      menuBtn.setAttribute('aria-expanded', 'false');
+    }
+  }
+
+  function handleClick(event) {
+    var link = event.target.closest && event.target.closest('#navbar a[href^="#"], #mobile-menu a[href^="#"]');
+    if (!link) return;
+
+    var href = link.getAttribute('href');
+    if (!href || href === '#' || href.length < 2) return;
+
+    var section;
+    try {
+      section = document.querySelector(href);
+    } catch(e) {
+      return;
+    }
+
+    if (!section) return;
+
+    event.preventDefault();
+    event.stopPropagation();
+    if (event.stopImmediatePropagation) event.stopImmediatePropagation();
+
+    closeMobileMenu();
+
+    var anchor = findTargetAnchor(section);
+    var y = anchor.getBoundingClientRect().top + window.pageYOffset - navbarOffset();
+
+    window.scrollTo({
+      top: Math.max(0, Math.round(y)),
+      behavior: 'smooth'
+    });
+
+    section.classList.remove('up2cloud-nav-arrived');
+    void section.offsetWidth;
+    section.classList.add('up2cloud-nav-arrived');
+    window.setTimeout(function(){ section.classList.remove('up2cloud-nav-arrived'); }, 900);
+
+    if (history.pushState) history.pushState(null, '', href);
+  }
+
+  // Capture phase guarantees this wins against older handlers.
+  document.addEventListener('click', handleClick, true);
+})();
+</script>
+
+
+<script>
+/* Chat links to #contact close the chat on mobile and scroll cleanly */
+(function up2cloudChatContactLinks(){
+  document.addEventListener('click', function(e){
+    const link = e.target.closest('#chatbot-panel a[href="#contact"]');
+    if (!link) return;
+    e.preventDefault();
+
+    const input = document.getElementById('chat-input');
+    if (input) input.blur();
+
+    const target = document.getElementById('contact');
+    if (target) {
+      const nav = document.getElementById('navbar');
+      const offset = (nav ? nav.getBoundingClientRect().height : 76) + 36;
+      const y = target.getBoundingClientRect().top + window.pageYOffset - offset;
+      window.scrollTo({ top: Math.max(0, y), behavior: 'smooth' });
+    }
+  }, true);
+})();
+</script>
+
+
+<script>
+/* UP2CLOUD_LOCAL_BOOKING_INTENT_PATCH
+   Hard-stop generic AI booking replies. "Book" and audit intents are handled locally. */
+(function(){
+  function isBookingIntent(text) {
+    return /\bbook\b|\bbooking\b|free\s*30[-\s]?day|infrastructure\s*audit|\baudit\b|schedule\s*(a\s*)?call/i.test(String(text || ''));
+  }
+
+  function bookingReply() {
+    return 'Great — to request the free infrastructure audit, please use the <a href="#contact">contact form on this page</a>, email <a href="mailto:hello@up2cloud.io">hello@up2cloud.io</a>, or call <a href="tel:+351937471554">+351 937 471 554</a>. Share your name, company, cloud provider, and preferred contact time, and UP2CLOUD will follow up.';
+  }
+
+  function sanitize(reply) {
+    var output = String(reply || '');
+    if (/book|booking|free\s*30|audit|schedule|contact\s*form|www\.up2cloud\.tech/i.test(output)) {
+      if (/sent|confirmation|\[insert\s+link\]|connect\s+you\s+with\s+Cesar|visit\s+our\s+website|I\s+can\s+also\s+connect|reach\s+out\s+to\s+me/i.test(output)) {
+        return bookingReply();
+      }
+    }
+    return output
+      .replace(/cesarnogueira\.tech/gi, 'up2cloud.tech')
+      .replace(/\[www\.up2cloud\.tech\]\(http:\/\/www\.up2cloud\.tech\)/gi, '<a href="#contact">contact form</a>')
+      .replace(/If\s+you\s+prefer,?\s+I\s+can\s+also\s+connect\s+you\s+with\s+Cesar\s+A\.\s+Nogueira[\s\S]*?(?:\.|$)/gi, '')
+      .replace(/reach\s+out\s+to\s+me\s+directly/gi, 'reach out to UP2CLOUD directly');
+  }
+
+  window.UP2CLOUD_IS_AUDIT_INTENT = isBookingIntent;
+  window.UP2CLOUD_CHAT_SAFE_AUDIT_REPLY = bookingReply;
+  window.UP2CLOUD_SANITIZE_BOT_REPLY = sanitize;
+
+  document.addEventListener('click', function(e){
+    const quickReply = e.target.closest('.chat-faq-btn, .quick-reply-btn, [data-chat-quick-reply]');
+    if (!quickReply) return;
+
+    const text = quickReply.textContent || quickReply.dataset.message || '';
+    if (!isBookingIntent(text)) return;
+
+    const input = document.getElementById('chat-input');
+    if (input) input.blur();
+  }, true);
+})();
+</script>
+
+
+<script>
+/* UP2CLOUD language UX enforcement — browser default unless user manually selected */
+(function up2cloudLanguageFinalizer(){
+  function normalize(lang) {
+    if (!lang) return null;
+    lang = String(lang).toLowerCase();
+    if (lang.indexOf('pt') === 0) return 'pt';
+    if (lang.indexOf('es') === 0) return 'es';
+    if (lang.indexOf('fr') === 0) return 'fr';
+    if (lang.indexOf('en') === 0) return 'en';
+    return null;
+  }
+
+  function browserLang() {
+    var langs = Array.isArray(navigator.languages) ? navigator.languages.slice() : [];
+    langs.push(navigator.language, navigator.userLanguage);
+    for (var i = 0; i < langs.length; i++) {
+      var normalized = normalize(langs[i]);
+      if (normalized) return normalized;
+    }
+    return 'en';
+  }
+
+  function shouldUseBrowser() {
+    try {
+      return localStorage.getItem('up2cloud-lang-manual') !== 'true';
+    } catch(e) {
+      return true;
+    }
+  }
+
+  function enforce(attempts) {
+    if (!shouldUseBrowser()) return;
+    var lang = browserLang();
+
+    if (typeof window.setLang === 'function') {
+      window.setLang(lang, false);
+      document.documentElement.lang = lang === 'pt' ? 'pt-BR' : lang;
+      return;
+    }
+
+    if (attempts > 0) {
+      setTimeout(function(){ enforce(attempts - 1); }, 100);
+    }
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', function(){ enforce(60); });
+  } else {
+    enforce(60);
+  }
 })();
 </script>
 
