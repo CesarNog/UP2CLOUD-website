@@ -4573,6 +4573,213 @@ nav.scrolled + #tech-stack,
 }
 </style>
 
+
+<style>
+/* FINAL HERO TITLE FIX
+   - Prevent "that" clipping
+   - Restore premium writing animation
+   - Improve responsive scaling
+*/
+
+#hero .hero-main-title{
+  position: relative !important;
+  z-index: 30 !important;
+
+  display: flex !important;
+  flex-direction: column !important;
+
+  font-size: clamp(4.1rem, 6.2vw, 7rem) !important;
+  line-height: .92 !important;
+
+  max-width: 15ch !important;
+  width: 100% !important;
+
+  overflow: visible !important;
+  white-space: normal !important;
+
+  margin-bottom: 2rem !important;
+}
+
+/* typing/writing cinematic effect */
+#hero .hero-main-title .hero-line{
+  display: block !important;
+
+  width: 0;
+  overflow: hidden;
+
+  white-space: nowrap !important;
+
+  border-right: 2px solid rgba(255,255,255,.75);
+
+  animation:
+    heroTyping 1.25s cubic-bezier(.77,0,.18,1) forwards,
+    heroCaret .9s step-end infinite;
+
+  will-change: width;
+}
+
+#hero .hero-main-title .hero-line:nth-child(1){
+  animation-delay: .15s, .15s;
+}
+
+#hero .hero-main-title .hero-line:nth-child(2){
+  animation-delay: .95s, .95s;
+}
+
+#hero .hero-main-title .hero-line:nth-child(3){
+  animation-delay: 1.65s, 1.65s;
+}
+
+/* stop blinking after complete */
+#hero.loaded .hero-main-title .hero-line{
+  border-right-color: transparent;
+}
+
+@keyframes heroTyping{
+  from{
+    width: 0;
+    opacity: .4;
+  }
+  to{
+    width: 100%;
+    opacity: 1;
+  }
+}
+
+@keyframes heroCaret{
+  50%{
+    border-right-color: transparent;
+  }
+}
+
+/* Firefox and Macbook fixes */
+@media (min-width: 1024px) and (max-width: 1500px){
+  #hero .hero-main-title{
+    font-size: clamp(3.4rem, 5vw, 5.6rem) !important;
+    max-width: 13ch !important;
+    line-height: .94 !important;
+  }
+}
+
+@media (min-width: 1024px) and (max-width: 1280px){
+  #hero .hero-main-title{
+    font-size: clamp(3rem, 4.4vw, 4.8rem) !important;
+    max-width: 12ch !important;
+  }
+}
+
+/* Mobile */
+@media (max-width: 1023px){
+  #hero .hero-main-title{
+    font-size: clamp(3rem, 13vw, 4.7rem) !important;
+    line-height: .95 !important;
+    max-width: 100% !important;
+  }
+
+  #hero .hero-main-title .hero-line{
+    white-space: normal !important;
+    width: 100% !important;
+    animation: fadeInUp .7s ease forwards !important;
+    border-right: none !important;
+  }
+}
+
+@keyframes fadeInUp{
+  from{
+    opacity: 0;
+    transform: translateY(12px);
+  }
+  to{
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+</style>
+
+
+<style>
+/* ─────────────────────────────────────────────
+   Definitive hero title fix
+   Balanced lines + writing reveal without width-based clipping.
+   ───────────────────────────────────────────── */
+
+#hero .hero-main-title{
+  max-width: 42rem !important;
+  width: 42rem !important;
+  overflow: visible !important;
+  white-space: normal !important;
+  font-size: clamp(3.05rem, 4.7vw, 5.15rem) !important;
+  line-height: .94 !important;
+  letter-spacing: -0.055em !important;
+  display: block !important;
+  margin-bottom: 1.65rem !important;
+}
+
+#hero .hero-main-title .hero-line{
+  display: block !important;
+  width: auto !important;
+  max-width: 100% !important;
+  white-space: nowrap !important;
+  overflow: visible !important;
+  clip-path: none !important;
+  border-right: 0 !important;
+  opacity: 0;
+  transform: translateY(14px);
+  filter: blur(5px);
+  animation: heroTitleRevealNoClip .72s cubic-bezier(.22,1,.36,1) forwards !important;
+  will-change: opacity, transform, filter;
+}
+
+#hero .hero-main-title .hero-line:nth-child(1){ animation-delay: .08s !important; }
+#hero .hero-main-title .hero-line:nth-child(2){ animation-delay: .38s !important; }
+#hero .hero-main-title .hero-line:nth-child(3){ animation-delay: .68s !important; }
+
+#hero .hero-main-title .gradient-text{
+  display: inline !important;
+  width: auto !important;
+  max-width: none !important;
+  white-space: nowrap !important;
+  overflow: visible !important;
+  clip-path: none !important;
+}
+
+@keyframes heroTitleRevealNoClip{
+  0%{ opacity:0; transform:translateY(14px); filter:blur(5px); }
+  100%{ opacity:1; transform:translateY(0); filter:blur(0); }
+}
+
+@media (min-width: 1024px) and (max-width: 1440px){
+  #hero .hero-main-title{
+    width: 36rem !important;
+    max-width: 36rem !important;
+    font-size: clamp(2.7rem, 4.15vw, 4.35rem) !important;
+    line-height: .95 !important;
+  }
+}
+
+@media (min-width: 1024px) and (max-width: 1220px){
+  #hero .hero-main-title{
+    width: 32rem !important;
+    max-width: 32rem !important;
+    font-size: clamp(2.45rem, 3.75vw, 3.8rem) !important;
+  }
+}
+
+@media (max-width: 1023px){
+  #hero .hero-main-title{
+    width: 100% !important;
+    max-width: 100% !important;
+    font-size: clamp(2.8rem, 11vw, 4.3rem) !important;
+    line-height: .96 !important;
+  }
+
+  #hero .hero-main-title .hero-line,
+  #hero .hero-main-title .gradient-text{
+    white-space: normal !important;
+  }
+}
+</style>
+
 </head>
 <body>
 
@@ -4814,10 +5021,10 @@ nav.scrolled + #tech-stack,
         <span data-i18n="hero_badge_ai">AI-Augmented Delivery</span>
       </span>
     </div>
-    <h1 class="font-heading font-700 text-[3rem] sm:text-6xl lg:text-[4.45rem] xl:text-[5.15rem] text-white leading-[1.02] tracking-tight mb-8 reveal" style="transition-delay:0s">
-      <span class="hero-line" style="animation-delay:.15s">Cloud platforms that</span>
-      <span class="hero-line gradient-text" style="animation-delay:.75s">scale, ship, and</span>
-      <span class="hero-line gradient-text" style="animation-delay:1.05s">self-fund.</span>
+    <h1 class="font-heading font-700 text-[3rem] sm:text-6xl lg:text-[4.45rem] xl:text-[5.15rem] text-white leading-[1.02] tracking-tight mb-8 reveal hero-main-title" style="transition-delay:0s">
+      <span class="hero-line" style="animation-delay:.10s">Cloud platforms</span>
+      <span class="hero-line" style="animation-delay:.45s">that <span class="gradient-text">scale, ship,</span></span>
+      <span class="hero-line gradient-text" style="animation-delay:.80s">and self-fund.</span>
     </h1>
     <p class="hero-description text-white/60 text-[1.1rem] sm:text-xl leading-relaxed mb-10 max-w-[36rem] reveal" style="transition-delay:1.5s">
       We design, automate, and govern cloud infrastructure for enterprise teams — merging Platform Engineering, DevOps, and FinOps into a single, high-velocity delivery model.
@@ -8737,6 +8944,13 @@ function floatCardAt(leftPx, topPx, persist){
 
   window.addEventListener('resize', setOffsetVar, { passive: true });
 })();
+</script>
+
+
+<script>
+window.addEventListener('load', () => {
+  document.getElementById('hero')?.classList.add('loaded');
+});
 </script>
 
 </body>
