@@ -4,165 +4,779 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Privacy Policy — UP2CLOUD</title>
-  <meta name="description" content="Privacy Policy for UP2CLOUD — how we collect, use, and protect your personal data." />
-  <meta name="robots" content="index, follow" />
+
+  <meta name="description" content="UP2CLOUD Privacy Policy — transparent cloud-native privacy practices, GDPR compliance, analytics disclosure, and data protection details." />
+  <meta name="robots" content="index,follow" />
+  <meta name="theme-color" content="#020617" />
+
   <link rel="canonical" href="https://up2cloud.tech/privacy/" />
-  <link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24'%3E%3Crect width='24' height='24' rx='5' fill='%230F172A'/%3E%3Cpath d='M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z' stroke='%230EA5E9' stroke-width='2' stroke-linejoin='round' fill='none'/%3E%3C/svg%3E" />
-  <link rel="preconnect" href="https://fonts.googleapis.com" />
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-  <link href="https://fonts.googleapis.com/css2?family=Space+Grotesk:wght@400;600;700&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+
   <style>
-    *,*::before,*::after{box-sizing:border-box}
-    html{scroll-behavior:smooth;overscroll-behavior:none}
-    body{font-family:'DM Sans',sans-serif;background:#0F172A;color:#CBD5E1;margin:0;line-height:1.75}
-    h1,h2,h3{font-family:'Space Grotesk',sans-serif;color:#fff}
-    a{color:#0EA5E9;text-decoration:none}
-    a:hover{text-decoration:underline}
-    nav{background:rgba(15,23,42,.95);border-bottom:1px solid rgba(255,255,255,.08);position:sticky;top:0;z-index:50;padding:1rem 1.5rem;display:flex;align-items:center;justify-content:space-between;backdrop-filter:blur(12px)}
-    .logo{display:flex;align-items:center;gap:.75rem;font-family:'Space Grotesk',sans-serif;font-weight:700;font-size:1.1rem;color:#fff;text-decoration:none}
-    .logo-icon{width:32px;height:32px;border-radius:8px;display:flex;align-items:center;justify-content:center;background:linear-gradient(135deg,#0369A1,#0EA5E9)}
-    .back{font-size:.85rem;color:#94A3B8}
-    .back:hover{color:#fff}
-    .container{max-width:760px;margin:0 auto;padding:4rem 1.5rem 6rem}
-    .header{margin-bottom:3rem}
-    .badge{background:rgba(14,165,233,.15);color:#38BDF8;font-size:.72rem;font-weight:600;padding:.3rem .8rem;border-radius:999px;letter-spacing:.06em;text-transform:uppercase;display:inline-block;margin-bottom:1rem}
-    .last-updated{color:#475569;font-size:.85rem;margin-top:.5rem}
-    h1{font-size:2.5rem;line-height:1.2;margin:0 0 .75rem}
-    h2{font-size:1.3rem;margin:2.5rem 0 .75rem;padding-bottom:.5rem;border-bottom:1px solid rgba(255,255,255,.08)}
-    h3{font-size:1.05rem;margin:1.5rem 0 .5rem;color:#94A3B8}
-    p,li{color:#94A3B8;margin:.5rem 0}
-    ul,ol{padding-left:1.5rem}
-    li{margin:.35rem 0}
-    .highlight{background:rgba(14,165,233,.08);border:1px solid rgba(14,165,233,.2);border-radius:12px;padding:1.25rem 1.5rem;margin:1.5rem 0}
-    .highlight p{margin:0;color:#CBD5E1}
-    footer{background:#020617;border-top:1px solid rgba(255,255,255,.07);padding:2rem 1.5rem;text-align:center;color:#475569;font-size:.85rem}
-    strong{color:#CBD5E1}
-    @media(max-width:640px){h1{font-size:1.9rem}}
+    :root{
+      --bg:#020617;
+      --bg2:#0F172A;
+      --card:rgba(15,23,42,.72);
+      --line:rgba(255,255,255,.08);
+      --text:#CBD5E1;
+      --muted:#94A3B8;
+      --title:#F8FAFC;
+      --blue:#38BDF8;
+      --blue2:#0EA5E9;
+      --green:#22C55E;
+      --shadow:0 20px 60px rgba(2,6,23,.55);
+      --radius:24px;
+    }
+
+    *{
+      margin:0;
+      padding:0;
+      box-sizing:border-box;
+    }
+
+    html{
+      scroll-behavior:smooth;
+    }
+
+    body{
+      font-family:'Inter',sans-serif;
+      background:
+        radial-gradient(circle at top left, rgba(14,165,233,.18), transparent 30%),
+        radial-gradient(circle at top right, rgba(168,85,247,.12), transparent 30%),
+        linear-gradient(180deg,#020617 0%, #071126 100%);
+      color:var(--text);
+      min-height:100vh;
+      overflow-x:hidden;
+      line-height:1.75;
+    }
+
+    body::before{
+      content:"";
+      position:fixed;
+      inset:0;
+      background-image:
+        radial-gradient(rgba(255,255,255,.06) 1px, transparent 1px);
+      background-size:24px 24px;
+      opacity:.25;
+      pointer-events:none;
+      z-index:-1;
+    }
+
+    a{
+      color:var(--blue);
+      text-decoration:none;
+    }
+
+    a:hover{
+      color:#7DD3FC;
+    }
+
+    .navbar{
+      position:sticky;
+      top:0;
+      z-index:1000;
+      backdrop-filter:blur(16px);
+      -webkit-backdrop-filter:blur(16px);
+      background:rgba(2,6,23,.78);
+      border-bottom:1px solid rgba(255,255,255,.06);
+    }
+
+    .nav-inner{
+      max-width:1320px;
+      margin:0 auto;
+      padding:1rem 1.5rem;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      gap:1rem;
+    }
+
+    .logo{
+      display:flex;
+      align-items:center;
+      gap:.9rem;
+      color:#fff;
+      text-decoration:none;
+      font-family:'Space Grotesk',sans-serif;
+      font-weight:700;
+      letter-spacing:-0.02em;
+    }
+
+    .logo:hover{
+      color:#fff;
+    }
+
+    .logo-box{
+      width:48px;
+      height:48px;
+      border-radius:14px;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      background:linear-gradient(135deg,#0284C7,#38BDF8);
+      box-shadow:
+        0 10px 30px rgba(14,165,233,.32),
+        inset 0 1px 1px rgba(255,255,255,.25);
+      flex-shrink:0;
+    }
+
+    .logo-box svg{
+      width:22px;
+      height:22px;
+    }
+
+    .logo-wordmark{
+      font-size:1.7rem;
+      font-weight:700;
+      line-height:1;
+      white-space:nowrap;
+    }
+
+    .logo-wordmark span{
+      color:var(--blue);
+    }
+
+    .back-btn{
+      padding:.85rem 1.1rem;
+      border-radius:14px;
+      border:1px solid rgba(255,255,255,.08);
+      background:rgba(255,255,255,.03);
+      color:#E2E8F0;
+      font-size:.92rem;
+      font-weight:600;
+      transition:.25s ease;
+    }
+
+    .back-btn:hover{
+      transform:translateY(-1px);
+      border-color:rgba(56,189,248,.4);
+      background:rgba(56,189,248,.08);
+      color:#fff;
+    }
+
+    .hero{
+      position:relative;
+      max-width:1240px;
+      margin:0 auto;
+      padding:5rem 1.5rem 2rem;
+    }
+
+    .hero-card{
+      position:relative;
+      overflow:hidden;
+      border-radius:32px;
+      border:1px solid rgba(255,255,255,.08);
+      background:
+        linear-gradient(135deg, rgba(15,23,42,.92), rgba(30,41,59,.72));
+      box-shadow:var(--shadow);
+      padding:4rem;
+    }
+
+    .hero-card::before{
+      content:"";
+      position:absolute;
+      width:540px;
+      height:540px;
+      border-radius:50%;
+      background:radial-gradient(circle, rgba(56,189,248,.18), transparent 70%);
+      top:-260px;
+      right:-160px;
+      pointer-events:none;
+    }
+
+    .hero-card::after{
+      content:"";
+      position:absolute;
+      inset:0;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.03), transparent 40%);
+      pointer-events:none;
+    }
+
+    .badge{
+      display:inline-flex;
+      align-items:center;
+      gap:.5rem;
+      border-radius:999px;
+      padding:.55rem 1rem;
+      font-size:.72rem;
+      text-transform:uppercase;
+      letter-spacing:.12em;
+      font-weight:700;
+      color:#7DD3FC;
+      border:1px solid rgba(56,189,248,.22);
+      background:rgba(56,189,248,.08);
+      margin-bottom:1.5rem;
+    }
+
+    .hero h1{
+      font-size:clamp(2.8rem,7vw,5rem);
+      line-height:.94;
+      letter-spacing:-0.05em;
+      margin-bottom:1.25rem;
+      color:var(--title);
+      max-width:920px;
+    }
+
+    .hero h1 span{
+      color:var(--blue);
+    }
+
+    .hero-sub{
+      max-width:760px;
+      color:var(--muted);
+      font-size:1.08rem;
+      line-height:1.9;
+    }
+
+    .meta-row{
+      display:flex;
+      flex-wrap:wrap;
+      gap:1rem;
+      margin-top:2rem;
+    }
+
+    .meta-chip{
+      border-radius:14px;
+      padding:.8rem 1rem;
+      background:rgba(255,255,255,.03);
+      border:1px solid rgba(255,255,255,.06);
+      color:#CBD5E1;
+      font-size:.92rem;
+    }
+
+    .content{
+      max-width:1240px;
+      margin:0 auto;
+      padding:2rem 1.5rem 6rem;
+      display:grid;
+      grid-template-columns:320px minmax(0,1fr);
+      gap:2rem;
+      align-items:start;
+    }
+
+    .toc{
+      position:sticky;
+      top:110px;
+      border-radius:24px;
+      background:var(--card);
+      border:1px solid var(--line);
+      padding:1.5rem;
+      backdrop-filter:blur(16px);
+      box-shadow:var(--shadow);
+    }
+
+    .toc-title{
+      font-size:.82rem;
+      text-transform:uppercase;
+      letter-spacing:.14em;
+      color:#7DD3FC;
+      margin-bottom:1rem;
+      font-weight:700;
+    }
+
+    .toc a{
+      display:block;
+      padding:.7rem .9rem;
+      border-radius:12px;
+      color:#CBD5E1;
+      font-size:.95rem;
+      transition:.22s ease;
+      margin-bottom:.35rem;
+    }
+
+    .toc a:hover{
+      background:rgba(56,189,248,.08);
+      color:#fff;
+      transform:translateX(4px);
+    }
+
+    .main{
+      display:flex;
+      flex-direction:column;
+      gap:1.6rem;
+    }
+
+    .policy-card{
+      border-radius:28px;
+      background:rgba(15,23,42,.72);
+      border:1px solid rgba(255,255,255,.07);
+      backdrop-filter:blur(16px);
+      box-shadow:var(--shadow);
+      padding:2rem 2rem 2.2rem;
+      position:relative;
+      overflow:hidden;
+    }
+
+    .policy-card::before{
+      content:"";
+      position:absolute;
+      inset:0;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,.03), transparent 25%);
+      pointer-events:none;
+    }
+
+    .policy-card h2{
+      font-size:1.5rem;
+      letter-spacing:-0.03em;
+      margin-bottom:1rem;
+      color:#fff;
+      display:flex;
+      align-items:center;
+      gap:.75rem;
+    }
+
+    .policy-card h2::before{
+      content:"";
+      width:12px;
+      height:12px;
+      border-radius:999px;
+      background:linear-gradient(135deg,#38BDF8,#A855F7);
+      box-shadow:0 0 14px rgba(56,189,248,.55);
+      flex-shrink:0;
+    }
+
+    .policy-card h3{
+      margin-top:1.5rem;
+      margin-bottom:.55rem;
+      color:#E2E8F0;
+      font-size:1.02rem;
+    }
+
+    .policy-card p,
+    .policy-card li{
+      color:#94A3B8;
+      font-size:1rem;
+    }
+
+    .policy-card ul{
+      margin-top:.75rem;
+      padding-left:1.4rem;
+    }
+
+    .policy-card li{
+      margin-bottom:.6rem;
+    }
+
+    .highlight{
+      padding:1.3rem 1.4rem;
+      border-radius:18px;
+      border:1px solid rgba(34,197,94,.18);
+      background:rgba(34,197,94,.08);
+      margin-top:1rem;
+    }
+
+    .highlight strong{
+      color:#fff;
+    }
+
+    .grid-two{
+      display:grid;
+      grid-template-columns:repeat(2,minmax(0,1fr));
+      gap:1rem;
+      margin-top:1.4rem;
+    }
+
+    .mini-card{
+      border-radius:18px;
+      padding:1.2rem;
+      background:rgba(255,255,255,.03);
+      border:1px solid rgba(255,255,255,.06);
+    }
+
+    .mini-card h4{
+      color:#fff;
+      margin-bottom:.55rem;
+      font-size:1rem;
+    }
+
+    .mini-card p{
+      font-size:.92rem;
+      line-height:1.7;
+    }
+
+    footer{
+      border-top:1px solid rgba(255,255,255,.08);
+      padding:2rem 1.5rem 3rem;
+      text-align:center;
+      color:#64748B;
+      background:#020617;
+    }
+
+    .footer-logo{
+      display:inline-flex;
+      align-items:center;
+      gap:.7rem;
+      color:#fff;
+      font-family:'Space Grotesk',sans-serif;
+      font-weight:700;
+      margin-bottom:1rem;
+    }
+
+    .footer-logo span{
+      color:var(--blue);
+    }
+
+    @media (max-width: 1040px){
+      .content{
+        grid-template-columns:1fr;
+      }
+
+      .toc{
+        position:relative;
+        top:0;
+      }
+    }
+
+    @media (max-width: 768px){
+      .hero{
+        padding-top:2rem;
+      }
+
+      .hero-card{
+        padding:2rem 1.4rem;
+        border-radius:26px;
+      }
+
+      .policy-card{
+        padding:1.5rem 1.2rem 1.7rem;
+      }
+
+      .grid-two{
+        grid-template-columns:1fr;
+      }
+
+      .nav-inner{
+        padding:1rem;
+      }
+
+      .logo-wordmark{
+        font-size:1.35rem;
+      }
+
+      .back-btn{
+        padding:.75rem .9rem;
+        font-size:.85rem;
+      }
+    }
   </style>
 </head>
+
 <body>
 
-<nav>
-  <a href="/" class="logo">
-    <div class="logo-icon">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><path d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z" stroke="white" stroke-width="2" stroke-linejoin="round"/></svg>
+<header class="navbar">
+  <div class="nav-inner">
+
+    <a href="https://up2cloud.tech" class="logo" aria-label="UP2CLOUD Home">
+      <div class="logo-box">
+        <svg viewBox="0 0 24 24" fill="none">
+          <path d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z"
+                stroke="white"
+                stroke-width="2"
+                stroke-linejoin="round"/>
+        </svg>
+      </div>
+
+      <div class="logo-wordmark">
+        UP2<span>CLOUD</span>
+      </div>
+    </a>
+
+    <a href="https://up2cloud.tech" class="back-btn">
+      ← Back to Website
+    </a>
+
+  </div>
+</header>
+
+<section class="hero">
+  <div class="hero-card">
+
+    <div class="badge">
+      GDPR · Data Protection · Transparency
     </div>
-    UP2<span style="color:#0EA5E9">CLOUD</span>
-  </a>
-  <a href="/" class="back">← Back to site</a>
-</nav>
 
-<div class="container">
-  <div class="header">
-    <span class="badge">Legal</span>
-    <h1>Privacy Policy</h1>
-    <p class="last-updated">Last updated: 6 May 2026 · Effective immediately</p>
+    <h1>
+      Privacy <span>designed for modern cloud-native businesses.</span>
+    </h1>
+
+    <p class="hero-sub">
+      UP2CLOUD follows a minimal-data, transparency-first approach. This page explains what information may be collected, why it is collected, how it is protected, and the rights available under GDPR and applicable privacy regulations.
+    </p>
+
+    <div class="meta-row">
+      <div class="meta-chip">Last Updated · 6 May 2026</div>
+      <div class="meta-chip">TLS 1.3 Encrypted</div>
+      <div class="meta-chip">GDPR-Aligned</div>
+      <div class="meta-chip">Hosted on GitHub Pages</div>
+    </div>
+
   </div>
+</section>
 
-  <div class="highlight">
-    <p><strong>Short version:</strong> UP2CLOUD collects only what's necessary to respond to your enquiries and improve the site. We don't sell your data. We don't send spam. You can request deletion at any time by emailing <a href="mailto:hello@up2cloud.io">hello@up2cloud.io</a>.</p>
-  </div>
+<section class="content">
 
-  <h2>1. Who We Are</h2>
-  <p><strong>UP2CLOUD</strong> is an IT consulting firm led by Cesar A. Nogueira, registered in Portugal (Vila Real). For the purposes of this policy, "UP2CLOUD", "we", "us", and "our" refer to this entity.</p>
-  <p>Contact: <a href="mailto:hello@up2cloud.io">hello@up2cloud.io</a> · +351 937 471 554</p>
+  <aside class="toc">
+    <div class="toc-title">Quick Navigation</div>
 
-  <h2>2. Data We Collect</h2>
-  <h3>Contact Form Submissions</h3>
-  <p>When you submit the contact form on our website, we collect:</p>
-  <ul>
-    <li>Full name</li>
-    <li>Work email address</li>
-    <li>Company name (optional)</li>
-    <li>Service of interest (optional)</li>
-    <li>Message content</li>
-  </ul>
-  <p>This data is processed via <strong>FormSubmit</strong> (formsubmit.co) and delivered directly to our inbox. We do not store form submissions on our own servers.</p>
+    <a href="#who">Who We Are</a>
+    <a href="#collect">Data We Collect</a>
+    <a href="#basis">Legal Basis</a>
+    <a href="#usage">How We Use Data</a>
+    <a href="#sharing">Data Sharing</a>
+    <a href="#retention">Retention</a>
+    <a href="#rights">Your Rights</a>
+    <a href="#cookies">Cookies & Analytics</a>
+    <a href="#security">Security</a>
+    <a href="#contact">Contact</a>
+  </aside>
 
-  <h3>Analytics (Hotjar)</h3>
-  <p>We use <strong>Hotjar</strong> to understand how visitors interact with our site. Hotjar may collect:</p>
-  <ul>
-    <li>Page interaction data (clicks, scrolls, mouse movements)</li>
-    <li>Session recordings (anonymised)</li>
-    <li>Approximate geographic location (country/city level)</li>
-    <li>Device and browser type</li>
-  </ul>
-  <p>Hotjar does not track personally identifiable information. See <a href="https://www.hotjar.com/legal/policies/privacy/" target="_blank" rel="noopener">Hotjar's Privacy Policy</a>. Hotjar is only loaded on HTTPS connections (not on localhost).</p>
+  <main class="main">
 
-  <h3>AI Chatbot (Groq / Llama)</h3>
-  <p>Our AI chatbot sends your chat messages to <strong>Groq's API</strong> for processing. Groq uses the <strong>Llama 3.1 8B</strong> model. Chat messages are transmitted over HTTPS and are not stored by UP2CLOUD. Please review <a href="https://groq.com/privacy-policy/" target="_blank" rel="noopener">Groq's Privacy Policy</a> for details on their data handling.</p>
+    <section class="policy-card">
+      <h2>Privacy at a Glance</h2>
 
-  <h3>Data We Do Not Collect</h3>
-  <ul>
-    <li>We do not use advertising cookies or third-party trackers for ad targeting</li>
-    <li>We do not collect payment information</li>
-    <li>We do not build user profiles or sell data to third parties</li>
-  </ul>
+      <div class="highlight">
+        <p>
+          <strong>Short version:</strong> UP2CLOUD only collects data necessary to respond to enquiries, improve user experience, and operate core website functionality. Personal data is never sold, rented, or used for advertising targeting.
+        </p>
+      </div>
 
-  <h2>3. Legal Basis for Processing (GDPR)</h2>
-  <p>If you are in the European Economic Area (EEA), our legal basis for processing your data is:</p>
-  <ul>
-    <li><strong>Legitimate interest</strong> — responding to enquiries you initiate via the contact form</li>
-    <li><strong>Consent</strong> — for analytics data collected via Hotjar (you may opt out at any time)</li>
-  </ul>
+      <div class="grid-two">
+        <div class="mini-card">
+          <h4>What We Collect</h4>
+          <p>
+            Contact form details, optional business information, anonymised analytics, and chatbot conversation prompts submitted voluntarily.
+          </p>
+        </div>
 
-  <h2>4. How We Use Your Data</h2>
-  <ul>
-    <li>To respond to your enquiries and provide the services you request</li>
-    <li>To improve the website experience based on aggregated analytics</li>
-    <li>We do not use your data for unsolicited marketing without explicit consent</li>
-  </ul>
+        <div class="mini-card">
+          <h4>What We Never Do</h4>
+          <p>
+            No advertising cookies, no third-party data sales, no behavioral profiling, and no payment information processing.
+          </p>
+        </div>
+      </div>
+    </section>
 
-  <h2>5. Data Sharing</h2>
-  <p>We share data only with service providers strictly necessary to operate the site:</p>
-  <ul>
-    <li><strong>FormSubmit</strong> — form submission delivery</li>
-    <li><strong>Hotjar</strong> — session analytics</li>
-    <li><strong>Groq</strong> — AI chatbot processing</li>
-    <li><strong>GitHub</strong> — site hosting (GitHub Pages)</li>
-  </ul>
-  <p>We do not sell, rent, or trade your personal data with any third party for commercial purposes.</p>
+    <section class="policy-card" id="who">
+      <h2>Who We Are</h2>
 
-  <h2>6. Data Retention</h2>
-  <p>Contact form emails are retained in our inbox for up to 24 months for business correspondence purposes, then deleted. You may request early deletion at any time.</p>
+      <p>
+        <strong>UP2CLOUD</strong> is a Portugal-based cloud engineering and infrastructure consulting company led by Cesar A. Nogueira, operating from Vila Real.
+      </p>
 
-  <h2>7. Your Rights</h2>
-  <p>Under GDPR and applicable data protection laws, you have the right to:</p>
-  <ul>
-    <li><strong>Access</strong> — request a copy of the data we hold about you</li>
-    <li><strong>Rectification</strong> — request correction of inaccurate data</li>
-    <li><strong>Erasure</strong> — request deletion of your data ("right to be forgotten")</li>
-    <li><strong>Object</strong> — object to processing based on legitimate interest</li>
-    <li><strong>Portability</strong> — receive your data in a machine-readable format</li>
-    <li><strong>Opt out of analytics</strong> — install the <a href="https://www.hotjar.com/policies/do-not-track/" target="_blank" rel="noopener">Hotjar opt-out browser add-on</a></li>
-  </ul>
-  <p>To exercise any of these rights, email us at <a href="mailto:hello@up2cloud.io">hello@up2cloud.io</a>. We will respond within 30 days.</p>
+      <p>
+        Throughout this policy, “UP2CLOUD”, “we”, “our”, and “us” refer to the UP2CLOUD consulting business and website operations available through up2cloud.tech.
+      </p>
 
-  <h2>8. Cookies</h2>
-  <p>Our site uses minimal cookies:</p>
-  <ul>
-    <li><strong>Language preference</strong> — a localStorage key (<code>up2cloud-lang</code>) storing your chosen language. Not a cookie, not transmitted to any server.</li>
-    <li><strong>Hotjar cookies</strong> — session tracking cookies set by Hotjar (only on HTTPS). See Hotjar's cookie policy for details.</li>
-  </ul>
-  <p>We do not use advertising cookies, social media tracking pixels, or cross-site tracking.</p>
+      <p>
+        Contact:
+        <a href="mailto:hello@up2cloud.io">hello@up2cloud.io</a>
+        · +351 937 471 554
+      </p>
+    </section>
 
-  <h2>9. Security</h2>
-  <p>All data transmitted to and from this site is encrypted via HTTPS (TLS 1.3). The site is hosted on GitHub Pages with enforced HTTPS. We do not process or store sensitive financial or health data.</p>
+    <section class="policy-card" id="collect">
+      <h2>Data We Collect</h2>
 
-  <h2>10. Children's Privacy</h2>
-  <p>Our services are intended for business professionals. We do not knowingly collect data from individuals under 16 years of age. If you believe a minor has submitted data via our form, please contact us for immediate deletion.</p>
+      <h3>Contact Forms</h3>
 
-  <h2>11. Changes to This Policy</h2>
-  <p>We may update this policy periodically. The "Last updated" date at the top of this page will reflect any changes. Continued use of the site after changes constitutes acceptance of the updated policy.</p>
+      <ul>
+        <li>Full name</li>
+        <li>Work email address</li>
+        <li>Company name (optional)</li>
+        <li>Requested service area (optional)</li>
+        <li>Message content submitted voluntarily</li>
+      </ul>
 
-  <h2>12. Contact & Supervisory Authority</h2>
-  <p>For privacy-related questions: <a href="mailto:hello@up2cloud.io">hello@up2cloud.io</a></p>
-  <p>If you are in Portugal and believe your data rights have been violated, you may lodge a complaint with the <strong>CNPD</strong> (Comissão Nacional de Proteção de Dados): <a href="https://www.cnpd.pt" target="_blank" rel="noopener">www.cnpd.pt</a>.</p>
-</div>
+      <p>
+        Form submissions are processed through FormSubmit and delivered securely to the UP2CLOUD inbox. Form data is not stored on dedicated UP2CLOUD servers.
+      </p>
+
+      <h3>Analytics & UX Monitoring</h3>
+
+      <p>
+        UP2CLOUD uses Hotjar to understand how visitors interact with the website and identify UX improvements.
+      </p>
+
+      <ul>
+        <li>Anonymous click and scroll interactions</li>
+        <li>Session behavior analysis</li>
+        <li>Approximate location at city/country level</li>
+        <li>Browser and device type</li>
+      </ul>
+
+      <h3>AI Chat Assistant</h3>
+
+      <p>
+        Chat prompts entered into the AI assistant are securely transmitted to Groq infrastructure for processing using Llama models. Messages are transmitted over HTTPS.
+      </p>
+    </section>
+
+    <section class="policy-card" id="basis">
+      <h2>Legal Basis for Processing</h2>
+
+      <p>
+        For users located in the European Economic Area (EEA), UP2CLOUD processes data under the following GDPR legal bases:
+      </p>
+
+      <ul>
+        <li><strong>Legitimate Interest</strong> — responding to direct business enquiries initiated by users.</li>
+        <li><strong>Consent</strong> — analytics and optional interaction monitoring.</li>
+        <li><strong>Contractual Necessity</strong> — where data processing becomes necessary to provide requested consulting services.</li>
+      </ul>
+    </section>
+
+    <section class="policy-card" id="usage">
+      <h2>How We Use Your Data</h2>
+
+      <ul>
+        <li>Responding to consulting enquiries and support requests</li>
+        <li>Improving website usability and UX performance</li>
+        <li>Monitoring infrastructure reliability and security</li>
+        <li>Preventing abuse, spam, or malicious usage</li>
+      </ul>
+
+      <div class="highlight">
+        <p>
+          UP2CLOUD does not send unsolicited marketing communications without explicit consent.
+        </p>
+      </div>
+    </section>
+
+    <section class="policy-card" id="sharing">
+      <h2>Data Sharing & Third Parties</h2>
+
+      <p>
+        Data may only be shared with carefully selected infrastructure and operational providers necessary to operate the platform:
+      </p>
+
+      <ul>
+        <li>FormSubmit — secure form delivery</li>
+        <li>Hotjar — anonymised UX analytics</li>
+        <li>Groq — AI inference processing</li>
+        <li>GitHub Pages — website hosting infrastructure</li>
+      </ul>
+
+      <p>
+        UP2CLOUD does not sell or commercialize personal data with advertisers or data brokers.
+      </p>
+    </section>
+
+    <section class="policy-card" id="retention">
+      <h2>Data Retention</h2>
+
+      <p>
+        Business correspondence and submitted enquiries may be retained for up to 24 months to maintain communication history and consulting continuity.
+      </p>
+
+      <p>
+        Users may request deletion of personal data at any time by contacting:
+        <a href="mailto:hello@up2cloud.io">hello@up2cloud.io</a>
+      </p>
+    </section>
+
+    <section class="policy-card" id="rights">
+      <h2>Your Rights</h2>
+
+      <p>
+        Under GDPR and applicable privacy laws, users may request:
+      </p>
+
+      <ul>
+        <li>Access to personal data</li>
+        <li>Correction of inaccurate information</li>
+        <li>Deletion (“right to be forgotten”)</li>
+        <li>Restriction or objection to processing</li>
+        <li>Export of personal data in machine-readable format</li>
+      </ul>
+
+      <p>
+        Requests are typically answered within 30 days.
+      </p>
+    </section>
+
+    <section class="policy-card" id="cookies">
+      <h2>Cookies & Analytics</h2>
+
+      <p>
+        UP2CLOUD uses minimal cookies and browser storage technologies strictly for user experience and analytics functionality.
+      </p>
+
+      <ul>
+        <li>Language preference storage</li>
+        <li>Hotjar analytics cookies</li>
+        <li>Session continuity features</li>
+      </ul>
+
+      <div class="highlight">
+        <p>
+          No advertising cookies, cross-site tracking pixels, or retargeting systems are used.
+        </p>
+      </div>
+    </section>
+
+    <section class="policy-card" id="security">
+      <h2>Security & Infrastructure</h2>
+
+      <p>
+        All website traffic is encrypted using HTTPS with TLS 1.3. Infrastructure components follow cloud security best practices, including strict HTTPS enforcement and minimized attack surface principles.
+      </p>
+
+      <p>
+        UP2CLOUD does not intentionally collect sensitive financial or health information through the public website.
+      </p>
+    </section>
+
+    <section class="policy-card" id="contact">
+      <h2>Contact & Supervisory Authority</h2>
+
+      <p>
+        Privacy-related questions may be sent directly to:
+        <a href="mailto:hello@up2cloud.io">hello@up2cloud.io</a>
+      </p>
+
+      <p>
+        Users located in Portugal may also contact the CNPD (Comissão Nacional de Proteção de Dados):
+        <a href="https://www.cnpd.pt/" target="_blank" rel="noopener noreferrer">
+          www.cnpd.pt
+        </a>
+      </p>
+    </section>
+
+  </main>
+
+</section>
 
 <footer>
-  <p>© 2026 UP2CLOUD · Cesar A. Nogueira · <a href="/" style="color:#0EA5E9">up2cloud.tech</a></p>
+
+  <div class="footer-logo">
+    <div class="logo-box" style="width:40px;height:40px;border-radius:12px;">
+      <svg viewBox="0 0 24 24" fill="none">
+        <path d="M3 15a4 4 0 004 4h9a5 5 0 10-.1-9.999 5.002 5.002 0 10-9.78 2.096A4.001 4.001 0 003 15z"
+              stroke="white"
+              stroke-width="2"
+              stroke-linejoin="round"/>
+      </svg>
+    </div>
+
+    <div>
+      UP2<span>CLOUD</span>
+    </div>
+  </div>
+
+  <p>
+    © 2026 UP2CLOUD · Privacy-first cloud engineering ·
+    <a href="https://up2cloud.tech">up2cloud.tech</a>
+  </p>
+
 </footer>
 
-<script>const yearEl = document.getElementById("year"); if (yearEl) yearEl.textContent = new Date().getFullYear();</script></body>
+</body>
 </html>

@@ -3926,6 +3926,653 @@ section[id],
 })();
 </script>
 
+
+<style>
+/* Hero paragraph fix — Firefox + collision prevention */
+#hero .hero-description,
+#hero p[data-i18n="hero_desc"]{
+  position: relative;
+  z-index: 25;
+
+  max-width: 42rem;
+  width: 100%;
+
+  font-size: 1.12rem;
+  line-height: 1.9;
+
+  color: rgba(255,255,255,.74);
+
+  text-align: justify;
+  text-justify: inter-word;
+
+  display: block;
+
+  margin-top: 1.75rem;
+  margin-bottom: 2.2rem;
+
+  padding-right: clamp(0rem, 4vw, 5rem);
+
+  overflow-wrap: break-word;
+  word-break: normal;
+
+  hyphens: auto;
+
+  isolation: isolate;
+}
+
+/* Firefox-specific justification fix */
+@-moz-document url-prefix() {
+  #hero .hero-description,
+  #hero p[data-i18n="hero_desc"]{
+    text-align-last: left;
+  }
+}
+
+
+/* Infrastructure Health Panel — larger typography + no overlap */
+#hero #infra-card,
+#hero #infra-card.infra-3d-panel{
+  width: min(100%, 33rem) !important;
+  max-width: 33rem !important;
+  margin-left: auto;
+  transform: translateY(1.5rem);
+  padding: 1.55rem !important;
+  border-radius: 1.6rem !important;
+}
+
+#hero #infra-card h3{
+  font-size: 1.32rem !important;
+  line-height: 1.3 !important;
+  font-weight: 700 !important;
+  letter-spacing: -.02em;
+}
+
+#hero #infra-card .metric-label,
+#hero #infra-card .infra-label,
+#hero #infra-card p,
+#hero #infra-card span{
+  font-size: .98rem !important;
+}
+
+#hero #infra-card .metric-value{
+  font-size: 1.05rem !important;
+  font-weight: 700 !important;
+}
+
+#hero #infra-card .metric-row{
+  margin-bottom: 1.1rem !important;
+}
+
+@media (max-width: 1440px){
+  #hero .up2cloud-hero-grid{
+    grid-template-columns: minmax(0,1fr) minmax(380px,.82fr) !important;
+    gap: 3rem !important;
+  }
+
+  #hero .up2cloud-hero-brand{
+    max-width: 39rem !important;
+  }
+
+  #hero #infra-card{
+    width: min(100%, 29rem) !important;
+    max-width: 29rem !important;
+    transform: translateY(2.2rem) !important;
+  }
+
+  #hero .hero-description,
+  #hero p[data-i18n="hero_desc"]{
+    max-width: 37rem !important;
+    padding-right: 7rem !important;
+  }
+}
+
+@media (max-width: 1280px){
+  #hero .up2cloud-hero-grid{
+    align-items: start !important;
+  }
+
+  #hero #infra-card{
+    transform: translateY(3.5rem) scale(.95) !important;
+    transform-origin: top right;
+  }
+
+  #hero .hero-description,
+  #hero p[data-i18n="hero_desc"]{
+    padding-right: 9rem !important;
+  }
+}
+
+@media (max-width: 1023px){
+  #hero .hero-description,
+  #hero p[data-i18n="hero_desc"]{
+    padding-right: 0 !important;
+    max-width: 100% !important;
+    text-align: left !important;
+  }
+
+  #hero #infra-card{
+    transform: none !important;
+    margin-top: 2rem !important;
+  }
+}
+
+</style>
+
+<style>
+/* ─────────────────────────────────────────────
+   Restore hero written/typewriter animation
+   for "Cloud platforms that scale, ship, and self-fund."
+   ───────────────────────────────────────────── */
+
+#hero h1 .hero-line{
+  display: block !important;
+  width: fit-content !important;
+  max-width: 100% !important;
+  opacity: 0;
+  overflow: hidden;
+  white-space: nowrap !important;
+  clip-path: inset(0 100% 0 0);
+  animation: up2cloudHeroWrite .82s cubic-bezier(.22,1,.36,1) forwards !important;
+}
+
+#hero h1 .hero-line:nth-child(1){ animation-delay: .08s !important; }
+#hero h1 .hero-line:nth-child(2){ animation-delay: .42s !important; }
+#hero h1 .hero-line:nth-child(3){ animation-delay: .78s !important; }
+
+#hero h1 .gradient-text{
+  display: inline-block !important;
+  white-space: nowrap !important;
+}
+
+@keyframes up2cloudHeroWrite{
+  0%{
+    opacity: 0;
+    clip-path: inset(0 100% 0 0);
+    transform: translateY(10px);
+  }
+  15%{
+    opacity: 1;
+  }
+  100%{
+    opacity: 1;
+    clip-path: inset(0 0 0 0);
+    transform: translateY(0);
+  }
+}
+
+/* Keep responsive readability after animation completes */
+@media (max-width: 1023px){
+  #hero h1 .hero-line,
+  #hero h1 .gradient-text{
+    white-space: normal !important;
+    width: auto !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce){
+  #hero h1 .hero-line{
+    opacity: 1 !important;
+    clip-path: none !important;
+    animation: none !important;
+    transform: none !important;
+  }
+}
+</style>
+
+
+<style>
+/* ─────────────────────────────────────────────
+   Firefox hero title fix
+   Prevents "Cloud platforms that" from clipping/breaking while keeping the written reveal.
+   ───────────────────────────────────────────── */
+
+#hero h1{
+  max-width: min(100%, 46rem) !important;
+  overflow: visible !important;
+}
+
+#hero h1 .hero-line{
+  display: block !important;
+  max-width: 100% !important;
+  width: max-content !important;
+  overflow: visible !important;
+  white-space: nowrap !important;
+  word-break: keep-all !important;
+  overflow-wrap: normal !important;
+}
+
+#hero h1 .gradient-text{
+  display: block !important;
+  max-width: 100% !important;
+  white-space: nowrap !important;
+}
+
+/* Firefox calculates fit-content + clipped animated text differently from Chromium.
+   Use transform/opacity reveal instead of clip-path on Firefox. */
+@-moz-document url-prefix() {
+  #hero h1{
+    max-width: 48rem !important;
+    font-size: clamp(3.15rem, 5.35vw, 5.05rem) !important;
+    line-height: .98 !important;
+  }
+
+  #hero h1 .hero-line{
+    width: auto !important;
+    min-width: 0 !important;
+    clip-path: none !important;
+    animation-name: up2cloudHeroWriteFirefox !important;
+    animation-duration: .72s !important;
+    animation-timing-function: cubic-bezier(.22,1,.36,1) !important;
+    animation-fill-mode: forwards !important;
+  }
+
+  #hero h1 .hero-line:nth-child(1){
+    animation-delay: .08s !important;
+  }
+
+  #hero h1 .hero-line:nth-child(2){
+    animation-delay: .42s !important;
+  }
+}
+
+@keyframes up2cloudHeroWriteFirefox{
+  0%{
+    opacity: 0;
+    transform: translateY(12px);
+    filter: blur(5px);
+  }
+  100%{
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
+}
+
+/* MacBook / smaller desktop safeguard */
+@media (min-width: 1024px) and (max-width: 1440px){
+  #hero h1{
+    max-width: 43rem !important;
+    font-size: clamp(3rem, 4.8vw, 4.65rem) !important;
+  }
+}
+
+/* If the viewport gets tighter, reduce font instead of breaking the title */
+@media (min-width: 1024px) and (max-width: 1280px){
+  #hero h1{
+    max-width: 39.5rem !important;
+    font-size: clamp(2.75rem, 4.45vw, 4.15rem) !important;
+  }
+}
+
+/* Mobile can wrap naturally */
+@media (max-width: 1023px){
+  #hero h1{
+    max-width: 100% !important;
+  }
+
+  #hero h1 .hero-line,
+  #hero h1 .gradient-text{
+    width: auto !important;
+    white-space: normal !important;
+  }
+}
+</style>
+
+
+<style>
+/* ─────────────────────────────────────────────
+   Final hero title wrapping fix — Firefox/Chromium
+   Keeps written animation and prevents clipping on desktop.
+   ───────────────────────────────────────────── */
+
+#hero h1{
+  max-width: 44rem !important;
+  overflow: visible !important;
+  font-size: clamp(3rem, 4.75vw, 4.9rem) !important;
+  line-height: .96 !important;
+}
+
+#hero h1 .hero-line{
+  display: block !important;
+  width: auto !important;
+  max-width: 100% !important;
+  white-space: nowrap !important;
+  overflow: visible !important;
+  word-break: keep-all !important;
+  overflow-wrap: normal !important;
+  clip-path: inset(0 100% 0 0);
+  animation: up2cloudHeroWriteFinal .78s cubic-bezier(.22,1,.36,1) forwards !important;
+}
+
+#hero h1 .hero-line:nth-child(1){ animation-delay: .08s !important; }
+#hero h1 .hero-line:nth-child(2){ animation-delay: .44s !important; }
+#hero h1 .hero-line:nth-child(3){ animation-delay: .78s !important; }
+
+#hero h1 .gradient-text{
+  display: block !important;
+  white-space: nowrap !important;
+  width: auto !important;
+  max-width: 100% !important;
+}
+
+@keyframes up2cloudHeroWriteFinal{
+  0%{
+    opacity: 0;
+    clip-path: inset(0 100% 0 0);
+    transform: translateY(10px);
+  }
+  18%{ opacity: 1; }
+  100%{
+    opacity: 1;
+    clip-path: inset(0 0 0 0);
+    transform: translateY(0);
+  }
+}
+
+/* Firefox: avoid clip-path width glitches; use blur/slide reveal instead */
+@-moz-document url-prefix(){
+  #hero h1{
+    max-width: 43rem !important;
+    font-size: clamp(2.85rem, 4.35vw, 4.55rem) !important;
+    line-height: .96 !important;
+  }
+
+  #hero h1 .hero-line{
+    clip-path: none !important;
+    animation: up2cloudHeroWriteFirefoxFinal .7s cubic-bezier(.22,1,.36,1) forwards !important;
+  }
+
+  #hero h1 .hero-line:nth-child(1){ animation-delay: .08s !important; }
+  #hero h1 .hero-line:nth-child(2){ animation-delay: .38s !important; }
+  #hero h1 .hero-line:nth-child(3){ animation-delay: .66s !important; }
+}
+
+@keyframes up2cloudHeroWriteFirefoxFinal{
+  0%{
+    opacity: 0;
+    transform: translateY(12px);
+    filter: blur(5px);
+  }
+  100%{
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
+}
+
+/* Smaller desktop / MacBook safeguard */
+@media (min-width: 1024px) and (max-width: 1440px){
+  #hero h1{
+    max-width: 40rem !important;
+    font-size: clamp(2.65rem, 4.25vw, 4.25rem) !important;
+    line-height: .96 !important;
+  }
+}
+
+@media (min-width: 1024px) and (max-width: 1280px){
+  #hero h1{
+    max-width: 36rem !important;
+    font-size: clamp(2.45rem, 3.95vw, 3.85rem) !important;
+  }
+}
+
+/* Mobile can wrap naturally */
+@media (max-width: 1023px){
+  #hero h1{
+    max-width: 100% !important;
+  }
+
+  #hero h1 .hero-line,
+  #hero h1 .gradient-text{
+    white-space: normal !important;
+    width: auto !important;
+  }
+}
+
+@media (prefers-reduced-motion: reduce){
+  #hero h1 .hero-line{
+    opacity: 1 !important;
+    clip-path: none !important;
+    animation: none !important;
+    transform: none !important;
+    filter: none !important;
+  }
+}
+</style>
+
+
+<style>
+/* ─────────────────────────────────────────────
+   Connected scroll target for Tech Stack black bar
+   Explore Services + Scroll button land with the ticker
+   directly attached below the fixed top navigation.
+   ───────────────────────────────────────────── */
+
+#tech-stack{
+  scroll-margin-top: var(--up2cloud-nav-offset, 4.75rem) !important;
+  border-top: 0 !important;
+  margin-top: 0 !important;
+}
+
+/* When scrolling to the tech bar, remove any visual seam against the navbar */
+nav.scrolled + #tech-stack,
+#tech-stack.is-scroll-target-connected{
+  box-shadow:
+    inset 0 1px 0 rgba(255,255,255,.04),
+    0 -1px 0 #020617 !important;
+}
+
+/* Keep a clean continuous dark handoff */
+#tech-stack.is-scroll-target-connected::before{
+  content: "";
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: -2px;
+  height: 3px;
+  background: #020617;
+  z-index: 5;
+  pointer-events: none;
+}
+</style>
+
+
+<style>
+/* ─────────────────────────────────────────────
+   FINAL Hero copy / Infrastructure panel separation
+   Fixes paragraph overlap and improves visual balance.
+   ───────────────────────────────────────────── */
+
+/* Give the hero grid hard, non-overlapping lanes */
+#hero .up2cloud-hero-grid{
+  grid-template-columns: minmax(0, 46rem) minmax(30rem, 34rem) !important;
+  justify-content: center !important;
+  align-items: center !important;
+  column-gap: clamp(4rem, 7vw, 8rem) !important;
+}
+
+/* Keep all left-side content inside its lane */
+#hero .up2cloud-hero-brand{
+  max-width: 46rem !important;
+  width: 100% !important;
+  justify-self: end !important;
+  overflow: visible !important;
+}
+
+/* The actual paragraph must never run underneath the panel */
+#hero .hero-description,
+#hero .up2cloud-hero-brand > p,
+#hero p.text-white\/60{
+  max-width: 34.5rem !important;
+  width: 34.5rem !important;
+  display: block !important;
+  position: relative !important;
+  z-index: 35 !important;
+
+  font-size: clamp(1rem, 1.08vw, 1.12rem) !important;
+  line-height: 1.72 !important;
+
+  color: rgba(255,255,255,.68) !important;
+  text-align: left !important;
+
+  padding-right: 0 !important;
+  margin-top: 1.15rem !important;
+  margin-bottom: 2rem !important;
+
+  overflow-wrap: normal !important;
+  word-break: normal !important;
+  white-space: normal !important;
+}
+
+/* Right panel lane */
+#hero .hero-visual-column{
+  width: 34rem !important;
+  max-width: 34rem !important;
+  min-width: 30rem !important;
+  justify-self: start !important;
+  z-index: 28 !important;
+}
+
+/* Bigger, premium Infrastructure Health panel typography */
+#hero #infra-card,
+#hero #infra-card.infra-3d-panel{
+  width: 33rem !important;
+  max-width: 33rem !important;
+  transform: none !important;
+  margin-left: 0 !important;
+  padding: 1.75rem !important;
+}
+
+#hero #infra-card [data-i18n="hero_card_title"],
+#hero #infra-card h3{
+  font-size: 1.2rem !important;
+  line-height: 1.25 !important;
+  font-weight: 800 !important;
+}
+
+#hero #infra-card p,
+#hero #infra-card span{
+  font-size: .92rem !important;
+}
+
+#hero #infra-card .text-\[\.67rem\]{
+  font-size: .78rem !important;
+}
+
+#hero #infra-card .text-sm{
+  font-size: 1rem !important;
+}
+
+#hero #infra-card .font-semibold{
+  font-size: 1rem !important;
+}
+
+/* MacBook / Firefox constrained desktop */
+@media (min-width: 1024px) and (max-width: 1440px){
+  #hero .up2cloud-hero-grid{
+    grid-template-columns: minmax(0, 39rem) minmax(27rem, 30rem) !important;
+    column-gap: clamp(3rem, 4.5vw, 5rem) !important;
+  }
+
+  #hero .up2cloud-hero-brand{
+    max-width: 39rem !important;
+  }
+
+  #hero .hero-description,
+  #hero .up2cloud-hero-brand > p,
+  #hero p.text-white\/60{
+    max-width: 31rem !important;
+    width: 31rem !important;
+    font-size: .98rem !important;
+    line-height: 1.68 !important;
+  }
+
+  #hero .hero-visual-column{
+    width: 30rem !important;
+    max-width: 30rem !important;
+    min-width: 27rem !important;
+  }
+
+  #hero #infra-card,
+  #hero #infra-card.infra-3d-panel{
+    width: 30rem !important;
+    max-width: 30rem !important;
+    padding: 1.55rem !important;
+  }
+}
+
+/* Smaller laptops: stack below rather than collide */
+@media (min-width: 1024px) and (max-width: 1180px){
+  #hero{
+    height: auto !important;
+    min-height: 100vh !important;
+    overflow: visible !important;
+  }
+
+  #hero #main-content{
+    height: auto !important;
+    min-height: auto !important;
+    transform: none !important;
+    padding-top: 6rem !important;
+    padding-bottom: 6rem !important;
+  }
+
+  #hero .up2cloud-hero-grid{
+    grid-template-columns: 1fr !important;
+    row-gap: 2.5rem !important;
+  }
+
+  #hero .up2cloud-hero-brand,
+  #hero .hero-visual-column{
+    justify-self: center !important;
+    width: min(100%, 42rem) !important;
+    max-width: 42rem !important;
+    min-width: 0 !important;
+  }
+
+  #hero .hero-description,
+  #hero .up2cloud-hero-brand > p,
+  #hero p.text-white\/60{
+    width: min(100%, 36rem) !important;
+    max-width: 36rem !important;
+  }
+
+  #hero #infra-card,
+  #hero #infra-card.infra-3d-panel{
+    width: min(100%, 34rem) !important;
+    max-width: 34rem !important;
+    margin-inline: auto !important;
+  }
+}
+
+/* Mobile */
+@media (max-width: 1023px){
+  #hero .up2cloud-hero-grid{
+    grid-template-columns: 1fr !important;
+  }
+
+  #hero .hero-description,
+  #hero .up2cloud-hero-brand > p,
+  #hero p.text-white\/60{
+    width: 100% !important;
+    max-width: 100% !important;
+    text-align: left !important;
+  }
+
+  #hero .hero-visual-column{
+    width: 100% !important;
+    max-width: 100% !important;
+    min-width: 0 !important;
+  }
+
+  #hero #infra-card,
+  #hero #infra-card.infra-3d-panel{
+    width: min(100%, 32rem) !important;
+    max-width: 32rem !important;
+  }
+}
+</style>
+
 </head>
 <body>
 
@@ -4169,9 +4816,10 @@ section[id],
     </div>
     <h1 class="font-heading font-700 text-[3rem] sm:text-6xl lg:text-[4.45rem] xl:text-[5.15rem] text-white leading-[1.02] tracking-tight mb-8 reveal" style="transition-delay:0s">
       <span class="hero-line" style="animation-delay:.15s">Cloud platforms that</span>
-      <span class="hero-line gradient-text" style="animation-delay:.75s">scale, ship, and self-fund.</span>
+      <span class="hero-line gradient-text" style="animation-delay:.75s">scale, ship, and</span>
+      <span class="hero-line gradient-text" style="animation-delay:1.05s">self-fund.</span>
     </h1>
-    <p class="text-white/60 text-[1.1rem] sm:text-xl leading-relaxed mb-10 max-w-[36rem] reveal" style="transition-delay:1.5s">
+    <p class="hero-description text-white/60 text-[1.1rem] sm:text-xl leading-relaxed mb-10 max-w-[36rem] reveal" style="transition-delay:1.5s">
       We design, automate, and govern cloud infrastructure for enterprise teams — merging Platform Engineering, DevOps, and FinOps into a single, high-velocity delivery model.
     </p>
     <div class="flex flex-wrap gap-4 mb-10 reveal" style="transition-delay:1.8s">
@@ -4193,7 +4841,7 @@ section[id],
         <svg width="17" height="17" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
         <span data-i18n="hero_cta_primary">Book a Free Infrastructure Audit</span>
       </a>
-      <a href="#tech-stack" class="btn-outline text-base w-full sm:w-auto justify-center" style="border-color:rgba(255,255,255,.22);color:rgba(255,255,255,.78)">
+      <a href="#tech-stack" onclick="event.preventDefault();window.up2cloudScrollToTechStackConnected && window.up2cloudScrollToTechStackConnected();" class="btn-outline text-base w-full sm:w-auto justify-center" style="border-color:rgba(255,255,255,.22);color:rgba(255,255,255,.78)">
         <svg width="17" height="17" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
         <span data-i18n="hero_cta_secondary">Explore Services</span>
       </a>
@@ -4267,7 +4915,7 @@ section[id],
   </aside>
 </div>
 </div>
-<a href="#tech-stack" aria-label="Scroll to services" onclick="event.preventDefault();document.getElementById('tech-stack').scrollIntoView({behavior:'smooth'})" class="absolute bottom-6 left-1/2 -translate-x-1/2 text-white/30 hover:text-white/60 text-xs flex flex-col items-center gap-1.5 transition-colors duration-200 cursor-pointer select-none">
+<a href="#tech-stack" aria-label="Scroll to services" onclick="event.preventDefault();window.up2cloudScrollToTechStackConnected && window.up2cloudScrollToTechStackConnected();" class="absolute bottom-6 left-1/2 -translate-x-1/2 text-white/30 hover:text-white/60 text-xs flex flex-col items-center gap-1.5 transition-colors duration-200 cursor-pointer select-none">
   <span data-i18n="hero_scroll">Scroll</span>
   <svg width="16" height="16" viewBox="0 0 24 24" fill="none" class="animate-bounce" aria-hidden="true"><path d="M19 9l-7 7-7-7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
 </a>
@@ -8028,6 +8676,66 @@ function floatCardAt(leftPx, topPx, persist){
   } else {
     enforce(60);
   }
+})();
+</script>
+
+
+<script>
+/* Connected scroll behavior for Explore Services + Scroll affordance */
+(function up2cloudConnectedTechStackScroll(){
+  function getNavHeight(){
+    var nav = document.getElementById('navbar');
+    if (!nav) return 72;
+    return Math.ceil(nav.getBoundingClientRect().height);
+  }
+
+  function setOffsetVar(){
+    var navHeight = getNavHeight();
+    document.documentElement.style.setProperty('--up2cloud-nav-offset', navHeight + 'px');
+  }
+
+  window.up2cloudScrollToTechStackConnected = function(){
+    var target = document.getElementById('tech-stack');
+    if (!target) return;
+
+    setOffsetVar();
+
+    var navHeight = getNavHeight();
+    var y = target.getBoundingClientRect().top + window.pageYOffset - navHeight + 1;
+
+    target.classList.add('is-scroll-target-connected');
+
+    window.scrollTo({
+      top: Math.max(0, Math.round(y)),
+      behavior: 'smooth'
+    });
+
+    window.setTimeout(function(){
+      target.classList.remove('is-scroll-target-connected');
+    }, 1400);
+  };
+
+  function bind(){
+    setOffsetVar();
+
+    document.querySelectorAll('a[href="#tech-stack"]').forEach(function(link){
+      if (link.dataset.connectedTechScrollBound === 'true') return;
+      link.dataset.connectedTechScrollBound = 'true';
+
+      link.addEventListener('click', function(event){
+        event.preventDefault();
+        window.up2cloudScrollToTechStackConnected();
+      }, true);
+    });
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', bind);
+  } else {
+    bind();
+  }
+
+  window.addEventListener('resize', setOffsetVar, { passive: true });
 })();
 </script>
 
