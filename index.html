@@ -645,6 +645,126 @@
   #nl-fab-wrap{bottom:1.25rem;left:1.25rem}
   #nl-fab-tooltip{display:none}
 }
+
+/* ── Newsletter dynamic transitions ─────────────────────────────── */
+
+/* FAB click bounce — fires when user opens the modal */
+#nl-fab.is-clicked{animation:nlFabBounce .55s cubic-bezier(.4,1.6,.6,1) both}
+@keyframes nlFabBounce{
+  0%  {transform:scale(1) translateY(0)}
+  30% {transform:scale(.86) translateY(2px)}
+  55% {transform:scale(1.1) translateY(-4px)}
+  80% {transform:scale(.97) translateY(0)}
+  100%{transform:scale(1) translateY(0)}
+}
+
+/* Overlay fade-in / fade-out */
+#nl-overlay{
+  opacity:0;
+  transition:opacity .35s ease, backdrop-filter .35s ease;
+  will-change:opacity, backdrop-filter;
+}
+#nl-overlay.is-open{opacity:1}
+#nl-overlay.is-closing{opacity:0;transition:opacity .28s ease}
+
+/* Modal entrance — slide-up + scale with gentle overshoot */
+#nl-modal{
+  opacity:0;
+  transform:translateY(36px) scale(.92);
+  transition:
+    transform .5s cubic-bezier(.22,1.2,.36,1),
+    opacity   .4s ease,
+    box-shadow .35s ease;
+  will-change:transform, opacity;
+}
+#nl-overlay.is-open #nl-modal{
+  opacity:1;
+  transform:translateY(0) scale(1);
+  animation:nlModalIn .65s cubic-bezier(.22,1.2,.36,1) both;
+}
+@keyframes nlModalIn{
+  0%   {opacity:0;transform:translateY(40px) scale(.9)}
+  60%  {opacity:1;transform:translateY(-6px) scale(1.015)}
+  100% {opacity:1;transform:translateY(0) scale(1)}
+}
+
+/* Modal exit — drops + shrinks away */
+#nl-overlay.is-closing #nl-modal{
+  animation:nlModalOut .35s cubic-bezier(.4,0,.7,.2) both;
+}
+@keyframes nlModalOut{
+  0%   {opacity:1;transform:translateY(0) scale(1)}
+  100% {opacity:0;transform:translateY(48px) scale(.88)}
+}
+
+/* Close button — hover/active + click spin */
+#nl-close{
+  transition:
+    background .25s ease,
+    color .25s ease,
+    border-color .25s ease,
+    transform .3s cubic-bezier(.4,1.6,.6,1),
+    box-shadow .25s ease;
+}
+#nl-close:hover{
+  background:rgba(239,68,68,.18)!important;
+  color:#FCA5A5!important;
+  border-color:rgba(239,68,68,.4)!important;
+  transform:rotate(90deg) scale(1.08);
+  box-shadow:0 6px 18px rgba(239,68,68,.22);
+}
+#nl-close:active{transform:rotate(180deg) scale(.92)}
+#nl-close.is-closing{
+  animation:nlCloseSpin .45s cubic-bezier(.4,1.5,.6,1) forwards;
+  pointer-events:none;
+}
+@keyframes nlCloseSpin{
+  0%   {transform:rotate(0deg) scale(1)}
+  35%  {transform:rotate(135deg) scale(1.2);background:rgba(239,68,68,.25);color:#FCA5A5;border-color:rgba(239,68,68,.5)}
+  70%  {transform:rotate(280deg) scale(.95)}
+  100% {transform:rotate(360deg) scale(.5);opacity:.2}
+}
+
+/* Subscribe button micro-interactions */
+#nl-btn{
+  transition:
+    transform .28s cubic-bezier(.34,1.56,.64,1),
+    box-shadow .25s ease,
+    opacity .25s ease,
+    background .25s ease;
+}
+#nl-btn:hover:not(:disabled){
+  transform:translateY(-2px) scale(1.03);
+  box-shadow:0 10px 26px rgba(14,165,233,.45);
+}
+#nl-btn:active:not(:disabled){transform:scale(.95)}
+#nl-btn:disabled{opacity:.7;cursor:wait}
+
+/* Email field — soft lift on focus */
+#nl-email{
+  transition:
+    border-color .25s ease,
+    box-shadow .3s ease,
+    transform .25s ease,
+    background .25s ease;
+}
+#nl-email:focus{
+  border-color:rgba(14,165,233,.55)!important;
+  box-shadow:0 0 0 4px rgba(14,165,233,.15), 0 4px 14px rgba(14,165,233,.12);
+  transform:translateY(-1px);
+  background:rgba(255,255,255,.10)!important;
+}
+
+/* Respect reduced-motion preferences */
+@media (prefers-reduced-motion: reduce){
+  #nl-overlay,#nl-modal,#nl-close,#nl-btn,#nl-email,#nl-fab{
+    transition:opacity .15s linear!important;
+    animation:none!important;
+  }
+  #nl-modal{transform:none!important}
+  #nl-overlay.is-open #nl-modal{animation:none!important;transform:none!important}
+  #nl-overlay.is-closing #nl-modal{animation:none!important;transform:none!important;opacity:0}
+}
 </style>
 
 
@@ -3353,13 +3473,21 @@ section:has([data-i18n="about_title"]) {
   }
 }
 
-#navbar a[href^="#"],
-#mobile-menu a[href^="#"] {
+#navbar a[href^="#"]:not([aria-label="UP2CLOUD Home"]),
+#navbar a[href="/about"],
+#navbar a[href="/blog"],
+#mobile-menu a[href^="#"],
+#mobile-menu a[href="/about"],
+#mobile-menu a[href="/blog"] {
   position: relative;
 }
 
-#navbar a[href^="#"]::after,
-#mobile-menu a[href^="#"]::after {
+#navbar a[href^="#"]:not([aria-label="UP2CLOUD Home"])::after,
+#navbar a[href="/about"]::after,
+#navbar a[href="/blog"]::after,
+#mobile-menu a[href^="#"]::after,
+#mobile-menu a[href="/about"]::after,
+#mobile-menu a[href="/blog"]::after {
   content: "";
   position: absolute;
   left: 50%;
@@ -3375,10 +3503,14 @@ section:has([data-i18n="about_title"]) {
     opacity .28s ease;
 }
 
-#navbar a[href^="#"]:hover::after,
-#navbar a[href^="#"].nav-targeting::after,
+#navbar a[href^="#"]:not([aria-label="UP2CLOUD Home"]):hover::after,
+#navbar a[href^="#"]:not([aria-label="UP2CLOUD Home"]).nav-targeting::after,
+#navbar a[href="/about"]:hover::after,
+#navbar a[href="/blog"]:hover::after,
 #mobile-menu a[href^="#"]:hover::after,
-#mobile-menu a[href^="#"].nav-targeting::after {
+#mobile-menu a[href^="#"].nav-targeting::after,
+#mobile-menu a[href="/about"]:hover::after,
+#mobile-menu a[href="/blog"]:hover::after {
   left: 0;
   right: 0;
   opacity: 1;
@@ -7975,8 +8107,7 @@ function floatCardAt(leftPx, topPx, persist){
     <button id="nl-close" aria-label="Close newsletter popup"
       style="position:absolute;top:1rem;right:1rem;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.12);
              color:rgba(255,255,255,.6);border-radius:8px;width:32px;height:32px;cursor:pointer;
-             display:flex;align-items:center;justify-content:center;font-size:1rem;
-             transition:background .2s,color .2s;line-height:1">✕</button>
+             display:flex;align-items:center;justify-content:center;font-size:1rem;line-height:1">✕</button>
 
     <!-- Icon -->
     <div style="width:52px;height:52px;border-radius:14px;background:linear-gradient(135deg,#0369A1,#0EA5E9);
@@ -8007,11 +8138,11 @@ function floatCardAt(leftPx, topPx, persist){
           autocomplete="email" aria-label="Email address"
           style="flex:1;min-width:0;background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.15);
                  border-radius:10px;padding:.75rem 1rem;color:#fff;font-family:'DM Sans',sans-serif;
-                 font-size:.9rem;outline:none;transition:border-color .2s,box-shadow .2s">
+                 font-size:.9rem;outline:none">
         <button id="nl-btn" type="submit"
           style="background:linear-gradient(135deg,#0369A1,#0EA5E9);color:#fff;border:none;border-radius:10px;
                  padding:.75rem 1.4rem;font-family:'Space Grotesk',sans-serif;font-weight:600;font-size:.9rem;
-                 cursor:pointer;white-space:nowrap;transition:opacity .2s,transform .15s">
+                 cursor:pointer;white-space:nowrap">
           Subscribe
         </button>
       </div>
@@ -8039,34 +8170,73 @@ function floatCardAt(leftPx, topPx, persist){
   var emailInput = document.getElementById('nl-email');
   var nlForm = document.getElementById('nl-form');
 
+  var closeBtn = document.getElementById('nl-close');
+  var EXIT_MS  = 380;  // keep in sync with .nl-overlay.is-closing animation length
+
   function dismissed() { return !!localStorage.getItem(LS_KEY); }
   function dismiss()   { localStorage.setItem(LS_KEY,'dismissed'); hide(); }
 
-  function show() {
-    if (dismissed()) return;
+  // Animated open: makes the overlay visible, then on the next frame
+  // adds .is-open so transitions kick in (fade + slide-up + scale).
+  function openOverlay() {
+    if (overlay.classList.contains('is-open')) return;
+    overlay.classList.remove('is-closing');
     overlay.style.display = 'flex';
-    emailInput.focus();
+    // Force a reflow so the transition triggers from the start state.
+    // eslint-disable-next-line no-unused-expressions
+    overlay.offsetWidth;
+    requestAnimationFrame(function () {
+      overlay.classList.add('is-open');
+      try { emailInput.focus({ preventScroll: true }); } catch (_) { emailInput.focus(); }
+    });
     document.body.style.overflow = 'hidden';
   }
+
+  function show() {
+    if (dismissed()) return;
+    openOverlay();
+  }
+
+  // Animated hide: drops the .is-open flag, plays exit animation,
+  // then sets display:none after the transition completes.
+  var _hideTimer = null;
   function hide() {
-    overlay.style.display = 'none';
-    document.body.style.overflow = '';
+    if (!overlay.classList.contains('is-open') && overlay.style.display === 'none') {
+      document.body.style.overflow = '';
+      return;
+    }
+    overlay.classList.remove('is-open');
+    overlay.classList.add('is-closing');
+    if (closeBtn) closeBtn.classList.add('is-closing');
+    clearTimeout(_hideTimer);
+    _hideTimer = setTimeout(function () {
+      overlay.style.display = 'none';
+      overlay.classList.remove('is-closing');
+      if (closeBtn) closeBtn.classList.remove('is-closing');
+      document.body.style.overflow = '';
+    }, EXIT_MS);
   }
 
   // Newsletter Logic
   if (fab) {
-    fab.addEventListener('click', () => { 
-        overlay.style.display = 'flex'; 
-        emailInput.focus(); 
-        document.body.style.overflow = 'hidden'; 
+    fab.addEventListener('click', () => {
+      // Restart the bounce animation each click
+      fab.classList.remove('is-clicked');
+      // eslint-disable-next-line no-unused-expressions
+      fab.offsetWidth;
+      fab.classList.add('is-clicked');
+      setTimeout(function () { fab.classList.remove('is-clicked'); }, 600);
+      openOverlay();
     });
     fab.addEventListener('mouseenter', () => { fabTip.style.opacity = '1'; fabTip.style.transform = 'translateY(0)'; });
     fab.addEventListener('mouseleave', () => { fabTip.style.opacity = '0'; fabTip.style.transform = 'translateY(4px)'; });
   }
 
-  document.getElementById('nl-close').addEventListener('click', dismiss);
+  closeBtn.addEventListener('click', dismiss);
   overlay.addEventListener('click', function(e) { if (e.target === overlay) dismiss(); });
-  document.addEventListener('keydown', function(e) { if (e.key === 'Escape') dismiss(); });
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape' && overlay.classList.contains('is-open')) dismiss();
+  });
 
   nlForm.addEventListener('submit', async function(e) {
     e.preventDefault();
